@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://telefum/content/css/options.css" type="text/css"?>
+<prefwindow
+	id="settings-window"
+	buttons="accept,cancel"
+	title="Настройки - 4PDA Инспектор"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<prefpane id="inspector_pane" label="Telefum Settings">
+
+	НАСТРОЙКИ!!!
+	
+</prefpane>
+</prefwindow>
