@@ -90,7 +90,11 @@
 				<html:div class="inspector_allSettingsBoxHeading">&notification;:</html:div>
 				<vbox>
 					<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
-					<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" />
+					<hbox id="inspector_notification_popup_hbox">
+						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
+						<button label="Проверить" oncommand="inspectorSettings.testNotification();"/>
+					</hbox>
+
 				</vbox>
 			</vbox>
 
