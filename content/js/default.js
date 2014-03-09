@@ -9,6 +9,7 @@ var inspectorDefaultStorage = {
 	button_big: false,
 	notification_sound: true,
 	notification_popup: true,
+	notification_sound_volume: 1,
 
 	prefs: {},
 
@@ -51,6 +52,10 @@ var inspectorDefaultStorage = {
 		
 		try {
 			inspectorDefaultStorage.notification_popup = inspectorDefaultStorage.prefs.getBoolPref("notification_popup");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.notification_sound_volume = inspectorDefaultStorage.prefs.getIntPref("notification_sound_volume")/100;
 		} catch (e) {}
 		
 		try {

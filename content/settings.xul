@@ -35,6 +35,7 @@
 		
 		<preference id="pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
 		<preference id="pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
+		<preference id="pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
 	</preferences>
 
 	<hbox>
@@ -89,10 +90,16 @@
 			<vbox class="inspector_allSettingsBox">
 				<html:div class="inspector_allSettingsBoxHeading">&notification;:</html:div>
 				<vbox>
-					<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
+					<vbox style="border-bottom: 1px solid #4474C4; padding-bottom: 3px;">
+						<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
+						<hbox>
+							<label value="&volumeNotice;: "/>
+							<label value="" id="inspector_notification_sound_volume_label"/>
+						</hbox>
+						<html:input id="inspector_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
+					</vbox>
 					<hbox id="inspector_notification_popup_hbox">
 						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
-						<button label="Проверить" oncommand="inspectorSettings.testNotification();"/>
 					</hbox>
 
 				</vbox>

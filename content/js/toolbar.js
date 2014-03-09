@@ -393,6 +393,7 @@ var inspectorToolbar = {
 
 	manualRefresh: function(callback)
 	{
+		var errorCallback = false;
 		clearTimeout(inspectorContentScript.updateTimer);
 		if (callback)
 		{
@@ -404,10 +405,13 @@ var inspectorToolbar = {
 				inspectorToolbar.refreshImg.style.MozTransform = "rotate(-"+refreshImgRotate+"deg)";
 			}, 30);
 			callback = inspectorToolbar.refreshToolbar;
-			errorCallback = false;
+			// errorCallback = false;
+			errorCallback = 12;
 		}
 		else
-			errorCallback = function(){inspectorToolbar.openPage(inspectorToolbar.link_login)};
+			errorCallback = function(){
+				inspectorToolbar.openPage(inspectorToolbar.link_login)
+			};
 		inspectorContentScript.getNewCount(false, callback, errorCallback);
 	},
 
