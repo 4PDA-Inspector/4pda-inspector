@@ -4,7 +4,7 @@
 
 	<em:id>4pda_inspector@coddism.com</em:id>
 	<em:name>4PDA Инспектор</em:name>
-	<em:version>0.2.1</em:version>
+	<em:version>0.3</em:version>
 	<em:description>Позволяет Вам контролировать изменения на 4pda.ru</em:description>
 	<em:creator>coddism.com</em:creator>
 	<em:developer>iSergium</em:developer>
@@ -12,6 +12,7 @@
 	<em:unpack>true</em:unpack>
 
 	<em:homepageURL>http://coddism.com/</em:homepageURL>
+	<em:optionsURL>chrome://inspector/content/settings.xul</em:optionsURL> 
 	<em:iconURL>chrome://inspector/content/icons/icon_48.png</em:iconURL>
 	<em:icon64URL>chrome://inspector/content/icons/icon_64.png</em:icon64URL>
 

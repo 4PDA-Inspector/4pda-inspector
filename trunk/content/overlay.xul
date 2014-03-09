@@ -7,6 +7,7 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type='text/javascript' src='chrome://inspector/content/js/utils.js'></script>
+	<script type='text/javascript' src='chrome://inspector/content/js/default.js'></script>
 	<script type='text/javascript' src='chrome://inspector/content/js/contentscript.js'></script>
 
 	<toolbarpalette  id="BrowserToolbarPalette">
