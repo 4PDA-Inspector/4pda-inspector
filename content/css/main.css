@@ -1,9 +1,10 @@
-#inspector-button {
-	list-style-image: url("chrome://inspector/content/icons/favicon_in.png");
+#inspector-button
+{
+	list-style-image: url("chrome://inspector/content/icons/icon_22x_out.png");
 }
 
 toolbar[iconsize="small"] #inspector-button
 {
-	list-style-image: url("chrome://inspector/content/icons/favicon_in.png");
+	list-style-image: url("chrome://inspector/content/icons/icon_22x_out.png");
 	display: -moz-box;
 }

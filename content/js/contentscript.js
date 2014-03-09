@@ -17,7 +17,7 @@ var contentScript = {
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
 
-		this.getNewCount();
+		setTimeout(function(){this.getNewCount();}, 2000);
 
 		this.updateTimer = setInterval(function() {
 			contentScript.getNewCount();
@@ -38,7 +38,12 @@ var contentScript = {
 				{
 					count = contentScript.getFavCount(req.responseText);
 					mesCount = contentScript.getMesCount(req.responseText);
-					contentScript.printCount(count, mesCount);
+
+					if (count === false || mesCount === false)
+						contentScript.printLogout();
+					else
+						contentScript.printCount(count, mesCount);
+
 					return;
 				}
 			} 
@@ -75,7 +80,7 @@ var contentScript = {
 		if (typeof (favs = text.match(regexp)) == 'object'  && favs != null)
 			return favs.length;
 			else
-			return 0;
+			return false;
 	},
 
 	getMesCount: function(text)
@@ -87,7 +92,7 @@ var contentScript = {
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 			return ff[1];
 			else
-			return 0;
+			return false;
 	},
 
 	getMailCount: function(div)
@@ -141,7 +146,7 @@ var contentScript = {
 			return false;
 
 		var canvas = document.getElementById("inspector_button_canvas");
-		canvas.setAttribute("width", 22);
+		canvas.setAttribute("width", 24);
 		canvas.setAttribute("height", 22);
 		var ctx = canvas.getContext("2d");
 		
@@ -149,34 +154,45 @@ var contentScript = {
 		img.onload = function()
 		{
 			ctx.textBaseline = "top";
-			ctx.font = "bold 9px sans-serif";        // has to go before measureText
+			ctx.font = "bold 9px tahoma";        // has to go before measureText
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(img, 0, -1, img.width, img.height);
+			ctx.drawImage(img, 1, 0, img.width, img.height);
 
 			var w = ctx.measureText(count).width;
 			var h = 9;                  // 9 = font height
 
-			var rp = 1;  // right padding
-			var x = canvas.width - w - rp;
+			var x = canvas.width - w;
 			var y = canvas.height - h - 1;          // 1 = bottom padding
 
-			ctx.fillStyle = "#4ea8ea";
-			ctx.fillRect(x-rp, y, w+rp+rp, h+5);
+			ctx.fillStyle = "#d62f2f";
+			ctx.fillRect(x-1, y, w+2, h+5);
 			ctx.fillStyle = "#fff";             // text color
 			ctx.fillText(count, x, y+1);
 
 			var w = ctx.measureText(mesCount).width;
 
-			ctx.fillStyle = "#4ea8ea";
-			ctx.fillRect(1, y, w+rp+rp, h+5);
+			ctx.fillStyle = "#d62f2f";
+			ctx.fillRect(0, y, w+2, h+5);
 			ctx.fillStyle = "#fff";             // text color
-			ctx.fillText(mesCount, 2, y+1);
+			ctx.fillText(mesCount, 1, y+1);
 
 			btn.image = canvas.toDataURL("image/png");
 		};
 
-		img.src = "chrome://inspector/content/icons/favicon_in.png";
-		// this.winobj.getElementById('inspector-button').setAttribute('tooltiptext', count);
+		img.src = "chrome://inspector/content/icons/icon_22x.png";
+		btn.setAttribute('tooltiptext', '4PDA - В сети');
+	},
+
+	printLogout: function()
+	{
+		var btn = this.winobj.getElementById('inspector-button');
+
+		if (btn)
+		{
+			btn.image = "chrome://inspector/content/icons/icon_22x_out.png";
+			btn.setAttribute('tooltiptext', '4PDA - Не в сети');
+		}
+
 	}
 };
 
@@ -185,6 +201,10 @@ contentScript.init();
 function inspectorToolbarButtonClick()
 {
 	// location.href="http://4pda.ru/forum/index.php?autocom=favtopics";
-	alert('click');
+	// alert('click');
+	var tBrowser = top.document.getElementById("content");
+	var tab = tBrowser.addTab(contentScript.favUrl);
+	// use this line to focus the new tab, otherwise it will open in background
+	tBrowser.selectedTab = tab;
 	//window.openDialog("chrome://inspector/content/popup.xul", "dlgTelefumConfig", "resizable=yes,centerscreen,chrome").focus();
 }
