@@ -6,7 +6,6 @@ var inspectorToolbar = {
 	unreadThemes: {},
 	
 	link_favTopics: 'http://4pda.ru/forum/index.php?autocom=favtopics',
-	link_messages: 'http://4pda.ru/forum/index.php?act=Msg&CODE=01',
 	link_qms: 'http://4pda.ru/forum/index.php?act=qms',
 	
 	link_login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00',
@@ -27,12 +26,6 @@ var inspectorToolbar = {
 				inspectorToolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_unreadMessage').addEventListener('click', function(){
-			inspectorToolbar.openPage(inspectorToolbar.link_messages);
-			inspectorContentScript.unreadMessageCount = 0;
-			inspectorToolbar.handleHidePanel();
-		});
-
 		this.winobj.getElementById('inspector_unreadQms').addEventListener('click', function(){
 			inspectorToolbar.openPage(inspectorToolbar.link_qms);
 			inspectorToolbar.handleHidePanel();
@@ -41,6 +34,19 @@ var inspectorToolbar = {
 		this.winobj.getElementById('inspector_openSettings').addEventListener('click', function(){
 			inspectorToolbar.handleHidePanel();
 			window.openDialog('chrome://4pdainspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspectorContentScript);
+		});
+
+		this.winobj.getElementById('refreshImg').addEventListener('click', function(){
+			inspectorContentScript.manualRefresh();
+		});
+
+		this.winobj.getElementById('inspectorPanel_loginBox').addEventListener('click', function(){
+			if (inspectorContentScript.isLogin && inspectorContentScript.userId)
+				inspectorToolbar.openPage('http://4pda.ru/forum/index.php?showuser='+inspectorContentScript.userId);
+			else
+				inspectorToolbar.openPage(inspectorToolbar.link_login);
+
+			inspectorToolbar.handleHidePanel();
 		});
 	},
 
@@ -99,6 +105,11 @@ var inspectorToolbar = {
 		{
 			inspectorToolbar.parseThemes();
 
+			if (inspectorContentScript.userName)
+				this.winobj.getElementById('inspectorPanel_loginBox').value = "Вы вошли как: "+inspectorContentScript.userName;
+				else
+				this.winobj.getElementById('inspectorPanel_loginBox').value = "Вы не авторизовались";
+
 			this.list = this.winobj.getElementById('inspectorPanel_themesList');
 
 			if (Object.keys(inspectorToolbar.unreadThemes).length)
@@ -114,7 +125,7 @@ var inspectorToolbar = {
 						delete inspectorToolbar.unreadThemes[dataTheme];
 						this.parentNode.removeChild(this);
 						inspectorContentScript.visitedThemes.push(dataTheme);
-						inspectorContentScript.printCount(Object.keys(inspectorToolbar.unreadThemes).length, inspectorContentScript.unreadMessageCount);
+						inspectorContentScript.printCount(Object.keys(inspectorToolbar.unreadThemes).length, inspectorContentScript.unreadQmsCount);
 					});
 					this.list.appendChild(newElem);
 				};
@@ -123,7 +134,6 @@ var inspectorToolbar = {
 			else
 				this.winobj.getElementById('inspector_openAllFavs').disabled = true;
 
-			this.winobj.getElementById('inspector_unreadMessageCount').value = inspectorContentScript.unreadMessageCount;
 			this.winobj.getElementById('inspector_unreadQmsCount').value = inspectorContentScript.unreadQmsCount;
 			
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
@@ -172,7 +182,7 @@ var inspectorToolbar = {
 			inspectorContentScript.visitedThemes.push(i);
 		};
 
-		inspectorContentScript.printCount(0, inspectorContentScript.unreadMessageCount);
+		inspectorContentScript.printCount(0, inspectorContentScript.unreadQmsCount);
 
 		return true;
 	}

@@ -20,7 +20,7 @@
 			class="toolbarbutton-1 chromeclass-toolbar-additional"
 			label="&toolbarbutton_title;"
 			tooltiptext="&toolbarbutton_tooltiptext;"
-			oncommand='inspectorToolbar.buttonClick(this)'
+			oncommand='inspectorToolbar.buttonClick(this);'
 			/>
 	</toolbarpalette>
 
@@ -31,23 +31,26 @@
 	<toolbox id="navigator-toolbox">
 		<panel type="arrow" id="inspectorPanel" align="left" onpopuphiding="inspectorToolbar.hidePanel()">
 			<vbox id="inspectorPanelMainVBox">
-				<vbox id="inspectorPanel_themesList">
+				
+				<vbox>
+				<hbox>
+					<label value="" id="inspectorPanel_loginBox"/>
+					<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' align="right" id="refreshImg" tooltip="refresh" tooltiptext="Обновить вручную" />
+				</hbox>
+					<vbox class="inspector_marginBox">
+						<hbox id="inspector_unreadQms" class="inspector_messagesHBox">
+							<label value="&inspector_unreadQmsCount;: "/>
+							<label value="0" id="inspector_unreadQmsCount" />
+						</hbox>
+					</vbox>
+				</vbox>
+				
+				<vbox id="inspectorPanel_themesList" class="inspector_messagesHBox">
 				</vbox>
 				
 				<vbox class="inspector_messagesHBox">
 					<label value="&inspector_goToFavs;" id="inspector_goToFavs"/>
 					<label value="&inspector_openAllFavs;" id="inspector_openAllFavs"/>
-				</vbox>
-				
-				<vbox class="inspector_messagesHBox">
-					<hbox id="inspector_unreadMessage">
-						<label value="&inspector_unreadMessageCount;: "/>
-						<label value="0" id="inspector_unreadMessageCount" />
-					</hbox>
-					<hbox id="inspector_unreadQms">
-						<label value="&inspector_unreadQmsCount;: "/>
-						<label value="0" id="inspector_unreadQmsCount" />
-					</hbox>
 				</vbox>
 				
 				<hbox class="inspector_messagesHBox">
