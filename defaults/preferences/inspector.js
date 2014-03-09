@@ -1,0 +1,1 @@
+pref("extensions.4pda-inspector.interval", 5);

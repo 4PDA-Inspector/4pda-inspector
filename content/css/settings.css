@@ -1,0 +1,31 @@
+#settings-window
+{
+	font-family: 'Tahoma';
+	background: #eef;
+	font-size: 11pt;
+}
+
+#intervalInput
+{
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+#allSettingsBox
+{
+	border: 2px groove threedface;
+	padding: 20px 10px 10px;
+	position: relative;
+	margin-top: 10px;
+	border-radius: 5px;
+}
+
+#allSettingsBoxHeading
+{
+	position: absolute;
+	top:-10px;
+	left: 3px;
+	background: #eef;
+	padding: 0 5px;
+	font-size: 13px;
+}

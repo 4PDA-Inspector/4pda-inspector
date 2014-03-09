@@ -9,7 +9,6 @@ var contentScript = {
 	favUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 
 	new_post_icon: "http://s.4pda.ru/forum/style_images/1/newpost.gif",
-	
 	new_mess_icon: "http://s.4pda.ru/forum/style_images/1/f_norm.gif",
 
 	init: function()
@@ -17,16 +16,22 @@ var contentScript = {
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
 
-		setTimeout(function(){this.getNewCount();}, 2000);
-
-		this.updateTimer = setInterval(function() {
+		setTimeout(function() {
 			contentScript.getNewCount();
-		}, 5000); // test
+		}, 2000);
+	},
 
+	newIteration: function()
+	{
+		inspectorDefaultStorage.getPrefs();
+		this.updateTimer = setTimeout(function() {
+			contentScript.getNewCount();
+		}, inspectorDefaultStorage.interval);
 	},
 
 	getNewCount: function()
 	{
+		utils.log('new update - '+inspectorDefaultStorage.interval);
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -44,30 +49,19 @@ var contentScript = {
 					else
 						contentScript.printCount(count, mesCount);
 
+					contentScript.newIteration();
 					return;
 				}
 			} 
-			contentScript.handleError();
+			contentScript.printLogout();
 		}
 
-		req.onerror = function()
-		{
-			contentScript.handleError();
+		req.onerror = function() {
+			contentScript.printLogout();
 		}
 
 		req.open("GET", contentScript.favUrl, true);
 		req.send(null);
-	},
-
-	handleError: function()
-	{
-		this.requestFailureCount++;
-		/*
-		window.clearTimeout(abortTimerId);
-		if (onError && !this.invokedErrorCallback)
-			onError();
-		this.invokedErrorCallback = true;
-		*/
 	},
 
 	getFavCount: function(text)
@@ -98,9 +92,7 @@ var contentScript = {
 	getMailCount: function(div)
 	{
 		var divs1 = div.getElementsByTagName("div");
-		if (this.hasQMS(divs1)) 
-			return "QMS";
-
+		
 		for (var i = 0; i < divs1.length; i++)
 		{
 			if (divs1[i].id == "userlinks")
@@ -126,16 +118,6 @@ var contentScript = {
 		}
 
 		return -1;
-	},
-
-	hasQMS: function(divs1)
-	{
-		for (var i = 0; i < divs1.length; i++)
-		{
-			if (divs1[i].innerText.substring(0,5) == "QMS: ")
-				return true;
-		}
-		return false;
 	},
 
 	printCount: function(count, mesCount)
