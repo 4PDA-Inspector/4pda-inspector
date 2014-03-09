@@ -44,9 +44,9 @@ var inspectorContentScript = {
 		}, inspectorDefaultStorage.interval);
 	},
 
-	getNewCount: function(noFuture)
+	getNewCount: function(noFuture, callback, errorCallback)
 	{
-		//utils.log('new update - '+inspectorDefaultStorage.interval);
+		// utils.log('new update - '+inspectorDefaultStorage.interval);
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -57,6 +57,8 @@ var inspectorContentScript = {
 					if (inspectorContentScript.isNotLogin(req.responseText))
 					{
 						inspectorContentScript.printLogout();
+						if (errorCallback && typeof errorCallback == 'function')
+							errorCallback();
 					}
 					else
 					{
@@ -72,6 +74,8 @@ var inspectorContentScript = {
 
 					inspectorContentScript.lastResponseText = req.responseText;
 					inspectorContentScript.visitedThemes = [];
+					if (callback && typeof callback == 'function')
+						callback();
 					if (!noFuture)
 						inspectorContentScript.newIteration();
 					return;
@@ -79,6 +83,8 @@ var inspectorContentScript = {
 				else
 				{
 					inspectorContentScript.printLogout();
+					if (errorCallback && typeof errorCallback == 'function')
+						errorCallback();
 					if (!noFuture)
 						inspectorContentScript.newIteration();
 				}
@@ -88,6 +94,8 @@ var inspectorContentScript = {
 
 		req.onerror = function() {
 			inspectorContentScript.printLogout();
+			if (errorCallback && typeof errorCallback == 'function')
+				errorCallback();
 			if (!noFuture)
 				inspectorContentScript.newIteration();
 		}
@@ -231,12 +239,6 @@ var inspectorContentScript = {
 	{
 		clearTimeout(this.updateTimer);
 		this.getNewCount();
-	},
-
-	manualRefresh: function()
-	{
-		clearTimeout(this.updateTimer);
-		inspectorContentScript.getNewCount();
 	}
 };
 
