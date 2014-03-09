@@ -7,8 +7,8 @@ var inspectorDefaultStorage = {
 	button_color: '#FFFFFF',
 	button_big_fontsize: 12,
 	button_big: false,
-	
 	notification_sound: true,
+	notification_popup: true,
 
 	prefs: {},
 
@@ -47,6 +47,10 @@ var inspectorDefaultStorage = {
 		
 		try {
 			inspectorDefaultStorage.notification_sound = inspectorDefaultStorage.prefs.getBoolPref("notification_sound");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.notification_popup = inspectorDefaultStorage.prefs.getBoolPref("notification_popup");
 		} catch (e) {}
 		
 		try {

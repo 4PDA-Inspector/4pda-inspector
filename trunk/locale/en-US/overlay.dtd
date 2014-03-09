@@ -25,3 +25,4 @@
 
 <!ENTITY notification "Notification">
 <!ENTITY enableSoundNotification "Enable sound notification">
+<!ENTITY enablePopupAlerts "Enable popup alerts">

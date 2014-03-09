@@ -82,6 +82,12 @@
 	color: #999 !important;
 }
 
+.inspectorPanel_noThemesLabel
+{
+	color: #aaa;
+	box-shadow: none !important;
+}
+
 .inspectorPanel_bottomBox image
 {
 	height: 12px;

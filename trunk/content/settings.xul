@@ -34,6 +34,7 @@
 		<preference id="pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
 		
 		<preference id="pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
+		<preference id="pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
 	</preferences>
 
 	<hbox>
@@ -89,6 +90,7 @@
 				<html:div class="inspector_allSettingsBoxHeading">&notification;:</html:div>
 				<vbox>
 					<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
+					<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" />
 				</vbox>
 			</vbox>
 
