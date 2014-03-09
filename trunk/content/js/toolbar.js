@@ -4,6 +4,9 @@ var inspectorToolbar = {
 	panel: null,
 	list: null,
 	unreadThemes: [],
+	
+	link_favTopics: 'http://4pda.ru/forum/index.php?autocom=favtopics',
+	link_messages: 'http://4pda.ru/forum/index.php?act=Msg&CODE=01',
 
 	init: function()
 	{
@@ -12,7 +15,7 @@ var inspectorToolbar = {
 		this.panel = this.winobj.getElementById('inspectorPanel');
 
 		this.winobj.getElementById('inspector_goToFavs').addEventListener('click', function(){
-			inspectorToolbar.openPage('http://4pda.ru/forum/index.php?autocom=favtopics');
+			inspectorToolbar.openPage(inspectorToolbar.link_favTopics);
 			inspectorToolbar.handleHidePanel();
 		});
 
@@ -22,7 +25,7 @@ var inspectorToolbar = {
 		});
 
 		this.winobj.getElementById('inspector_messagesHBox').addEventListener('click', function(){
-			inspectorToolbar.openPage('http://4pda.ru/forum/index.php?act=Msg&CODE=01');
+			inspectorToolbar.openPage(inspectorToolbar.link_messages);
 			inspectorToolbar.handleHidePanel();
 		});
 	},
@@ -34,6 +37,49 @@ var inspectorToolbar = {
 		tBrowser.selectedTab = tab;
 	},
 
+	buttonClick: function(parent)
+	{
+		switch (inspectorDefaultStorage.click_action)
+		{
+			case 1:
+				inspectorToolbar.showPanel(parent);
+				break;
+			case 2:
+				inspectorToolbar.openPage(inspectorToolbar.link_favTopics);
+				break;
+			case 3:
+				inspectorToolbar.parseThemes();
+				inspectorToolbar.openAll();
+				break;
+			default:
+				alert(inspectorDefaultStorage.click_action + ' is uncorrect value');
+		}
+	},
+
+	parseThemes: function()
+	{
+		inspectorToolbar.unreadThemes = [];
+		if (!inspectorContentScript.lastResponseText)
+			return false;
+		var themes = inspectorContentScript.lastResponseText.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>.*?\<a.*?href=[\"\']http\:\/\/4pda\.ru\/forum\/index\.php\?showtopic\=[0-9]+[\"\'].*?\>(.+?)\<\/a\>.*?/ig);
+
+		if (themes)
+		{
+			for (var i = 0; i<themes.length; i++)
+			{
+				theme = themes[i].match(/\<a.+href\=\".*?(\d+)\".*?\>(.+)?\<\/a\>/i)
+
+				if (theme)
+				{
+					inspectorToolbar.unreadThemes.push({
+						id: theme[1],
+						caption: theme[2]
+					});
+				}
+			};
+		}
+	},
+
 	showPanel: function(parent)
 	{
 		if (!this.panel)
@@ -41,29 +87,22 @@ var inspectorToolbar = {
 		
 		if (this.panel)
 		{
-			if (!inspectorContentScript.lastResponseText)
-				return false;
-
+			inspectorToolbar.parseThemes();
+			
 			this.list = this.winobj.getElementById('inspectorPanel_themesList');
 
-			var themes = inspectorContentScript.lastResponseText.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>.*?\<a.*?href=[\"\']http\:\/\/4pda\.ru\/forum\/index\.php\?showtopic\=[0-9]+[\"\'].*?\>(.+?)\<\/a\>.*?/ig);
-			inspectorToolbar.unreadThemes = [];
-
-			if (themes)
+			if (inspectorToolbar.unreadThemes.length)
 			{
-				for (var i = 0; i<themes.length; i++)
+				for (var i = 0; i<inspectorToolbar.unreadThemes.length; i++)
 				{
-					theme = themes[i].match(/\<a.+href\=\".*?(\d+)\".*?\>(.+)?\<\/a\>/i)
-
 					var newElem = document.createElement('label');
-					newElem.setAttribute('value', '>> '+theme[2]);
-					// newElem.style.cursor = 'pointer';
+					newElem.setAttribute('value', '>> '+inspectorToolbar.unreadThemes[i].caption);
+					newElem.setAttribute('data-theme', inspectorToolbar.unreadThemes[i].id);
 					newElem.addEventListener('click', function(){
+						inspectorToolbar.openTheme(this.getAttribute('data-theme'));
 						(this).parentNode.removeChild(this);
-						inspectorToolbar.openTheme(theme[1]);
 					});
 					this.list.appendChild(newElem);
-					inspectorToolbar.unreadThemes.push(theme[1]);
 				};
 				this.winobj.getElementById('inspector_openAllFavs').disabled = false;
 			}
@@ -115,7 +154,7 @@ var inspectorToolbar = {
 
 		for (var i = 0; i < inspectorToolbar.unreadThemes.length; i++)
 		{
-			inspectorToolbar.openTheme(inspectorToolbar.unreadThemes[i]);
+			inspectorToolbar.openTheme(inspectorToolbar.unreadThemes[i].id);
 		};
 
 		return true;

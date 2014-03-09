@@ -1,14 +1,5 @@
 var utils = {
 	
-	getHost: function(doc)
-	{
-		try {
-			return doc.location.host.toLowerCase();
-		} catch (e) {
-			return null;
-		}
-	},
-	
 	consoleService: null,
 
 	log: function(msg) {

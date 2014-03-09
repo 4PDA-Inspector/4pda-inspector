@@ -16,7 +16,7 @@
 			id="inspector-button"
 			label="4PDA Инспектор"
 			tooltiptext="4PDA Инспектор"
-			oncommand='inspectorToolbar.showPanel(this)'
+			oncommand='inspectorToolbar.buttonClick(this)'
 			/>
 	</toolbarpalette>
 

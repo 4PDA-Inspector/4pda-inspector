@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://inspector/content/css/settings.css" type="text/css"?>
+
 <prefwindow
 	id="settings-window"
 	buttons="accept,cancel"
@@ -9,19 +12,30 @@
 
 <prefpane id="inspector_pane" label="Telefum Settings">
 	
-	<script type='text/javascript' src='chrome://inspector/content/js/settings.js'></script>
-
 	<preferences>
 		<preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+		<preference id="pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
 	</preferences>
 
 	<hbox>
-		<image src='chrome://inspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
+		<vbox>
+			<image src='chrome://inspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
+		</vbox>
 		
-		<vbox id="inspector_allSettingsBox">
-			<html:div id="inspector_allSettingsBoxHeading"> Общие настройки:</html:div>
-			<label value="Интервал обновления (сек.):"/>
-			<textbox preference="pref_interval" id="inspector_intervalInput" type="number"/>
+		<vbox class="inspector_allSettingsBox">
+		<html:div class="inspector_allSettingsBoxHeading">Общие настройки:</html:div>
+			<vbox class="inspector_settingsBox">
+				<label value="Интервал обновления (сек.):"/>
+				<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1"/>
+			</vbox>
+			<vbox class="inspector_settingsBox last_settingsBox">
+				<label value="Действие при нажатии на кнопку:"/>
+				<radiogroup preference="pref_click_action">
+					<radio value="1" label="Всплывающее окно"/>
+					<radio value="2" label="Перейти к списку избранных тем"/>
+					<radio value="3" label="Открыть все непрочитанные темы в новых вкладках"/>
+				</radiogroup>
+			</vbox>
 		</vbox>
 	</hbox>
 	
