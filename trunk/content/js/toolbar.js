@@ -180,7 +180,7 @@ var inspectorToolbar = {
 		if (inspectorContentScript.isLogin && inspectorContentScript.userName)
 			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = utils.htmlspecialcharsdecode(inspectorContentScript.userName);
 		else
-			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = this.stringBundle.GetStringFromName("You Are Not Authorized");
+			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = inspectorToolbar.stringBundle.GetStringFromName("You Are Not Authorized");
 
 		inspectorToolbar.hidePanel();
 
@@ -310,7 +310,7 @@ var inspectorToolbar = {
 		else
 		{
 			var newLabel = document.createElement('label');
-			newLabel.setAttribute('value', this.stringBundle.GetStringFromName("No unread topics"));
+			newLabel.setAttribute('value', inspectorToolbar.stringBundle.GetStringFromName("No unread topics"));
 			newLabel.setAttribute('class', 'inspectorPanel_themeBox inspectorPanel_noThemesLabel');
 			newLabel.style.textAlign = 'center';
 
@@ -412,6 +412,7 @@ var inspectorToolbar = {
 			errorCallback = function(){
 				inspectorToolbar.openPage(inspectorToolbar.link_login)
 			};
+		inspectorContentScript.lastUpdateRequest = 0;
 		inspectorContentScript.getNewCount(false, callback, errorCallback);
 	},
 
