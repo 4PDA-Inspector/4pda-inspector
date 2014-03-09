@@ -26,7 +26,7 @@ var inspectorToolbar = {
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
-		this.panel = this.winobj.getElementById('inspectorPanel');
+		this.panel = this.winobj.getElementById('inspectorPanel_panel');
 		
 		this.winobj.getElementById('inspector_goToQms').addEventListener('click', function(){
 			inspectorToolbar.openPage(inspectorToolbar.link_qms);
@@ -93,6 +93,12 @@ var inspectorToolbar = {
 				inspectorToolbar.openPage(inspectorToolbar.link_login);
 
 			inspectorToolbar.handleHidePanel();
+		});
+
+		this.list = this.winobj.getElementById('inspectorPanel_themesList');
+
+		this.list.addEventListener('scroll', function(){
+			inspectorToolbar.themesListSetShadows();
 		});
 	},
 
@@ -163,6 +169,23 @@ var inspectorToolbar = {
 		
 		this.refreshToolbar();
 		this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+
+		// подстройка высоты панели под размер окна
+
+		inspectorToolbar.list.style.height = 'auto';
+		inspectorToolbar.list.style.overflowY = 'visible';
+
+		var panelHeight = this.winobj.getElementById('inspectorPanel_mainVBox').clientHeight;
+		var documentHeight = this.winobj.getElementById('browser').clientHeight;
+		var topAndBottomBoxes = (this.winobj.getElementById('inspectorPanel_menuBox').clientHeight) + (this.winobj.getElementById('inspectorPanel_linksBox').clientHeight);
+
+		if (panelHeight > documentHeight)
+		{
+			inspectorToolbar.list.style.height = (documentHeight - topAndBottomBoxes - 50)+'px';
+			inspectorToolbar.list.style.overflowY = 'scroll';
+		}
+
+		inspectorToolbar.themesListSetShadows();
 	},
 
 	refreshToolbar: function ()
@@ -174,12 +197,11 @@ var inspectorToolbar = {
 		else
 			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = this.stringBundle.GetStringFromName("You Are Not Authorized");
 
-		inspectorToolbar.list = inspectorToolbar.winobj.getElementById('inspectorPanel_themesList');
 		inspectorToolbar.hidePanel();
 
 		if (Object.keys(inspectorToolbar.unreadThemes).length)
 		{
-			for (i in inspectorToolbar.unreadThemes)
+			for (var i in inspectorToolbar.unreadThemes)
 			{
 				if (typeof inspectorToolbar.removedThemes[i] != 'undefined')
 					continue;
@@ -193,7 +215,7 @@ var inspectorToolbar = {
 				newLabel.setAttribute('class', 'inspectorPanel_theme');
 				newLabel.addEventListener('click', function(){
 					var dataTheme = this.getAttribute('data-theme');
-					this.style.color = '#aaa';
+					this.classList.add("inspectorPanel_readedTheme");
 					inspectorToolbar.openTheme(dataTheme);
 					inspectorToolbar.newReadedTheme(dataTheme);
 				});
@@ -246,27 +268,29 @@ var inspectorToolbar = {
 					if (typeof inspectorToolbar.removedThemes[dataTheme] == 'undefined')
 					inspectorToolbar.getRequest(
 						'http://4pda.ru/forum/index.php?autocom=favtopics&CODE=02&selectedtids='+dataTheme, function()
-					{
-						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '#aaa';
-						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'line-through';
-						inspectorToolbar.removedThemes[dataTheme] = dataTheme;
-						current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Add To Favorites"));
-						current.setAttribute('src', 'chrome://4pdainspector/content/images/favorites.png');
-						current.style.opacity = '';
-						inspectorToolbar.printCount();
-					});
+						{
+							inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '#aaa';
+							inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'line-through';
+							inspectorToolbar.removedThemes[dataTheme] = dataTheme;
+							current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Add To Favorites"));
+							current.setAttribute('src', 'chrome://4pdainspector/content/images/favorites.png');
+							current.style.opacity = '';
+							inspectorToolbar.printCount();
+						}
+					);
 					else
 					inspectorToolbar.getRequest(
 						'http://4pda.ru/forum/index.php?autocom=favtopics&CODE=03&f=1&t='+dataTheme, function()
-					{
-						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '';
-						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'none';
-						delete inspectorToolbar.removedThemes[dataTheme];
-						current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Remove From Favorites"));
-						current.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
-						current.style.opacity = '';
-						inspectorToolbar.printCount();
-					});
+						{
+							inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '';
+							inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'none';
+							delete inspectorToolbar.removedThemes[dataTheme];
+							current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Remove From Favorites"));
+							current.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
+							current.style.opacity = '';
+							inspectorToolbar.printCount();
+						}
+					);
 				});
 
 				var newTopHBox = document.createElement('hbox');
@@ -312,8 +336,6 @@ var inspectorToolbar = {
 
 	hidePanel: function()
 	{
-		this.list = this.winobj.getElementById('inspectorPanel_themesList');
-
 		var labels = this.list.getElementsByClassName('inspectorPanel_themeBox');
 
 		for (var i = labels.length - 1; i >= 0; i--) {
@@ -415,9 +437,25 @@ var inspectorToolbar = {
 	printCount: function(count)
 	{
 		if (typeof count == 'undefined')
-			count = (Object.keys(inspectorToolbar.unreadThemes).length-Object.keys(inspectorToolbar.removedThemes).length);
+			count = (Object.keys(inspectorToolbar.unreadThemes).length - Object.keys(inspectorToolbar.removedThemes).length);
+		
 		inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
 		inspectorToolbar.winobj.getElementById('inspector_unreadThemesCount').setAttribute('value', count);
+	},
+
+	themesListSetShadows: function()
+	{
+		if (inspectorToolbar.list.scrollTop > 0) {
+			inspectorToolbar.list.classList.add("topShadow");
+		} else {
+			inspectorToolbar.list.classList.remove("topShadow");
+		};
+
+		if ((inspectorToolbar.list.scrollHeight - inspectorToolbar.list.clientHeight) > inspectorToolbar.list.scrollTop) {
+			inspectorToolbar.list.classList.add("bottomShadow");
+		} else {
+			inspectorToolbar.list.classList.remove("bottomShadow");
+		};
 	}
 
 };

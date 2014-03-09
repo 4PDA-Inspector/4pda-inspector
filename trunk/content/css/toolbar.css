@@ -1,10 +1,10 @@
-#inspectorPanelMainVBox
+#inspectorPanel_mainVBox
 {
 	font-family: 'Ubuntu', 'Tahoma', sans-serif;
 	padding:5px;
 }
 
-#inspectorPanel_loginBox, #inspector_openAllFavs, .menuItem, .menuItem>label
+#inspectorPanel_loginBox, #inspector_openAllFavs, .inspectorPanel_menuItem, .inspectorPanel_menuItem>label
 {
 	cursor:pointer;
 }
@@ -18,9 +18,27 @@
 #inspectorPanel_themesList
 {
 	padding: 2px 0;
-	margin: 3px 0;
-	/*height: 400px;
-	overflow-y: scroll;*/
+	margin: 3px 0;	
+}
+
+#inspectorPanel_themesList.topShadow
+{
+	box-shadow: inset 0px 10px 10px -10px #000;
+}
+
+#inspectorPanel_themesList.bottomShadow
+{
+	box-shadow: inset 0px -10px 10px -10px #000;
+}
+
+#inspectorPanel_themesList.topShadow
+{
+	box-shadow: inset 0px 10px 10px -10px #000;
+}
+
+#inspectorPanel_themesList.bottomShadow.topShadow
+{
+	box-shadow: inset 0px 10px 10px -10px #000, inset 0px -10px 10px -10px #000;
 }
 
 .inspectorPanel_themeBox
@@ -54,9 +72,14 @@
 	color: #5176B5;
 }
 
-.inspectorPanel_bottomBox, .readedTheme
+.inspectorPanel_bottomBox, .inspectorPanel_readedTheme
 {
 	color: #aaa;
+}
+
+.inspectorPanel_themeBox:hover .inspectorPanel_readedTheme
+{
+	color: #999 !important;
 }
 
 .inspectorPanel_bottomBox image
@@ -87,15 +110,9 @@
 	font-size: 12px;
 }
 
-label:hover, .menuItem:hover>label
+label:hover, .inspectorPanel_menuItem:hover>label
 {
 	color: #146;
-}
-
-.inspector_messagesHBox
-{
-	padding: 2px 0;
-	margin: 3px 0;
 }
 
 .inspector_marginBox
@@ -109,23 +126,23 @@ label:hover, .menuItem:hover>label
 	margin-left: 5px;
 }
 
-.menuItem
+.inspectorPanel_menuItem
 {
 	margin-right: 10px;
 }
 
-.menuItem>image
+.inspectorPanel_menuItem>image
 {
 	margin-right: 2px;
 }
 
-image.menuItem, .menuItem image
+image.inspectorPanel_menuItem, .inspectorPanel_menuItem image
 {
 	width: 16px;
 	height: 16px;
 }
 
-.menuBox
+#inspectorPanel_menuBox
 {
 	border-bottom: 1px dashed #4474C4;
 	padding-bottom: 5px;
@@ -141,7 +158,7 @@ image.menuItem, .menuItem image
 	margin-left: 30px;
 }
 
-.linksBox
+#inspectorPanel_linksBox
 {
 	border-top: 1px dashed #4474C4;
 	padding-top: 5px;

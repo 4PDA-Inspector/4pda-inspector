@@ -22,3 +22,6 @@
 <!ENTITY fontSize "Размер шрифта">
 <!ENTITY fontColor "Цвет текста">
 <!ENTITY areaColor "Цвет области">
+
+<!ENTITY notification "Оповещения">
+<!ENTITY enableSoundNotification "Включить звуковые оповещения">

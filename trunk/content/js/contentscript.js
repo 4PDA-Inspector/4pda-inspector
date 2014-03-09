@@ -26,6 +26,11 @@ var inspectorContentScript = {
 
 	visitedThemes: [],
 
+	lastCount: {
+		themes: false,
+		qms: false
+	},
+
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
@@ -70,12 +75,11 @@ var inspectorContentScript = {
 						{
 							inspectorContentScript.parseUserName(req.responseText);
 
-							count = inspectorContentScript.getFavCount(req.responseText);
-							inspectorContentScript.unreadThemesCount = count;
-
+							inspectorContentScript.unreadThemesCount = inspectorContentScript.getFavCount(req.responseText);
 							inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
 
-							inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
+							inspectorContentScript.printCount(inspectorContentScript.unreadThemesCount, inspectorContentScript.unreadQmsCount);
+							inspectorContentScript.checkNews();
 						}
 
 						inspectorContentScript.lastResponseText = req.responseText;
@@ -219,7 +223,6 @@ var inspectorContentScript = {
 			var w = ctx.measureText(mesCount).width;
 			ctx.fillStyle = inspectorDefaultStorage.button_bgcolor;
 			ctx.fillRect(0, y, w+2, h);
-			// ctx.strokeRect(0, y, w+2, h+5);
 			ctx.fillStyle = inspectorDefaultStorage.button_color;
 			ctx.fillText(mesCount, 1, y+1);
 
@@ -252,6 +255,32 @@ var inspectorContentScript = {
 	{
 		clearTimeout(this.updateTimer);
 		this.getNewCount();
+	},
+
+	checkNews: function()
+	{
+		if (!inspectorDefaultStorage.notification_sound)
+			return false;
+
+		if ( (this.lastCount.themes !== false) && (this.lastCount.themes < inspectorContentScript.unreadThemesCount) )
+		{
+			this.notification();
+		}
+
+		if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspectorContentScript.unreadQmsCount) )
+		{
+			this.notification();
+		}
+
+		this.lastCount = {
+			themes: inspectorContentScript.unreadThemesCount,
+			qms: inspectorContentScript.unreadQmsCount
+		};
+	},
+
+	notification: function()
+	{
+		this.winobj.getElementById("inspector_sound").play();
 	}
 };
 
