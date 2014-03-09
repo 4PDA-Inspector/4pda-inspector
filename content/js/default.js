@@ -5,6 +5,8 @@ var inspectorDefaultStorage = {
 	button_fontsize: 7,
 	button_bgcolor: '#4474C4',
 	button_color: '#FFFFFF',
+	button_big_fontsize: 12,
+	button_big: false,
 
 	prefs: {},
 
@@ -31,6 +33,14 @@ var inspectorDefaultStorage = {
 		
 		try {
 			inspectorDefaultStorage.button_fontsize = inspectorDefaultStorage.prefs.getIntPref("button_fontsize");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.button_big_fontsize = inspectorDefaultStorage.prefs.getIntPref("button_big_fontsize");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.button_big = inspectorDefaultStorage.prefs.getBoolPref("button_big");
 		} catch (e) {}
 		
 		try {

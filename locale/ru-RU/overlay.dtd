@@ -1,0 +1,20 @@
+<!ENTITY toolbarbutton_title "4PDA Инспектор">
+<!ENTITY toolbarbutton_tooltiptext "4PDA Инспектор">
+<!ENTITY inspector_goToFavs "Перейти к списку избранных тем">
+<!ENTITY inspector_openAllFavs "Открыть все непрочитанные темы в новых вкладках">
+<!ENTITY inspector_unreadMessageCount "Новых сообщений">
+<!ENTITY inspector_unreadQmsCount "Новых QMS сообщений">
+<!ENTITY inspector_openSettings "Настройки">
+
+<!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
+<!ENTITY generalSettings "Общие настройки">
+<!ENTITY interval "Интервал обновления">
+<!ENTITY seconds "сек.">
+<!ENTITY buttonClickAction "Действие при нажатии на кнопку">
+<!ENTITY popup "Всплывающее окно">
+<!ENTITY goToFavThemesList "Перейти к списку избранных тем">
+<!ENTITY openAllUnreads "Открыть все непрочитанные темы в новых вкладках">
+<!ENTITY buttonSettings "Настройки кнопки">
+<!ENTITY fontSize "Размер шрифта">
+<!ENTITY fontColor "Цвет текста">
+<!ENTITY areaColor "Цвет области">

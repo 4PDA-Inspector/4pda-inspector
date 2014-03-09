@@ -1,9 +1,4 @@
-#inspector-button
+#inspector-button, toolbar[iconsize="small"] #inspector-button
 {
-	list-style-image: url("chrome://inspector/content/icons/icon_22x_out.png");
-}
-
-toolbar[iconsize="small"] #inspector-button
-{
-	list-style-image: url("chrome://inspector/content/icons/icon_22x_out.png");
+	list-style-image: url("chrome://4pdainspector/content/icons/icon_16x_out.png");
 }
