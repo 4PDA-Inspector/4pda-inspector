@@ -27,7 +27,7 @@ var inspectorDefaultStorage = {
 	resetStorage: function()
 	{
 		try {
-			inspectorDefaultStorage.interval = inspectorDefaultStorage.prefs.getIntPref("interval")*1000;
+			inspectorDefaultStorage.interval = inspectorDefaultStorage.prefs.getIntPref("interval")*1000 || 5000;
 		} catch (e) {}
 		
 		try {
