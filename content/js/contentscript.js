@@ -14,7 +14,6 @@ var inspectorContentScript = {
 	unreadThemesCount: 0,
 	unreadMessageCount: 0,
 	unreadQmsCount: 0,
-	lastResponseText: '',
 	isLogin: false,
 
 	userName: '',
@@ -24,12 +23,15 @@ var inspectorContentScript = {
 
 	stringBundle: Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties"),
 
-	visitedThemes: [],
+	notifications: [],
 
 	lastCount: {
 		themes: false,
-		qms: false
+		qms: false,
+		themesIds: []
 	},
+
+	unreadThemes: [],
 
 	init: function(el)
 	{
@@ -38,9 +40,9 @@ var inspectorContentScript = {
 		
 		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
-		inspectorContentScript.getNewCount(true);
+		inspectorContentScript.getNewCount(true, null, null, true);
 		setTimeout(function() {
-			inspectorContentScript.getNewCount();
+			inspectorContentScript.getNewCount(false, null, null, true);
 		}, 2000);
 
 	},
@@ -53,7 +55,7 @@ var inspectorContentScript = {
 		}, inspectorDefaultStorage.interval);
 	},
 
-	getNewCount: function(noFuture, callback, errorCallback)
+	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
 	{
 		// utils.log('new update - '+inspectorDefaultStorage.interval);
 		var req = new XMLHttpRequest();
@@ -75,15 +77,15 @@ var inspectorContentScript = {
 						{
 							inspectorContentScript.parseUserName(req.responseText);
 
+							inspectorContentScript.parseThemes(req.responseText);
+
 							inspectorContentScript.unreadThemesCount = inspectorContentScript.getFavCount(req.responseText);
 							inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
 
 							inspectorContentScript.printCount(inspectorContentScript.unreadThemesCount, inspectorContentScript.unreadQmsCount);
-							inspectorContentScript.checkNews();
+							inspectorContentScript.checkNews(hideNotification);
 						}
 
-						inspectorContentScript.lastResponseText = req.responseText;
-						inspectorContentScript.visitedThemes = [];
 						if (callback && typeof callback == 'function')
 							callback();
 						if (!noFuture)
@@ -257,30 +259,118 @@ var inspectorContentScript = {
 		this.getNewCount();
 	},
 
-	checkNews: function()
+	checkNews: function(hideNotification)
 	{
-		if (!inspectorDefaultStorage.notification_sound)
-			return false;
-
-		if ( (this.lastCount.themes !== false) && (this.lastCount.themes < inspectorContentScript.unreadThemesCount) )
+		if (!hideNotification)
 		{
-			this.notification();
+			var hasNews = false;
+
+			if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspectorContentScript.unreadQmsCount) )
+			{
+				hasNews = true;
+				inspectorContentScript.notifications.push({
+					title: inspectorContentScript.stringBundle.GetStringFromName("New Message"),
+					body: inspectorContentScript.stringBundle.GetStringFromName("New Message"),
+					type: 'qms'
+				});
+			}
+
+			var themesIds = Object.keys(inspectorContentScript.unreadThemes);
+			for (key in themesIds)
+			{
+				if (this.lastCount.themesIds.indexOf(themesIds[key]) < 0)
+				{
+					hasNews = true;
+					inspectorContentScript.notifications.push({
+						title: inspectorContentScript.stringBundle.GetStringFromName("New Comment"),
+						body: utils.htmlspecialcharsdecode(inspectorContentScript.unreadThemes[themesIds[key]].title),
+						type: themesIds[key]
+					});
+				};
+			}
+
+			if (hasNews)
+			{
+				this.notification();
+			}
 		}
 
-		if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspectorContentScript.unreadQmsCount) )
-		{
-			this.notification();
-		}
+		this.lastCount.themes = inspectorContentScript.unreadThemesCount,
+		this.lastCount.qms = inspectorContentScript.unreadQmsCount;
+		this.lastCount.themesIds = Object.keys(inspectorContentScript.unreadThemes);
 
-		this.lastCount = {
-			themes: inspectorContentScript.unreadThemesCount,
-			qms: inspectorContentScript.unreadQmsCount
-		};
 	},
 
 	notification: function()
 	{
-		this.winobj.getElementById("inspector_sound").play();
+		if (inspectorDefaultStorage.notification_sound)
+		{
+			this.winobj.getElementById("inspector_sound").play();
+		}
+
+		if (inspectorDefaultStorage.notification_popup)
+		{
+			this.showNotifications();
+		}
+
+	},
+
+	showNotifications: function()
+	{
+		if (!this.notifications.length)
+			return false;
+
+		var currentNotification = this.notifications.shift();
+
+		var notification = new Notification(currentNotification.title, {
+			tag : "4pdainspector_"+ currentNotification.type,
+			body : currentNotification.body,
+			icon : "chrome://4pdainspector/content/icons/icon_64.png"
+		});
+
+		
+		notification.onclick = function() {
+			tagData = this.tag.split('_');
+			
+			if (!tagData[1])
+				return false;
+
+			if (tagData[1] == 'qms')
+				inspectorToolbar.openPage(inspectorToolbar.link_qms);
+			else
+				inspectorToolbar.openTheme(tagData[1]);
+		}
+
+		setTimeout(function()
+		{
+			inspectorContentScript.showNotifications();
+		}, 50);
+	},
+
+	parseThemes: function(text)
+	{
+		inspectorContentScript.unreadThemes = {};
+		if (!text)
+			return false;
+
+		var themes = text.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>[\s\S]*?\<span class\=\"lastaction\"\>.*?\<\/span\>/ig);
+
+		if (themes)
+		{
+			for (var i = 0; i<themes.length; i++)
+			{
+				var theme = themes[i].match(/\<a.+?href\=\'.*?showtopic\=(\d+).*?\'.*?\<a id\=\"tid\-link.*?\>(.+?)\<\/a\>[\S\s]*\"lastaction\"\>(.+?)\<br.*?\<b\>\<a.*\>(.+?)\<\/a\>\<\/b\>/i);
+
+				if (theme)
+				{
+					inspectorContentScript.unreadThemes[theme[1]] = {
+						title: theme[2],
+						date: theme[3],
+						author: theme[4],
+					};
+				}
+			};
+		}
 	}
 };
 
