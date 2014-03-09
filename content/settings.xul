@@ -32,6 +32,8 @@
 		<preference id="pref_button_big_fontsize" name="extensions.4pda-inspector.button_big_fontsize" type="int"/>
 		<preference id="pref_button_bgcolor" name="extensions.4pda-inspector.button_bgcolor" type="string"/>
 		<preference id="pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
+		
+		<preference id="pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
 	</preferences>
 
 	<hbox>
@@ -82,6 +84,14 @@
 					</hbox>
 				</vbox>
 			</vbox>
+
+			<vbox class="inspector_allSettingsBox">
+				<html:div class="inspector_allSettingsBoxHeading">&notification;:</html:div>
+				<vbox>
+					<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
+				</vbox>
+			</vbox>
+
 		</vbox>
 	</hbox>
 	<script type="text/javascript">

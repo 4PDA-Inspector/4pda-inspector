@@ -5,3 +5,4 @@ pref("extensions.4pda-inspector.button_big_fontsize", 12);
 pref("extensions.4pda-inspector.button_big", false);
 pref("extensions.4pda-inspector.button_bgcolor", '#4474C4');
 pref("extensions.4pda-inspector.button_color", '#FFFFFF');
+pref("extensions.4pda-inspector.notification_sound", true);

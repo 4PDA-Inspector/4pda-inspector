@@ -22,3 +22,6 @@
 <!ENTITY fontSize "Font size">
 <!ENTITY fontColor "Font color">
 <!ENTITY areaColor "Area color">
+
+<!ENTITY notification "Notification">
+<!ENTITY enableSoundNotification "Enable sound notification">
