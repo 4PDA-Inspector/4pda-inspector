@@ -3,7 +3,7 @@
 <Description about="urn:mozilla:install-manifest">
 
 	<em:id>4pda_inspector@coddism.com</em:id>
-	<em:version>1.0</em:version>
+	<em:version>1.1</em:version>
 	<em:creator>coddism.com</em:creator>
 	<em:developer>iSergium</em:developer>
 	<em:type>2</em:type>
@@ -14,7 +14,7 @@
 			<em:locale>ru-RU</em:locale>
 			<em:name>4PDA Инспектор</em:name>
 			<em:description>Мониторинг изменений на форуме 4pda.ru</em:description>
-			<em:homepageURL>http://4pdainspector.coddism.com/</em:homepageURL>
+			<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
 		</Description>
 	</em:localized>
 	<em:localized>
@@ -22,13 +22,13 @@
 			<em:locale>uk</em:locale>
 			<em:name>4PDA інспектор</em:name>
 			<em:description>Моніторинг змін на форумі 4pda.ru</em:description>
-			<em:homepageURL>http://4pdainspector.coddism.com/</em:homepageURL>
+			<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
 		</Description>
 	</em:localized>
 	<em:name>4PDA Inspector</em:name>
-	<em:description>Monitoring of changes on the forum 4pda.ru</em:description>
+	<em:description>Monitoring of changes on the 4pda.ru forum</em:description>
 
-	<em:homepageURL>http://4pdainspector.coddism.com/</em:homepageURL>
+	<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
 	<em:optionsURL>chrome://4pdainspector/content/settings.xul</em:optionsURL> 
 	<em:iconURL>chrome://4pdainspector/content/icons/icon_48.png</em:iconURL>
 	<em:icon64URL>chrome://4pdainspector/content/icons/icon_64.png</em:icon64URL>

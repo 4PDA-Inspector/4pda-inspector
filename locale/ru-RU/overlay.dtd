@@ -7,6 +7,10 @@
 <!ENTITY markAllAsRead "Пометить все темы как прочитанные">
 <!ENTITY refresh "Обновить">
 
+<!ENTITY Homepage "Главная">
+<!ENTITY Forum "Форум">
+<!ENTITY Subscriptions "Подписки на темы">
+
 <!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
 <!ENTITY generalSettings "Общие настройки">
 <!ENTITY interval "Интервал обновления">

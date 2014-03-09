@@ -9,6 +9,12 @@ var inspectorToolbar = {
 	link_favTopics: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 	link_qms: 'http://4pda.ru/forum/index.php?act=qms',
 	
+	link_homepage: 'http://4pda.ru',
+	link_forum: 'http://4pda.ru/forum/index.php',
+	link_subscriptionTopics: 'http://4pda.ru/forum/index.php?act=UserCP&CODE=26',
+	link_devdb: 'http://devdb.ru/',
+	link_devfaq: 'http://devfaq.ru/',
+	
 	link_login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00',
 
 	refreshImg: null,
@@ -21,11 +27,49 @@ var inspectorToolbar = {
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
 		this.panel = this.winobj.getElementById('inspectorPanel');
+		
+		this.winobj.getElementById('inspector_goToQms').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_qms);
+			inspectorToolbar.handleHidePanel();
+		});
 
 		this.winobj.getElementById('inspector_goToFavs').addEventListener('click', function(){
 			inspectorToolbar.openPage(inspectorToolbar.link_favTopics);
 			inspectorToolbar.handleHidePanel();
 		});
+
+		this.winobj.getElementById('inspector_openSettings').addEventListener('click', function(){
+			inspectorToolbar.handleHidePanel();
+			window.openDialog('chrome://4pdainspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspectorContentScript);
+		});
+		////
+
+		this.winobj.getElementById('inspector_goToHomepage').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_homepage);
+			inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_goToForum').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_forum);
+			inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_goToSubscriptions').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_subscriptionTopics);
+			inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_goToDevDB').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_devdb);
+			inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_goToDevFAQ').addEventListener('click', function(){
+			inspectorToolbar.openPage(inspectorToolbar.link_devfaq);
+			inspectorToolbar.handleHidePanel();
+		});
+
+		////
 
 		this.winobj.getElementById('inspector_openAllFavs').addEventListener('click', function(){
 			if (inspectorToolbar.openAll())
@@ -34,16 +78,6 @@ var inspectorToolbar = {
 
 		this.winobj.getElementById('inspector_readAllFavs').addEventListener('click', function(){
 			inspectorToolbar.readAll();
-		});
-
-		this.winobj.getElementById('inspector_unreadQms').addEventListener('click', function(){
-			inspectorToolbar.openPage(inspectorToolbar.link_qms);
-			inspectorToolbar.handleHidePanel();
-		});
-
-		this.winobj.getElementById('inspector_openSettings').addEventListener('click', function(){
-			inspectorToolbar.handleHidePanel();
-			window.openDialog('chrome://4pdainspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspectorContentScript);
 		});
 
 		this.refreshImg = this.winobj.getElementById('refreshImg');
@@ -114,8 +148,6 @@ var inspectorToolbar = {
 				}
 			};
 		}
-
-		//utils.log(inspectorToolbar.unreadThemes, true);
 	},
 
 	showPanel: function(parent)
@@ -126,13 +158,11 @@ var inspectorToolbar = {
 			return false;
 		}
 
-		if (this.panel)
-		{
-			this.refreshToolbar();
-			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
-		}
-		else
+		if (!this.panel)
 			this.init();
+		
+		this.refreshToolbar();
+		this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 	},
 
 	refreshToolbar: function ()
@@ -237,7 +267,6 @@ var inspectorToolbar = {
 						current.style.opacity = '';
 						inspectorToolbar.printCount();
 					});
-					// utils.log(inspectorToolbar.removedThemes, true);
 				});
 
 				var newTopHBox = document.createElement('hbox');
