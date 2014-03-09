@@ -7,6 +7,8 @@ var inspectorToolbar = {
 	
 	link_favTopics: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 	link_messages: 'http://4pda.ru/forum/index.php?act=Msg&CODE=01',
+	
+	link_login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00',
 
 	init: function()
 	{
@@ -24,9 +26,14 @@ var inspectorToolbar = {
 				inspectorToolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_messagesHBox').addEventListener('click', function(){
+		this.winobj.getElementById('inspector_unreadMessage').addEventListener('click', function(){
 			inspectorToolbar.openPage(inspectorToolbar.link_messages);
 			inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_openSettings').addEventListener('click', function(){
+			inspectorToolbar.handleHidePanel();
+			window.openDialog('chrome://inspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspectorContentScript);
 		});
 	},
 
@@ -82,6 +89,12 @@ var inspectorToolbar = {
 
 	showPanel: function(parent)
 	{
+		if (inspectorContentScript.unreadMessageCount === false)
+		{
+			inspectorToolbar.openPage(inspectorToolbar.link_login);
+			return false;
+		}
+
 		if (!this.panel)
 			this.init();
 		

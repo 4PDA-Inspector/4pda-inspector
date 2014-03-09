@@ -4,17 +4,27 @@
 <?xml-stylesheet href="chrome://inspector/content/css/settings.css" type="text/css"?>
 
 <prefwindow
-	id="settings-window"
+	id="inspectorSettingsWindow"
 	buttons="accept,cancel"
 	title="Настройки - 4PDA Инспектор"
+	ondialogaccept = "inspectorContentScript.settingsAccept()"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<prefpane id="inspector_pane" label="Telefum Settings">
+<prefpane id="inspector_pane" label="Settings">
+	
+	<script type="text/javascript">
+		if (window.arguments)
+		{var inspectorContentScript = window.arguments[0];}
+		else{var inspectorContentScript = {settingsAccept: function(){}}}
+	</script>
 	
 	<preferences>
 		<preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
 		<preference id="pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
+		<preference id="pref_button_fontsize" name="extensions.4pda-inspector.button_fontsize" type="int"/>
+		<preference id="pref_button_bgcolor" name="extensions.4pda-inspector.button_bgcolor" type="string"/>
+		<preference id="pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
 	</preferences>
 
 	<hbox>
@@ -22,19 +32,41 @@
 			<image src='chrome://inspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
 		</vbox>
 		
-		<vbox class="inspector_allSettingsBox">
-		<html:div class="inspector_allSettingsBoxHeading">Общие настройки:</html:div>
-			<vbox class="inspector_settingsBox">
-				<label value="Интервал обновления (сек.):"/>
-				<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1"/>
+		<vbox>
+			<vbox class="inspector_allSettingsBox">
+				<html:div class="inspector_allSettingsBoxHeading">Общие настройки:</html:div>
+				<vbox class="inspector_settingsBox">
+					<label value="Интервал обновления (сек.):" control="inspector_intervalInput"/>
+					<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1"/>
+				</vbox>
+				<vbox class="inspector_settingsBox last_settingsBox">
+					<label value="Действие при нажатии на кнопку:"/>
+					<radiogroup preference="pref_click_action">
+						<radio value="1" label="Всплывающее окно"/>
+						<radio value="2" label="Перейти к списку избранных тем"/>
+						<radio value="3" label="Открыть все непрочитанные темы в новых вкладках"/>
+					</radiogroup>
+				</vbox>
 			</vbox>
-			<vbox class="inspector_settingsBox last_settingsBox">
-				<label value="Действие при нажатии на кнопку:"/>
-				<radiogroup preference="pref_click_action">
-					<radio value="1" label="Всплывающее окно"/>
-					<radio value="2" label="Перейти к списку избранных тем"/>
-					<radio value="3" label="Открыть все непрочитанные темы в новых вкладках"/>
-				</radiogroup>
+
+			<vbox class="inspector_allSettingsBox">
+				<html:div class="inspector_allSettingsBoxHeading">Настройки кнопки:</html:div>
+				<vbox>
+					<vbox style="border-bottom: 1px solid #4474C4">
+						<label value="Размер шрифта (pt):" control="inspector_button_fontsize"/>
+						<textbox preference="pref_button_fontsize" id="inspector_button_fontsize" type="number" min="1"/>
+					</vbox>
+					<hbox>
+						<vbox style="border-right: 1px solid #4474C4; margin-right:5px; padding-right:5px;">
+							<label value="Цвет текста:" control="inspector_button_fontcolor" id="inspector_button_fontcolor_label"/>
+							<colorpicker preference="pref_button_color" id="inspector_button_fontcolor"/>
+						</vbox>
+						<vbox>
+							<label value="Цвет области:" control="inspector_button_fontbgcolor" id="inspector_button_fontbgcolor_label"/>
+							<colorpicker preference="pref_button_bgcolor" id="inspector_button_fontbgcolor"/>
+						</vbox>
+					</hbox>
+				</vbox>
 			</vbox>
 		</vbox>
 	</hbox>

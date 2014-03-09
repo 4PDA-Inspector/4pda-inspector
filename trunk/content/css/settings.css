@@ -1,15 +1,15 @@
-#settings-window
+#inspectorSettingsWindow
 {
 	font-family: 'Ubuntu', 'Tahoma';
 	background: #eef;
 	font-size: 11pt;
 }
 
-#inspector_intervalInput
+#inspector_intervalInput, #inspector_button_fontsize
 {
+	border: 1px solid #4474C4;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
-	border-color: #4474C4;
 }
 
 .inspector_allSettingsBox
@@ -49,4 +49,9 @@ radio
 radio[selected="true"]
 {
 	color: #30508A;
+}
+
+#inspector_button_fontbgcolor_label, #inspector_button_fontcolor_label
+{
+	cursor: pointer;
 }

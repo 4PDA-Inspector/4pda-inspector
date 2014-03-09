@@ -26,18 +26,22 @@
 
 	<toolbox id="navigator-toolbox">
 		<panel type="arrow" id="inspectorPanel" align="left" onpopuphiding="inspectorToolbar.hidePanel()">
-			<vbox>
+			<vbox id="inspectorPanelMainVBox">
 				<vbox id="inspectorPanel_themesList">
 				</vbox>
 				
-				<vbox id="inspector_middleVBox">
+				<vbox class="inspector_messagesHBox">
 					<label value="Перейти к списку избранных тем" id="inspector_goToFavs"/>
 					<label value="Открыть все непрочитанные темы в новых вкладках" id="inspector_openAllFavs"/>
 				</vbox>
 				
-				<hbox id="inspector_messagesHBox">
+				<hbox class="inspector_messagesHBox" id="inspector_unreadMessage">
 					<label value="Новых сообщений: "/>
 					<label value="0" id="inspector_unreadMessageCount" />
+				</hbox>
+				
+				<hbox class="inspector_messagesHBox">
+					<label value="Настройки" id="inspector_openSettings" />
 				</hbox>
 			</vbox>
 		</panel>
