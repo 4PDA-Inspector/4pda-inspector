@@ -10,6 +10,9 @@ var inspectorToolbar = {
 	
 	link_login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00',
 
+	refreshImg: null,
+	refreshImgRotateInterval: 0,
+
 	init: function()
 	{
 		var obj = document.getElementById("navigator-toolbox");
@@ -36,8 +39,10 @@ var inspectorToolbar = {
 			window.openDialog('chrome://4pdainspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspectorContentScript);
 		});
 
-		this.winobj.getElementById('refreshImg').addEventListener('click', function(){
-			inspectorContentScript.manualRefresh();
+		this.refreshImg = this.winobj.getElementById('refreshImg');
+
+		this.refreshImg.addEventListener('click', function(){
+			inspectorToolbar.manualRefresh(true);
 		});
 
 		this.winobj.getElementById('inspectorPanel_loginBox').addEventListener('click', function(){
@@ -52,6 +57,15 @@ var inspectorToolbar = {
 
 	buttonClick: function(parent)
 	{
+		if (inspectorContentScript.isLogin)
+			inspectorToolbar.buttonClickAction(parent);
+		else
+			inspectorToolbar.manualRefresh(false);
+	},
+
+	buttonClickAction: function(parent)
+	{
+		inspectorDefaultStorage.getPrefs();
 		switch (inspectorDefaultStorage.click_action)
 		{
 			case 1:
@@ -103,41 +117,48 @@ var inspectorToolbar = {
 		
 		if (this.panel)
 		{
-			inspectorToolbar.parseThemes();
-
-			if (inspectorContentScript.userName)
-				this.winobj.getElementById('inspectorPanel_loginBox').value = "Вы вошли как: "+inspectorContentScript.userName;
-				else
-				this.winobj.getElementById('inspectorPanel_loginBox').value = "Вы не авторизовались";
-
-			this.list = this.winobj.getElementById('inspectorPanel_themesList');
-
-			if (Object.keys(inspectorToolbar.unreadThemes).length)
-			{
-				for (i in inspectorToolbar.unreadThemes)
-				{
-					var newElem = document.createElement('label');
-					newElem.setAttribute('value', '>> '+inspectorToolbar.unreadThemes[i]);
-					newElem.setAttribute('data-theme', i);
-					newElem.addEventListener('click', function(){
-						var dataTheme = this.getAttribute('data-theme');
-						inspectorToolbar.openTheme(dataTheme);
-						delete inspectorToolbar.unreadThemes[dataTheme];
-						this.parentNode.removeChild(this);
-						inspectorContentScript.visitedThemes.push(dataTheme);
-						inspectorContentScript.printCount(Object.keys(inspectorToolbar.unreadThemes).length, inspectorContentScript.unreadQmsCount);
-					});
-					this.list.appendChild(newElem);
-				};
-				this.winobj.getElementById('inspector_openAllFavs').disabled = false;
-			}
-			else
-				this.winobj.getElementById('inspector_openAllFavs').disabled = true;
-
-			this.winobj.getElementById('inspector_unreadQmsCount').value = inspectorContentScript.unreadQmsCount;
-			
+			this.refreshToolbar();
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		}
+	},
+
+	refreshToolbar: function ()
+	{
+		inspectorToolbar.parseThemes();
+
+		if (inspectorContentScript.isLogin && inspectorContentScript.userName)
+			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = "Вы вошли как: "+inspectorContentScript.userName;
+			else
+			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = "Вы не авторизовались";
+
+		inspectorToolbar.list = inspectorToolbar.winobj.getElementById('inspectorPanel_themesList');
+		inspectorToolbar.hidePanel();
+
+		if (Object.keys(inspectorToolbar.unreadThemes).length)
+		{
+			for (i in inspectorToolbar.unreadThemes)
+			{
+				var newElem = document.createElement('label');
+				newElem.setAttribute('value', '>> '+inspectorToolbar.unreadThemes[i]);
+				newElem.setAttribute('data-theme', i);
+				newElem.addEventListener('click', function(){
+					var dataTheme = this.getAttribute('data-theme');
+					inspectorToolbar.openTheme(dataTheme);
+					delete inspectorToolbar.unreadThemes[dataTheme];
+					this.parentNode.removeChild(this);
+					inspectorContentScript.visitedThemes.push(dataTheme);
+					inspectorContentScript.printCount(Object.keys(inspectorToolbar.unreadThemes).length, inspectorContentScript.unreadQmsCount);
+				});
+				inspectorToolbar.list.appendChild(newElem);
+			};
+			inspectorToolbar.winobj.getElementById('inspector_openAllFavs').disabled = false;
+		}
+		else
+			inspectorToolbar.winobj.getElementById('inspector_openAllFavs').disabled = true;
+
+		inspectorToolbar.winobj.getElementById('inspector_unreadQmsCount').value = (inspectorContentScript.isLogin)?inspectorContentScript.unreadQmsCount:0;
+		clearInterval(inspectorToolbar.refreshImgRotateInterval);
+		inspectorToolbar.refreshImg.style.MozTransform = "rotate(0deg)";
 	},
 
 	handleHidePanel: function()
@@ -185,6 +206,25 @@ var inspectorToolbar = {
 		inspectorContentScript.printCount(0, inspectorContentScript.unreadQmsCount);
 
 		return true;
+	},
+
+	manualRefresh: function(callback)
+	{
+		clearTimeout(inspectorContentScript.updateTimer);
+		if (callback)
+		{
+			clearInterval(inspectorToolbar.refreshImgRotateInterval);
+			var refreshImgRotate = 0;
+			this.refreshImgRotateInterval = setInterval(function(){
+				refreshImgRotate+=10;
+				inspectorToolbar.refreshImg.style.MozTransform = "rotate(-"+refreshImgRotate+"deg)";
+			}, 30);
+			callback = inspectorToolbar.refreshToolbar;
+			errorCallback = false;
+		}
+		else
+			errorCallback = function(){inspectorToolbar.openPage(inspectorToolbar.link_login)};
+		inspectorContentScript.getNewCount(false, callback, errorCallback);
 	}
 
 };
