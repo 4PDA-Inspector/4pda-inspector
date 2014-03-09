@@ -21,8 +21,4 @@
 	<hbox hidden="true">
 		<html:canvas id="inspector_button_canvas" width="24" height="24">0</html:canvas> 
 	</hbox>
-
-	<statusbar id="status-bar">
-		<statusbarpanel id="inspector-panel" label=">>>>>>>>>>>>>>" />
-	</statusbar>
 </overlay>
