@@ -1,3 +1,7 @@
+#inspector-button {
+	list-style-image: url("chrome://inspector/content/icons/favicon_in.png");
+}
+
 toolbar[iconsize="small"] #inspector-button
 {
 	list-style-image: url("chrome://inspector/content/icons/favicon_in.png");
