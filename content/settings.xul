@@ -36,22 +36,24 @@
 
 	<hbox>
 		<vbox>
-			<image src='chrome://4pdainspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
+			<html:a href="http://4pdainspector.coddism.com/" target="_blank">
+				<image src='chrome://4pdainspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
+			</html:a>
 		</vbox>
 		
 		<vbox>
 			<vbox class="inspector_allSettingsBox">
 				<html:div class="inspector_allSettingsBoxHeading">&generalSettings;:</html:div>
-				<vbox class="inspector_settingsBox">
-					<label value="&interval; (&seconds;):" control="inspector_intervalInput"/>
-					<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1"/>
-				</vbox>
+				<hbox class="inspector_settingsBox">
+					<label value="&interval; (&seconds;)" control="inspector_intervalInput" class="leftLabel" />
+					<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" class="halfInput" />
+				</hbox>
 				<vbox class="inspector_settingsBox last_settingsBox">
 					<label value="&buttonClickAction;:"/>
 					<radiogroup preference="pref_click_action">
 						<radio value="1" label="&popup;"/>
 						<radio value="2" label="&goToFavThemesList;"/>
-						<radio value="3" label="&openAllUnreads;"/>
+						<radio value="3" label="&openAllFavs;"/>
 					</radiogroup>
 				</vbox>
 			</vbox>
@@ -59,19 +61,23 @@
 			<vbox class="inspector_allSettingsBox">
 				<html:div class="inspector_allSettingsBoxHeading">&buttonSettings;:</html:div>
 				<vbox>
-					<vbox style="border-bottom: 1px solid #4474C4">
-						<label value="&fontSize; (px):" control="inspector_button_fontsize"/>
-						<textbox preference="pref_button_fontsize" id="inspector_button_fontsize" type="number" min="1"/>
-						<textbox preference="pref_button_big_fontsize" id="inspector_button_big_fontsize" type="number" min="1"/>
-					</vbox>
+					<hbox style="border-bottom: 1px solid #4474C4; padding-bottom: 3px;">
+						<label value="&fontSize; (px)" control="inspector_button_fontsize" class="leftLabel" />
+						<textbox preference="pref_button_fontsize" id="inspector_button_fontsize" type="number" min="1" class="halfInput" />
+						<textbox preference="pref_button_big_fontsize" id="inspector_button_big_fontsize" type="number" min="1" class="halfInput" />
+					</hbox>
 					<hbox>
-						<vbox style="border-right: 1px solid #4474C4; margin-right:5px; padding-right:5px; width:200px">
+						<vbox style="margin-right:5px; padding-right:5px; width:217px">
 							<label value="&fontColor;:" control="inspector_button_fontcolor" id="inspector_button_fontcolor_label"/>
-							<colorpicker type="button" preference="pref_button_color" id="inspector_button_fontcolor"/>
+							<hbox>
+								<colorpicker type="button" preference="pref_button_color" id="inspector_button_fontcolor" style="width:150px;"/>
+							</hbox>
 						</vbox>
-						<vbox style="width:200px">
+						<vbox>
 							<label value="&areaColor;:" control="inspector_button_fontbgcolor" id="inspector_button_fontbgcolor_label"/>
-							<colorpicker type="button" preference="pref_button_bgcolor" id="inspector_button_fontbgcolor"/>
+							<hbox>
+								<colorpicker type="button" preference="pref_button_bgcolor" id="inspector_button_fontbgcolor" style="width:153px;"/>
+							</hbox>
 						</vbox>
 					</hbox>
 				</vbox>

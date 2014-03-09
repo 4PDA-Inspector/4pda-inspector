@@ -29,33 +29,48 @@
 	</hbox>
 
 	<toolbox id="navigator-toolbox">
-		<panel type="arrow" id="inspectorPanel" align="left" onpopuphiding="inspectorToolbar.hidePanel()">
+		<panel type="arrow" id="inspectorPanel" align="left" onpopuphiding="inspectorToolbar.hidePanel()" >
 			<vbox id="inspectorPanelMainVBox">
 				
-				<vbox>
-				<hbox>
-					<label value="" id="inspectorPanel_loginBox"/>
-					<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' align="right" id="refreshImg" tooltip="refresh" tooltiptext="Обновить вручную" />
-				</hbox>
-					<vbox class="inspector_marginBox">
-						<hbox id="inspector_unreadQms" class="inspector_messagesHBox">
-							<label value="&inspector_unreadQmsCount;: "/>
+				<hbox class="menuBox">
+					<hbox flex="1">
+						<hbox class="menuItem" id="inspector_unreadQms" tooltiptext="&Messages;">
+							<vbox>
+								<image src="chrome://4pdainspector/content/images/kopetestatusmessage.png" />
+							</vbox>
 							<label value="0" id="inspector_unreadQmsCount" />
 						</hbox>
-					</vbox>
-				</vbox>
-				
-				<vbox id="inspectorPanel_themesList" class="inspector_messagesHBox">
-				</vbox>
-				
-				<vbox class="inspector_messagesHBox">
-					<label value="&inspector_goToFavs;" id="inspector_goToFavs"/>
-					<label value="&inspector_openAllFavs;" id="inspector_openAllFavs"/>
-				</vbox>
-				
-				<hbox class="inspector_messagesHBox">
-					<label value="&inspector_openSettings;" id="inspector_openSettings" />
+						
+						<hbox class="menuItem" id="inspector_goToFavs" tooltiptext="&Favorites;">
+							<vbox>
+								<image src="chrome://4pdainspector/content/images/favorites.png" />
+							</vbox>
+							<label value="0" id="inspector_unreadThemesCount" />
+						</hbox>
+
+						<vbox class="menuItem" tooltiptext="&Settings;" id="inspector_openSettings">
+							<image src="chrome://4pdainspector/content/images/cog-icon-2-48x48.png" />
+						</vbox>
+						
+						<vbox class="menuItem" tooltiptext="&openAllFavs;" id="inspector_openAllFavs">
+							<image src="chrome://4pdainspector/content/images/open_all.png" />
+						</vbox>
+
+						<vbox class="menuItem" tooltiptext="&markAllAsRead;" id="inspector_readAllFavs">
+							<image src="chrome://4pdainspector/content/images/read_all.png" />
+						</vbox>
+						
+					</hbox>
+					<hbox id="inspectorPanel_loginHBox">
+						<label value="" id="inspectorPanel_loginBox" />
+
+						<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' id="refreshImg" tooltip="refresh" tooltiptext="&refresh;" />
+					</hbox>
 				</hbox>
+				
+				<vbox id="inspectorPanel_themesList" class="inspector_messagesHBox" maxheight="400">
+				</vbox>
+
 			</vbox>
 		</panel>
 	</toolbox>

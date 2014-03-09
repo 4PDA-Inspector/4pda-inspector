@@ -1,4 +1,4 @@
-pref("extensions.4pda-inspector.interval", 5);
+pref("extensions.4pda-inspector.interval", 30);
 pref("extensions.4pda-inspector.click_action", 1);
 pref("extensions.4pda-inspector.button_fontsize", 8);
 pref("extensions.4pda-inspector.button_big_fontsize", 12);
