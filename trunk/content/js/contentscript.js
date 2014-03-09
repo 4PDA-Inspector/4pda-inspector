@@ -1,4 +1,4 @@
-var contentScript = {
+var inspectorContentScript = {
 
 	invokedErrorCallback: false,
 	updateTimer: 0,
@@ -11,27 +11,32 @@ var contentScript = {
 	new_post_icon: "http://s.4pda.ru/forum/style_images/1/newpost.gif",
 	new_mess_icon: "http://s.4pda.ru/forum/style_images/1/f_norm.gif",
 
+	unreadMessageCount: 0,
+
+	lastResponseText: '',
+
 	init: function()
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
 
+		inspectorContentScript.getNewCount();
 		setTimeout(function() {
-			contentScript.getNewCount();
-		}, 2000);
+			inspectorContentScript.getNewCount();
+		}, 1000);
 	},
 
 	newIteration: function()
 	{
 		inspectorDefaultStorage.getPrefs();
 		this.updateTimer = setTimeout(function() {
-			contentScript.getNewCount();
+			inspectorContentScript.getNewCount();
 		}, inspectorDefaultStorage.interval);
 	},
 
 	getNewCount: function()
 	{
-		utils.log('new update - '+inspectorDefaultStorage.interval);
+		// utils.log('new update - '+inspectorDefaultStorage.interval);
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -41,26 +46,29 @@ var contentScript = {
 			{
 				if (req.responseText)
 				{
-					count = contentScript.getFavCount(req.responseText);
-					mesCount = contentScript.getMesCount(req.responseText);
+					count = inspectorContentScript.getFavCount(req.responseText);
+					
+					mesCount = inspectorContentScript.getMesCount(req.responseText);
+					inspectorContentScript.unreadMessageCount = mesCount;
 
 					if (count === false || mesCount === false)
-						contentScript.printLogout();
+						inspectorContentScript.printLogout();
 					else
-						contentScript.printCount(count, mesCount);
+						inspectorContentScript.printCount(count, mesCount);
 
-					contentScript.newIteration();
+					inspectorContentScript.lastResponseText = req.responseText;
+					inspectorContentScript.newIteration();
 					return;
 				}
-			} 
-			contentScript.printLogout();
+			}
+			inspectorContentScript.printLogout();
 		}
 
 		req.onerror = function() {
-			contentScript.printLogout();
+			inspectorContentScript.printLogout();
 		}
 
-		req.open("GET", contentScript.favUrl, true);
+		req.open("GET", inspectorContentScript.favUrl, true);
 		req.send(null);
 	},
 
@@ -70,11 +78,12 @@ var contentScript = {
 			return 0;
 
 		var regexp = /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig;
-		
-		if (typeof (favs = text.match(regexp)) == 'object'  && favs != null)
+		var favs = text.match(regexp);
+
+		if (typeof favs == 'object'  && favs != null)
 			return favs.length;
 			else
-			return false;
+			return 0;
 	},
 
 	getMesCount: function(text)
@@ -178,15 +187,4 @@ var contentScript = {
 	}
 };
 
-contentScript.init();
-
-function inspectorToolbarButtonClick()
-{
-	// location.href="http://4pda.ru/forum/index.php?autocom=favtopics";
-	// alert('click');
-	var tBrowser = top.document.getElementById("content");
-	var tab = tBrowser.addTab(contentScript.favUrl);
-	// use this line to focus the new tab, otherwise it will open in background
-	tBrowser.selectedTab = tab;
-	//window.openDialog("chrome://inspector/content/popup.xul", "dlgTelefumConfig", "resizable=yes,centerscreen,chrome").focus();
-}
+inspectorContentScript.init();

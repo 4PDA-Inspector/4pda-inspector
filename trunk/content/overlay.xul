@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <?xml-stylesheet href="chrome://inspector/content/css/main.css" type="text/css"?>
+<?xml-stylesheet href="chrome://inspector/content/css/toolbar.css" type="text/css"?>
 
 <overlay id="inspector-overlay"
 	xmlns:html="http://www.w3.org/1999/xhtml"
@@ -9,17 +9,37 @@
 	<script type='text/javascript' src='chrome://inspector/content/js/utils.js'></script>
 	<script type='text/javascript' src='chrome://inspector/content/js/default.js'></script>
 	<script type='text/javascript' src='chrome://inspector/content/js/contentscript.js'></script>
+	<script type='text/javascript' src='chrome://inspector/content/js/toolbar.js'></script>
 
 	<toolbarpalette  id="BrowserToolbarPalette">
 		<toolbarbutton 
 			id="inspector-button"
 			label="4PDA Инспектор"
 			tooltiptext="4PDA Инспектор"
-			oncommand='inspectorToolbarButtonClick()'
+			oncommand='inspectorToolbar.showPanel(this)'
 			/>
 	</toolbarpalette>
 
 	<hbox hidden="true">
 		<html:canvas id="inspector_button_canvas" width="24" height="24">0</html:canvas> 
 	</hbox>
+
+	<toolbox id="navigator-toolbox">
+		<panel type="arrow" id="inspectorPanel" align="left" onpopuphiding="inspectorToolbar.hidePanel()">
+			<vbox>
+				<vbox id="inspectorPanel_themesList">
+				</vbox>
+				
+				<vbox id="inspector_middleVBox">
+					<label value="Перейти к списку избранных тем" id="inspector_goToFavs"/>
+					<label value="Открыть все непрочитанные темы в новых вкладках" id="inspector_openAllFavs"/>
+				</vbox>
+				
+				<hbox id="inspector_messagesHBox">
+					<label value="Новых сообщений: "/>
+					<label value="0" id="inspector_unreadMessageCount" />
+				</hbox>
+			</vbox>
+		</panel>
+	</toolbox>
 </overlay>

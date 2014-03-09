@@ -18,10 +18,10 @@
 	<hbox>
 		<image src='chrome://inspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
 		
-		<vbox id="allSettingsBox">
-			<html:div id="allSettingsBoxHeading"> Общие настройки:</html:div>
+		<vbox id="inspector_allSettingsBox">
+			<html:div id="inspector_allSettingsBoxHeading"> Общие настройки:</html:div>
 			<label value="Интервал обновления (сек.):"/>
-			<textbox preference="pref_interval" id="intervalInput" type="number"/>
+			<textbox preference="pref_interval" id="inspector_intervalInput" type="number"/>
 		</vbox>
 	</hbox>
 	

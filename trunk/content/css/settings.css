@@ -5,13 +5,13 @@
 	font-size: 11pt;
 }
 
-#intervalInput
+#inspector_intervalInput
 {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 }
 
-#allSettingsBox
+#inspector_allSettingsBox
 {
 	border: 2px groove threedface;
 	padding: 20px 10px 10px;
@@ -20,7 +20,7 @@
 	border-radius: 5px;
 }
 
-#allSettingsBoxHeading
+#inspector_allSettingsBoxHeading
 {
 	position: absolute;
 	top:-10px;
