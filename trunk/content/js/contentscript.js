@@ -8,7 +8,7 @@ var inspectorContentScript = {
 	newPostImgRegExp: /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig,
 	qmsBlockRegExp: /\<span id\=\"events_count_val\"\>(\d+)\<\/span\>/,
 	findLoginFormRegExp: /\<input type\=\"text\".*? name\=\"UserName\" \/\>/,
-	findLoginLinkRegExp: /\<a href\=\"http\:\/\/4pda\.ru\/forum\/index\.php\?act\=Login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
+	findLoginLinkRegExp: /\<a href\=\"\/forum\/index\.php\?act\=login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
 	parseUserRegExp: /\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i,
 
 	unreadThemesCount: 0,
@@ -114,6 +114,12 @@ var inspectorContentScript = {
 				errorCallback();
 			if (!noFuture)
 				inspectorContentScript.newIteration();
+		}
+
+		req.timeout = Math.min(inspectorDefaultStorage.interval, 2000); // не больше двух секунд. или одной
+		req.ontimeout = function () {
+			if (!noFuture)
+				inspectorContentScript.getNewCount();
 		}
 
 		req.open("GET", inspectorContentScript.favUrl, true);
@@ -305,7 +311,9 @@ var inspectorContentScript = {
 	{
 		if (inspectorDefaultStorage.notification_sound)
 		{
-			this.winobj.getElementById("inspector_sound").play();
+			var soundElement = this.winobj.getElementById("inspector_sound");
+			soundElement.volume = inspectorDefaultStorage.notification_sound_volume;
+			soundElement.play();
 		}
 
 		if (inspectorDefaultStorage.notification_popup)

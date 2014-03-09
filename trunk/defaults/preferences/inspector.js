@@ -7,3 +7,4 @@ pref("extensions.4pda-inspector.button_bgcolor", '#4474C4');
 pref("extensions.4pda-inspector.button_color", '#FFFFFF');
 pref("extensions.4pda-inspector.notification_sound", true);
 pref("extensions.4pda-inspector.notification_popup", true);
+pref("extensions.4pda-inspector.notification_sound_volume", 100);
