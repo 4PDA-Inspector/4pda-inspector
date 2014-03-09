@@ -14,7 +14,7 @@
 .inspector_allSettingsBox
 {
 	border: 2px groove #4474C4;
-	padding: 20px 10px 10px;
+	padding: 10px 10px 12px;
 	position: relative;
 	margin-top: 10px;
 	border-radius: 5px;
@@ -37,7 +37,7 @@
 
 .inspector_settingsBox:not(:last-child)
 {
-	border-bottom: 1px solid #444;
+	border-bottom: 1px solid #4474C4;
 }
 
 radio
@@ -53,4 +53,14 @@ radio[selected="true"]
 #inspector_button_fontbgcolor_label, #inspector_button_fontcolor_label
 {
 	cursor: pointer;
+}
+
+.leftLabel
+{
+	width: 210px;
+}
+
+.halfInput
+{
+	width: 150px;
 }

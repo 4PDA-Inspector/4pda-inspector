@@ -4,6 +4,7 @@ var inspectorToolbar = {
 	panel: null,
 	list: null,
 	unreadThemes: {},
+	removedThemes: {},
 	
 	link_favTopics: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 	link_qms: 'http://4pda.ru/forum/index.php?act=qms',
@@ -12,6 +13,8 @@ var inspectorToolbar = {
 
 	refreshImg: null,
 	refreshImgRotateInterval: 0,
+
+	stringBundle: Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties"),
 
 	init: function()
 	{
@@ -27,6 +30,10 @@ var inspectorToolbar = {
 		this.winobj.getElementById('inspector_openAllFavs').addEventListener('click', function(){
 			if (inspectorToolbar.openAll())
 				inspectorToolbar.handleHidePanel();
+		});
+
+		this.winobj.getElementById('inspector_readAllFavs').addEventListener('click', function(){
+			inspectorToolbar.readAll();
 		});
 
 		this.winobj.getElementById('inspector_unreadQms').addEventListener('click', function(){
@@ -88,20 +95,27 @@ var inspectorToolbar = {
 		inspectorToolbar.unreadThemes = {};
 		if (!inspectorContentScript.lastResponseText)
 			return false;
-		var themes = inspectorContentScript.lastResponseText.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>.*?\<a.*?href=[\"\']http\:\/\/4pda\.ru\/forum\/index\.php\?showtopic\=[0-9]+[\"\'].*?\>(.+?)\<\/a\>.*?/ig);
+
+		var themes = inspectorContentScript.lastResponseText.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>[\s\S]*?\<span class\=\"lastaction\"\>.*?\<\/span\>/ig);
 
 		if (themes)
 		{
 			for (var i = 0; i<themes.length; i++)
 			{
-				theme = themes[i].match(/\<a.+href\=\".*?(\d+)\".*?\>(.+)?\<\/a\>/i)
+				var theme = themes[i].match(/\<a.+?href\=\'.*?showtopic\=(\d+).*?\'.*?\<a id\=\"tid\-link.*?\>(.+?)\<\/a\>[\S\s]*\"lastaction\"\>(.+?)\<br.*?\<b\>\<a.*\>(.+?)\<\/a\>\<\/b\>/i);
 
 				if (theme && inspectorContentScript.visitedThemes.indexOf(theme[1]) == -1)
 				{
-					inspectorToolbar.unreadThemes[theme[1]] = theme[2];
+					inspectorToolbar.unreadThemes[theme[1]] = {
+						title: theme[2],
+						date: theme[3],
+						author: theme[4],
+					};
 				}
 			};
 		}
+
+		//utils.log(inspectorToolbar.unreadThemes, true);
 	},
 
 	showPanel: function(parent)
@@ -112,14 +126,13 @@ var inspectorToolbar = {
 			return false;
 		}
 
-		if (!this.panel)
-			this.init();
-		
 		if (this.panel)
 		{
 			this.refreshToolbar();
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		}
+		else
+			this.init();
 	},
 
 	refreshToolbar: function ()
@@ -127,9 +140,9 @@ var inspectorToolbar = {
 		inspectorToolbar.parseThemes();
 
 		if (inspectorContentScript.isLogin && inspectorContentScript.userName)
-			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = "Вы вошли как: "+inspectorContentScript.userName;
-			else
-			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = "Вы не авторизовались";
+			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = inspectorContentScript.userName;
+		else
+			inspectorToolbar.winobj.getElementById('inspectorPanel_loginBox').value = this.stringBundle.GetStringFromName("You Are Not Authorized");
 
 		inspectorToolbar.list = inspectorToolbar.winobj.getElementById('inspectorPanel_themesList');
 		inspectorToolbar.hidePanel();
@@ -138,25 +151,126 @@ var inspectorToolbar = {
 		{
 			for (i in inspectorToolbar.unreadThemes)
 			{
-				var newElem = document.createElement('label');
-				newElem.setAttribute('value', '>> '+inspectorToolbar.unreadThemes[i]);
-				newElem.setAttribute('data-theme', i);
-				newElem.addEventListener('click', function(){
+				if (typeof inspectorToolbar.removedThemes[i] != 'undefined')
+					continue;
+				var newLabel = document.createElement('label');
+				// newLabel.setAttribute('value', inspectorToolbar.unreadThemes[i].title);
+				newLabel.setAttribute('value', utils.htmlspecialcharsdecode(inspectorToolbar.unreadThemes[i].title));
+
+				newLabel.setAttribute('data-theme', i);
+				newLabel.setAttribute('flex', 1);
+				newLabel.setAttribute('id', 'label_'+i);
+				newLabel.setAttribute('class', 'inspectorPanel_theme');
+				newLabel.addEventListener('click', function(){
 					var dataTheme = this.getAttribute('data-theme');
+					this.style.color = '#aaa';
 					inspectorToolbar.openTheme(dataTheme);
-					delete inspectorToolbar.unreadThemes[dataTheme];
-					this.parentNode.removeChild(this);
-					inspectorContentScript.visitedThemes.push(dataTheme);
-					inspectorContentScript.printCount(Object.keys(inspectorToolbar.unreadThemes).length, inspectorContentScript.unreadQmsCount);
+					inspectorToolbar.newReadedTheme(dataTheme);
 				});
-				inspectorToolbar.list.appendChild(newElem);
+
+				var dateLabel = document.createElement('label');
+				dateLabel.setAttribute('value', inspectorToolbar.unreadThemes[i].date);
+				dateLabel.setAttribute('class', 'inspectorPanel_dateLabel');
+				dateLabel.setAttribute('data-theme', i);
+				dateLabel.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Open Last Post"));
+				dateLabel.addEventListener('click', function()
+				{
+					var dataTheme = this.getAttribute('data-theme');
+					inspectorToolbar.openPage('http://4pda.ru/forum/index.php?showtopic='+dataTheme+'&view=getlastpost');
+					inspectorToolbar.newReadedTheme(dataTheme);
+				});
+				
+				var authorLabel = document.createElement('label');
+				// authorLabel.setAttribute('value', inspectorToolbar.unreadThemes[i].author);
+				authorLabel.setAttribute('value', utils.htmlspecialcharsdecode(inspectorToolbar.unreadThemes[i].author));
+				authorLabel.setAttribute('class', 'inspectorPanel_authorLabel');
+
+				var infoBox = document.createElement('hbox');
+				infoBox.setAttribute('class', 'inspectorPanel_infoBox');
+				infoBox.appendChild(dateLabel);
+				infoBox.appendChild(authorLabel);
+
+				var readedImage = document.createElement('image');
+				readedImage.setAttribute('src', 'chrome://4pdainspector/content/images/view-16.png');
+				readedImage.setAttribute('data-theme', i);
+				readedImage.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Mark As Read"));
+				readedImage.addEventListener('click', function(){
+					var current = this;
+					var dataTheme = this.getAttribute('data-theme');
+					current.style.opacity = '0.5';
+					inspectorToolbar.getRequest('http://4pda.ru/forum/index.php?showtopic='+dataTheme, function () {
+						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '#aaa';
+						inspectorToolbar.newReadedTheme(dataTheme);
+						current.style.opacity = '';
+					});
+				});
+
+				var removeFavImage = document.createElement('image');
+				removeFavImage.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
+				removeFavImage.setAttribute('data-theme', i);
+				removeFavImage.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Remove From Favorites"));
+				removeFavImage.addEventListener('click', function(){
+					var current = this;
+					var dataTheme = this.getAttribute('data-theme');
+					current.style.opacity = '0.5';
+					if (typeof inspectorToolbar.removedThemes[dataTheme] == 'undefined')
+					inspectorToolbar.getRequest(
+						'http://4pda.ru/forum/index.php?autocom=favtopics&CODE=02&selectedtids='+dataTheme, function()
+					{
+						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '#aaa';
+						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'line-through';
+						inspectorToolbar.removedThemes[dataTheme] = dataTheme;
+						current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Add To Favorites"));
+						current.setAttribute('src', 'chrome://4pdainspector/content/images/favorites.png');
+						current.style.opacity = '';
+						inspectorToolbar.printCount();
+					});
+					else
+					inspectorToolbar.getRequest(
+						'http://4pda.ru/forum/index.php?autocom=favtopics&CODE=03&f=1&t='+dataTheme, function()
+					{
+						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.color = '';
+						inspectorToolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'none';
+						delete inspectorToolbar.removedThemes[dataTheme];
+						current.setAttribute('tooltiptext', inspectorToolbar.stringBundle.GetStringFromName("Remove From Favorites"));
+						current.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
+						current.style.opacity = '';
+						inspectorToolbar.printCount();
+					});
+					// utils.log(inspectorToolbar.removedThemes, true);
+				});
+
+				var newTopHBox = document.createElement('hbox');
+				newTopHBox.appendChild(newLabel);
+				
+				var newBottomHBox = document.createElement('hbox');
+				newBottomHBox.setAttribute('class', 'inspectorPanel_bottomBox');
+
+				infoBox.setAttribute('flex', '1');
+				newBottomHBox.appendChild(infoBox);
+
+				var newVBox = document.createElement('vbox');
+				newVBox.appendChild(readedImage);
+				newBottomHBox.appendChild(newVBox);
+
+				var newVBox = document.createElement('vbox');
+				newVBox.appendChild(removeFavImage);
+				newBottomHBox.appendChild(newVBox);
+
+				var newVBox = document.createElement('vbox');
+				newVBox.setAttribute('class', 'inspectorPanel_themeBox');
+				newVBox.appendChild(newTopHBox);
+				newVBox.appendChild(newBottomHBox);
+
+				inspectorToolbar.list.appendChild(newVBox);
 			};
 			inspectorToolbar.winobj.getElementById('inspector_openAllFavs').disabled = false;
 		}
 		else
 			inspectorToolbar.winobj.getElementById('inspector_openAllFavs').disabled = true;
 
-		inspectorToolbar.winobj.getElementById('inspector_unreadQmsCount').value = (inspectorContentScript.isLogin)?inspectorContentScript.unreadQmsCount:0;
+		inspectorToolbar.winobj.getElementById('inspector_unreadQmsCount').value = (inspectorContentScript.isLogin)? inspectorContentScript.unreadQmsCount: 0;
+		inspectorToolbar.winobj.getElementById('inspector_unreadThemesCount').value = Object.keys(inspectorToolbar.unreadThemes).length - Object.keys(inspectorToolbar.removedThemes).length;
 		clearInterval(inspectorToolbar.refreshImgRotateInterval);
 		inspectorToolbar.refreshImg.style.MozTransform = "rotate(0deg)";
 	},
@@ -171,7 +285,7 @@ var inspectorToolbar = {
 	{
 		this.list = this.winobj.getElementById('inspectorPanel_themesList');
 
-		var labels = this.list.getElementsByTagName('label');
+		var labels = this.list.getElementsByClassName('inspectorPanel_themeBox');
 
 		for (var i = labels.length - 1; i >= 0; i--) {
 			this.list.removeChild(labels[i]);
@@ -203,7 +317,25 @@ var inspectorToolbar = {
 			inspectorContentScript.visitedThemes.push(i);
 		};
 
-		inspectorContentScript.printCount(0, inspectorContentScript.unreadQmsCount);
+		inspectorToolbar.printCount(0);
+
+		return true;
+	},
+
+	readAll: function ()
+	{
+		if (!Object.keys(inspectorToolbar.unreadThemes).length)
+			return false;
+		
+		for (i in inspectorToolbar.unreadThemes)
+		{
+			inspectorToolbar.winobj.getElementById('label_'+i).style.color = '#aaa';
+			delete inspectorToolbar.unreadThemes[i];
+			inspectorContentScript.visitedThemes.push(i);
+			inspectorToolbar.getRequest('http://4pda.ru/forum/index.php?showtopic='+i, function () {});
+		};
+
+		inspectorToolbar.printCount(0);
 
 		return true;
 	},
@@ -225,6 +357,38 @@ var inspectorToolbar = {
 		else
 			errorCallback = function(){inspectorToolbar.openPage(inspectorToolbar.link_login)};
 		inspectorContentScript.getNewCount(false, callback, errorCallback);
+	},
+
+	getRequest: function(url, callback)
+	{
+		if (url)
+		{
+			var req = new XMLHttpRequest();
+			req.onreadystatechange = function()
+			{
+				if (req.readyState == 4 && req.status == 200)
+				{
+					if (callback && typeof callback == 'function') callback();
+				}
+			}
+			req.open("GET", url, true);
+			req.send(null);
+		}
+	},
+
+	newReadedTheme: function(dataTheme)
+	{
+		delete inspectorToolbar.unreadThemes[dataTheme];
+		inspectorContentScript.visitedThemes.push(dataTheme);
+		inspectorToolbar.printCount();
+	},
+
+	printCount: function(count)
+	{
+		if (typeof count == 'undefined')
+			count = (Object.keys(inspectorToolbar.unreadThemes).length-Object.keys(inspectorToolbar.removedThemes).length);
+		inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
+		inspectorToolbar.winobj.getElementById('inspector_unreadThemesCount').setAttribute('value', count);
 	}
 
 };

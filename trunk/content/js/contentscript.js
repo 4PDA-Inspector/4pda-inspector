@@ -9,6 +9,7 @@ var inspectorContentScript = {
 	qmsBlockRegExp: /\<span id\=\"events_count_val\"\>(\d+)\<\/span\>/,
 	findLoginFormRegExp: /\<input type\=\"text\".*? name\=\"UserName\" \/\>/,
 	findLoginLinkRegExp: /\<a href\=\"http\:\/\/4pda\.ru\/forum\/index\.php\?act\=Login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
+	parseUserRegExp: /\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i,
 
 	unreadThemesCount: 0,
 	unreadMessageCount: 0,
@@ -20,6 +21,8 @@ var inspectorContentScript = {
 	userId: '',
 
 	osString: '',
+
+	stringBundle: Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties"),
 
 	visitedThemes: [],
 
@@ -34,6 +37,7 @@ var inspectorContentScript = {
 		setTimeout(function() {
 			inspectorContentScript.getNewCount();
 		}, 2000);
+
 	},
 
 	newIteration: function()
@@ -50,46 +54,52 @@ var inspectorContentScript = {
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
-			if (req.readyState == 4 && req.status == 200)
+			if (req.readyState == 4)
 			{
-				if (req.responseText)
+				if (req.status == 200)
 				{
-					if (inspectorContentScript.isNotLogin(req.responseText))
+					if (req.responseText)
+					{
+						if (inspectorContentScript.isNotLogin(req.responseText))
+						{
+							inspectorContentScript.printLogout();
+							if (errorCallback && typeof errorCallback == 'function')
+								errorCallback();
+						}
+						else
+						{
+							inspectorContentScript.parseUserName(req.responseText);
+
+							count = inspectorContentScript.getFavCount(req.responseText);
+							inspectorContentScript.unreadThemesCount = count;
+
+							inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
+
+							inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
+						}
+
+						inspectorContentScript.lastResponseText = req.responseText;
+						inspectorContentScript.visitedThemes = [];
+						if (callback && typeof callback == 'function')
+							callback();
+						if (!noFuture)
+							inspectorContentScript.newIteration();
+						return;
+					}
+					else
 					{
 						inspectorContentScript.printLogout();
 						if (errorCallback && typeof errorCallback == 'function')
 							errorCallback();
+						if (!noFuture)
+							inspectorContentScript.newIteration();
 					}
-					else
-					{
-						inspectorContentScript.parseUserName(req.responseText);
-
-						count = inspectorContentScript.getFavCount(req.responseText);
-						inspectorContentScript.unreadThemesCount = count;
-
-						inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
-
-						inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
-					}
-
-					inspectorContentScript.lastResponseText = req.responseText;
-					inspectorContentScript.visitedThemes = [];
-					if (callback && typeof callback == 'function')
-						callback();
-					if (!noFuture)
-						inspectorContentScript.newIteration();
-					return;
 				}
 				else
 				{
-					inspectorContentScript.printLogout();
-					if (errorCallback && typeof errorCallback == 'function')
-						errorCallback();
-					if (!noFuture)
-						inspectorContentScript.newIteration();
+					inspectorContentScript.printLogout(true);
 				}
 			}
-
 		}
 
 		req.onerror = function() {
@@ -148,7 +158,7 @@ var inspectorContentScript = {
 		if (!text)
 			return false;
 
-		var ff = text.match(/\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i);
+		var ff = text.match(inspectorContentScript.parseUserRegExp);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 		{
@@ -217,20 +227,23 @@ var inspectorContentScript = {
 		};
 
 		img.src = canvas_img;
-		btn.setAttribute('tooltiptext', '4PDA - В сети'+
-				'\nИзменений в темах: '+count+
-				'\nНовых QMS сообщений: '+inspectorContentScript.unreadQmsCount
-				);
+		btn.setAttribute('tooltiptext', this.stringBundle.GetStringFromName("4PDA_online")+
+			'\n'+this.stringBundle.GetStringFromName("Unread Topics")+': '+count+
+			'\n'+this.stringBundle.GetStringFromName("New Messages")+': '+inspectorContentScript.unreadQmsCount
+		);
 	},
 
-	printLogout: function()
+	printLogout: function(unavailable)
 	{
 		var btn = this.winobj.getElementById('inspector-button');
 
 		if (btn)
 		{
 			btn.image = 'chrome://4pdainspector/content/icons/icon_'+((this.osString == 'Linux')?'22':'16')+'x_out.png';
-			btn.setAttribute('tooltiptext', '4PDA - Не в сети');
+			btn.setAttribute('tooltiptext', unavailable?
+					this.stringBundle.GetStringFromName("4PDA_Site Unavailable"):
+					this.stringBundle.GetStringFromName("4PDA_offline")
+				);
 		}
 
 	},

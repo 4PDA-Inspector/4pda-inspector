@@ -1,27 +1,99 @@
 #inspectorPanelMainVBox
 {
-	font-family: 'Ubuntu', 'Tahoma';
-	background: #eef;
+	font-family: 'Ubuntu', 'Tahoma', sans-serif;
 	padding:5px;
-	border: 1px solid #4474C4;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
 }
 
-.inspector_messagesHBox *, #inspector_middleVBox *, #inspectorPanel_themesList *, #inspectorPanel_loginBox
+#inspectorPanel_loginBox, #inspector_openAllFavs, .menuItem, .menuItem>label
 {
 	cursor:pointer;
+}
+
+#inspectorPanel_themesList image
+{
+	cursor:pointer;
+	margin-right: 5px;
 }
 
 #inspectorPanel_themesList
 {
 	padding: 2px 0;
 	margin: 3px 0;
+	/*height: 400px;
+	overflow-y: scroll;*/
+}
+
+.inspectorPanel_themeBox
+{
+	border-bottom: 1px dotted #ccc;
+}
+
+.inspectorPanel_themeBox:last-child
+{
+	border-bottom: 0;
+}
+
+.inspectorPanel_themeBox:hover
+{
+	box-shadow: inset 0px 10px 4px -10px #9AF, inset 0px -10px 4px -10px #9AF;
+}
+
+.inspectorPanel_themeBox:hover .inspectorPanel_theme
+{
+	color: #34498B;
+}
+
+.inspectorPanel_theme
+{
+	width: 100%;
+	cursor: pointer;
+}
+
+.inspectorPanel_theme:hover
+{
+	color: #5176B5;
+}
+
+.inspectorPanel_bottomBox, .readedTheme
+{
+	color: #aaa;
+}
+
+.inspectorPanel_bottomBox image
+{
+	height: 12px;
+	width: 12px;
+}
+
+.inspectorPanel_bottomBox vbox
+{
+	margin-right: 0;
+}
+
+.inspectorPanel_dateLabel
+{
+	color: #aaa;
+	cursor: pointer;
+}
+
+.inspectorPanel_authorLabel
+{
+	margin-left: 10px;
+	color: #aaa;
+}
+
+.inspectorPanel_infoBox
+{
+	font-size: 12px;
+}
+
+label:hover, .menuItem:hover>label
+{
+	color: #146;
 }
 
 .inspector_messagesHBox
 {
-	border-top: 1px solid #4474C4;
 	padding: 2px 0;
 	margin: 3px 0;
 }
@@ -33,6 +105,38 @@
 
 #refreshImg
 {
-	float: right;
 	cursor: pointer;
+	margin-left: 5px;
+}
+
+.menuItem
+{
+	margin-right: 10px;
+}
+
+.menuItem>image
+{
+	margin-right: 2px;
+}
+
+image.menuItem, .menuItem image
+{
+	width: 16px;
+	height: 16px;
+}
+
+.menuBox
+{
+	border-bottom: 1px dashed #4474C4;
+	padding-bottom: 5px;
+}
+
+#inspector_openSettings
+{
+	margin-right: 30px;
+}
+
+#inspectorPanel_loginHBox
+{
+	margin-left: 30px;
 }
