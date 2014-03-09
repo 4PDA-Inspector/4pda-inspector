@@ -1,12 +1,27 @@
-#inspector_messagesHBox, #inspector_messagesHBox *, #inspector_middleVBox *, #inspectorPanel_themesList *
+#inspectorPanelMainVBox
+{
+	font-family: 'Ubuntu', 'Tahoma';
+	background: #eef;
+	padding:5px;
+	border: 1px solid #4474C4;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.inspector_messagesHBox *, #inspector_middleVBox *, #inspectorPanel_themesList *
 {
 	cursor:pointer;
 }
 
-#inspector_middleVBox
+#inspectorPanel_themesList
 {
-	border-top: 1px solid #444;
-	border-bottom: 1px solid #444;
 	padding: 2px 0;
-	margin: 5px 0;
+	margin: 3px 0;
+}
+
+.inspector_messagesHBox
+{
+	border-top: 1px solid #4474C4;
+	padding: 2px 0;
+	margin: 3px 0;
 }

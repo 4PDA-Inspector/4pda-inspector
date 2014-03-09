@@ -2,6 +2,9 @@ var inspectorDefaultStorage = {
 
 	interval: 5000,
 	click_action: 1,
+	button_fontsize: 7,
+	button_bgcolor: '#4474C4',
+	button_color: '#FFFFFF',
 
 	prefs: {},
 
@@ -24,6 +27,18 @@ var inspectorDefaultStorage = {
 		
 		try {
 			inspectorDefaultStorage.click_action = inspectorDefaultStorage.prefs.getIntPref("click_action");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.button_fontsize = inspectorDefaultStorage.prefs.getIntPref("button_fontsize");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.button_bgcolor = inspectorDefaultStorage.prefs.getCharPref("button_bgcolor");
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.button_color = inspectorDefaultStorage.prefs.getCharPref("button_color");
 		} catch (e) {}
 	}
 }
