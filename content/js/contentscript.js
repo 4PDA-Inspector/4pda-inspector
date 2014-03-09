@@ -6,7 +6,7 @@ var inspectorContentScript = {
 	favUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 
 	newPostImgRegExp: /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig,
-	qmsBlockRegExp: /\<span id\=\"events_count_val\"\>(\d+)\<\/span\>/,
+	qmsBlockRegExp: /\<a href\=\"http\:\/\/4pda\.ru\/forum\/index\.php\?act\=qms\&\" id\=\"events\-count\"\>Сообщений\: (\d+)\<\/a\>/,
 	findLoginFormRegExp: /\<input type\=\"text\".*? name\=\"UserName\" \/\>/,
 	findLoginLinkRegExp: /\<a href\=\"\/forum\/index\.php\?act\=login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
 	parseUserRegExp: /\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i,
@@ -33,6 +33,9 @@ var inspectorContentScript = {
 
 	unreadThemes: [],
 
+	timeoutUpdateTime: 3000,
+	lastUpdateRequest: 0,
+
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
@@ -47,17 +50,24 @@ var inspectorContentScript = {
 
 	},
 
-	newIteration: function()
+	newIteration: function(interval)
 	{
 		inspectorDefaultStorage.getPrefs();
+		clearTimeout(this.updateTimer);
 		this.updateTimer = setTimeout(function() {
 			inspectorContentScript.getNewCount();
-		}, inspectorDefaultStorage.interval);
+		}, (interval || inspectorDefaultStorage.interval));
 	},
 
 	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
 	{
 		// utils.log('new update - '+inspectorDefaultStorage.interval);
+		var nowTime = new Date().getTime();
+		if (nowTime - this.lastUpdateRequest < 1000) {
+			return false;
+		}
+		this.lastUpdateRequest = nowTime;
+
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -116,10 +126,11 @@ var inspectorContentScript = {
 				inspectorContentScript.newIteration();
 		}
 
-		req.timeout = Math.min(inspectorDefaultStorage.interval, 2000); // не больше двух секунд. или одной
+		req.timeout = inspectorContentScript.timeoutUpdateTime;
 		req.ontimeout = function () {
-			if (!noFuture)
-				inspectorContentScript.getNewCount();
+			if (!noFuture) {
+				inspectorContentScript.newIteration(inspectorContentScript.timeoutUpdateTime);
+			}
 		}
 
 		req.open("GET", inspectorContentScript.favUrl, true);
@@ -146,7 +157,7 @@ var inspectorContentScript = {
 
 		var favs = text.match(inspectorContentScript.newPostImgRegExp);
 
-		if (typeof favs == 'object'  && favs != null)
+		if (typeof favs == 'object' && favs != null)
 			return favs.length;
 			else
 			return 0;
@@ -158,6 +169,8 @@ var inspectorContentScript = {
 			return 0;
 
 		var ff = text.match(inspectorContentScript.qmsBlockRegExp);
+
+		// alert(ff);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 			return ff[1];
