@@ -34,7 +34,7 @@
 				
 				<hbox class="menuBox">
 					<hbox flex="1">
-						<hbox class="menuItem" id="inspector_unreadQms" tooltiptext="&Messages;">
+						<hbox class="menuItem" id="inspector_goToQms" tooltiptext="&Messages;">
 							<vbox>
 								<image src="chrome://4pdainspector/content/images/kopetestatusmessage.png" />
 							</vbox>
@@ -49,7 +49,7 @@
 						</hbox>
 
 						<vbox class="menuItem" tooltiptext="&Settings;" id="inspector_openSettings">
-							<image src="chrome://4pdainspector/content/images/cog-icon-2-48x48.png" />
+							<image src="chrome://4pdainspector/content/images/settings.png" />
 						</vbox>
 						
 						<vbox class="menuItem" tooltiptext="&openAllFavs;" id="inspector_openAllFavs">
@@ -70,6 +70,16 @@
 				
 				<vbox id="inspectorPanel_themesList" class="inspector_messagesHBox" maxheight="400">
 				</vbox>
+
+				<hbox class="linksBox">
+					<image src="chrome://4pdainspector/content/images/links/homepage_16.png" class="menuItem" id="inspector_goToHomepage" tooltiptext="&Homepage;" />
+					<image src="chrome://4pdainspector/content/images/links/group.png" class="menuItem" id="inspector_goToForum" tooltiptext="&Forum;" />
+					<box class="delimiterBox"></box>
+					<image src="chrome://4pdainspector/content/images/links/subscriptions.png" class="menuItem" id="inspector_goToSubscriptions" tooltiptext="&Subscriptions;" />
+					<box class="delimiterBox"></box>
+					<image src="chrome://4pdainspector/content/images/links/devdb.png" class="menuItem" id="inspector_goToDevDB" tooltiptext="DevDB" />
+					<image src="chrome://4pdainspector/content/images/links/devfaq.png" class="menuItem" id="inspector_goToDevFAQ" tooltiptext="DevFAQ" />
+				</hbox>
 
 			</vbox>
 		</panel>

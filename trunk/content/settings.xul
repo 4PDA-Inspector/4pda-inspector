@@ -36,7 +36,7 @@
 
 	<hbox>
 		<vbox>
-			<html:a href="http://4pdainspector.coddism.com/" target="_blank">
+			<html:a href="http://4pdainspector.coddism.com/firefox.html" target="_blank">
 				<image src='chrome://4pdainspector/content/icons/icon_128.png' width='128' height='128' align="left"/>
 			</html:a>
 		</vbox>

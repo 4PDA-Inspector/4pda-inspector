@@ -7,6 +7,10 @@
 <!ENTITY markAllAsRead "Mark all themes as read">
 <!ENTITY refresh "Refresh">
 
+<!ENTITY Homepage "Homepage">
+<!ENTITY Forum "Forum">
+<!ENTITY Subscriptions "Subscriptions">
+
 <!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
 <!ENTITY generalSettings "General Settings">
 <!ENTITY interval "Refresh interval">

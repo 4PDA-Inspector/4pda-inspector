@@ -140,3 +140,14 @@ image.menuItem, .menuItem image
 {
 	margin-left: 30px;
 }
+
+.linksBox
+{
+	border-top: 1px dashed #4474C4;
+	padding-top: 5px;
+}
+
+.delimiterBox
+{
+	margin-right: 10px;
+}
