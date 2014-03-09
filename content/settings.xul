@@ -65,13 +65,13 @@
 						<textbox preference="pref_button_big_fontsize" id="inspector_button_big_fontsize" type="number" min="1"/>
 					</vbox>
 					<hbox>
-						<vbox style="border-right: 1px solid #4474C4; margin-right:5px; padding-right:5px;">
+						<vbox style="border-right: 1px solid #4474C4; margin-right:5px; padding-right:5px; width:200px">
 							<label value="&fontColor;:" control="inspector_button_fontcolor" id="inspector_button_fontcolor_label"/>
-							<colorpicker preference="pref_button_color" id="inspector_button_fontcolor"/>
+							<colorpicker type="button" preference="pref_button_color" id="inspector_button_fontcolor"/>
 						</vbox>
-						<vbox>
+						<vbox style="width:200px">
 							<label value="&areaColor;:" control="inspector_button_fontbgcolor" id="inspector_button_fontbgcolor_label"/>
-							<colorpicker preference="pref_button_bgcolor" id="inspector_button_fontbgcolor"/>
+							<colorpicker type="button" preference="pref_button_bgcolor" id="inspector_button_fontbgcolor"/>
 						</vbox>
 					</hbox>
 				</vbox>

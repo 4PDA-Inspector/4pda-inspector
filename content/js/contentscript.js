@@ -6,9 +6,9 @@ var inspectorContentScript = {
 	favUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 
 	newPostImgRegExp: /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig,
-	messageLinkRegExp: /\<a href\=\"http\:\/\/4pda.ru\/forum\/index\.php\?act\=Msg\&amp\;CODE\=01\"\>.*?\: (\d+?)\<\/a\>/,
 	qmsBlockRegExp: /\<span id\=\"events_count_val\"\>(\d+)\<\/span\>/,
 	findLoginFormRegExp: /\<input type\=\"text\".*? name\=\"UserName\" \/\>/,
+	findLoginLinkRegExp: /\<a href\=\"http\:\/\/4pda\.ru\/forum\/index\.php\?act\=Login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
 
 	unreadThemesCount: 0,
 	unreadMessageCount: 0,
@@ -16,21 +16,24 @@ var inspectorContentScript = {
 	lastResponseText: '',
 	isLogin: false,
 
+	userName: '',
+	userId: '',
+
 	osString: '',
 
 	visitedThemes: [],
 
-	init: function()
+	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
-
+		
 		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
 		inspectorContentScript.getNewCount(true);
 		setTimeout(function() {
 			inspectorContentScript.getNewCount();
-		}, 1500);
+		}, 2000);
 	},
 
 	newIteration: function()
@@ -43,14 +46,11 @@ var inspectorContentScript = {
 
 	getNewCount: function(noFuture)
 	{
-		// utils.log('new update. '+inspectorDefaultStorage.interval);
-		// toJavaScriptConsole('loggg');
+		//utils.log('new update - '+inspectorDefaultStorage.interval);
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
-			if (req.readyState != 4)
-				return;
-			if (req.status == 200)
+			if (req.readyState == 4 && req.status == 200)
 			{
 				if (req.responseText)
 				{
@@ -60,23 +60,15 @@ var inspectorContentScript = {
 					}
 					else
 					{
-						mesCount = inspectorContentScript.getMesCount(req.responseText);
-						if (mesCount === false)
-							inspectorContentScript.printLogout();
-						else
-						{
-							inspectorContentScript.unreadMessageCount = mesCount;
+						inspectorContentScript.parseUserName(req.responseText);
 
-							count = inspectorContentScript.getFavCount(req.responseText);
-							inspectorContentScript.unreadThemesCount = count;
+						count = inspectorContentScript.getFavCount(req.responseText);
+						inspectorContentScript.unreadThemesCount = count;
 
-							qmsCount = inspectorContentScript.getQmsCount(req.responseText);
-							inspectorContentScript.unreadQmsCount = qmsCount;
+						inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
 
-							inspectorContentScript.printCount(count, mesCount);
-						}
+						inspectorContentScript.printCount(count, inspectorContentScript.unreadQmsCount);
 					}
-
 
 					inspectorContentScript.lastResponseText = req.responseText;
 					inspectorContentScript.visitedThemes = [];
@@ -84,12 +76,20 @@ var inspectorContentScript = {
 						inspectorContentScript.newIteration();
 					return;
 				}
+				else
+				{
+					inspectorContentScript.printLogout();
+					if (!noFuture)
+						inspectorContentScript.newIteration();
+				}
 			}
-			inspectorContentScript.printLogout();
+
 		}
 
 		req.onerror = function() {
 			inspectorContentScript.printLogout();
+			if (!noFuture)
+				inspectorContentScript.newIteration();
 		}
 
 		req.open("GET", inspectorContentScript.favUrl, true);
@@ -102,8 +102,9 @@ var inspectorContentScript = {
 			return false;
 
 		var ff = text.match(inspectorContentScript.findLoginFormRegExp);
+		var ff2 = text.match(inspectorContentScript.findLoginLinkRegExp);
 
-		inspectorContentScript.isLogin = (typeof ff != 'object' || ff == null);
+		inspectorContentScript.isLogin = ((typeof ff != 'object' || ff == null) && (typeof ff2 != 'object' || ff2 == null));
 
 		return !inspectorContentScript.isLogin;
 	},
@@ -121,19 +122,6 @@ var inspectorContentScript = {
 			return 0;
 	},
 
-	getMesCount: function(text)
-	{
-		if (!text)
-			return 0;
-		
-		var ff = text.match(inspectorContentScript.messageLinkRegExp);
-
-		if (typeof ff == 'object' && ff != null && (typeof ff[1] != 'undefined'))
-			return ff[1];
-			else
-			return false;
-	},
-
 	getQmsCount: function(text)
 	{
 		if (!text)
@@ -145,6 +133,21 @@ var inspectorContentScript = {
 			return ff[1];
 			else
 			return 0;
+	},
+
+	parseUserName: function(text)
+	{
+		if (!text)
+			return false;
+
+		var ff = text.match(/\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i);
+
+		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
+		{
+			inspectorContentScript.userName = ff[2];
+			inspectorContentScript.userId = ff[1];
+		}
+
 	},
 
 	printCount: function(count, mesCount)
@@ -207,7 +210,6 @@ var inspectorContentScript = {
 
 		img.src = canvas_img;
 		btn.setAttribute('tooltiptext', '4PDA - В сети'+
-				'\nНовых сообщений: '+mesCount+
 				'\nИзменений в темах: '+count+
 				'\nНовых QMS сообщений: '+inspectorContentScript.unreadQmsCount
 				);
@@ -227,12 +229,14 @@ var inspectorContentScript = {
 
 	settingsAccept: function()
 	{
-		inspectorDefaultStorage.getPrefs();
-		this.printCount(inspectorContentScript.unreadThemesCount, inspectorContentScript.unreadMessageCount);
 		clearTimeout(this.updateTimer);
-		this.updateTimer = setTimeout(function() {
-			inspectorContentScript.getNewCount();
-		}, inspectorDefaultStorage.interval);
+		this.getNewCount();
+	},
+
+	manualRefresh: function()
+	{
+		clearTimeout(this.updateTimer);
+		inspectorContentScript.getNewCount();
 	}
 };
 

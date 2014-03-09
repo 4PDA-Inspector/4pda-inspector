@@ -2,7 +2,6 @@
 <!ENTITY toolbarbutton_tooltiptext "4PDA Инспектор">
 <!ENTITY inspector_goToFavs "Перейти к списку избранных тем">
 <!ENTITY inspector_openAllFavs "Открыть все непрочитанные темы в новых вкладках">
-<!ENTITY inspector_unreadMessageCount "Новых сообщений">
 <!ENTITY inspector_unreadQmsCount "Новых QMS сообщений">
 <!ENTITY inspector_openSettings "Настройки">
 
