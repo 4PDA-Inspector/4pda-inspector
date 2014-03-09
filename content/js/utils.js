@@ -29,16 +29,30 @@ var utils = {
 		this.firebugConsoleService.Console.log(msg);
 	},
 
+	checkNotificationSupport: function() {
+		try {
+			Notification.permission;
+			return true;
+		} catch(e) {
+			return false;
+		}
+	},
+
 	htmlspecialcharsdecode: function (string = '')
 	{
+		var codes = string.match(/&#(\d+);/g);
+
+		if (codes) {
+			for (var i = 0; i < codes.length; i++) {
+				var code = codes[i].match(/\d+/g);
+				string = string.replace(new RegExp(codes[i], 'g'), String.fromCharCode(code));
+			}
+		}
+
 		string = string.replace(/&lt;/g, '<');
 		string = string.replace(/&gt;/g, '>');
-		string = string.replace(/&amp;/g, '&');
 		string = string.replace(/&quot;/g, '"');
-		string = string.replace(/&#33;/g, '!');
-		string = string.replace(/&#39;/g, "'");
-		string = string.replace(/&#124;/g, '|');
-		string = string.replace(/&#9733;/g, "★");
+		string = string.replace(/&amp;/g, '&');
 		return string;
 	}
 };
