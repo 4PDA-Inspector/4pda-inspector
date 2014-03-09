@@ -1,6 +1,6 @@
 #settings-window
 {
-	font-family: 'Tahoma';
+	font-family: 'Ubuntu', 'Tahoma';
 	background: #eef;
 	font-size: 11pt;
 }
@@ -9,18 +9,19 @@
 {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
+	border-color: #4474C4;
 }
 
-#inspector_allSettingsBox
+.inspector_allSettingsBox
 {
-	border: 2px groove threedface;
+	border: 2px groove #4474C4;
 	padding: 20px 10px 10px;
 	position: relative;
 	margin-top: 10px;
 	border-radius: 5px;
 }
 
-#inspector_allSettingsBoxHeading
+.inspector_allSettingsBoxHeading
 {
 	position: absolute;
 	top:-10px;
@@ -28,4 +29,24 @@
 	background: #eef;
 	padding: 0 5px;
 	font-size: 13px;
+}
+
+.inspector_settingsBox
+{
+	padding: 4px 0;
+}
+
+.inspector_settingsBox:not(:last-child)
+{
+	border-bottom: 1px solid #444;
+}
+
+radio
+{
+	margin: 0px;
+}
+
+radio[selected="true"]
+{
+	color: #30508A;
 }

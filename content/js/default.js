@@ -1,6 +1,7 @@
 var inspectorDefaultStorage = {
 
 	interval: 5000,
+	click_action: 1,
 
 	prefs: {},
 
@@ -19,6 +20,10 @@ var inspectorDefaultStorage = {
 	{
 		try {
 			inspectorDefaultStorage.interval = inspectorDefaultStorage.prefs.getIntPref("interval")*1000;
+		} catch (e) {}
+		
+		try {
+			inspectorDefaultStorage.click_action = inspectorDefaultStorage.prefs.getIntPref("click_action");
 		} catch (e) {}
 	}
 }

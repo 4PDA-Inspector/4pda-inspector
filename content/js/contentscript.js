@@ -1,18 +1,14 @@
 var inspectorContentScript = {
 
-	invokedErrorCallback: false,
 	updateTimer: 0,
-	requestFailureCount: 0,
-
 	winobj: null,
 
 	favUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 
-	new_post_icon: "http://s.4pda.ru/forum/style_images/1/newpost.gif",
-	new_mess_icon: "http://s.4pda.ru/forum/style_images/1/f_norm.gif",
+	newPostImgRegExp: /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig,
+	messageLinkRegExp: /\<a href\=\"http\:\/\/4pda.ru\/forum\/index\.php\?act\=Msg\&amp\;CODE\=01\"\>.*?\: (\d+?)\<\/a\>/,
 
 	unreadMessageCount: 0,
-
 	lastResponseText: '',
 
 	init: function()
@@ -41,7 +37,7 @@ var inspectorContentScript = {
 		req.onreadystatechange = function()
 		{
 			if (req.readyState != 4)
-			return;
+				return;
 			if (req.status == 200)
 			{
 				if (req.responseText)
@@ -77,8 +73,7 @@ var inspectorContentScript = {
 		if (!text)
 			return 0;
 
-		var regexp = /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig;
-		var favs = text.match(regexp);
+		var favs = text.match(inspectorContentScript.newPostImgRegExp);
 
 		if (typeof favs == 'object'  && favs != null)
 			return favs.length;
@@ -90,43 +85,13 @@ var inspectorContentScript = {
 	{
 		if (!text)
 			return 0;
-		ff = text.match(/\<a href\=\"http\:\/\/4pda.ru\/forum\/index\.php\?act\=Msg\&amp\;CODE\=01\"\>.*?\: (\d+?)\<\/a\>/);
+		
+		ff = text.match(inspectorContentScript.messageLinkRegExp);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 			return ff[1];
 			else
 			return false;
-	},
-
-	getMailCount: function(div)
-	{
-		var divs1 = div.getElementsByTagName("div");
-		
-		for (var i = 0; i < divs1.length; i++)
-		{
-			if (divs1[i].id == "userlinks")
-			{
-				var links = divs1[i].getElementsByTagName("a");
-				for (var j = 0; j < links.length; j++)
-				{
-					if (links[j].href == getMailUrl())
-					{
-						var index = links[j].innerText.indexOf(":");
-						var count_text;
-						if (index == -1)
-							count_text = "!!!"; 
-						else 
-							count_text = links[j].innerText.substring(index + 2, links[j].innerText.length);
-
-						if (count_text == "0")
-							return 0;
-						return count_text;
-					}
-				}
-			}
-		}
-
-		return -1;
 	},
 
 	printCount: function(count, mesCount)
@@ -137,7 +102,7 @@ var inspectorContentScript = {
 			return false;
 
 		var canvas = document.getElementById("inspector_button_canvas");
-		canvas.setAttribute("width", 24);
+		canvas.setAttribute("width", 26);
 		canvas.setAttribute("height", 22);
 		var ctx = canvas.getContext("2d");
 		
@@ -145,26 +110,25 @@ var inspectorContentScript = {
 		img.onload = function()
 		{
 			ctx.textBaseline = "top";
-			ctx.font = "bold 9px tahoma";        // has to go before measureText
+			ctx.font = "bold 7pt tahoma";
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(img, 1, 0, img.width, img.height);
+			ctx.drawImage(img, 2, 0, img.width, img.height);
 
 			var w = ctx.measureText(count).width;
-			var h = 9;                  // 9 = font height
+			var h = 9;
 
 			var x = canvas.width - w;
-			var y = canvas.height - h - 1;          // 1 = bottom padding
+			var y = canvas.height - h - 1;
 
-			ctx.fillStyle = "#d62f2f";
-			ctx.fillRect(x-1, y, w+2, h+5);
-			ctx.fillStyle = "#fff";             // text color
+			ctx.fillStyle = "#4474C4";
+			ctx.fillRect(x-1, y, w+1, h+5);
+			ctx.fillStyle = "#fff";
 			ctx.fillText(count, x, y+1);
 
 			var w = ctx.measureText(mesCount).width;
-
-			ctx.fillStyle = "#d62f2f";
+			ctx.fillStyle = "#4474C4";
 			ctx.fillRect(0, y, w+2, h+5);
-			ctx.fillStyle = "#fff";             // text color
+			ctx.fillStyle = "#fff";
 			ctx.fillText(mesCount, 1, y+1);
 
 			btn.image = canvas.toDataURL("image/png");
