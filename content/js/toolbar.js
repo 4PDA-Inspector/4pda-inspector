@@ -405,7 +405,6 @@ var inspectorToolbar = {
 				inspectorToolbar.refreshImg.style.MozTransform = "rotate(-"+refreshImgRotate+"deg)";
 			}, 30);
 			callback = inspectorToolbar.refreshToolbar;
-			// errorCallback = false;
 			errorCallback = 12;
 		}
 		else
