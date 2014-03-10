@@ -68,6 +68,8 @@ var inspectorContentScript = {
 		}
 		this.lastUpdateRequest = nowTime;
 
+		utils.log(utils.getMemberId());
+
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -155,8 +157,29 @@ var inspectorContentScript = {
 		if (!text)
 			return 0;
 
-		var favs = text.match(inspectorContentScript.newPostImgRegExp);
+		var resLength = 0;
 
+		var xmr = Object.create(iXMR);
+		xmr.callback.success = function(resp) {
+			// utils.log(resp.responseText);
+			var themes = resp.responseText.match(/[^\r\n]+/g);
+			if (themes) {
+				resLength = themes.length;
+				utils.log('length:' + themes.length);
+				themes.forEach(function(val) {
+					utils.log(val.match(/([^\s"']+|"([^"]*)"|'([^']*)')/g).join(' - '));
+				})
+				utils.log('result is ' + resLength);
+				return resLength;
+			} else {
+				// 0;
+			};
+		}
+		xmr.send('http://4pda.ru/forum/index.php?act=inspector&CODE=fav');
+
+		utils.log('result = ' + resLength);
+
+		var favs = text.match(inspectorContentScript.newPostImgRegExp);
 		if (typeof favs == 'object' && favs != null)
 			return favs.length;
 			else
@@ -169,8 +192,6 @@ var inspectorContentScript = {
 			return 0;
 
 		var ff = text.match(inspectorContentScript.qmsBlockRegExp);
-
-		// alert(ff);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 			return ff[1];
