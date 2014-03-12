@@ -2,6 +2,7 @@ var utils = {
 	
 	consoleService: null,
 	firebugConsoleService: null,
+	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
 	log: function(msg, json) {
 		if (this.consoleService == null) {
@@ -27,6 +28,10 @@ var utils = {
 		}
 		
 		this.firebugConsoleService.Console.log(msg);
+	},
+
+	parse: function(str) {
+		return str.match(this.parseStringRexp);
 	},
 
 	checkNotificationSupport: function() {
@@ -56,7 +61,7 @@ var utils = {
 		return string;
 	},
 
-	getMemberId: function()
+	isLogin: function()
 	{
 		var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager);
 
