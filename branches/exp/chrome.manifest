@@ -1,0 +1,4 @@
+content	4pdainspector	content/
+overlay chrome://browser/content/browser.xul    chrome://4pdainspector/content/overlay.xul
+
+style chrome://global/content/customizeToolbar.xul chrome://4pdainspector/content/css/main.css

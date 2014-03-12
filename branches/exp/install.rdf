@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+<Description about="urn:mozilla:install-manifest">
+
+	<em:id>4pda_inspector_beta@coddism.com</em:id>
+	<em:version>2beta</em:version>
+	<em:creator>coddism.com</em:creator>
+	<em:developer>iSergium</em:developer>
+	<em:type>2</em:type>
+	<em:unpack>true</em:unpack>
+	
+	<em:localized>
+		<Description>
+			<em:locale>ru-RU</em:locale>
+			<em:name>4PDA Инспектор</em:name>
+			<em:description>Мониторинг изменений на форуме 4pda.ru</em:description>
+			<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
+		</Description>
+	</em:localized>
+	<em:localized>
+		<Description>
+			<em:locale>uk</em:locale>
+			<em:name>4PDA інспектор</em:name>
+			<em:description>Моніторинг змін на форумі 4pda.ru</em:description>
+			<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
+		</Description>
+	</em:localized>
+
+	<em:name>4PDA Inspector</em:name>
+	<em:description>Monitoring of changes on the 4pda.ru forum</em:description>
+	<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
+	<em:iconURL>chrome://4pdainspector/content/icons/icon_48.png</em:iconURL>
+	<em:icon64URL>chrome://4pdainspector/content/icons/icon_64.png</em:icon64URL>
+
+	<em:targetApplication>
+		<Description>
+			<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+			<em:minVersion>3.6</em:minVersion>
+			<em:maxVersion>29.*</em:maxVersion>
+		</Description>
+	</em:targetApplication>
+
+</Description>
+</RDF>
