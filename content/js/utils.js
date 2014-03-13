@@ -59,21 +59,5 @@ var utils = {
 		string = string.replace(/&quot;/g, '"');
 		string = string.replace(/&amp;/g, '&');
 		return string;
-	},
-
-	isLogin: function()
-	{
-		var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager);
-
-		var result = 0;
-		for (var e = cookieMgr.enumerator; e.hasMoreElements();) {
-			var cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie); 
-			if (cookie.host == '4pda.ru') {
-				if (cookie.name == 'member_id') {
-					result = cookie.value;
-				}
-			}
-		}
-		return result;
 	}
 };
