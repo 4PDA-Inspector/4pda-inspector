@@ -13,12 +13,18 @@ var cScript = {
         // iToolbar.init();
         iToolbar.panel = this.winobj.getElementById('inspector_panel');
 
-        user.rAuth(function() {
-            if (user.auth) {
+        user.request(function() {
+            if (user.id) {
                 utils.log(user.name);
+                cScript.getData();
             };
         });
-	}
+	},
+
+    getData: function()
+    {
+        themes.request();
+    }
 };
 
 cScript.init();

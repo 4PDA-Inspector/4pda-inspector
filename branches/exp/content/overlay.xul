@@ -11,6 +11,7 @@
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/vars.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/ixmr.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/user.js'></script>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/themes.js'></script>
 
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/toolbar.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/contentscript.js'></script>
