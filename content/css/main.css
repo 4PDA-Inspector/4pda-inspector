@@ -1,4 +1,7 @@
-#inspectorButton, toolbar[iconsize="small"] #inspectorButton
-{
+#inspectorButton, toolbar[iconsize="small"] #inspectorButton {
 	list-style-image: url("chrome://4pdainspector/content/icons/icon_16x_out.png");
+}
+
+#inspectorPanel {
+    /*font-family: Roboto, Arial, sans-serif;*/
 }

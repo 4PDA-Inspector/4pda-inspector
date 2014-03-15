@@ -24,6 +24,7 @@ var themes = {
 		// utils.log(text);
 		var tText = text.replace('\r','').split('\n');
 		// utils.log(tText, true);
+		// themes.list = [];
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
 				// utils.log(typeof tText[i]);
@@ -32,7 +33,7 @@ var themes = {
 
 				themes.list.push(theme);
 				// var theme = utils.parse(tText[i]);
-				utils.log(theme.title);
+				// utils.log(theme.title);
 			}
 		}
 	}
