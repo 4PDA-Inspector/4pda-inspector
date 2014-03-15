@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <?xml-stylesheet href="chrome://4pdainspector/content/css/main.css" type="text/css"?>
+<?xml-stylesheet href="chrome://4pdainspector/content/css/toolbar.css" type="text/css"?>
 
 <overlay id="inspector-overlay"
 	xmlns:html="http://www.w3.org/1999/xhtml"
@@ -26,12 +27,18 @@
 			/>
 	</toolbarpalette>
 
-		<hbox hidden="true">
-			<html:canvas id="inspector_button_canvas" width="24" height="24">0</html:canvas> 
-		</hbox>
 	<toolbox id="navigator-toolbox">
+		<hbox hidden="true">
+			<html:canvas id="inspectorButtonCanvas" width="24" height="24"></html:canvas> 
+		</hbox>
 		<panel type="arrow" id="inspectorPanel" align="left" >
-			<label value="" id="inspectorPanelUsername" />
+			<vbox>
+				<hbox>
+					<label value="" id="inspectorPanelUsername" />
+				</hbox>
+				<label value="------------------" />
+				<vbox id="inspectorThemesList"></vbox>
+			</vbox>
 		</panel>
 	</toolbox>
 

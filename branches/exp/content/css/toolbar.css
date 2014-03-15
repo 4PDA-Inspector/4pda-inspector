@@ -1,0 +1,7 @@
+#inspectorThemesList>label, #inspectorPanelUsername {
+    cursor: pointer;
+}
+
+#inspectorThemesList>label:hover, #inspectorPanelUsername:hover {
+    color: #4474C4;
+}
