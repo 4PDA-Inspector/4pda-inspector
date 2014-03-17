@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://4pdainspector/content/css/toolbar.css" type="text/css"?>
 
 <prefwindow
     buttons="accept,cancel"
@@ -11,6 +12,43 @@
     <label id="label1" value="first" />
     <label id="label2" value="2" />
 </vbox>
+
+<hbox id="hboxxx">
+    <label id="label1" value="first" />
+    <label id="label2" value="2" />
+</hbox>
+
+
+<hbox id="inspectorMainPanel">
+    <hbox flex="1" id="inspectorMainPanelButtonsBox">
+
+        <hbox id="inspectorPanelQMS">
+            <label value="0" />
+        </hbox>
+
+        <hbox id="inspectorPanelFavorites">
+            <vbox>
+                <image src="chrome://4pdainspector/content/img/favorites.png" />
+            </vbox>
+            <label value="0" />
+        </hbox>
+
+        <hbox id="inspectorPanelSettings">
+            <vbox>
+                <image src="chrome://4pdainspector/content/img/settings.png" />
+            </vbox>
+        </hbox>
+
+        <box class="separator"></box>
+
+        <label value="openAll" id="inspectorPanelOpenAll" />
+        <label value="readAll" id="inspectorPanelReadAll" />
+    </hbox>
+
+    <hbox id="inspectorPanelUsernameHBox">
+        <label value="" id="inspectorPanelUsername" />
+    </hbox>
+</hbox>
 
 </prefpane>
 </prefwindow>
