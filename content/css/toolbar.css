@@ -1,7 +1,80 @@
-#inspectorThemesList>label, #inspectorPanelUsername {
-    cursor: pointer;
+/*#inspectorPanel>* {
+    font-family: Arial, sans-serif;
+    background: #FFF;
+}*/
+
+#inspectorPanel label {
+	border-bottom: 1px dotted transparent;
+	cursor: pointer;
 }
 
-#inspectorThemesList>label:hover, #inspectorPanelUsername:hover {
-    color: #4474C4;
+.separator {
+	margin: 0 5px;
+}
+
+/***************** BUTTONS *****************/
+
+#inspectorPanelUsername {
+	cursor: pointer;
+	color: #3565B5;
+	font-size: 16px;
+}
+
+#inspectorPanelUsername:hover {
+	border-color: #3565B5;
+}
+
+#inspectorMainPanelButtonsBox {
+	color: #888;
+}
+
+#inspectorMainPanelButtonsBox>hbox, #inspectorMainPanelButtonsBox>vbox {
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+/***************** THEMES LIST *****************/
+
+#inspectorMainPanel {
+	border-bottom: 1px dotted #3565B5;
+}
+
+#inspectorThemesList>.oneTheme {
+	border-color: #D0E4EC;
+	color: #222;
+	padding: 2px 4px;
+}
+
+#inspectorThemesList>.oneTheme:hover {
+	background-color: #D0E4EC;
+}
+
+/*#inspectorThemesList>.oneTheme label:hover {
+	color: #3565B5;
+}*/
+
+#inspectorThemesList .oneTheme_caption {
+	color: #3565B5;
+	font-size: 12px;
+	margin: 0;
+	/*font-weight: bold;*/
+}
+
+#inspectorThemesList .oneTheme_caption:hover {
+	border-color: #3565B5;
+}
+
+.oneThemeInfoHBox>label {
+	color: #888;
+	font-size: 11px;
+	margin: 0;
+	border-bottom: 1px dotted transparent;
+}
+
+.oneThemeInfoHBox>label:hover {
+	border-bottom: 1px dotted #888!important;
+}
+
+#inspectorThemesList .oneTheme_user {
+	margin-right: 10px;
 }
