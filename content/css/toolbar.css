@@ -28,9 +28,31 @@
 	color: #888;
 }
 
-#inspectorMainPanelButtonsBox>hbox, #inspectorMainPanelButtonsBox>vbox {
-	margin-right: 5px;
-	cursor: pointer;
+#inspectorMainPanelButtonsBox label {
+	margin: 0 10px 0 0;
+	font-size: 18px;
+}
+
+#inspectorMainPanelButtonsBox label:hover {
+	color: #3565B5;
+}
+
+#inspectorPanelQMS {
+	background: 0 50% url(chrome://4pdainspector/content/img/message.png) no-repeat;
+	height: 16px;
+	padding-left: 18px;
+}
+
+#inspectorPanelFavorites {
+	background: 0 50% url(chrome://4pdainspector/content/img/favorites.png) no-repeat;
+	height: 16px;
+	padding-left: 18px;
+}
+
+#inspectorPanelSettings {
+	background: 0 50% url(chrome://4pdainspector/content/img/settings.png) no-repeat;
+	height: 16px;
+	width: 16px;
 }
 
 /***************** THEMES LIST *****************/
