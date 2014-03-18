@@ -3,7 +3,14 @@ var iToolbar = {
 	panel: null,
 	elements: {
 		usernameLabel: null,
+		favoritesLabel: null,
+		qmsLabel: null,
 		themesList: null
+	},
+
+	urls: {
+		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
+		qms: 'http://4pda.ru/forum/index.php?act=qms'
 	},
 
 	init: function()
@@ -12,8 +19,19 @@ var iToolbar = {
 
 		this.elements.usernameLabel = cScript.winobj.getElementById('inspectorPanelUsername');
 		this.elements.usernameLabel.onclick = function() {
-			alert(user.id);
-		};
+			user.open(user.id);
+		}
+		
+		this.elements.favoritesLabel = cScript.winobj.getElementById('inspectorPanelFavorites');
+		this.elements.favoritesLabel.onclick = function() {
+			utils.openPage(iToolbar.urls.favorites);
+		}
+		
+		this.elements.qmsLabel = cScript.winobj.getElementById('inspectorPanelQMS');
+		this.elements.qmsLabel.onclick = function() {
+			utils.openPage(iToolbar.urls.qms);
+		}
+		
 		this.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
 	},
 	
@@ -24,6 +42,8 @@ var iToolbar = {
 				this.init();
 			};
 			this.elements.usernameLabel.value = user.name;
+			this.elements.favoritesLabel.value = themes.list.length;
+			this.elements.qmsLabel.value = QMS.unreadCount;
 			this.printThemesList();
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		} else {
@@ -56,18 +76,24 @@ var iToolbar = {
 	{
 		var themeCaptionLabel = document.createElement('label');
 		themeCaptionLabel.setAttribute('value', utils.htmlspecialcharsdecode(theme.title));
-		themeCaptionLabel.setAttribute('data-id', theme.id);
-		themeCaptionLabel.className = 'oneTheme_caption'
+		themeCaptionLabel.className = 'oneTheme_caption';
+		themeCaptionLabel.onclick = function () {
+			themes.open(theme.id);
+		};
 
 		var userCaptionLabel = document.createElement('label');
 		userCaptionLabel.setAttribute('value', utils.htmlspecialcharsdecode(theme.last_user_name));
-		userCaptionLabel.setAttribute('data-id', theme.last_user_id);
-		userCaptionLabel.className = 'oneTheme_user'
+		userCaptionLabel.className = 'oneTheme_user';
+		userCaptionLabel.onclick = function () {
+			user.open(theme.last_user_id);
+		};
 
 		var lastPostLabel = document.createElement('label');
 		lastPostLabel.setAttribute('value', new Date(theme.last_post_ts*1000).toLocaleString());
-		themeCaptionLabel.setAttribute('data-theme', theme.id);
-		lastPostLabel.className = 'oneTheme_lastPost'
+		lastPostLabel.className = 'oneTheme_lastPost';
+		lastPostLabel.onclick = function () {
+			themes.openLast(theme.id);
+		};
 
 		// BOXES
 

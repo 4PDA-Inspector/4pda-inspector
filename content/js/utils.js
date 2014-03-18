@@ -59,5 +59,11 @@ var utils = {
 		string = string.replace(/&quot;/g, '"');
 		string = string.replace(/&amp;/g, '&');
 		return string;
+	},
+
+	openPage: function(page) {
+		var tBrowser = top.document.getElementById("content");
+		var tab = tBrowser.addTab(page);
+		tBrowser.selectedTab = tab;
 	}
 };
