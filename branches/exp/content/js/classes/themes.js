@@ -1,41 +1,41 @@
 var themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	
 	list: [],
 
 	request: function(callback) {
 		var xmr = Object.create(iXMR);
+		// utils.log(themes.list.length);
 		xmr.callback.success = function(resp) {
 
 			if (resp.responseText) {
 				themes.parse(resp.responseText);
-				/*var res = utils.parse(resp.responseText);
-				if (res.length == 2) {
-					user.id = res[0];
-					user.name = res[1];
+				if (callback) {
 					callback();
-				};*/
+				};
 			};
 		}
-		xmr.send(this.rUrl);
+		xmr.send(themes.rUrl);
 	},
 
 	parse: function(text) {
-		// utils.log(text);
+		themes.list = [];
+		utils.log('themes');
 		var tText = text.replace('\r','').split('\n');
-		// utils.log(tText, true);
-		// themes.list = [];
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
-				// utils.log(typeof tText[i]);
 				var theme = Object.create(themeObj);
 				theme.parse(tText[i]);
-
 				themes.list.push(theme);
-				// var theme = utils.parse(tText[i]);
-				// utils.log(theme.title);
 			}
 		}
+	},
+
+	open: function(id) {
+		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
+	},
+
+	openLast: function(id) {
+		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
 	}
 }
 

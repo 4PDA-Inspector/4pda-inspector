@@ -17,5 +17,9 @@ var user = {
             };
         }
         xmr.send(this.rUrl);
+    },
+
+    open: function(id) {
+        utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id);
     }
 }

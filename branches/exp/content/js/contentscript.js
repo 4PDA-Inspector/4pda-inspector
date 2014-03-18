@@ -15,7 +15,6 @@ var cScript = {
 
         user.request(function() {
             if (user.id) {
-                utils.log(user.name);
                 cScript.getData();
             };
         });
@@ -23,7 +22,7 @@ var cScript = {
 
     getData: function()
     {
-        themes.request();
+        themes.request(QMS.request);
     }
 };
 

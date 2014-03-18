@@ -62,7 +62,7 @@
 }
 
 #inspectorThemesList>.oneTheme {
-	border-color: #D0E4EC;
+	border-bottom: 1px solid #D0E4EC;
 	color: #222;
 	padding: 2px 4px;
 }
