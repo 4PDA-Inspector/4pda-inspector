@@ -47,12 +47,13 @@
 
 						<box class="separator"></box>
 
-						<label value="openAll" id="inspectorPanelOpenAll" />
-						<label value="readAll" id="inspectorPanelReadAll" />
+						<label value="" id="inspectorPanelOpenAll" />
+						<label value="" id="inspectorPanelReadAll" />
 					</hbox>
 
 					<hbox id="inspectorPanelUsernameHBox">
 					    <label value="" id="inspectorPanelUsername" />
+						<label value="" id="inspectorPanelRefresh" />
 					</hbox>
 				</hbox>
 				<vbox id="inspectorThemesList"></vbox>

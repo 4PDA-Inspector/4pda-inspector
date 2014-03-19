@@ -18,6 +18,7 @@
 	cursor: pointer;
 	color: #3565B5;
 	font-size: 16px;
+	margin: 0;
 }
 
 #inspectorPanelUsername:hover {
@@ -53,6 +54,29 @@
 	background: 0 50% url(chrome://4pdainspector/content/img/settings.png) no-repeat;
 	height: 16px;
 	width: 16px;
+}
+
+#inspectorPanelOpenAll {
+	background: 0 50% url(chrome://4pdainspector/content/img/open_all.png) no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+#inspectorPanelReadAll {
+	background: 0 50% url(chrome://4pdainspector/content/img/read_all.png) no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+#inspectorPanelRefresh {
+	background: 0 50% url(chrome://4pdainspector/content/img/refresh.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	margin: 0;
+}
+
+#inspectorPanelUsernameHBox {
+	margin-left: 10px;
 }
 
 /***************** THEMES LIST *****************/

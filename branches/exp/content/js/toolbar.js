@@ -5,7 +5,9 @@ var iToolbar = {
 		usernameLabel: null,
 		favoritesLabel: null,
 		qmsLabel: null,
-		themesList: null
+		themesList: null,
+		openAllLabel: null,
+		readAllLabel: null
 	},
 
 	urls: {
@@ -33,6 +35,16 @@ var iToolbar = {
 		}
 		
 		this.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
+		
+		this.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
+		this.elements.openAllLabel.onclick = function() {
+			themes.openAll();
+		}
+		
+		this.elements.readAllLabel = cScript.winobj.getElementById('inspectorPanelReadAll');
+		this.elements.readAllLabel.onclick = function() {
+			themes.readAll();
+		}
 	},
 	
 	bClick: function(parent)
@@ -79,6 +91,10 @@ var iToolbar = {
 		themeCaptionLabel.className = 'oneTheme_caption';
 		themeCaptionLabel.onclick = function () {
 			themes.open(theme.id);
+			// utils.log(theme.posts_num);
+			// utils.log(theme.last_post_ts);
+			// utils.log(theme.last_read_ts);
+			// prompt(theme.posts_num, 'http://4pda.ru/forum/index.php?showtopic='+theme.id+'&view=getnewpost');
 		};
 
 		var userCaptionLabel = document.createElement('label');
