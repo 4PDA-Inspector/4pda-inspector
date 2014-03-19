@@ -46,7 +46,9 @@
 						<label value="" id="inspectorPanelSettings" />
 
 						<box class="separator"></box>
+					</hbox>
 
+					<hbox flex="1">
 						<label value="" id="inspectorPanelOpenAll" />
 						<label value="" id="inspectorPanelReadAll" />
 					</hbox>

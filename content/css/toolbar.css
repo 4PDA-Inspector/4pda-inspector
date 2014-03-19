@@ -59,13 +59,13 @@
 #inspectorPanelOpenAll {
 	background: 0 50% url(chrome://4pdainspector/content/img/open_all.png) no-repeat;
 	height: 16px;
-	width: 16px;
+	width: 22px;
 }
 
 #inspectorPanelReadAll {
 	background: 0 50% url(chrome://4pdainspector/content/img/read_all.png) no-repeat;
 	height: 16px;
-	width: 16px;
+	width: 22px;
 }
 
 #inspectorPanelRefresh {
