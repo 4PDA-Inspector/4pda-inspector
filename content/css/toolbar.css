@@ -22,11 +22,11 @@
 }
 
 #inspectorPanelUsername:hover {
-	border-color: #3565B5;
+	color: #14A5F4;
 }
 
 #inspectorMainPanelButtonsBox {
-	color: #888;
+	color: #3565B5;
 }
 
 #inspectorMainPanelButtonsBox label {
@@ -35,7 +35,7 @@
 }
 
 #inspectorMainPanelButtonsBox label:hover {
-	color: #3565B5;
+	color: #14A5F4;
 }
 
 #inspectorPanelQMS {
@@ -115,18 +115,17 @@
 }
 
 #inspectorThemesList .oneTheme_caption:hover {
-	border-color: #3565B5;
+	color: #14A5F4;
 }
 
 .oneThemeInfoHBox>label {
 	color: #888;
 	font-size: 11px;
 	margin: 0;
-	border-bottom: 1px dotted transparent;
 }
 
 .oneThemeInfoHBox>label:hover {
-	border-bottom: 1px dotted #888!important;
+	color: #14A5F4;
 }
 
 #inspectorThemesList .oneTheme_user {
