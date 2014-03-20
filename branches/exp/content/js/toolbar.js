@@ -55,7 +55,11 @@ var iToolbar = {
 			};
 			this.elements.usernameLabel.value = user.name;
 			this.elements.favoritesLabel.value = themes.list.length;
+			this.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
+			
 			this.elements.qmsLabel.value = QMS.unreadCount;
+			this.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
+
 			this.printThemesList();
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		} else {

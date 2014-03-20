@@ -39,15 +39,23 @@
 }
 
 #inspectorPanelQMS {
-	background: 0 50% url(chrome://4pdainspector/content/img/message.png) no-repeat;
+	background: 0 50% url(chrome://4pdainspector/content/img/message_gray.png) no-repeat;
 	height: 16px;
 	padding-left: 18px;
 }
 
+#inspectorPanelQMS.hasUnread {
+	background-image: url(chrome://4pdainspector/content/img/message.png);
+}
+
 #inspectorPanelFavorites {
-	background: 0 50% url(chrome://4pdainspector/content/img/favorites.png) no-repeat;
+	background: 0 50% url(chrome://4pdainspector/content/img/favorites_gray.png) no-repeat;
 	height: 16px;
 	padding-left: 18px;
+}
+
+#inspectorPanelFavorites.hasUnread {
+	background-image: url(chrome://4pdainspector/content/img/favorites.png);
 }
 
 #inspectorPanelSettings {

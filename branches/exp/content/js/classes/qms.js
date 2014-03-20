@@ -9,9 +9,9 @@ var QMS = {
         xmr.callback.success = function(resp) {
             if (resp.responseText) {
                 QMS.parse(resp.responseText);
-                if (callback) {
-                    callback();
-                };
+            };
+            if (callback) {
+                callback();
             };
         }
         xmr.send(QMS.rUrl);
