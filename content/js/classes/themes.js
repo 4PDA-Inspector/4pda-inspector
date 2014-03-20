@@ -6,12 +6,11 @@ var themes = {
 		var xmr = Object.create(iXMR);
 		// utils.log(themes.list.length);
 		xmr.callback.success = function(resp) {
-
 			if (resp.responseText) {
 				themes.parse(resp.responseText);
-				if (callback) {
-					callback();
-				};
+			};
+			if (callback) {
+				callback();
 			};
 		}
 		xmr.send(themes.rUrl);
