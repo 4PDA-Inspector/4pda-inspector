@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<prefwindow
+    id="inspectorSettingsWindow"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefpane>
+
+    <preferences>
+        <preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+    </preferences>
+
+    <textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" />
+    
+</prefpane>
+</prefwindow>

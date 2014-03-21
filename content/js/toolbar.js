@@ -1,13 +1,17 @@
 var iToolbar = {
 
 	panel: null,
+	refreshImgRotateInterval: 0,
+
 	elements: {
 		usernameLabel: null,
 		favoritesLabel: null,
 		qmsLabel: null,
 		themesList: null,
+		settingsLabel: null,
 		openAllLabel: null,
-		readAllLabel: null
+		readAllLabel: null,
+		manualRefresh: null
 	},
 
 	urls: {
@@ -33,6 +37,12 @@ var iToolbar = {
 		this.elements.qmsLabel.onclick = function() {
 			utils.openPage(iToolbar.urls.qms);
 		}
+
+		this.elements.settingsLabel = cScript.winobj.getElementById('inspectorPanelSettings');
+		this.elements.settingsLabel.onclick = function() {
+			iToolbar.handleHidePanel();
+			window.openDialog('chrome://4pdainspector/content/xul/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
+		}
 		
 		this.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
 		
@@ -45,6 +55,12 @@ var iToolbar = {
 		this.elements.readAllLabel.onclick = function() {
 			themes.readAll();
 		}
+		
+		this.elements.manualRefresh = cScript.winobj.getElementById('inspectorPanelRefresh');
+		this.elements.manualRefresh.onclick = function() {
+			iToolbar.manualRefresh();
+		}
+
 	},
 	
 	bClick: function(parent)
@@ -53,18 +69,33 @@ var iToolbar = {
 			if (!this.panel) {
 				this.init();
 			};
-			this.elements.usernameLabel.value = user.name;
-			this.elements.favoritesLabel.value = themes.list.length;
-			this.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
-			
-			this.elements.qmsLabel.value = QMS.unreadCount;
-			this.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
-
-			this.printThemesList();
+			this.refresh();
 			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		} else {
 			// открыть страницу авторизации
 		}
+	},
+
+	refresh: function()
+	{
+		this.elements.usernameLabel.value = user.name;
+		this.elements.favoritesLabel.value = themes.list.length;
+		this.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
+		
+		this.elements.qmsLabel.value = QMS.unreadCount;
+		this.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
+
+		this.clearThemesList();
+		this.printThemesList();
+		
+		clearInterval(iToolbar.refreshImgRotateInterval);
+		iToolbar.elements.manualRefresh.style.MozTransform = "rotate(0deg)";
+	},
+
+	handleHidePanel: function()
+	{
+		this.hidePanel();
+		this.panel.hidePopup();
 	},
 
 	hidePanel: function()
@@ -131,5 +162,18 @@ var iToolbar = {
 		themeVBox.appendChild(infoHBox);
 
 		return themeVBox;
+	},
+
+	manualRefresh: function()
+	{
+		clearInterval(iToolbar.refreshImgRotateInterval);
+		var refreshImgRotate = 0;
+		this.refreshImgRotateInterval = setInterval(function()
+		{
+			refreshImgRotate += 10;
+			iToolbar.elements.manualRefresh.style.MozTransform = "rotate("+refreshImgRotate+"deg)";
+		}, 30);
+
+		iToolbar.manualRefresh();
 	}
 }

@@ -1,28 +1,36 @@
 var cScript = {
 
 	winobj: null,
-	osString: '',
+
+    updateTimer: 0,
 
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj) ? window.document : window.opener.document;
-		// this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
-        // utils.log(this.osString);
 
-        // iToolbar.init();
-        iToolbar.panel = this.winobj.getElementById('inspector_panel');
+        this.request();
+    },
 
-        user.request(function() {
-            if (user.id) {
-                cScript.getData();
-            };
-        });
-	},
+    request: function(interval)
+    {
+        vars.getPrefs();
+        utils.log(new Date().toString());
+        clearTimeout(this.updateTimer);
+        cScript.getData();
+
+        this.updateTimer = setTimeout(function() {
+            cScript.request();
+        }, (interval || vars.interval));
+    },
 
     getData: function()
     {
-        themes.request(function() {QMS.request(cScript.printCount)});
+        user.request(function() {
+            if (user.id) {
+                themes.request(function() {QMS.request(cScript.printCount)});
+            };
+        });
     },
 
     printCount: function()
