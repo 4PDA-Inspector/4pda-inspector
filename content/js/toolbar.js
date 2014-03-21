@@ -45,6 +45,9 @@ var iToolbar = {
 		}
 		
 		iToolbar.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
+		iToolbar.elements.themesList.addEventListener('scroll', function() {
+			iToolbar.themesListSetShadows();
+		});
 		
 		iToolbar.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
 		iToolbar.elements.openAllLabel.onclick = function() {
@@ -96,7 +99,7 @@ var iToolbar = {
 			iToolbar.elements.themesList.style.overflowY = 'scroll';
 		}
 
-		iToolbar.themesListSetShadows();
+		// iToolbar.themesListSetShadows();
 	},
 
 	themesListSetShadows: function()
