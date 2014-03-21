@@ -131,3 +131,19 @@
 #inspectorThemesList .oneTheme_user {
 	margin-right: 10px;
 }
+
+/* ТЕНИ */
+#inspectorPanel_themesList.topShadow
+{
+	box-shadow: inset 0px 10px 10px -10px #000;
+}
+
+#inspectorPanel_themesList.bottomShadow
+{
+	box-shadow: inset 0px -10px 10px -10px #000;
+}
+
+#inspectorPanel_themesList.bottomShadow.topShadow
+{
+	box-shadow: inset 0px 10px 10px -10px #000, inset 0px -10px 10px -10px #000;
+}

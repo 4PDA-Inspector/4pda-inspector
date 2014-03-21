@@ -7,28 +7,37 @@ var cScript = {
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
-		this.winobj = (obj) ? window.document : window.opener.document;
+		cScript.winobj = (obj) ? window.document : window.opener.document;
 
-        this.request();
+        cScript.request();
     },
 
     request: function(interval)
     {
         vars.getPrefs();
         utils.log(new Date().toString());
-        clearTimeout(this.updateTimer);
+        clearTimeout(cScript.updateTimer);
         cScript.getData();
 
-        this.updateTimer = setTimeout(function() {
+        cScript.updateTimer = setTimeout(function() {
             cScript.request();
         }, (interval || vars.interval));
     },
 
-    getData: function()
+    getData: function(callback)
     {
+        var finishCallback = function(){
+            cScript.printCount();
+            if (callback) {
+                callback();
+            };
+        };
+
         user.request(function() {
             if (user.id) {
-                themes.request(function() {QMS.request(cScript.printCount)});
+                themes.request(function() {
+                    QMS.request(finishCallback);
+                });
             };
         });
     },
@@ -85,9 +94,9 @@ var cScript = {
         };
 
         img.src = canvas_img;
-        /*btn.setAttribute('tooltiptext', this.stringBundle.GetStringFromName("4PDA_online")+
-            '\n'+this.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
-            '\n'+this.stringBundle.GetStringFromName("New Messages")+': '+qCount
+        /*btn.setAttribute('tooltiptext', cScript.stringBundle.GetStringFromName("4PDA_online")+
+            '\n'+cScript.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
+            '\n'+cScript.stringBundle.GetStringFromName("New Messages")+': '+qCount
         );*/
     }
 };
