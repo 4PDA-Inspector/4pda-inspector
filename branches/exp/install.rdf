@@ -31,6 +31,7 @@
 	<em:homepageURL>http://4pdainspector.coddism.com/firefox.html</em:homepageURL>
 	<em:iconURL>chrome://4pdainspector/content/icons/icon_48.png</em:iconURL>
 	<em:icon64URL>chrome://4pdainspector/content/icons/icon_64.png</em:icon64URL>
+	<em:optionsURL>chrome://4pdainspector/content/xul/settings.xul</em:optionsURL> 
 
 	<em:targetApplication>
 		<Description>
