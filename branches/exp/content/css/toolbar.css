@@ -133,17 +133,17 @@
 }
 
 /* ТЕНИ */
-#inspectorPanel_themesList.topShadow
+#inspectorThemesList.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000;
 }
 
-#inspectorPanel_themesList.bottomShadow
+#inspectorThemesList.bottomShadow
 {
 	box-shadow: inset 0px -10px 10px -10px #000;
 }
 
-#inspectorPanel_themesList.bottomShadow.topShadow
+#inspectorThemesList.bottomShadow.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000, inset 0px -10px 10px -10px #000;
 }
