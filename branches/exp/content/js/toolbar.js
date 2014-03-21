@@ -21,43 +21,43 @@ var iToolbar = {
 
 	init: function()
 	{
-		this.panel = cScript.winobj.getElementById('inspectorPanel');
+		iToolbar.panel = cScript.winobj.getElementById('inspectorPanel');
 
-		this.elements.usernameLabel = cScript.winobj.getElementById('inspectorPanelUsername');
-		this.elements.usernameLabel.onclick = function() {
+		iToolbar.elements.usernameLabel = cScript.winobj.getElementById('inspectorPanelUsername');
+		iToolbar.elements.usernameLabel.onclick = function() {
 			user.open(user.id);
 		}
 		
-		this.elements.favoritesLabel = cScript.winobj.getElementById('inspectorPanelFavorites');
-		this.elements.favoritesLabel.onclick = function() {
+		iToolbar.elements.favoritesLabel = cScript.winobj.getElementById('inspectorPanelFavorites');
+		iToolbar.elements.favoritesLabel.onclick = function() {
 			utils.openPage(iToolbar.urls.favorites);
 		}
 		
-		this.elements.qmsLabel = cScript.winobj.getElementById('inspectorPanelQMS');
-		this.elements.qmsLabel.onclick = function() {
+		iToolbar.elements.qmsLabel = cScript.winobj.getElementById('inspectorPanelQMS');
+		iToolbar.elements.qmsLabel.onclick = function() {
 			utils.openPage(iToolbar.urls.qms);
 		}
 
-		this.elements.settingsLabel = cScript.winobj.getElementById('inspectorPanelSettings');
-		this.elements.settingsLabel.onclick = function() {
+		iToolbar.elements.settingsLabel = cScript.winobj.getElementById('inspectorPanelSettings');
+		iToolbar.elements.settingsLabel.onclick = function() {
 			iToolbar.handleHidePanel();
 			window.openDialog('chrome://4pdainspector/content/xul/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
 		}
 		
-		this.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
+		iToolbar.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
 		
-		this.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
-		this.elements.openAllLabel.onclick = function() {
+		iToolbar.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
+		iToolbar.elements.openAllLabel.onclick = function() {
 			themes.openAll();
 		}
 		
-		this.elements.readAllLabel = cScript.winobj.getElementById('inspectorPanelReadAll');
-		this.elements.readAllLabel.onclick = function() {
+		iToolbar.elements.readAllLabel = cScript.winobj.getElementById('inspectorPanelReadAll');
+		iToolbar.elements.readAllLabel.onclick = function() {
 			themes.readAll();
 		}
 		
-		this.elements.manualRefresh = cScript.winobj.getElementById('inspectorPanelRefresh');
-		this.elements.manualRefresh.onclick = function() {
+		iToolbar.elements.manualRefresh = cScript.winobj.getElementById('inspectorPanelRefresh');
+		iToolbar.elements.manualRefresh.onclick = function() {
 			iToolbar.manualRefresh();
 		}
 
@@ -66,27 +66,65 @@ var iToolbar = {
 	bClick: function(parent)
 	{
 		if (user.id) {
-			if (!this.panel) {
-				this.init();
+			if (!iToolbar.panel) {
+				iToolbar.init();
 			};
-			this.refresh();
-			this.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+			iToolbar.refresh();
+			iToolbar.showPanel(parent);
 		} else {
 			// открыть страницу авторизации
 		}
 	},
 
+	showPanel: function(parent)
+	{
+		iToolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+
+		// подстройка высоты панели под размер окна
+
+		iToolbar.elements.themesList.style.height = 'auto';
+		iToolbar.elements.themesList.style.overflowY = 'visible';
+
+// iToolbar.panel = cScript.winobj.getElementById('inspectorPanel');
+		var panelHeight = cScript.winobj.getElementById('inspectorPanelMainVBox').clientHeight;
+		var documentHeight = cScript.winobj.getElementById('browser').clientHeight;
+		var minusHeight = (cScript.winobj.getElementById('inspectorMainPanel').clientHeight);
+
+		if (panelHeight > documentHeight)
+		{
+			iToolbar.elements.themesList.style.height = (documentHeight - minusHeight - 50)+'px';
+			iToolbar.elements.themesList.style.overflowY = 'scroll';
+		}
+
+		iToolbar.themesListSetShadows();
+	},
+
+	themesListSetShadows: function()
+	{
+		if (iToolbar.elements.themesList.scrollTop > 0) {
+			iToolbar.elements.themesList.classList.add("topShadow");
+		} else {
+			iToolbar.elements.themesList.classList.remove("topShadow");
+		};
+
+		if ((iToolbar.elements.themesList.scrollHeight - iToolbar.elements.themesList.clientHeight) > iToolbar.elements.themesList.scrollTop) {
+			iToolbar.elements.themesList.classList.add("bottomShadow");
+		} else {
+			iToolbar.elements.themesList.classList.remove("bottomShadow");
+		};
+	},
+
 	refresh: function()
 	{
-		this.elements.usernameLabel.value = user.name;
-		this.elements.favoritesLabel.value = themes.list.length;
-		this.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
+		iToolbar.elements.usernameLabel.value = user.name;
+		iToolbar.elements.favoritesLabel.value = themes.list.length;
+		iToolbar.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
 		
-		this.elements.qmsLabel.value = QMS.unreadCount;
-		this.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
+		iToolbar.elements.qmsLabel.value = QMS.unreadCount;
+		iToolbar.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
 
-		this.clearThemesList();
-		this.printThemesList();
+		iToolbar.clearThemesList();
+		iToolbar.printThemesList();
 		
 		clearInterval(iToolbar.refreshImgRotateInterval);
 		iToolbar.elements.manualRefresh.style.MozTransform = "rotate(0deg)";
@@ -94,18 +132,18 @@ var iToolbar = {
 
 	handleHidePanel: function()
 	{
-		this.hidePanel();
-		this.panel.hidePopup();
+		iToolbar.hidePanel();
+		iToolbar.panel.hidePopup();
 	},
 
 	hidePanel: function()
 	{
-		this.clearThemesList();
+		iToolbar.clearThemesList();
 	},
 
 	clearThemesList: function()
 	{
-		var labels = this.elements.themesList.getElementsByClassName('oneTheme');
+		var labels = iToolbar.elements.themesList.getElementsByClassName('oneTheme');
 
 		for (var i = labels.length - 1; i >= 0; i--) {
 			labels[i].remove();
@@ -168,12 +206,12 @@ var iToolbar = {
 	{
 		clearInterval(iToolbar.refreshImgRotateInterval);
 		var refreshImgRotate = 0;
-		this.refreshImgRotateInterval = setInterval(function()
+		iToolbar.refreshImgRotateInterval = setInterval(function()
 		{
 			refreshImgRotate += 10;
 			iToolbar.elements.manualRefresh.style.MozTransform = "rotate("+refreshImgRotate+"deg)";
 		}, 30);
 
-		iToolbar.manualRefresh();
+		cScript.getData(iToolbar.refresh);
 	}
 }

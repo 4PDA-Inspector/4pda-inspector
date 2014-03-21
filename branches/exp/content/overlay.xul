@@ -36,7 +36,7 @@
 			id="inspectorPanel"
 			align="left"
 			onpopuphiding="iToolbar.hidePanel()">
-			<vbox>
+			<vbox id="inspectorPanelMainVBox">
 				<hbox id="inspectorMainPanel">
 					<hbox flex="1" id="inspectorMainPanelButtonsBox">
 
