@@ -95,11 +95,11 @@ var iToolbar = {
 
 		if (panelHeight > documentHeight)
 		{
-			iToolbar.elements.themesList.style.height = (documentHeight - minusHeight - 50)+'px';
+			iToolbar.elements.themesList.style.height = (documentHeight - minusHeight - 20)+'px';
 			iToolbar.elements.themesList.style.overflowY = 'scroll';
 		}
 
-		// iToolbar.themesListSetShadows();
+		iToolbar.themesListSetShadows();
 	},
 
 	themesListSetShadows: function()
