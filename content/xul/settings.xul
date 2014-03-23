@@ -2,17 +2,52 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
+
 <prefwindow
     id="inspectorSettingsWindow"
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <prefpane>
 
+    <script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
+    
     <preferences>
         <preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+
+        <preference id="pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
+        <preference id="pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
+        <preference id="pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
     </preferences>
 
-    <textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" />
+    <vbox>
+        <vbox>
+            <label value="Интервал обновления, сек.: " />
+            <textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" />
+        </vbox>
+
+        <vbox class="inspector_allSettingsBox">
+            <vbox>
+                <vbox>
+                    <checkbox preference="pref_notification_sound" label="Включить звук" />
+                    <hbox>
+                        <label value="Громкость: "/>
+                        <label value="" id="inspector_notification_sound_volume_label"/>
+                    </hbox>
+                    <html:input id="inspector_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
+                </vbox>
+                <hbox id="inspector_notification_popup_hbox">
+                    <checkbox preference="pref_notification_popup" label="Включить попап" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
+                </hbox>
+
+            </vbox>
+        </vbox>
+
+        
+    </vbox>
+
+    <script type="text/javascript">
+        iSettings.init();
+    </script>
     
 </prefpane>
 </prefwindow>
