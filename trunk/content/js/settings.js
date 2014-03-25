@@ -1,3 +1,4 @@
+if (typeof inspectorSettings == "undefined") {
 var inspectorSettings = {
 
 	init: function()
@@ -72,6 +73,6 @@ var inspectorSettings = {
 		};
 	}
 
-}
+}}
 
 // window.addEventListener("load", inspectorSettings.init(), false);

@@ -1,3 +1,4 @@
+if (typeof inspectorDefaultStorage == "undefined") {
 var inspectorDefaultStorage = {
 
 	interval: 5000,
@@ -66,6 +67,6 @@ var inspectorDefaultStorage = {
 			inspectorDefaultStorage.button_color = inspectorDefaultStorage.prefs.getCharPref("button_color");
 		} catch (e) {}
 	}
-}
+}}
 
 inspectorDefaultStorage.getPrefs();

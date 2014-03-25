@@ -1,3 +1,4 @@
+if (typeof iXMR == "undefined") {
 var iXMR = {
 
 	callback: {
@@ -35,4 +36,4 @@ var iXMR = {
 		req.open("GET", url, true);
 		req.send(null);
 	}
-}
+}}

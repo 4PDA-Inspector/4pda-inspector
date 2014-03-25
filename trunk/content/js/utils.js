@@ -1,3 +1,4 @@
+if (typeof utils == "undefined") {
 var utils = {
 	
 	consoleService: null,
@@ -71,4 +72,4 @@ var utils = {
 		}
 		return result;
 	}
-};
+};}
