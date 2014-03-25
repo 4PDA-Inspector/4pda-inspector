@@ -1,3 +1,4 @@
+if (typeof inspectorToolbar == "undefined") {
 var inspectorToolbar = {
 
 	winobj: null,
@@ -462,4 +463,4 @@ var inspectorToolbar = {
 		};
 	}
 
-};
+};}

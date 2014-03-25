@@ -1,3 +1,4 @@
+if (typeof inspectorContentScript == "undefined") {
 var inspectorContentScript = {
 
 	updateTimer: 0,
@@ -414,6 +415,6 @@ var inspectorContentScript = {
 			};
 		}
 	}
-};
+};}
 
 inspectorContentScript.init();
