@@ -10,7 +10,6 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
-	<script type='text/javascript' src='chrome://4pdainspector/content/js/xmr.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/default.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/contentscript.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/toolbar.js'></script>
