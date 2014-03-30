@@ -1,5 +1,5 @@
-if (typeof inspectorDefaultStorage == "undefined") {
-var inspectorDefaultStorage = {
+// inspectorDefaultStorage
+inspector4pda.defaults = {
 
 	interval: 5000,
 	click_action: 1,
@@ -28,45 +28,45 @@ var inspectorDefaultStorage = {
 	resetStorage: function()
 	{
 		try {
-			inspectorDefaultStorage.interval = inspectorDefaultStorage.prefs.getIntPref("interval")*1000 || 5000;
+			inspector4pda.defaults.interval = inspector4pda.defaults.prefs.getIntPref("interval")*1000 || 5000;
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.click_action = inspectorDefaultStorage.prefs.getIntPref("click_action");
+			inspector4pda.defaults.click_action = inspector4pda.defaults.prefs.getIntPref("click_action");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.button_fontsize = inspectorDefaultStorage.prefs.getIntPref("button_fontsize");
+			inspector4pda.defaults.button_fontsize = inspector4pda.defaults.prefs.getIntPref("button_fontsize");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.button_big_fontsize = inspectorDefaultStorage.prefs.getIntPref("button_big_fontsize");
+			inspector4pda.defaults.button_big_fontsize = inspector4pda.defaults.prefs.getIntPref("button_big_fontsize");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.button_big = inspectorDefaultStorage.prefs.getBoolPref("button_big");
+			inspector4pda.defaults.button_big = inspector4pda.defaults.prefs.getBoolPref("button_big");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.notification_sound = inspectorDefaultStorage.prefs.getBoolPref("notification_sound");
+			inspector4pda.defaults.notification_sound = inspector4pda.defaults.prefs.getBoolPref("notification_sound");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.notification_popup = inspectorDefaultStorage.prefs.getBoolPref("notification_popup");
+			inspector4pda.defaults.notification_popup = inspector4pda.defaults.prefs.getBoolPref("notification_popup");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.notification_sound_volume = inspectorDefaultStorage.prefs.getIntPref("notification_sound_volume")/100;
+			inspector4pda.defaults.notification_sound_volume = inspector4pda.defaults.prefs.getIntPref("notification_sound_volume")/100;
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.button_bgcolor = inspectorDefaultStorage.prefs.getCharPref("button_bgcolor");
+			inspector4pda.defaults.button_bgcolor = inspector4pda.defaults.prefs.getCharPref("button_bgcolor");
 		} catch (e) {}
 		
 		try {
-			inspectorDefaultStorage.button_color = inspectorDefaultStorage.prefs.getCharPref("button_color");
+			inspector4pda.defaults.button_color = inspector4pda.defaults.prefs.getCharPref("button_color");
 		} catch (e) {}
 	}
-}}
+}
 
-inspectorDefaultStorage.getPrefs();
+inspector4pda.defaults.getPrefs();

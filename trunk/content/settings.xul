@@ -9,8 +9,8 @@
 	id="inspectorSettingsWindow"
 	buttons="accept,cancel"
 	title="&inspectorSettingsWindow_Title;"
-	ondialogaccept="inspectorContentScript.settingsAccept()"
-	ondialogcancel="inspectorContentScript.settingsAccept()"
+	ondialogaccept="inspector4pda.cScript.settingsAccept()"
+	ondialogcancel="inspector4pda.cScript.settingsAccept()"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
@@ -20,8 +20,8 @@
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/default.js'></script>
 	<script type="text/javascript">
 		if (window.arguments)
-		{var inspectorContentScript = window.arguments[0];}
-		else{var inspectorContentScript = {settingsAccept: function(){}}}
+		{var inspector4pda.cScript = window.arguments[0];}
+		else{var inspector4pda.cScript = {settingsAccept: function(){}}}
 	</script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
 	
@@ -99,7 +99,7 @@
 						<html:input id="inspector_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
 					</vbox>
 					<hbox id="inspector_notification_popup_hbox">
-						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
+						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
 					</hbox>
 
 				</vbox>
@@ -108,7 +108,7 @@
 		</vbox>
 	</hbox>
 	<script type="text/javascript">
-		inspectorSettings.init();
+		inspector4pda.settings.init();
 	</script>
 	
 </prefpane>

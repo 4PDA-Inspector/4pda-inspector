@@ -1,5 +1,5 @@
-if (typeof inspectorContentScript == "undefined") {
-var inspectorContentScript = {
+// inspectorContentScript
+inspector4pda.cScript = {
 
 	updateTimer: 0,
 	winobj: null,
@@ -44,25 +44,25 @@ var inspectorContentScript = {
 		
 		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
-		inspectorContentScript.getNewCount(true, null, null, true);
+		inspector4pda.cScript.getNewCount(true, null, null, true);
 		setTimeout(function() {
-			inspectorContentScript.getNewCount(false, null, null, true);
+			inspector4pda.cScript.getNewCount(false, null, null, true);
 		}, 2000);
 
 	},
 
 	newIteration: function(interval)
 	{
-		inspectorDefaultStorage.getPrefs();
+		inspector4pda.defaults.getPrefs();
 		clearTimeout(this.updateTimer);
 		this.updateTimer = setTimeout(function() {
-			inspectorContentScript.getNewCount();
-		}, (interval || inspectorDefaultStorage.interval));
+			inspector4pda.cScript.getNewCount();
+		}, (interval || inspector4pda.defaults.interval));
 	},
 
 	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
 	{
-		// utils.log('new update - '+inspectorDefaultStorage.interval);
+		// inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
 		var nowTime = new Date().getTime();
 		if (nowTime - this.lastUpdateRequest < 1000) {
 			return false;
@@ -78,63 +78,63 @@ var inspectorContentScript = {
 				{
 					if (req.responseText)
 					{
-						if (inspectorContentScript.isNotLogin(req.responseText))
+						if (inspector4pda.cScript.isNotLogin(req.responseText))
 						{
-							inspectorContentScript.printLogout();
+							inspector4pda.cScript.printLogout();
 							if (errorCallback && typeof errorCallback == 'function')
 								errorCallback();
 						}
 						else
 						{
-							inspectorContentScript.parseUserName(req.responseText);
+							inspector4pda.cScript.parseUserName(req.responseText);
 
-							inspectorContentScript.parseThemes(req.responseText);
+							inspector4pda.cScript.parseThemes(req.responseText);
 
-							inspectorContentScript.unreadThemesCount = inspectorContentScript.getFavCount(req.responseText);
-							inspectorContentScript.unreadQmsCount = inspectorContentScript.getQmsCount(req.responseText);
+							inspector4pda.cScript.unreadThemesCount = inspector4pda.cScript.getFavCount(req.responseText);
+							inspector4pda.cScript.unreadQmsCount = inspector4pda.cScript.getQmsCount(req.responseText);
 
-							inspectorContentScript.printCount(inspectorContentScript.unreadThemesCount, inspectorContentScript.unreadQmsCount);
-							inspectorContentScript.checkNews(hideNotification);
+							inspector4pda.cScript.printCount(inspector4pda.cScript.unreadThemesCount, inspector4pda.cScript.unreadQmsCount);
+							inspector4pda.cScript.checkNews(hideNotification);
 						}
 
 						if (callback && typeof callback == 'function')
 							callback();
 						if (!noFuture)
-							inspectorContentScript.newIteration();
+							inspector4pda.cScript.newIteration();
 						return;
 					}
 					else
 					{
-						inspectorContentScript.printLogout();
+						inspector4pda.cScript.printLogout();
 						if (errorCallback && typeof errorCallback == 'function')
 							errorCallback();
 						if (!noFuture)
-							inspectorContentScript.newIteration();
+							inspector4pda.cScript.newIteration();
 					}
 				}
 				else
 				{
-					inspectorContentScript.printLogout(true);
+					inspector4pda.cScript.printLogout(true);
 				}
 			}
 		}
 
 		req.onerror = function() {
-			inspectorContentScript.printLogout();
+			inspector4pda.cScript.printLogout();
 			if (errorCallback && typeof errorCallback == 'function')
 				errorCallback();
 			if (!noFuture)
-				inspectorContentScript.newIteration();
+				inspector4pda.cScript.newIteration();
 		}
 
-		req.timeout = inspectorContentScript.timeoutUpdateTime;
+		req.timeout = inspector4pda.cScript.timeoutUpdateTime;
 		req.ontimeout = function () {
 			if (!noFuture) {
-				inspectorContentScript.newIteration(inspectorContentScript.timeoutUpdateTime);
+				inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
 			}
 		}
 
-		req.open("GET", inspectorContentScript.favUrl, true);
+		req.open("GET", inspector4pda.cScript.favUrl, true);
 		req.send(null);
 	},
 
@@ -143,12 +143,12 @@ var inspectorContentScript = {
 		if (!text)
 			return false;
 
-		var ff = text.match(inspectorContentScript.findLoginFormRegExp);
-		var ff2 = text.match(inspectorContentScript.findLoginLinkRegExp);
+		var ff = text.match(inspector4pda.cScript.findLoginFormRegExp);
+		var ff2 = text.match(inspector4pda.cScript.findLoginLinkRegExp);
 
-		inspectorContentScript.isLogin = ((typeof ff != 'object' || ff == null) && (typeof ff2 != 'object' || ff2 == null));
+		inspector4pda.cScript.isLogin = ((typeof ff != 'object' || ff == null) && (typeof ff2 != 'object' || ff2 == null));
 
-		return !inspectorContentScript.isLogin;
+		return !inspector4pda.cScript.isLogin;
 	},
 
 	getFavCount: function(text)
@@ -156,7 +156,7 @@ var inspectorContentScript = {
 		if (!text)
 			return 0;
 
-		var favs = text.match(inspectorContentScript.newPostImgRegExp);
+		var favs = text.match(inspector4pda.cScript.newPostImgRegExp);
 
 		if (typeof favs == 'object' && favs != null)
 			return favs.length;
@@ -169,7 +169,7 @@ var inspectorContentScript = {
 		if (!text)
 			return 0;
 
-		var ff = text.match(inspectorContentScript.qmsBlockRegExp);
+		var ff = text.match(inspector4pda.cScript.qmsBlockRegExp);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 			return ff[1];
@@ -182,12 +182,12 @@ var inspectorContentScript = {
 		if (!text)
 			return false;
 
-		var ff = text.match(inspectorContentScript.parseUserRegExp);
+		var ff = text.match(inspector4pda.cScript.parseUserRegExp);
 
 		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
 		{
-			inspectorContentScript.userName = ff[2];
-			inspectorContentScript.userId = ff[1];
+			inspector4pda.cScript.userName = ff[2];
+			inspector4pda.cScript.userId = ff[1];
 		}
 
 	},
@@ -199,13 +199,13 @@ var inspectorContentScript = {
 		if (!btn)
 			return false;
 
-		if (this.osString == 'Linux' || inspectorDefaultStorage.button_big)
+		if (this.osString == 'Linux' || inspector4pda.defaults.button_big)
 		{
 			var canvas_width = 26;
 			var canvas_height = 24;
 			var canvas_img = "chrome://4pdainspector/content/icons/icon_22x.png";
 			var title_padding = 0;
-			var fontSize = inspectorDefaultStorage.button_big_fontsize;
+			var fontSize = inspector4pda.defaults.button_big_fontsize;
 		}
 		else
 		{
@@ -213,7 +213,7 @@ var inspectorContentScript = {
 			var canvas_height = 16;
 			var canvas_img = "chrome://4pdainspector/content/icons/icon_16x.png";
 			var title_padding = 2;
-			var fontSize = inspectorDefaultStorage.button_fontsize;
+			var fontSize = inspector4pda.defaults.button_fontsize;
 		}
 
 		var canvas = this.winobj.getElementById("inspector_button_canvas");
@@ -235,15 +235,15 @@ var inspectorContentScript = {
 			var x = canvas_width - w;
 			var y = canvas_height - h;
 
-			ctx.fillStyle = inspectorDefaultStorage.button_bgcolor;
+			ctx.fillStyle = inspector4pda.defaults.button_bgcolor;
 			ctx.fillRect(x-1, y, w+1, h);
-			ctx.fillStyle = inspectorDefaultStorage.button_color;
+			ctx.fillStyle = inspector4pda.defaults.button_color;
 			ctx.fillText(count, x, y+1);
 
 			var w = ctx.measureText(mesCount).width;
-			ctx.fillStyle = inspectorDefaultStorage.button_bgcolor;
+			ctx.fillStyle = inspector4pda.defaults.button_bgcolor;
 			ctx.fillRect(0, y, w+2, h);
-			ctx.fillStyle = inspectorDefaultStorage.button_color;
+			ctx.fillStyle = inspector4pda.defaults.button_color;
 			ctx.fillText(mesCount, 1, y+1);
 
 			btn.image = canvas.toDataURL("image/png");
@@ -252,7 +252,7 @@ var inspectorContentScript = {
 		img.src = canvas_img;
 		btn.setAttribute('tooltiptext', this.stringBundle.GetStringFromName("4PDA_online")+
 			'\n'+this.stringBundle.GetStringFromName("Unread Topics")+': '+count+
-			'\n'+this.stringBundle.GetStringFromName("New Messages")+': '+inspectorContentScript.unreadQmsCount
+			'\n'+this.stringBundle.GetStringFromName("New Messages")+': '+inspector4pda.cScript.unreadQmsCount
 		);
 	},
 
@@ -283,25 +283,25 @@ var inspectorContentScript = {
 		{
 			var hasNews = false;
 
-			if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspectorContentScript.unreadQmsCount) )
+			if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspector4pda.cScript.unreadQmsCount) )
 			{
 				hasNews = true;
-				inspectorContentScript.notifications.push({
-					title: inspectorContentScript.stringBundle.GetStringFromName("New Message"),
-					body: inspectorContentScript.stringBundle.GetStringFromName("New Message"),
+				inspector4pda.cScript.notifications.push({
+					title: inspector4pda.cScript.stringBundle.GetStringFromName("New Message"),
+					body: inspector4pda.cScript.stringBundle.GetStringFromName("New Message"),
 					type: 'qms'
 				});
 			}
 
-			var themesIds = Object.keys(inspectorContentScript.unreadThemes);
-			for (key in themesIds)
+			var themesIds = Object.keys(inspector4pda.cScript.unreadThemes);
+			for (var key in themesIds)
 			{
 				if (this.lastCount.themesIds.indexOf(themesIds[key]) < 0)
 				{
 					hasNews = true;
-					inspectorContentScript.notifications.push({
-						title: inspectorContentScript.stringBundle.GetStringFromName("New Comment"),
-						body: utils.htmlspecialcharsdecode(inspectorContentScript.unreadThemes[themesIds[key]].title),
+					inspector4pda.cScript.notifications.push({
+						title: inspector4pda.cScript.stringBundle.GetStringFromName("New Comment"),
+						body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.unreadThemes[themesIds[key]].title),
 						type: themesIds[key]
 					});
 				};
@@ -313,22 +313,22 @@ var inspectorContentScript = {
 			}
 		}
 
-		this.lastCount.themes = inspectorContentScript.unreadThemesCount,
-		this.lastCount.qms = inspectorContentScript.unreadQmsCount;
-		this.lastCount.themesIds = Object.keys(inspectorContentScript.unreadThemes);
+		this.lastCount.themes = inspector4pda.cScript.unreadThemesCount,
+		this.lastCount.qms = inspector4pda.cScript.unreadQmsCount;
+		this.lastCount.themesIds = Object.keys(inspector4pda.cScript.unreadThemes);
 
 	},
 
 	notification: function()
 	{
-		if (inspectorDefaultStorage.notification_sound)
+		if (inspector4pda.defaults.notification_sound)
 		{
 			var soundElement = this.winobj.getElementById("inspector_sound");
-			soundElement.volume = inspectorDefaultStorage.notification_sound_volume;
+			soundElement.volume = inspector4pda.defaults.notification_sound_volume;
 			soundElement.play();
 		}
 
-		if (inspectorDefaultStorage.notification_popup)
+		if (inspector4pda.defaults.notification_popup)
 		{
 			this.showNotifications();
 		}
@@ -356,20 +356,20 @@ var inspectorContentScript = {
 				return false;
 
 			if (tagData[1] == 'qms')
-				inspectorToolbar.openPage(inspectorToolbar.link_qms);
+				inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_qms);
 			else
-				inspectorToolbar.openTheme(tagData[1]);
+				inspector4pda.toolbar.openTheme(tagData[1]);
 		}
 
 		setTimeout(function()
 		{
-			inspectorContentScript.showNotifications();
+			inspector4pda.cScript.showNotifications();
 		}, 50);
 	},
 
 	parseThemes: function(text)
 	{
-		inspectorContentScript.unreadThemes = {};
+		inspector4pda.cScript.unreadThemes = {};
 		if (!text)
 			return false;
 
@@ -383,7 +383,7 @@ var inspectorContentScript = {
 
 				if (theme)
 				{
-					inspectorContentScript.unreadThemes[theme[1]] = {
+					inspector4pda.cScript.unreadThemes[theme[1]] = {
 						title: theme[2],
 						date: theme[3],
 						author: theme[4],
@@ -392,6 +392,6 @@ var inspectorContentScript = {
 			};
 		}
 	}
-};}
+};
 
-inspectorContentScript.init();
+inspector4pda.cScript.init();
