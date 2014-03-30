@@ -20,7 +20,7 @@
 			class="toolbarbutton-1 chromeclass-toolbar-additional"
 			label="&toolbarbutton_title;"
 			tooltiptext="&toolbarbutton_tooltiptext;"
-			oncommand='inspectorToolbar.buttonClick(this);'
+			oncommand='inspector4pda.toolbar.buttonClick(this);'
 			/>
 	</toolbarpalette>
 
@@ -30,7 +30,7 @@
 
 	<toolbox id="navigator-toolbox">
 		<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector_sound" src="chrome://4pdainspector/content/sound/not.wav" />
-		<panel type="arrow" id="inspectorPanel_panel" align="left" onpopuphiding="inspectorToolbar.hidePanel()">
+		<panel type="arrow" id="inspectorPanel_panel" align="left" onpopuphiding="inspector4pda.toolbar.hidePanel()">
 			<vbox id="inspectorPanel_mainVBox">
 				
 				<hbox id="inspectorPanel_menuBox" >

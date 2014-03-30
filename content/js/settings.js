@@ -1,16 +1,16 @@
-if (typeof inspectorSettings == "undefined") {
-var inspectorSettings = {
+// inspectorSettings
+inspector4pda.settings = {
 
 	init: function()
 	{
 		var osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
-		if (osString == 'Linux' || inspectorDefaultStorage.button_big)
+		if (osString == 'Linux' || inspector4pda.defaults.button_big)
 			document.getElementById('inspector_button_fontsize').style.display = 'none';
 		else
 			document.getElementById('inspector_button_big_fontsize').style.display = 'none';
 		
-		if (!utils.checkNotificationSupport()) {
+		if (!inspector4pda.utils.checkNotificationSupport()) {
 			document.getElementById('inspector_notification_popup_checkbox').setAttribute('checked', 'false');
 			document.getElementById('inspector_notification_popup_hbox').style.display = 'none';
 		}
@@ -44,7 +44,7 @@ var inspectorSettings = {
 	{
 		if (el.getAttribute('checked').toLowerCase() == 'true') {
 			
-			if (!utils.checkNotificationSupport()) {
+			if (!inspector4pda.utils.checkNotificationSupport()) {
 				el.setAttribute('checked', 'false');
 				alert('Ваш браузер не поддерживает оповещения');
 				return false;
@@ -73,6 +73,4 @@ var inspectorSettings = {
 		};
 	}
 
-}}
-
-// window.addEventListener("load", inspectorSettings.init(), false);
+}

@@ -1,5 +1,18 @@
-if (typeof utils == "undefined") {
-var utils = {
+/*
+ * Main Script File
+ *
+ * utils
+ * cScript
+ * defaults
+ * settings
+ * toolbar
+*/
+
+if (typeof inspector4pda == "undefined") {
+	var inspector4pda = {}
+}
+
+inspector4pda.utils = {
 	
 	consoleService: null,
 	firebugConsoleService: null,
@@ -56,4 +69,4 @@ var utils = {
 		string = string.replace(/&amp;/g, '&');
 		return string;
 	}
-};}
+};
