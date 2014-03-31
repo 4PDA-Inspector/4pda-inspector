@@ -1,122 +1,122 @@
-#inspectorPanel_mainVBox
+#inspector4pda_panel_mainVBox
 {
 	font-family: 'Ubuntu', 'Tahoma', 'Droid Sans', Arial;
 	padding:5px;
 }
 
-#inspectorPanel_loginBox, #inspector_openAllFavs, .inspectorPanel_menuItem, .inspectorPanel_menuItem>label
+#inspector4pda_panel_loginBox, #inspector4pda_openAllFavs, .inspector4pda_panel_menuItem, .inspector4pda_panel_menuItem>label
 {
 	cursor:pointer;
 }
 
-#inspectorPanel_themesList image
+#inspector4pda_panel_themesList image
 {
 	cursor:pointer;
 	margin-right: 5px;
 }
 
-#inspectorPanel_themesList
+#inspector4pda_panel_themesList
 {
 	padding: 2px 0;
 	margin: 3px 0;	
 }
 
-#inspectorPanel_themesList.topShadow
+#inspector4pda_panel_themesList.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000;
 }
 
-#inspectorPanel_themesList.bottomShadow
+#inspector4pda_panel_themesList.bottomShadow
 {
 	box-shadow: inset 0px -10px 10px -10px #000;
 }
 
-#inspectorPanel_themesList.bottomShadow.topShadow
+#inspector4pda_panel_themesList.bottomShadow.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000, inset 0px -10px 10px -10px #000;
 }
 
-.inspectorPanel_themeBox
+.inspector4pda_panel_themeBox
 {
 	border-bottom: 1px dotted #ccc;
 }
 
-.inspectorPanel_themeBox:last-child
+.inspector4pda_panel_themeBox:last-child
 {
 	border-bottom: 0;
 }
 
-.inspectorPanel_themeBox:hover
+.inspector4pda_panel_themeBox:hover
 {
 	box-shadow: inset 0px 10px 4px -10px #9AF, inset 0px -10px 4px -10px #9AF;
 }
 
-.inspectorPanel_themeBox:hover .inspectorPanel_theme
+.inspector4pda_panel_themeBox:hover .inspector4pda_panel_theme
 {
 	color: #34498B;
 }
 
-.inspectorPanel_theme
+.inspector4pda_panel_theme
 {
 	width: 100%;
 	cursor: pointer;
 }
 
-.inspectorPanel_theme:hover
+.inspector4pda_panel_theme:hover
 {
 	color: #5176B5;
 }
 
-.inspectorPanel_bottomBox, .inspectorPanel_readedTheme
+.inspector4pda_panel_bottomBox, .inspector4pda_panel_readedTheme
 {
 	color: #aaa;
 }
 
-.inspectorPanel_themeBox:hover .inspectorPanel_readedTheme
+.inspector4pda_panel_themeBox:hover .inspector4pda_panel_readedTheme
 {
 	color: #999 !important;
 }
 
-.inspectorPanel_noThemesLabel
+.inspector4pda_panel_noThemesLabel
 {
 	color: #aaa;
 	box-shadow: none !important;
 }
 
-.inspectorPanel_bottomBox image
+.inspector4pda_panel_bottomBox image
 {
 	height: 12px;
 	width: 12px;
 }
 
-.inspectorPanel_bottomBox vbox
+.inspector4pda_panel_bottomBox vbox
 {
 	margin-right: 0;
 }
 
-.inspectorPanel_dateLabel
+.inspector4pda_panel_dateLabel
 {
 	color: #aaa;
 	cursor: pointer;
 }
 
-.inspectorPanel_authorLabel
+.inspector4pda_panel_authorLabel
 {
 	margin-left: 10px;
 	color: #aaa;
 }
 
-.inspectorPanel_infoBox
+.inspector4pda_panel_infoBox
 {
 	font-size: 12px;
 }
 
-label:hover, .inspectorPanel_menuItem:hover>label
+label:hover, .inspector4pda_panel_menuItem:hover>label
 {
 	color: #146;
 }
 
-.inspector_marginBox
+.inspector4pda_marginBox
 {
 	margin-top: 5px;
 }
@@ -127,39 +127,39 @@ label:hover, .inspectorPanel_menuItem:hover>label
 	margin-left: 5px;
 }
 
-.inspectorPanel_menuItem
+.inspector4pda_panel_menuItem
 {
 	margin-right: 10px;
 }
 
-.inspectorPanel_menuItem>image
+.inspector4pda_panel_menuItem>image
 {
 	margin-right: 2px;
 }
 
-image.inspectorPanel_menuItem, .inspectorPanel_menuItem image
+image.inspector4pda_panel_menuItem, .inspector4pda_panel_menuItem image
 {
 	width: 16px;
 	height: 16px;
 }
 
-#inspectorPanel_menuBox
+#inspector4pda_panel_menuBox
 {
 	border-bottom: 1px dashed #4474C4;
 	padding-bottom: 5px;
 }
 
-#inspector_openSettings
+#inspector4pda_openSettings
 {
 	margin-right: 30px;
 }
 
-#inspectorPanel_loginHBox
+#inspector4pda_panel_loginHBox
 {
 	margin-left: 30px;
 }
 
-#inspectorPanel_linksBox
+#inspector4pda_panel_linksBox
 {
 	border-top: 1px dashed #4474C4;
 	padding-top: 5px;

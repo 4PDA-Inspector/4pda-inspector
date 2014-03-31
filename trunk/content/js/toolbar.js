@@ -27,52 +27,52 @@ inspector4pda.toolbar = {
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		this.winobj = (obj)?window.document:window.opener.document;
-		this.panel = this.winobj.getElementById('inspectorPanel_panel');
+		this.panel = this.winobj.getElementById('inspector4pda_panel_panel');
 		
-		this.winobj.getElementById('inspector_goToQms').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToQms').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_qms);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_goToFavs').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToFavs').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_favTopics);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_openSettings').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_openSettings').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.handleHidePanel();
 			window.openDialog('chrome://4pdainspector/content/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspector4pda.cScript);
 		});
 		////
 
-		this.winobj.getElementById('inspector_goToHomepage').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToHomepage').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_homepage);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_goToForum').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToForum').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_forum);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_goToSubscriptions').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToSubscriptions').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_subscriptionTopics);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_goToDevDB').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToDevDB').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_devdb);
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_goToDevFAQ').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_goToDevFAQ').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_devfaq);
 			inspector4pda.toolbar.handleHidePanel();
@@ -80,13 +80,13 @@ inspector4pda.toolbar = {
 
 		////
 
-		this.winobj.getElementById('inspector_openAllFavs').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_openAllFavs').addEventListener('click', function()
 		{
 			if (inspector4pda.toolbar.openAll())
 				inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.winobj.getElementById('inspector_readAllFavs').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_readAllFavs').addEventListener('click', function()
 		{
 			inspector4pda.toolbar.readAll();
 		});
@@ -98,7 +98,7 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.manualRefresh(true);
 		});
 
-		this.winobj.getElementById('inspectorPanel_loginBox').addEventListener('click', function()
+		this.winobj.getElementById('inspector4pda_panel_loginBox').addEventListener('click', function()
 		{
 			if (inspector4pda.cScript.isLogin && inspector4pda.cScript.userId)
 				inspector4pda.toolbar.openPage('http://4pda.ru/forum/index.php?showuser='+inspector4pda.cScript.userId);
@@ -108,7 +108,7 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.handleHidePanel();
 		});
 
-		this.list = this.winobj.getElementById('inspectorPanel_themesList');
+		this.list = this.winobj.getElementById('inspector4pda_panel_themesList');
 
 		this.list.addEventListener('scroll', function()
 		{
@@ -162,9 +162,9 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.list.style.height = 'auto';
 		inspector4pda.toolbar.list.style.overflowY = 'visible';
 
-		var panelHeight = this.winobj.getElementById('inspectorPanel_mainVBox').clientHeight;
+		var panelHeight = this.winobj.getElementById('inspector4pda_panel_mainVBox').clientHeight;
 		var documentHeight = this.winobj.getElementById('browser').clientHeight;
-		var topAndBottomBoxes = (this.winobj.getElementById('inspectorPanel_menuBox').clientHeight) + (this.winobj.getElementById('inspectorPanel_linksBox').clientHeight);
+		var topAndBottomBoxes = (this.winobj.getElementById('inspector4pda_panel_menuBox').clientHeight) + (this.winobj.getElementById('inspector4pda_panel_linksBox').clientHeight);
 
 		if (panelHeight > documentHeight)
 		{
@@ -179,9 +179,9 @@ inspector4pda.toolbar = {
 	refreshToolbar: function ()
 	{
 		if (inspector4pda.cScript.isLogin && inspector4pda.cScript.userName)
-			inspector4pda.toolbar.winobj.getElementById('inspectorPanel_loginBox').value = inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.userName);
+			inspector4pda.toolbar.winobj.getElementById('inspector4pda_panel_loginBox').value = inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.userName);
 		else
-			inspector4pda.toolbar.winobj.getElementById('inspectorPanel_loginBox').value = inspector4pda.toolbar.stringBundle.GetStringFromName("You Are Not Authorized");
+			inspector4pda.toolbar.winobj.getElementById('inspector4pda_panel_loginBox').value = inspector4pda.toolbar.stringBundle.GetStringFromName("You Are Not Authorized");
 
 		inspector4pda.toolbar.hidePanel();
 
@@ -196,17 +196,17 @@ inspector4pda.toolbar = {
 				newLabel.setAttribute('data-theme', i);
 				newLabel.setAttribute('flex', 1);
 				newLabel.setAttribute('id', 'label_'+i);
-				newLabel.setAttribute('class', 'inspectorPanel_theme');
+				newLabel.setAttribute('class', 'inspector4pda_panel_theme');
 				newLabel.addEventListener('click', function()
 				{
 					var dataTheme = this.getAttribute('data-theme');
-					this.classList.add("inspectorPanel_readedTheme");
+					this.classList.add("inspector4pda_panel_readedTheme");
 					inspector4pda.toolbar.openTheme(dataTheme, true);
 				});
 
 				var dateLabel = document.createElement('label');
 				dateLabel.setAttribute('value', inspector4pda.cScript.unreadThemes[i].date);
-				dateLabel.setAttribute('class', 'inspectorPanel_dateLabel');
+				dateLabel.setAttribute('class', 'inspector4pda_panel_dateLabel');
 				dateLabel.setAttribute('data-theme', i);
 				dateLabel.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Open Last Post"));
 				dateLabel.addEventListener('click', function()
@@ -218,10 +218,10 @@ inspector4pda.toolbar = {
 				
 				var authorLabel = document.createElement('label');
 				authorLabel.setAttribute('value', inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.unreadThemes[i].author));
-				authorLabel.setAttribute('class', 'inspectorPanel_authorLabel');
+				authorLabel.setAttribute('class', 'inspector4pda_panel_authorLabel');
 
 				var infoBox = document.createElement('hbox');
-				infoBox.setAttribute('class', 'inspectorPanel_infoBox');
+				infoBox.setAttribute('class', 'inspector4pda_panel_infoBox');
 				infoBox.appendChild(dateLabel);
 				infoBox.appendChild(authorLabel);
 
@@ -286,7 +286,7 @@ inspector4pda.toolbar = {
 				newTopHBox.appendChild(newLabel);
 				
 				var newBottomHBox = document.createElement('hbox');
-				newBottomHBox.setAttribute('class', 'inspectorPanel_bottomBox');
+				newBottomHBox.setAttribute('class', 'inspector4pda_panel_bottomBox');
 
 				infoBox.setAttribute('flex', '1');
 				newBottomHBox.appendChild(infoBox);
@@ -300,27 +300,27 @@ inspector4pda.toolbar = {
 				newBottomHBox.appendChild(newVBox);
 
 				var newVBox = document.createElement('vbox');
-				newVBox.setAttribute('class', 'inspectorPanel_themeBox');
+				newVBox.setAttribute('class', 'inspector4pda_panel_themeBox');
 				newVBox.appendChild(newTopHBox);
 				newVBox.appendChild(newBottomHBox);
 
 				inspector4pda.toolbar.list.appendChild(newVBox);
 			};
-			inspector4pda.toolbar.winobj.getElementById('inspector_openAllFavs').disabled = false;
+			inspector4pda.toolbar.winobj.getElementById('inspector4pda_openAllFavs').disabled = false;
 		}
 		else
 		{
 			var newLabel = document.createElement('label');
 			newLabel.setAttribute('value', inspector4pda.toolbar.stringBundle.GetStringFromName("No unread topics"));
-			newLabel.setAttribute('class', 'inspectorPanel_themeBox inspectorPanel_noThemesLabel');
+			newLabel.setAttribute('class', 'inspector4pda_panel_themeBox inspector4pda_panel_noThemesLabel');
 			newLabel.style.textAlign = 'center';
 
 			inspector4pda.toolbar.list.appendChild(newLabel);
-			inspector4pda.toolbar.winobj.getElementById('inspector_openAllFavs').disabled = true;
+			inspector4pda.toolbar.winobj.getElementById('inspector4pda_openAllFavs').disabled = true;
 		}
 
-		inspector4pda.toolbar.winobj.getElementById('inspector_unreadQmsCount').value = (inspector4pda.cScript.isLogin)? inspector4pda.cScript.unreadQmsCount: 0;
-		inspector4pda.toolbar.winobj.getElementById('inspector_unreadThemesCount').value = Object.keys(inspector4pda.cScript.unreadThemes).length - Object.keys(inspector4pda.toolbar.removedThemes).length;
+		inspector4pda.toolbar.winobj.getElementById('inspector4pda_unreadQmsCount').value = (inspector4pda.cScript.isLogin)? inspector4pda.cScript.unreadQmsCount: 0;
+		inspector4pda.toolbar.winobj.getElementById('inspector4pda_unreadThemesCount').value = Object.keys(inspector4pda.cScript.unreadThemes).length - Object.keys(inspector4pda.toolbar.removedThemes).length;
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
 		inspector4pda.toolbar.refreshImg.style.MozTransform = "rotate(0deg)";
 	},
@@ -333,7 +333,7 @@ inspector4pda.toolbar = {
 
 	hidePanel: function()
 	{
-		var labels = this.list.getElementsByClassName('inspectorPanel_themeBox');
+		var labels = this.list.getElementsByClassName('inspector4pda_panel_themeBox');
 
 		for (var i = labels.length - 1; i >= 0; i--) {
 			this.list.removeChild(labels[i]);
@@ -445,7 +445,7 @@ inspector4pda.toolbar = {
 			count = (Object.keys(inspector4pda.cScript.unreadThemes).length - Object.keys(inspector4pda.toolbar.removedThemes).length);
 		
 		inspector4pda.cScript.printCount(count, inspector4pda.cScript.unreadQmsCount);
-		inspector4pda.toolbar.winobj.getElementById('inspector_unreadThemesCount').setAttribute('value', count);
+		inspector4pda.toolbar.winobj.getElementById('inspector4pda_unreadThemesCount').setAttribute('value', count);
 	},
 
 	themesListSetShadows: function()
