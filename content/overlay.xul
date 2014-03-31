@@ -25,62 +25,62 @@
 	</toolbarpalette>
 
 	<hbox hidden="true">
-		<html:canvas id="inspector_button_canvas" width="24" height="24">0</html:canvas> 
+		<html:canvas id="inspector4pda_button_canvas" width="24" height="24">0</html:canvas> 
 	</hbox>
 
 	<toolbox id="navigator-toolbox">
-		<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector_sound" src="chrome://4pdainspector/content/sound/not.wav" />
-		<panel type="arrow" id="inspectorPanel_panel" align="left" onpopuphiding="inspector4pda.toolbar.hidePanel()">
-			<vbox id="inspectorPanel_mainVBox">
+		<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector4pda_sound" src="chrome://4pdainspector/content/sound/not.wav" />
+		<panel type="arrow" id="inspector4pda_panel_panel" align="left" onpopuphiding="inspector4pda.toolbar.hidePanel()">
+			<vbox id="inspector4pda_panel_mainVBox">
 				
-				<hbox id="inspectorPanel_menuBox" >
+				<hbox id="inspector4pda_panel_menuBox" >
 					<hbox flex="1">
 
-						<hbox class="inspectorPanel_menuItem" id="inspector_goToQms" tooltiptext="&Messages;">
+						<hbox class="inspector4pda_panel_menuItem" id="inspector4pda_goToQms" tooltiptext="&Messages;">
 							<vbox>
 								<image src="chrome://4pdainspector/content/images/kopetestatusmessage.png" />
 							</vbox>
-							<label value="0" id="inspector_unreadQmsCount" />
+							<label value="0" id="inspector4pda_unreadQmsCount" />
 						</hbox>
 
-						<hbox class="inspectorPanel_menuItem" id="inspector_goToFavs" tooltiptext="&Favorites;">
+						<hbox class="inspector4pda_panel_menuItem" id="inspector4pda_goToFavs" tooltiptext="&Favorites;">
 							<vbox>
 								<image src="chrome://4pdainspector/content/images/favorites.png" />
 							</vbox>
-							<label value="0" id="inspector_unreadThemesCount" />
+							<label value="0" id="inspector4pda_unreadThemesCount" />
 						</hbox>
 
-						<vbox class="inspectorPanel_menuItem" tooltiptext="&Settings;" id="inspector_openSettings">
+						<vbox class="inspector4pda_panel_menuItem" tooltiptext="&Settings;" id="inspector4pda_openSettings">
 							<image src="chrome://4pdainspector/content/images/settings.png" />
 						</vbox>
 
-						<vbox class="inspectorPanel_menuItem" tooltiptext="&openAllFavs;" id="inspector_openAllFavs">
+						<vbox class="inspector4pda_panel_menuItem" tooltiptext="&openAllFavs;" id="inspector4pda_openAllFavs">
 							<image src="chrome://4pdainspector/content/images/open_all.png" />
 						</vbox>
 
-						<vbox class="inspectorPanel_menuItem" tooltiptext="&markAllAsRead;" id="inspector_readAllFavs">
+						<vbox class="inspector4pda_panel_menuItem" tooltiptext="&markAllAsRead;" id="inspector4pda_readAllFavs">
 							<image src="chrome://4pdainspector/content/images/read_all.png" />
 						</vbox>
 
 					</hbox>
-					<hbox id="inspectorPanel_loginHBox">
-						<label value="" id="inspectorPanel_loginBox" />
+					<hbox id="inspector4pda_panel_loginHBox">
+						<label value="" id="inspector4pda_panel_loginBox" />
 
 						<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' id="refreshImg" tooltip="refresh" tooltiptext="&refresh;" />
 					</hbox>
 				</hbox>
 				
-				<vbox id="inspectorPanel_themesList" >
+				<vbox id="inspector4pda_panel_themesList" >
 				</vbox>
 
-				<hbox id="inspectorPanel_linksBox" >
-					<image src="chrome://4pdainspector/content/images/links/homepage_16.png" class="inspectorPanel_menuItem" id="inspector_goToHomepage" tooltiptext="&Homepage;" />
-					<image src="chrome://4pdainspector/content/images/links/group.png" class="inspectorPanel_menuItem" id="inspector_goToForum" tooltiptext="&Forum;" />
+				<hbox id="inspector4pda_panel_linksBox" >
+					<image src="chrome://4pdainspector/content/images/links/homepage_16.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToHomepage" tooltiptext="&Homepage;" />
+					<image src="chrome://4pdainspector/content/images/links/group.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToForum" tooltiptext="&Forum;" />
 					<box class="delimiterBox"></box>
-					<image src="chrome://4pdainspector/content/images/links/subscriptions.png" class="inspectorPanel_menuItem" id="inspector_goToSubscriptions" tooltiptext="&Subscriptions;" />
+					<image src="chrome://4pdainspector/content/images/links/subscriptions.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToSubscriptions" tooltiptext="&Subscriptions;" />
 					<box class="delimiterBox"></box>
-					<image src="chrome://4pdainspector/content/images/links/devdb.png" class="inspectorPanel_menuItem" id="inspector_goToDevDB" tooltiptext="DevDB" />
-					<image src="chrome://4pdainspector/content/images/links/devfaq.png" class="inspectorPanel_menuItem" id="inspector_goToDevFAQ" tooltiptext="DevFAQ" />
+					<image src="chrome://4pdainspector/content/images/links/devdb.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToDevDB" tooltiptext="DevDB" />
+					<image src="chrome://4pdainspector/content/images/links/devfaq.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToDevFAQ" tooltiptext="DevFAQ" />
 				</hbox>
 
 			</vbox>

@@ -14,14 +14,17 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<prefpane id="inspector_pane" label="Settings">
+<prefpane id="inspector4pda_pane" label="Settings">
 	
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/default.js'></script>
 	<script type="text/javascript">
-		if (window.arguments)
-		{var inspector4pda.cScript = window.arguments[0];}
-		else{var inspector4pda.cScript = {settingsAccept: function(){}}}
+		<!-- if (window.arguments) {
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/contentscript.js'></script>
+			inspector4pda.cScript = window.arguments[0];
+		} else {
+			inspector4pda.cScript = {settingsAccept: function(){}}
+		} -->
 	</script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
 	
@@ -46,13 +49,13 @@
 		</vbox>
 		
 		<vbox>
-			<vbox class="inspector_allSettingsBox">
-				<html:div class="inspector_allSettingsBoxHeading">&generalSettings;:</html:div>
-				<hbox class="inspector_settingsBox">
-					<label value="&interval; (&seconds;)" control="inspector_intervalInput" class="leftLabel" />
-					<textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" class="halfInput" />
+			<vbox class="inspector4pda_allSettingsBox">
+				<html:div class="inspector4pda_allSettingsBoxHeading">&generalSettings;:</html:div>
+				<hbox class="inspector4pda_settingsBox">
+					<label value="&interval; (&seconds;)" control="inspector4pda_intervalInput" class="leftLabel" />
+					<textbox preference="pref_interval" id="inspector4pda_intervalInput" type="number" min="1" class="halfInput" />
 				</hbox>
-				<vbox class="inspector_settingsBox last_settingsBox">
+				<vbox class="inspector4pda_settingsBox last_settingsBox">
 					<label value="&buttonClickAction;:"/>
 					<radiogroup preference="pref_click_action">
 						<radio value="1" label="&popup;"/>
@@ -62,44 +65,44 @@
 				</vbox>
 			</vbox>
 
-			<vbox class="inspector_allSettingsBox">
-				<html:div class="inspector_allSettingsBoxHeading">&buttonSettings;:</html:div>
+			<vbox class="inspector4pda_allSettingsBox">
+				<html:div class="inspector4pda_allSettingsBoxHeading">&buttonSettings;:</html:div>
 				<vbox>
 					<hbox style="border-bottom: 1px solid #4474C4; padding-bottom: 3px;">
-						<label value="&fontSize; (px)" control="inspector_button_fontsize" class="leftLabel" />
-						<textbox preference="pref_button_fontsize" id="inspector_button_fontsize" type="number" min="1" class="halfInput" />
-						<textbox preference="pref_button_big_fontsize" id="inspector_button_big_fontsize" type="number" min="1" class="halfInput" />
+						<label value="&fontSize; (px)" control="inspector4pda_button_fontsize" class="leftLabel" />
+						<textbox preference="pref_button_fontsize" id="inspector4pda_button_fontsize" type="number" min="1" class="halfInput" />
+						<textbox preference="pref_button_big_fontsize" id="inspector4pda_button_big_fontsize" type="number" min="1" class="halfInput" />
 					</hbox>
 					<hbox>
 						<vbox style="margin-right:5px; padding-right:5px; width:217px">
-							<label value="&fontColor;:" control="inspector_button_fontcolor" id="inspector_button_fontcolor_label"/>
+							<label value="&fontColor;:" control="inspector4pda_button_fontcolor" id="inspector4pda_button_fontcolor_label"/>
 							<hbox>
-								<colorpicker type="button" preference="pref_button_color" id="inspector_button_fontcolor" style="width:150px;"/>
+								<colorpicker type="button" preference="pref_button_color" id="inspector4pda_button_fontcolor" style="width:150px;"/>
 							</hbox>
 						</vbox>
 						<vbox>
-							<label value="&areaColor;:" control="inspector_button_fontbgcolor" id="inspector_button_fontbgcolor_label"/>
+							<label value="&areaColor;:" control="inspector4pda_button_fontbgcolor" id="inspector4pda_button_fontbgcolor_label"/>
 							<hbox>
-								<colorpicker type="button" preference="pref_button_bgcolor" id="inspector_button_fontbgcolor" style="width:153px;"/>
+								<colorpicker type="button" preference="pref_button_bgcolor" id="inspector4pda_button_fontbgcolor" style="width:153px;"/>
 							</hbox>
 						</vbox>
 					</hbox>
 				</vbox>
 			</vbox>
 
-			<vbox class="inspector_allSettingsBox">
-				<html:div class="inspector_allSettingsBoxHeading">&notification;:</html:div>
+			<vbox class="inspector4pda_allSettingsBox">
+				<html:div class="inspector4pda_allSettingsBoxHeading">&notification;:</html:div>
 				<vbox>
 					<vbox style="border-bottom: 1px solid #4474C4; padding-bottom: 3px;">
 						<checkbox preference="pref_notification_sound" label="&enableSoundNotification;" />
 						<hbox>
 							<label value="&volumeNotice;: "/>
-							<label value="" id="inspector_notification_sound_volume_label"/>
+							<label value="" id="inspector4pda_notification_sound_volume_label"/>
 						</hbox>
-						<html:input id="inspector_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
+						<html:input id="inspector4pda_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
 					</vbox>
-					<hbox id="inspector_notification_popup_hbox">
-						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
+					<hbox id="inspector4pda_notification_popup_hbox">
+						<checkbox preference="pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notification_popup_checkbox" />
 					</hbox>
 
 				</vbox>

@@ -216,7 +216,7 @@ inspector4pda.cScript = {
 			var fontSize = inspector4pda.defaults.button_fontsize;
 		}
 
-		var canvas = this.winobj.getElementById("inspector_button_canvas");
+		var canvas = this.winobj.getElementById("inspector4pda_button_canvas");
 		canvas.setAttribute("width", canvas_width);
 		canvas.setAttribute("height", canvas_height);
 		var ctx = canvas.getContext("2d");
@@ -323,7 +323,7 @@ inspector4pda.cScript = {
 	{
 		if (inspector4pda.defaults.notification_sound)
 		{
-			var soundElement = this.winobj.getElementById("inspector_sound");
+			var soundElement = this.winobj.getElementById("inspector4pda_sound");
 			soundElement.volume = inspector4pda.defaults.notification_sound_volume;
 			soundElement.play();
 		}

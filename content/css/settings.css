@@ -5,13 +5,13 @@
 	font-size: 11pt;
 }
 
-#inspector_intervalInput, #inspector_button_fontsize
+#inspector4pda_intervalInput, #inspector4pda_button_fontsize
 {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 }
 
-.inspector_allSettingsBox
+.inspector4pda_allSettingsBox
 {
 	border: 2px groove #4474C4;
 	padding: 10px 10px 12px;
@@ -20,7 +20,7 @@
 	border-radius: 5px;
 }
 
-.inspector_allSettingsBoxHeading
+.inspector4pda_allSettingsBoxHeading
 {
 	position: absolute;
 	top:-10px;
@@ -30,12 +30,12 @@
 	font-size: 13px;
 }
 
-.inspector_settingsBox
+.inspector4pda_settingsBox
 {
 	padding: 4px 0;
 }
 
-.inspector_settingsBox:not(:last-child)
+.inspector4pda_settingsBox:not(:last-child)
 {
 	border-bottom: 1px solid #4474C4;
 }
@@ -50,7 +50,7 @@ radio[selected="true"]
 	color: #30508A;
 }
 
-#inspector_button_fontbgcolor_label, #inspector_button_fontcolor_label
+#inspector4pda_button_fontbgcolor_label, #inspector4pda_button_fontcolor_label
 {
 	cursor: pointer;
 }
