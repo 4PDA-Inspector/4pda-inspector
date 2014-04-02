@@ -378,7 +378,7 @@ inspector4pda.toolbar = {
 		if (!Object.keys(inspector4pda.cScript.unreadThemes).length)
 			return false;
 		
-		for (i in inspector4pda.cScript.unreadThemes)
+		for (var i in inspector4pda.cScript.unreadThemes)
 		{
 			inspector4pda.toolbar.winobj.getElementById('label_'+i).style.color = '#aaa';
 			inspector4pda.toolbar.getRequest('http://4pda.ru/forum/index.php?showtopic='+i, function () {});
