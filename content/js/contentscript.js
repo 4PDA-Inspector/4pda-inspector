@@ -65,7 +65,7 @@ inspector4pda.cScript = {
 
 	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
 	{
-		inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
+		// inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
 		var nowTime = new Date().getTime();
 		if (nowTime - this.lastUpdateRequest < 1000) {
 			return false;
@@ -81,6 +81,7 @@ inspector4pda.cScript = {
 				{
 					if (req.responseText)
 					{
+						inspector4pda.toolbar.removedThemes = {};
 						if (inspector4pda.cScript.isNotLogin(req.responseText))
 						{
 							inspector4pda.cScript.printLogout();
