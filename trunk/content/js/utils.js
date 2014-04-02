@@ -9,7 +9,11 @@
 */
 
 if (typeof inspector4pda == "undefined") {
-	var inspector4pda = {}
+	var inspector4pda = {
+		stringBundle: (typeof Services == 'object')
+			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
+			: null
+	}
 }
 
 inspector4pda.utils = {

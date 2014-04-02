@@ -21,8 +21,6 @@ inspector4pda.toolbar = {
 	refreshImg: null,
 	refreshImgRotateInterval: 0,
 
-	stringBundle: Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties"),
-
 	init: function()
 	{
 		var obj = document.getElementById("navigator-toolbox");
@@ -181,7 +179,7 @@ inspector4pda.toolbar = {
 		if (inspector4pda.cScript.isLogin && inspector4pda.cScript.userName)
 			inspector4pda.toolbar.winobj.getElementById('inspector4pda_panel_loginBox').value = inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.userName);
 		else
-			inspector4pda.toolbar.winobj.getElementById('inspector4pda_panel_loginBox').value = inspector4pda.toolbar.stringBundle.GetStringFromName("You Are Not Authorized");
+			inspector4pda.toolbar.winobj.getElementById('inspector4pda_panel_loginBox').value = inspector4pda.stringBundle.GetStringFromName("You Are Not Authorized");
 
 		inspector4pda.toolbar.hidePanel();
 
@@ -208,7 +206,7 @@ inspector4pda.toolbar = {
 				dateLabel.setAttribute('value', inspector4pda.cScript.unreadThemes[i].date);
 				dateLabel.setAttribute('class', 'inspector4pda_panel_dateLabel');
 				dateLabel.setAttribute('data-theme', i);
-				dateLabel.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Open Last Post"));
+				dateLabel.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("Open Last Post"));
 				dateLabel.addEventListener('click', function()
 				{
 					var dataTheme = this.getAttribute('data-theme');
@@ -228,7 +226,7 @@ inspector4pda.toolbar = {
 				var readedImage = document.createElement('image');
 				readedImage.setAttribute('src', 'chrome://4pdainspector/content/images/view-16.png');
 				readedImage.setAttribute('data-theme', i);
-				readedImage.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Mark As Read"));
+				readedImage.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("Mark As Read"));
 				readedImage.addEventListener('click', function()
 				{
 					var current = this;
@@ -244,7 +242,7 @@ inspector4pda.toolbar = {
 				var removeFavImage = document.createElement('image');
 				removeFavImage.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
 				removeFavImage.setAttribute('data-theme', i);
-				removeFavImage.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Remove From Favorites"));
+				removeFavImage.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("Remove From Favorites"));
 				removeFavImage.addEventListener('click', function()
 				{
 					var current = this;
@@ -258,7 +256,7 @@ inspector4pda.toolbar = {
 								inspector4pda.toolbar.winobj.getElementById('label_'+dataTheme).style.color = '#aaa';
 								inspector4pda.toolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'line-through';
 								inspector4pda.toolbar.removedThemes[dataTheme] = dataTheme;
-								current.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Add To Favorites"));
+								current.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("Add To Favorites"));
 								current.setAttribute('src', 'chrome://4pdainspector/content/images/favorites.png');
 								current.style.opacity = '';
 								inspector4pda.toolbar.printCount();
@@ -273,7 +271,7 @@ inspector4pda.toolbar = {
 								inspector4pda.toolbar.winobj.getElementById('label_'+dataTheme).style.color = '';
 								inspector4pda.toolbar.winobj.getElementById('label_'+dataTheme).style.textDecoration = 'none';
 								delete inspector4pda.toolbar.removedThemes[dataTheme];
-								current.setAttribute('tooltiptext', inspector4pda.toolbar.stringBundle.GetStringFromName("Remove From Favorites"));
+								current.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("Remove From Favorites"));
 								current.setAttribute('src', 'chrome://4pdainspector/content/images/keditbookmark.png');
 								current.style.opacity = '';
 								inspector4pda.toolbar.printCount();
@@ -311,7 +309,7 @@ inspector4pda.toolbar = {
 		else
 		{
 			var newLabel = document.createElement('label');
-			newLabel.setAttribute('value', inspector4pda.toolbar.stringBundle.GetStringFromName("No unread topics"));
+			newLabel.setAttribute('value', inspector4pda.stringBundle.GetStringFromName("No unread topics"));
 			newLabel.setAttribute('class', 'inspector4pda_panel_themeBox inspector4pda_panel_noThemesLabel');
 			newLabel.style.textAlign = 'center';
 
