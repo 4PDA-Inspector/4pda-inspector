@@ -22,8 +22,6 @@ inspector4pda.cScript = {
 
 	osString: '',
 
-	stringBundle: Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties"),
-
 	notifications: [],
 
 	lastCount: {
@@ -36,6 +34,11 @@ inspector4pda.cScript = {
 
 	timeoutUpdateTime: 3000,
 	lastUpdateRequest: 0,
+
+	/*constructor: function()
+	{
+		alert(typeof inspector4pda.stringBundle);
+	}(),*/
 
 	init: function(el)
 	{
@@ -62,7 +65,7 @@ inspector4pda.cScript = {
 
 	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
 	{
-		// inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
+		inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
 		var nowTime = new Date().getTime();
 		if (nowTime - this.lastUpdateRequest < 1000) {
 			return false;
@@ -250,9 +253,9 @@ inspector4pda.cScript = {
 		};
 
 		img.src = canvas_img;
-		btn.setAttribute('tooltiptext', this.stringBundle.GetStringFromName("4PDA_online")+
-			'\n'+this.stringBundle.GetStringFromName("Unread Topics")+': '+count+
-			'\n'+this.stringBundle.GetStringFromName("New Messages")+': '+inspector4pda.cScript.unreadQmsCount
+		btn.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("4PDA_online")+
+			'\n'+inspector4pda.stringBundle.GetStringFromName("Unread Topics")+': '+count+
+			'\n'+inspector4pda.stringBundle.GetStringFromName("New Messages")+': '+inspector4pda.cScript.unreadQmsCount
 		);
 	},
 
@@ -264,8 +267,8 @@ inspector4pda.cScript = {
 		{
 			btn.image = 'chrome://4pdainspector/content/icons/icon_'+((this.osString == 'Linux')?'22':'16')+'x_out.png';
 			btn.setAttribute('tooltiptext', unavailable?
-					this.stringBundle.GetStringFromName("4PDA_Site Unavailable"):
-					this.stringBundle.GetStringFromName("4PDA_offline")
+					inspector4pda.stringBundle.GetStringFromName("4PDA_Site Unavailable"):
+					inspector4pda.stringBundle.GetStringFromName("4PDA_offline")
 				);
 		}
 
@@ -273,8 +276,8 @@ inspector4pda.cScript = {
 
 	settingsAccept: function()
 	{
-		clearTimeout(this.updateTimer);
-		this.getNewCount();
+		inspector4pda.cScript.lastUpdateRequest = 0;
+		this.newIteration();
 	},
 
 	checkNews: function(hideNotification)
@@ -287,8 +290,8 @@ inspector4pda.cScript = {
 			{
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.cScript.stringBundle.GetStringFromName("New Message"),
-					body: inspector4pda.cScript.stringBundle.GetStringFromName("New Message"),
+					title: inspector4pda.stringBundle.GetStringFromName("New Message"),
+					body: inspector4pda.stringBundle.GetStringFromName("New Message"),
 					type: 'qms'
 				});
 			}
@@ -300,7 +303,7 @@ inspector4pda.cScript = {
 				{
 					hasNews = true;
 					inspector4pda.cScript.notifications.push({
-						title: inspector4pda.cScript.stringBundle.GetStringFromName("New Comment"),
+						title: inspector4pda.stringBundle.GetStringFromName("New Comment"),
 						body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.unreadThemes[themesIds[key]].title),
 						type: themesIds[key]
 					});
@@ -394,4 +397,4 @@ inspector4pda.cScript = {
 	}
 };
 
-inspector4pda.cScript.init();
+// inspector4pda.cScript.init();

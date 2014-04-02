@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <!DOCTYPE overlay SYSTEM "chrome://4pdainspector/locale/overlay.dtd">
 
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://4pdainspector/content/css/main.css" type="text/css"?>
 <?xml-stylesheet href="chrome://4pdainspector/content/css/toolbar.css" type="text/css"?>
 
@@ -86,4 +87,7 @@
 			</vbox>
 		</panel>
 	</toolbox>
+	<script type="text/javascript">
+		inspector4pda.cScript.init();
+	</script>
 </overlay>

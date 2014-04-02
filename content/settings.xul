@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <!DOCTYPE overlay SYSTEM "chrome://4pdainspector/locale/overlay.dtd">
 
@@ -13,20 +13,22 @@
 	ondialogcancel="inspector4pda.cScript.settingsAccept()"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-<prefpane id="inspector4pda_pane" label="Settings">
 	
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/default.js'></script>
-	<script type="text/javascript">
-		<!-- if (window.arguments) {
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/contentscript.js'></script>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
+
+<prefpane id="inspector4pda_pane">
+	
+	<script type="text/javascript">
+		if (window.arguments) {
+			alert(window.arguments[0]);
 			inspector4pda.cScript = window.arguments[0];
 		} else {
 			inspector4pda.cScript = {settingsAccept: function(){}}
-		} -->
+		}
 	</script>
-	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
 	
 	<preferences>
 		<preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>

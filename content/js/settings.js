@@ -71,6 +71,11 @@ inspector4pda.settings = {
 			    	} )
 			}
 		};
+	},
+
+	settingsAccept: function()
+	{
+		alert(inspector4pda.cScript.updateTimer);
 	}
 
 }
