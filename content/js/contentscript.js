@@ -276,8 +276,10 @@ inspector4pda.cScript = {
 
 	settingsAccept: function()
 	{
+		inspector4pda.defaults.getPrefs();
+		clearTimeout(this.updateTimer);
 		inspector4pda.cScript.lastUpdateRequest = 0;
-		this.newIteration();
+		this.getNewCount();
 	},
 
 	checkNews: function(hideNotification)
