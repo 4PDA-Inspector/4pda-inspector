@@ -399,5 +399,3 @@ inspector4pda.cScript = {
 		}
 	}
 };
-
-// inspector4pda.cScript.init();
