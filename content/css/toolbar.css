@@ -114,6 +114,10 @@
 	/*font-weight: bold;*/
 }
 
+#inspectorThemesList .oneTheme_caption.readed {
+	color: #888;
+}
+
 #inspectorThemesList .oneTheme_caption:hover {
 	color: #14A5F4;
 }
@@ -133,6 +137,7 @@
 }
 
 /* ТЕНИ */
+
 #inspectorThemesList.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000;

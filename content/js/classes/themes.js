@@ -1,6 +1,6 @@
 var themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	list: [],
+	list: {},
 
 	request: function(callback) {
 		var xmr = Object.create(iXMR);
@@ -16,15 +16,18 @@ var themes = {
 		xmr.send(themes.rUrl);
 	},
 
+	getCount: function() {
+		return Object.keys(themes.list).length;
+	},
+
 	parse: function(text) {
-		themes.list = [];
-		// utils.log('themes');
+		themes.list = {};
 		var tText = text.replace('\r','').split('\n');
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
 				var theme = Object.create(themeObj);
 				if (theme.parse(tText[i])) {
-					themes.list.push(theme);
+					themes.list[theme.id] = theme;
 				}
 			}
 		}
@@ -32,30 +35,34 @@ var themes = {
 
 	open: function(id) {
 		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
+		delete themes.list[id];
 	},
 
 	read: function(id) {
 		var xmr = Object.create(iXMR);
-		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
+		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
+		delete themes.list[id];
 	},
 
 	openLast: function(id) {
 		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		delete themes.list[id];
 	},
 
 	openAll: function() {
-		while (themes.list.length) {
-			var theme = themes.list.splice(0,1)[0];
-			themes.open(theme.id);
-		}
+		var themesIds = Object.keys(themes.list);
+		for (var i = 0; i < themesIds.length; i++) {
+			themes.open(themesIds[i].id);
+		};
+		themes.list = {};
 	},
 
 	readAll: function() {
-		while (themes.list.length) {
-			var theme = themes.list.splice(0,1)[0];
-			utils.log(theme, true);
-			themes.read(theme.id);
-		}
+		var themesIds = Object.keys(themes.list);
+		for (var i = 0; i < themesIds.length; i++) {
+			themes.read(themesIds[i].id);
+		};
+		themes.list = {};
 	},
 }
 

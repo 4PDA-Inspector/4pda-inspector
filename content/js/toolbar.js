@@ -52,11 +52,13 @@ var iToolbar = {
 		iToolbar.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
 		iToolbar.elements.openAllLabel.onclick = function() {
 			themes.openAll();
+			cScript.printCount();
 		}
 		
 		iToolbar.elements.readAllLabel = cScript.winobj.getElementById('inspectorPanelReadAll');
 		iToolbar.elements.readAllLabel.onclick = function() {
 			themes.readAll();
+			cScript.printCount();
 		}
 		
 		iToolbar.elements.manualRefresh = cScript.winobj.getElementById('inspectorPanelRefresh');
@@ -120,8 +122,8 @@ var iToolbar = {
 	refresh: function()
 	{
 		iToolbar.elements.usernameLabel.value = user.name;
-		iToolbar.elements.favoritesLabel.value = themes.list.length;
-		iToolbar.elements.favoritesLabel.className = themes.list.length? 'hasUnread': '';
+		iToolbar.elements.favoritesLabel.value = themes.getCount();
+		iToolbar.elements.favoritesLabel.className = themes.getCount()? 'hasUnread': '';
 		
 		iToolbar.elements.qmsLabel.value = QMS.unreadCount;
 		iToolbar.elements.qmsLabel.className = QMS.unreadCount? 'hasUnread': '';
@@ -155,9 +157,18 @@ var iToolbar = {
 
 	printThemesList: function()
 	{
-		for (var i = 0; i < themes.list.length; i++) {
+		for (var i in themes.list) {
 			iToolbar.elements.themesList.appendChild(iToolbar.createThemeRow(themes.list[i]));
-		};
+		}
+
+		/*for (var i = 0; i < themes.list.length; i++) {
+
+			if (themes.readed.indexOf(themes.list[i].id) > -1) {
+				utils.log(themes.list[i].id);
+				continue;
+			};
+			iToolbar.elements.themesList.appendChild(iToolbar.createThemeRow(themes.list[i]));
+		};*/
 	},
 
 	createThemeRow: function(theme)
@@ -167,6 +178,10 @@ var iToolbar = {
 		themeCaptionLabel.className = 'oneTheme_caption';
 		themeCaptionLabel.onclick = function () {
 			themes.open(theme.id);
+			cScript.printCount();
+			iToolbar.elements.favoritesLabel.value = themes.getCount();
+
+			this.classList.add("readed");
 			// utils.log(theme.posts_num);
 			// utils.log(theme.last_post_ts);
 			// utils.log(theme.last_read_ts);
@@ -185,6 +200,8 @@ var iToolbar = {
 		lastPostLabel.className = 'oneTheme_lastPost';
 		lastPostLabel.onclick = function () {
 			themes.openLast(theme.id);
+			cScript.printCount();
+			iToolbar.elements.favoritesLabel.value = themes.getCount();
 		};
 
 		// BOXES
