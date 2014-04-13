@@ -15,7 +15,7 @@ var cScript = {
     request: function(interval)
     {
         vars.getPrefs();
-        utils.log(new Date().toString());
+        // utils.log(new Date().toString());
         clearTimeout(cScript.updateTimer);
         cScript.getData();
 
@@ -45,7 +45,7 @@ var cScript = {
     printCount: function()
     {
         var qCount = QMS.unreadCount;
-        var tCount = themes.list.length;
+        var tCount = themes.getCount();
 
         var btn = cScript.winobj.getElementById('inspectorButton');
         if (!btn)
