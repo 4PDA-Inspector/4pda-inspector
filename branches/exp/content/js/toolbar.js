@@ -21,47 +21,47 @@ var iToolbar = {
 
 	init: function()
 	{
-		iToolbar.panel = cScript.winobj.getElementById('inspectorPanel');
+		iToolbar.panel = cScript.winobj.getElementById('inspector4pda_panel');
 
-		iToolbar.elements.usernameLabel = cScript.winobj.getElementById('inspectorPanelUsername');
+		iToolbar.elements.usernameLabel = cScript.winobj.getElementById('inspector4pda_panelUsername');
 		iToolbar.elements.usernameLabel.onclick = function() {
 			user.open(user.id);
 		}
 		
-		iToolbar.elements.favoritesLabel = cScript.winobj.getElementById('inspectorPanelFavorites');
+		iToolbar.elements.favoritesLabel = cScript.winobj.getElementById('inspector4pda_panelFavorites');
 		iToolbar.elements.favoritesLabel.onclick = function() {
 			utils.openPage(iToolbar.urls.favorites);
 		}
 		
-		iToolbar.elements.qmsLabel = cScript.winobj.getElementById('inspectorPanelQMS');
+		iToolbar.elements.qmsLabel = cScript.winobj.getElementById('inspector4pda_panelQMS');
 		iToolbar.elements.qmsLabel.onclick = function() {
 			utils.openPage(iToolbar.urls.qms);
 		}
 
-		iToolbar.elements.settingsLabel = cScript.winobj.getElementById('inspectorPanelSettings');
+		iToolbar.elements.settingsLabel = cScript.winobj.getElementById('inspector4pda_panelSettings');
 		iToolbar.elements.settingsLabel.onclick = function() {
 			iToolbar.handleHidePanel();
 			window.openDialog('chrome://4pdainspector/content/xul/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
 		}
 		
-		iToolbar.elements.themesList = cScript.winobj.getElementById('inspectorThemesList');
+		iToolbar.elements.themesList = cScript.winobj.getElementById('inspector4pda_themesList');
 		iToolbar.elements.themesList.addEventListener('scroll', function() {
 			iToolbar.themesListSetShadows();
 		});
 		
-		iToolbar.elements.openAllLabel = cScript.winobj.getElementById('inspectorPanelOpenAll');
+		iToolbar.elements.openAllLabel = cScript.winobj.getElementById('inspector4pda_panelOpenAll');
 		iToolbar.elements.openAllLabel.onclick = function() {
 			themes.openAll();
 			cScript.printCount();
 		}
 		
-		iToolbar.elements.readAllLabel = cScript.winobj.getElementById('inspectorPanelReadAll');
+		iToolbar.elements.readAllLabel = cScript.winobj.getElementById('inspector4pda_panelReadAll');
 		iToolbar.elements.readAllLabel.onclick = function() {
 			themes.readAll();
 			cScript.printCount();
 		}
 		
-		iToolbar.elements.manualRefresh = cScript.winobj.getElementById('inspectorPanelRefresh');
+		iToolbar.elements.manualRefresh = cScript.winobj.getElementById('inspector4pda_panelRefresh');
 		iToolbar.elements.manualRefresh.onclick = function() {
 			iToolbar.manualRefresh();
 		}
@@ -90,10 +90,10 @@ var iToolbar = {
 		iToolbar.elements.themesList.style.height = 'auto';
 		iToolbar.elements.themesList.style.overflowY = 'visible';
 
-// iToolbar.panel = cScript.winobj.getElementById('inspectorPanel');
-		var panelHeight = cScript.winobj.getElementById('inspectorPanelMainVBox').clientHeight;
+// iToolbar.panel = cScript.winobj.getElementById('inspector4pda_panel');
+		var panelHeight = cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
 		var documentHeight = cScript.winobj.getElementById('browser').clientHeight;
-		var minusHeight = (cScript.winobj.getElementById('inspectorMainPanel').clientHeight);
+		var minusHeight = (cScript.winobj.getElementById('inspector4pda_mainPanel').clientHeight);
 
 		if (panelHeight > documentHeight)
 		{

@@ -4,7 +4,6 @@
 
 
 <prefwindow
-    id="inspectorSettingsWindow"
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <prefpane>
@@ -12,37 +11,36 @@
     <script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
     
     <preferences>
-        <preference id="pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+        <preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
 
-        <preference id="pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
-        <preference id="pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
-        <preference id="pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
+        <preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
+        <preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
+        <preference id="inspector4pda_pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
     </preferences>
 
     <vbox>
         <vbox>
             <label value="Интервал обновления, сек.: " />
-            <textbox preference="pref_interval" id="inspector_intervalInput" type="number" min="1" />
+            <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
         </vbox>
 
         <vbox class="inspector_allSettingsBox">
             <vbox>
                 <vbox>
-                    <checkbox preference="pref_notification_sound" label="Включить звук" />
+                    <checkbox preference="inspector4pda_pref_notification_sound" label="Включить звук" />
                     <hbox>
                         <label value="Громкость: "/>
-                        <label value="" id="inspector_notification_sound_volume_label"/>
+                        <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
                     </hbox>
-                    <html:input id="inspector_notification_sound_volume_input" type="range" min="0" max="100" value="10" />
+                    <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="10" />
                 </vbox>
-                <hbox id="inspector_notification_popup_hbox">
-                    <checkbox preference="pref_notification_popup" label="Включить попап" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector_notification_popup_checkbox" />
+                <hbox id="inspector4pda_notificationPopupHbox">
+                    <checkbox preference="inspector4pda_pref_notification_popup" label="Включить попап" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
                 </hbox>
 
             </vbox>
         </vbox>
 
-        
     </vbox>
 
     <script type="text/javascript">

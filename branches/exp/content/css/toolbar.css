@@ -1,9 +1,9 @@
-/*#inspectorPanel>* {
+/*#inspector4pda_panel>* {
     font-family: Arial, sans-serif;
     background: #FFF;
 }*/
 
-#inspectorPanel label {
+#inspector4pda_panel label {
 	border-bottom: 1px dotted transparent;
 	cursor: pointer;
 }
@@ -14,111 +14,111 @@
 
 /***************** BUTTONS *****************/
 
-#inspectorPanelUsername {
+#inspector4pda_panelUsername {
 	cursor: pointer;
 	color: #3565B5;
 	font-size: 16px;
 	margin: 0;
 }
 
-#inspectorPanelUsername:hover {
+#inspector4pda_panelUsername:hover {
 	color: #14A5F4;
 }
 
-#inspectorMainPanelButtonsBox {
+#inspector4pda_mainPanelButtonsBox {
 	color: #3565B5;
 }
 
-#inspectorMainPanelButtonsBox label {
+#inspector4pda_mainPanelButtonsBox label {
 	margin: 0 10px 0 0;
 	font-size: 18px;
 }
 
-#inspectorMainPanelButtonsBox label:hover {
+#inspector4pda_mainPanelButtonsBox label:hover {
 	color: #14A5F4;
 }
 
-#inspectorPanelQMS {
+#inspector4pda_panelQMS {
 	background: 0 50% url(chrome://4pdainspector/content/img/message_gray.png) no-repeat;
 	height: 16px;
 	padding-left: 18px;
 }
 
-#inspectorPanelQMS.hasUnread {
+#inspector4pda_panelQMS.hasUnread {
 	background-image: url(chrome://4pdainspector/content/img/message.png);
 }
 
-#inspectorPanelFavorites {
+#inspector4pda_panelFavorites {
 	background: 0 50% url(chrome://4pdainspector/content/img/favorites_gray.png) no-repeat;
 	height: 16px;
 	padding-left: 18px;
 }
 
-#inspectorPanelFavorites.hasUnread {
+#inspector4pda_panelFavorites.hasUnread {
 	background-image: url(chrome://4pdainspector/content/img/favorites.png);
 }
 
-#inspectorPanelSettings {
+#inspector4pda_panelSettings {
 	background: 0 50% url(chrome://4pdainspector/content/img/settings.png) no-repeat;
 	height: 16px;
 	width: 16px;
 }
 
-#inspectorPanelOpenAll {
+#inspector4pda_panelOpenAll {
 	background: 0 50% url(chrome://4pdainspector/content/img/open_all.png) no-repeat;
 	height: 16px;
 	width: 22px;
 }
 
-#inspectorPanelReadAll {
+#inspector4pda_panelReadAll {
 	background: 0 50% url(chrome://4pdainspector/content/img/read_all.png) no-repeat;
 	height: 16px;
 	width: 22px;
 }
 
-#inspectorPanelRefresh {
+#inspector4pda_panelRefresh {
 	background: 0 50% url(chrome://4pdainspector/content/img/refresh.png) no-repeat;
 	height: 16px;
 	width: 16px;
 	margin: 0;
 }
 
-#inspectorPanelUsernameHBox {
+#inspector4pda_panelUsernameHBox {
 	margin-left: 10px;
 }
 
 /***************** THEMES LIST *****************/
 
-#inspectorMainPanel {
+#inspector4pda_mainPanel {
 	border-bottom: 1px dotted #3565B5;
 }
 
-#inspectorThemesList>.oneTheme {
+#inspector4pda_themesList>.oneTheme {
 	border-bottom: 1px solid #D0E4EC;
 	color: #222;
 	padding: 2px 4px;
 }
 
-#inspectorThemesList>.oneTheme:hover {
+#inspector4pda_themesList>.oneTheme:hover {
 	background-color: #D0E4EC;
 }
 
-/*#inspectorThemesList>.oneTheme label:hover {
+/*#inspector4pda_themesList>.oneTheme label:hover {
 	color: #3565B5;
 }*/
 
-#inspectorThemesList .oneTheme_caption {
+#inspector4pda_themesList .oneTheme_caption {
 	color: #3565B5;
 	font-size: 12px;
 	margin: 0;
 	/*font-weight: bold;*/
 }
 
-#inspectorThemesList .oneTheme_caption.readed {
+#inspector4pda_themesList .oneTheme_caption.readed {
 	color: #888;
 }
 
-#inspectorThemesList .oneTheme_caption:hover {
+#inspector4pda_themesList .oneTheme_caption:hover {
 	color: #14A5F4;
 }
 
@@ -132,23 +132,23 @@
 	color: #14A5F4;
 }
 
-#inspectorThemesList .oneTheme_user {
+#inspector4pda_themesList .oneTheme_user {
 	margin-right: 10px;
 }
 
 /* ТЕНИ */
 
-#inspectorThemesList.topShadow
+#inspector4pda_themesList.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000;
 }
 
-#inspectorThemesList.bottomShadow
+#inspector4pda_themesList.bottomShadow
 {
 	box-shadow: inset 0px -10px 10px -10px #000;
 }
 
-#inspectorThemesList.bottomShadow.topShadow
+#inspector4pda_themesList.bottomShadow.topShadow
 {
 	box-shadow: inset 0px 10px 10px -10px #000, inset 0px -10px 10px -10px #000;
 }

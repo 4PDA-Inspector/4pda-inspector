@@ -47,7 +47,7 @@ var cScript = {
         var qCount = QMS.unreadCount;
         var tCount = themes.getCount();
 
-        var btn = cScript.winobj.getElementById('inspectorButton');
+        var btn = cScript.winobj.getElementById('inspector4pda_button');
         if (!btn)
             return false;
 
@@ -60,7 +60,7 @@ var cScript = {
         var button_bgcolor = '#4474C4';
         var button_color = '#FFFFFF';
 
-        var canvas = cScript.winobj.getElementById("inspectorButtonCanvas");
+        var canvas = cScript.winobj.getElementById("inspector4pda_canvas");
         canvas.setAttribute("width", canvas_width);
         canvas.setAttribute("height", canvas_height);
         var ctx = canvas.getContext("2d");
