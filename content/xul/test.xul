@@ -19,21 +19,21 @@
 </hbox>
 
 
-<hbox id="inspectorMainPanel">
-    <hbox flex="1" id="inspectorMainPanelButtonsBox">
+<hbox id="inspector4pda_mainPanel">
+    <hbox flex="1" id="inspector4pda_mainPanelButtonsBox">
 
-        <hbox id="inspectorPanelQMS">
+        <hbox id="inspector4pda_panelQMS">
             <label value="0" />
         </hbox>
 
-        <hbox id="inspectorPanelFavorites">
+        <hbox id="inspector4pda_panelFavorites">
             <vbox>
                 <image src="chrome://4pdainspector/content/img/favorites.png" />
             </vbox>
             <label value="0" />
         </hbox>
 
-        <hbox id="inspectorPanelSettings">
+        <hbox id="inspector4pda_panelSettings">
             <vbox>
                 <image src="chrome://4pdainspector/content/img/settings.png" />
             </vbox>
@@ -41,12 +41,12 @@
 
         <box class="separator"></box>
 
-        <label value="openAll" id="inspectorPanelOpenAll" />
-        <label value="readAll" id="inspectorPanelReadAll" />
+        <label value="openAll" id="inspector4pda_panelOpenAll" />
+        <label value="readAll" id="inspector4pda_panelReadAll" />
     </hbox>
 
-    <hbox id="inspectorPanelUsernameHBox">
-        <label value="" id="inspectorPanelUsername" />
+    <hbox id="inspector4pda_panelUsernameHBox">
+        <label value="" id="inspector4pda_panelUsername" />
     </hbox>
 </hbox>
 
