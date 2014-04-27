@@ -52,7 +52,7 @@ inspector4pda.themes = {
 	openAll: function() {
 		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
-			inspector4pda.themes.open(themesIds[i].id);
+			inspector4pda.themes.open(themesIds[i]);
 		};
 		inspector4pda.themes.list = {};
 	},
@@ -60,7 +60,7 @@ inspector4pda.themes = {
 	readAll: function() {
 		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
-			inspector4pda.themes.read(themesIds[i].id);
+			inspector4pda.themes.read(themesIds[i]);
 		};
 		inspector4pda.themes.list = {};
 	},

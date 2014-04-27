@@ -71,3 +71,7 @@ inspector4pda.utils = {
 		tBrowser.selectedTab = tab;
 	}
 };
+
+if (typeof utils == "undefined") {
+	var utils = inspector4pda.utils;
+}
