@@ -8,6 +8,7 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <prefpane>
 
+    <script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
     <script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
     
     <preferences>
@@ -44,7 +45,7 @@
     </vbox>
 
     <script type="text/javascript">
-        iSettings.init();
+        inspector4pda.settings.init();
     </script>
     
 </prefpane>

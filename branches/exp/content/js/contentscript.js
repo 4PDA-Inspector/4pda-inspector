@@ -1,4 +1,4 @@
-var cScript = {
+inspector4pda.cScript = {
 
 	winobj: null,
 
@@ -7,36 +7,36 @@ var cScript = {
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
-		cScript.winobj = (obj) ? window.document : window.opener.document;
+		inspector4pda.cScript.winobj = (obj) ? window.document : window.opener.document;
 
-        cScript.request();
+        inspector4pda.cScript.request();
     },
 
     request: function(interval)
     {
-        vars.getPrefs();
-        // utils.log(new Date().toString());
-        clearTimeout(cScript.updateTimer);
-        cScript.getData();
+        inspector4pda.vars.getPrefs();
+        // inspector4pda.utils.log(new Date().toString());
+        clearTimeout(inspector4pda.cScript.updateTimer);
+        inspector4pda.cScript.getData();
 
-        cScript.updateTimer = setTimeout(function() {
-            cScript.request();
-        }, (interval || vars.interval));
+        inspector4pda.cScript.updateTimer = setTimeout(function() {
+            inspector4pda.cScript.request();
+        }, (interval || inspector4pda.vars.interval));
     },
 
     getData: function(callback)
     {
         var finishCallback = function(){
-            cScript.printCount();
+            inspector4pda.cScript.printCount();
             if (callback) {
                 callback();
             };
         };
 
-        user.request(function() {
-            if (user.id) {
-                themes.request(function() {
-                    QMS.request(finishCallback);
+        inspector4pda.user.request(function() {
+            if (inspector4pda.user.id) {
+                inspector4pda.themes.request(function() {
+                    inspector4pda.QMS.request(finishCallback);
                 });
             };
         });
@@ -44,10 +44,10 @@ var cScript = {
 
     printCount: function()
     {
-        var qCount = QMS.unreadCount;
-        var tCount = themes.getCount();
+        var qCount = inspector4pda.QMS.unreadCount;
+        var tCount = inspector4pda.themes.getCount();
 
-        var btn = cScript.winobj.getElementById('inspector4pda_button');
+        var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
         if (!btn)
             return false;
 
@@ -60,7 +60,7 @@ var cScript = {
         var button_bgcolor = '#4474C4';
         var button_color = '#FFFFFF';
 
-        var canvas = cScript.winobj.getElementById("inspector4pda_canvas");
+        var canvas = inspector4pda.cScript.winobj.getElementById("inspector4pda_canvas");
         canvas.setAttribute("width", canvas_width);
         canvas.setAttribute("height", canvas_height);
         var ctx = canvas.getContext("2d");
@@ -94,11 +94,11 @@ var cScript = {
         };
 
         img.src = canvas_img;
-        /*btn.setAttribute('tooltiptext', cScript.stringBundle.GetStringFromName("4PDA_online")+
-            '\n'+cScript.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
-            '\n'+cScript.stringBundle.GetStringFromName("New Messages")+': '+qCount
+        /*btn.setAttribute('tooltiptext', inspector4pda.cScript.stringBundle.GetStringFromName("4PDA_online")+
+            '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
+            '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("New Messages")+': '+qCount
         );*/
     }
 };
 
-cScript.init();
+inspector4pda.cScript.init();

@@ -1,68 +1,68 @@
-var themes = {
+inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
 	list: {},
 
 	request: function(callback) {
-		var xmr = Object.create(iXMR);
-		// utils.log(themes.list.length);
+		var xmr = Object.create(inspector4pda.XHR);
+		// inspector4pda.utils.log(inspector4pda.themes.list.length);
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
-				themes.parse(resp.responseText);
+				inspector4pda.themes.parse(resp.responseText);
 			};
 			if (callback) {
 				callback();
 			};
 		}
-		xmr.send(themes.rUrl);
+		xmr.send(inspector4pda.themes.rUrl);
 	},
 
 	getCount: function() {
-		return Object.keys(themes.list).length;
+		return Object.keys(inspector4pda.themes.list).length;
 	},
 
 	parse: function(text) {
-		themes.list = {};
+		inspector4pda.themes.list = {};
 		var tText = text.replace('\r','').split('\n');
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
 				var theme = Object.create(themeObj);
 				if (theme.parse(tText[i])) {
-					themes.list[theme.id] = theme;
+					inspector4pda.themes.list[theme.id] = theme;
 				}
 			}
 		}
 	},
 
 	open: function(id) {
-		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
-		delete themes.list[id];
+		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
+		delete inspector4pda.themes.list[id];
 	},
 
 	read: function(id) {
-		var xmr = Object.create(iXMR);
+		var xmr = Object.create(inspector4pda.XHR);
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
-		delete themes.list[id];
+		delete inspector4pda.themes.list[id];
 	},
 
 	openLast: function(id) {
-		utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
-		delete themes.list[id];
+		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		delete inspector4pda.themes.list[id];
 	},
 
 	openAll: function() {
-		var themesIds = Object.keys(themes.list);
+		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
-			themes.open(themesIds[i].id);
+			inspector4pda.themes.open(themesIds[i].id);
 		};
-		themes.list = {};
+		inspector4pda.themes.list = {};
 	},
 
 	readAll: function() {
-		var themesIds = Object.keys(themes.list);
+		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
-			themes.read(themesIds[i].id);
+			inspector4pda.themes.read(themesIds[i].id);
 		};
-		themes.list = {};
+		inspector4pda.themes.list = {};
 	},
 }
 
@@ -77,7 +77,7 @@ var themeObj = {
 
 	parse: function(text) {
 		try {
-			var obj = utils.parse(text);
+			var obj = inspector4pda.utils.parse(text);
 			this.id = obj[0];
 			this.title = obj[1];
 			this.posts_num = obj[2];

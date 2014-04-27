@@ -1,17 +1,17 @@
-var user = {
+inspector4pda.user = {
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=id',
     id: 0,
     name: '',
 
     request: function(callback) {
-        var xmr = Object.create(iXMR);
+        var xmr = Object.create(inspector4pda.XHR);
         xmr.callback.success = function(resp) {
 
             if (resp.responseText) {
-                var res = utils.parse(resp.responseText);
+                var res = inspector4pda.utils.parse(resp.responseText);
                 if (res.length == 2) {
-                    user.id = res[0];
-                    user.name = res[1];
+                    inspector4pda.user.id = res[0];
+                    inspector4pda.user.name = res[1];
                     callback();
                 };
             };
@@ -20,6 +20,6 @@ var user = {
     },
 
     open: function(id) {
-        utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id);
+        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id);
     }
 }

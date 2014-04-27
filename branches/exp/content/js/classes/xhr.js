@@ -1,4 +1,4 @@
-var iXMR = {
+inspector4pda.XHR = {
 
 	callback: {
 		success: function(){},
@@ -14,21 +14,21 @@ var iXMR = {
 		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
 				if (req.status == 200) {
-					iXMR.callback.success(req);
+					inspector4pda.XHR.callback.success(req);
 				} else {
-					iXMR.callback.not200Success(req);
+					inspector4pda.XHR.callback.not200Success(req);
 				}
 			}
 		}
 
 		req.onerror = function() {
-			iXMR.callback.error();
+			inspector4pda.XHR.callback.error();
 		}
 
-		if (iXMR.timeoutTime) {
-			req.timeout = iXMR.timeoutTime;
+		if (inspector4pda.XHR.timeoutTime) {
+			req.timeout = inspector4pda.XHR.timeoutTime;
 			req.ontimeout = function () {
-				iXMR.callback.timeout();
+				inspector4pda.XHR.callback.timeout();
 			}
 		};
 

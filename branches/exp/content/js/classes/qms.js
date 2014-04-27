@@ -1,36 +1,36 @@
-var QMS = {
+inspector4pda.QMS = {
     unreadCount: 0,
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms',
     list: [],
 
     request: function(callback) {
-        var xmr = Object.create(iXMR);
-        // utils.log('QMS' + themes.list.length);
+        var xmr = Object.create(inspector4pda.XHR);
+        // inspector4pda.utils.log('QMS' + inspector4pda.themes.list.length);
         xmr.callback.success = function(resp) {
             if (resp.responseText) {
-                QMS.parse(resp.responseText);
+                inspector4pda.QMS.parse(resp.responseText);
             };
             if (callback) {
                 callback();
             };
         }
-        xmr.send(QMS.rUrl);
+        xmr.send(inspector4pda.QMS.rUrl);
     },
 
     parse: function(text) {
         this.unreadCount = 0;
-        QMS.list = [];
+        inspector4pda.QMS.list = [];
         var tText = text.replace('\r','').split('\n');
         for (var i = 0; i < tText.length; i++) {
             if (tText[i]) {
                 var dialog = Object.create(qDialog);
                 if (dialog.parse(tText[i])) {
-                    QMS.list.push(dialog);
-                    QMS.unreadCount += dialog.unread_msgs;
+                    inspector4pda.QMS.list.push(dialog);
+                    inspector4pda.QMS.unreadCount += dialog.unread_msgs;
                 }
             }
         }
-        // utils.log(QMS.list.length);
+        // inspector4pda.utils.log(inspector4pda.QMS.list.length);
     }
 }
 
@@ -45,7 +45,7 @@ var qDialog = {
 
     parse: function(text) {
         try {
-            var obj = utils.parse(text);
+            var obj = inspector4pda.utils.parse(text);
             this.id = obj[0];
             this.title = obj[1];
             this.opponent_id = obj[2];
