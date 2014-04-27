@@ -1,4 +1,8 @@
-var utils = {
+if (typeof inspector4pda == "undefined") {
+	var inspector4pda = {}
+}
+
+inspector4pda.utils = {
 	
 	consoleService: null,
 	firebugConsoleService: null,

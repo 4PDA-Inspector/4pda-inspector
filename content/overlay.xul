@@ -10,7 +10,7 @@
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
 
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/vars.js'></script>
-	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/ixmr.js'></script>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/xhr.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/user.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/themes.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/qms.js'></script>
@@ -24,7 +24,7 @@
 			class="toolbarbutton-1 chromeclass-toolbar-additional"
 			label="4PDA Инспектор"
 			tooltiptext="4PDA Инспектор"
-			oncommand="iToolbar.bClick(this)"
+			oncommand="inspector4pda.toolbar.bClick(this)"
 			/>
 	</toolbarpalette>
 
@@ -35,7 +35,7 @@
 		<panel type="arrow"
 			id="inspector4pda_panel"
 			align="left"
-			onpopuphiding="iToolbar.hidePanel()">
+			onpopuphiding="inspector4pda.toolbar.hidePanel()">
 			<vbox id="inspector4pda_panelMainVBox">
 				<hbox id="inspector4pda_mainPanel">
 					<hbox flex="1" id="inspector4pda_mainPanelButtonsBox">

@@ -1,4 +1,4 @@
-var vars = {
+inspector4pda.vars = {
 
 	interval: 5000,
 
@@ -23,14 +23,14 @@ var vars = {
 	getValue: function(field, multiplier, defaultValue)
 	{
 		try {
-			vars[field] = vars.prefs.getIntPref("interval") * (multiplier || 1);
+			inspector4pda.vars[field] = inspector4pda.vars.prefs.getIntPref("interval") * (multiplier || 1);
 		} catch (e) {
 			if (defaultValue) {
-				vars[field] = defaultValue;
+				inspector4pda.vars[field] = defaultValue;
 			};
-			utils.log(e);
+			inspector4pda.utils.log(e);
 		}
 	}
 }
 
-vars.getPrefs();
+inspector4pda.vars.getPrefs();
