@@ -176,6 +176,7 @@ inspector4pda.toolbar = {
 		var themeCaptionLabel = document.createElement('label');
 		themeCaptionLabel.setAttribute('value', inspector4pda.utils.htmlspecialcharsdecode(theme.title));
 		themeCaptionLabel.className = 'oneTheme_caption';
+		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
 		themeCaptionLabel.onclick = function () {
 			inspector4pda.themes.open(theme.id);
 			inspector4pda.cScript.printCount();
@@ -204,12 +205,39 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
 		};
 
+		var readImage = document.createElement('image');
+		readImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/view.png');
+		readImage.setAttribute('data-theme', theme.id);
+		readImage.className = 'oneTheme_manicon';
+		readImage.onclick = function () {
+			var current = this;
+			var dataTheme = this.getAttribute('data-theme');
+			current.style.opacity = '0.5';
+			
+			inspector4pda.themes.read(dataTheme, function() {
+				current.style.opacity = '';
+				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
+			});
+		};
+
+		var favImage = document.createElement('image');
+		favImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite.png');
+		favImage.setAttribute('data-theme', theme.id);
+		favImage.className = 'oneTheme_manicon';
+
 		// BOXES
 
 		var infoHBox = document.createElement('hbox');
 		infoHBox.className = 'oneThemeInfoHBox';
 		infoHBox.appendChild(userCaptionLabel);
 		infoHBox.appendChild(lastPostLabel);
+
+		var box = document.createElement('box');
+		box.setAttribute('flex', '1');
+		infoHBox.appendChild(box);
+		
+		infoHBox.appendChild(readImage);
+		infoHBox.appendChild(favImage);
 
 		var mainHBox = document.createElement('hbox');
 		mainHBox.appendChild(themeCaptionLabel);

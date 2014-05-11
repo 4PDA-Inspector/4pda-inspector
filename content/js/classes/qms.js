@@ -40,11 +40,12 @@ var qDialog = {
     opponent_id: '',
     opponent_name: '',
     last_msg_ts: '',
-    unread_msgs: '',
+    unread_msgs: 0,
     last_msg_id: '',
 
     parse: function(text) {
         try {
+inspector4pda.utils.log(text);
             var obj = inspector4pda.utils.parse(text);
             this.id = obj[0];
             this.title = obj[1];
