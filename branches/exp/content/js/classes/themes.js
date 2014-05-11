@@ -38,10 +38,14 @@ inspector4pda.themes = {
 		delete inspector4pda.themes.list[id];
 	},
 
-	read: function(id) {
+	read: function(id, callback) {
 		var xmr = Object.create(inspector4pda.XHR);
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
 		delete inspector4pda.themes.list[id];
+
+		if (typeof callback == 'function') {
+			callback();
+		};
 	},
 
 	openLast: function(id) {

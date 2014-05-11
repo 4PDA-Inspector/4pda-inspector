@@ -136,6 +136,15 @@
 	margin-right: 10px;
 }
 
+#inspector4pda_themesList .oneTheme_manicon {
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+#inspector4pda_themesList .oneTheme_manicon:hover {
+	background-color: #080;
+}
+
 /* ТЕНИ */
 
 #inspector4pda_themesList.topShadow

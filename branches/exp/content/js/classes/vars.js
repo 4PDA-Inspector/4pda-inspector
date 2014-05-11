@@ -28,6 +28,7 @@ inspector4pda.vars = {
 			if (defaultValue) {
 				inspector4pda.vars[field] = defaultValue;
 			};
+			inspector4pda.utils.log('error');
 			inspector4pda.utils.log(e);
 		}
 	}
