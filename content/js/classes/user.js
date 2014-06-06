@@ -4,7 +4,7 @@ inspector4pda.user = {
     name: '',
 
     request: function(callback) {
-        var xmr = Object.create(inspector4pda.XHR);
+        var xmr = new inspector4pda.XHR();
         xmr.callback.success = function(resp) {
 
             if (resp.responseText) {

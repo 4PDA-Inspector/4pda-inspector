@@ -4,8 +4,7 @@ inspector4pda.QMS = {
     list: [],
 
     request: function(callback) {
-        var xmr = Object.create(inspector4pda.XHR);
-        // inspector4pda.utils.log('QMS' + inspector4pda.themes.list.length);
+        var xmr = new inspector4pda.XHR();
         xmr.callback.success = function(resp) {
             if (resp.responseText) {
                 inspector4pda.QMS.parse(resp.responseText);
@@ -21,9 +20,13 @@ inspector4pda.QMS = {
         this.unreadCount = 0;
         inspector4pda.QMS.list = [];
         var tText = text.replace('\r','').split('\n');
+
+        inspector4pda.utils.log('QMS parse');
+        // inspector4pda.utils.log(text);
         for (var i = 0; i < tText.length; i++) {
             if (tText[i]) {
                 var dialog = Object.create(qDialog);
+
                 if (dialog.parse(tText[i])) {
                     inspector4pda.QMS.list.push(dialog);
                     inspector4pda.QMS.unreadCount += dialog.unread_msgs;
@@ -45,7 +48,7 @@ var qDialog = {
 
     parse: function(text) {
         try {
-inspector4pda.utils.log(text);
+// inspector4pda.utils.log(text);
             var obj = inspector4pda.utils.parse(text);
             this.id = obj[0];
             this.title = obj[1];

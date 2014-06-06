@@ -215,8 +215,10 @@ inspector4pda.toolbar = {
 			current.style.opacity = '0.5';
 			
 			inspector4pda.themes.read(dataTheme, function() {
+				inspector4pda.utils.log('read theme click');
 				current.style.opacity = '';
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
+
 			});
 		};
 

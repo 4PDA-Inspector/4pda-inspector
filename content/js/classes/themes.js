@@ -3,8 +3,7 @@ inspector4pda.themes = {
 	list: {},
 
 	request: function(callback) {
-		var xmr = Object.create(inspector4pda.XHR);
-		// inspector4pda.utils.log(inspector4pda.themes.list.length);
+		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
 				inspector4pda.themes.parse(resp.responseText);
@@ -39,7 +38,9 @@ inspector4pda.themes = {
 	},
 
 	read: function(id, callback) {
-		var xmr = Object.create(inspector4pda.XHR);
+		inspector4pda.utils.log('themes read');
+		var xmr = new inspector4pda.XHR();
+
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
 		delete inspector4pda.themes.list[id];
 
