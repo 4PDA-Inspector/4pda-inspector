@@ -11,7 +11,6 @@ inspector4pda.XHR = function () {
 	
 	this.send = function(url) {
 
-		inspector4pda.utils.log(url);
 		var self = this;
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function() {

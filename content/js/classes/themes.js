@@ -38,7 +38,6 @@ inspector4pda.themes = {
 	},
 
 	read: function(id, callback) {
-		inspector4pda.utils.log('themes read');
 		var xmr = new inspector4pda.XHR();
 
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);

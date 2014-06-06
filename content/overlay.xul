@@ -40,22 +40,22 @@
 				<hbox id="inspector4pda_mainPanel">
 					<hbox flex="1" id="inspector4pda_mainPanelButtonsBox">
 
-						<label value="0" id="inspector4pda_panelQMS" />
-						<label value="0" id="inspector4pda_panelFavorites" />
+						<label value="0" tooltiptext="QMS" id="inspector4pda_panelQMS" />
+						<label value="0" tooltiptext="Избранные" id="inspector4pda_panelFavorites" />
 
-						<label value="" id="inspector4pda_panelSettings" />
+						<label value="" tooltiptext="Настройки" id="inspector4pda_panelSettings" />
 
 						<box class="separator"></box>
 					</hbox>
 
 					<hbox flex="1">
-						<label value="" id="inspector4pda_panelOpenAll" />
-						<label value="" id="inspector4pda_panelReadAll" />
+						<label value="" tooltiptext="Открыть все непрочитанные темы в новых вкладках" id="inspector4pda_panelOpenAll" />
+						<label value="" tooltiptext="Пометить все темы прочитанными" id="inspector4pda_panelReadAll" />
 					</hbox>
 
 					<hbox id="inspector4pda_panelUsernameHBox">
 					    <label value="" id="inspector4pda_panelUsername" />
-						<label value="" id="inspector4pda_panelRefresh" />
+						<label value="" tooltiptext="Обновить" id="inspector4pda_panelRefresh" />
 					</hbox>
 				</hbox>
 				<vbox id="inspector4pda_themesList"></vbox>
