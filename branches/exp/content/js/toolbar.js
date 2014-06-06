@@ -53,12 +53,14 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.openAllLabel.onclick = function() {
 			inspector4pda.themes.openAll();
 			inspector4pda.cScript.printCount();
+			inspector4pda.toolbar.refresh();
 		}
 		
 		inspector4pda.toolbar.elements.readAllLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelReadAll');
 		inspector4pda.toolbar.elements.readAllLabel.onclick = function() {
 			inspector4pda.themes.readAll();
 			inspector4pda.cScript.printCount();
+			inspector4pda.toolbar.refresh();
 		}
 		
 		inspector4pda.toolbar.elements.manualRefresh = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelRefresh');
@@ -128,7 +130,6 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.qmsLabel.value = inspector4pda.QMS.unreadCount;
 		inspector4pda.toolbar.elements.qmsLabel.className = inspector4pda.QMS.unreadCount? 'hasUnread': '';
 
-		inspector4pda.toolbar.clearThemesList();
 		inspector4pda.toolbar.printThemesList();
 		
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
@@ -157,9 +158,18 @@ inspector4pda.toolbar = {
 
 	printThemesList: function()
 	{
-		for (var i in inspector4pda.themes.list) {
-			inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(inspector4pda.themes.list[i]));
+		inspector4pda.toolbar.clearThemesList();
+		if (Object.keys(inspector4pda.themes.list).length) {
+			for (var i in inspector4pda.themes.list) {
+				inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(inspector4pda.themes.list[i]));
+			}
+		} else {
+			var noThemesLabel = document.createElement('label');
+			noThemesLabel.setAttribute('value', 'Ничего нового');
+			noThemesLabel.className = 'oneTheme';
+			inspector4pda.toolbar.elements.themesList.appendChild(noThemesLabel);
 		}
+
 
 		/*for (var i = 0; i < inspector4pda.themes.list.length; i++) {
 
@@ -208,6 +218,7 @@ inspector4pda.toolbar = {
 		var readImage = document.createElement('image');
 		readImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/view.png');
 		readImage.setAttribute('data-theme', theme.id);
+		readImage.setAttribute('tooltiptext', 'Отметить как прочитанное');
 		readImage.className = 'oneTheme_manicon';
 		readImage.onclick = function () {
 			var current = this;
@@ -215,17 +226,50 @@ inspector4pda.toolbar = {
 			current.style.opacity = '0.5';
 			
 			inspector4pda.themes.read(dataTheme, function() {
-				inspector4pda.utils.log('read theme click');
 				current.style.opacity = '';
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
-
+				inspector4pda.cScript.printCount();
 			});
 		};
+
+		/*
+		 * Странная ссылка отписки, пока что откажемся 
 
 		var favImage = document.createElement('image');
 		favImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite.png');
 		favImage.setAttribute('data-theme', theme.id);
 		favImage.className = 'oneTheme_manicon';
+		favImage.onclick = function () {
+			var current = this;
+			var dataTheme = this.getAttribute('data-theme');
+			current.style.opacity = '0.5';
+			
+			if (Object.keys(inspector4pda.themes.list).indexOf(dataTheme) !== -1) {
+				var xmr = new inspector4pda.XHR();
+				xmr.callback.success = function(resp) {
+					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.color = '#aaa';
+					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.textDecoration = 'line-through';
+					// delete inspector4pda.themes.list[dataTheme];
+					current.setAttribute('tooltiptext', 'Добавить в избранное');
+					current.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite_color.png');
+					current.style.opacity = '';
+					inspector4pda.cScript.printCount();
+				}
+				xmr.send('http://4pda.ru/forum/index.php?autocom=favtopics&CODE=02&selectedtids=' + dataTheme);
+			} else {
+				var xmr = new inspector4pda.XHR();
+				xmr.callback.success = function(resp) {
+					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.color = '';
+					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.textDecoration = 'none';
+					delete inspector4pda.themes.list[dataTheme];
+					current.setAttribute('tooltiptext', 'Удалить из избранного');
+					current.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite.png');
+					current.style.opacity = '';
+					inspector4pda.cScript.printCount();
+				}
+				xmr.send('http://4pda.ru/forum/index.php?act=fav&type=topics&tact=delete&selectedtids=' + dataTheme);
+			}
+		};*/
 
 		// BOXES
 
@@ -239,7 +283,6 @@ inspector4pda.toolbar = {
 		infoHBox.appendChild(box);
 		
 		infoHBox.appendChild(readImage);
-		infoHBox.appendChild(favImage);
 
 		var mainHBox = document.createElement('hbox');
 		mainHBox.appendChild(themeCaptionLabel);
