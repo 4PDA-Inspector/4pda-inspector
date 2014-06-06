@@ -1,38 +1,42 @@
-inspector4pda.XHR = {
-
-	callback: {
+inspector4pda.XHR = function () {
+	
+	this.callback = {
 		success: function(){},
 		error: function(){},
 		timeout: function(){},
 		not200Success: function(){}
-	},
+	};
 
-	timeoutTime: 3000,
+	this.timeoutTime = 3000;
 	
-	send: function(url) {
+	this.send = function(url) {
+
+		inspector4pda.utils.log(url);
+		var self = this;
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
 				if (req.status == 200) {
-					inspector4pda.XHR.callback.success(req);
+					self.callback.success(req);
 				} else {
-					inspector4pda.XHR.callback.not200Success(req);
+					self.callback.not200Success(req);
 				}
 			}
 		}
 
 		req.onerror = function() {
-			inspector4pda.XHR.callback.error();
+			self.callback.error();
 		}
 
-		if (inspector4pda.XHR.timeoutTime) {
-			req.timeout = inspector4pda.XHR.timeoutTime;
+		if (self.timeoutTime) {
+			req.timeout = self.timeoutTime;
 			req.ontimeout = function () {
-				inspector4pda.XHR.callback.timeout();
+				self.callback.timeout();
 			}
 		};
 
 		req.open("GET", url, true);
 		req.send(null);
-	}
+	};
+
 }

@@ -75,3 +75,7 @@ inspector4pda.utils = {
 if (typeof utils == "undefined") {
 	var utils = inspector4pda.utils;
 }
+
+function ulog(text, json) {
+	inspector4pda.utils.log(text, json);
+}

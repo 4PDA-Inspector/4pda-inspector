@@ -15,7 +15,7 @@ inspector4pda.cScript = {
     request: function(interval)
     {
         inspector4pda.vars.getPrefs();
-        // inspector4pda.utils.log(new Date().toString());
+        inspector4pda.utils.log(new Date().toString());
         clearTimeout(inspector4pda.cScript.updateTimer);
         inspector4pda.cScript.getData();
 
