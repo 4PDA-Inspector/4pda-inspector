@@ -1,4 +1,4 @@
-#inspectorSettingsWindow
+#inspector4pda_settingsWindow
 {
 	font-family: 'Ubuntu', 'Tahoma', 'Droid Sans', Arial;
 	background: #eee;
@@ -55,12 +55,12 @@ radio[selected="true"]
 	cursor: pointer;
 }
 
-.leftLabel
+.inspector4pda_leftLabel
 {
 	width: 210px;
 }
 
-.halfInput
+.inspector4pda_halfInput
 {
 	width: 150px;
 }

@@ -72,6 +72,135 @@ inspector4pda.cScript = {
 		}
 		this.lastUpdateRequest = nowTime;
 
+		var req_user = new XMLHttpRequest();
+		req_user.onreadystatechange = function() {
+			if (req_user.readyState == 4) {
+				if (req_user.status == 200) {
+					if (req_user.responseText) {
+						var res = inspector4pda.utils.parse(req_user.responseText);
+						if (res.length == 2) {
+							inspector4pda.cScript.isLogin = true;
+							inspector4pda.cScript.userId = parseInt(res[0]);
+							inspector4pda.cScript.userName = res[1];
+
+							// request themes
+							var req_themes = new XMLHttpRequest();
+							req_themes.onreadystatechange = function() {
+								if (req_themes.readyState == 4) {
+									if (req_themes.status == 200) {
+										var text = req_themes.responseText;
+										inspector4pda.cScript.unreadThemes = {};
+										var tText = text.replace('\r','').split('\n');
+										for (var i = 0; i < tText.length; i++) {
+											if (tText[i]) {
+												var obj = inspector4pda.utils.parse(tText[i]);
+												inspector4pda.cScript.unreadThemes[obj[0]] = {
+													title: obj[1],
+													date: new Date(obj[5]*1000).toLocaleString(),
+													author: obj[4],
+												};
+											}
+										}
+										inspector4pda.cScript.unreadThemesCount = Object.keys(inspector4pda.cScript.unreadThemes).length;
+										
+										// request QMS
+										var req_qms = new XMLHttpRequest();
+										req_qms.onreadystatechange = function() {
+											if (req_qms.readyState == 4) {
+												if (req_qms.status == 200) {
+													inspector4pda.cScript.unreadQmsCount = 0;
+													var tText = req_qms.responseText.replace('\r','').split('\n');
+													for (var i = 0; i < tText.length; i++) {
+														if (tText[i]) {
+															var qObj = inspector4pda.utils.parse(tText[i]);
+															inspector4pda.cScript.unreadQmsCount++;
+														}
+													}
+													inspector4pda.cScript.printCount(inspector4pda.cScript.unreadThemesCount, inspector4pda.cScript.unreadQmsCount);
+													inspector4pda.cScript.checkNews(hideNotification);
+												}
+											}
+										}
+
+										req_qms.onerror = function() {
+											inspector4pda.cScript.printLogout();
+											if (errorCallback && typeof errorCallback == 'function')
+												errorCallback();
+											if (!noFuture)
+												inspector4pda.cScript.newIteration();
+										}
+										req_qms.timeout = inspector4pda.cScript.timeoutUpdateTime;
+										req_qms.ontimeout = function () {
+											if (!noFuture) {
+												inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
+											}
+										}
+
+										req_qms.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms', true);
+										req_qms.send(null);
+
+
+										if (callback && typeof callback == 'function')
+											callback();
+										if (!noFuture) {
+											inspector4pda.cScript.newIteration();
+										}
+										return;
+									} else {
+										//inspector4pda_XHR.callback.not200Success(req);
+									}
+								}
+							}
+							req_themes.onerror = function() {
+								inspector4pda.cScript.printLogout();
+								if (errorCallback && typeof errorCallback == 'function')
+									errorCallback();
+								if (!noFuture)
+									inspector4pda.cScript.newIteration();
+							}
+							req_themes.timeout = inspector4pda.cScript.timeoutUpdateTime;
+							req_themes.ontimeout = function () {
+								if (!noFuture) {
+									inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
+								}
+							}
+
+							req_themes.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav', true);
+							req_themes.send(null);
+						};
+					} else {
+						inspector4pda.cScript.printLogout();
+						if (errorCallback && typeof errorCallback == 'function')
+							errorCallback();
+						if (!noFuture)
+							inspector4pda.cScript.newIteration();
+					}
+				} else {
+					inspector4pda.cScript.printLogout(true);
+				}
+			}
+		}
+
+		req_user.onerror = function() {
+			inspector4pda.cScript.printLogout();
+			if (errorCallback && typeof errorCallback == 'function')
+				errorCallback();
+			if (!noFuture)
+				inspector4pda.cScript.newIteration();
+		}
+		req_user.timeout = inspector4pda.cScript.timeoutUpdateTime;
+		req_user.ontimeout = function () {
+			if (!noFuture) {
+				inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
+			}
+		}
+
+		req_user.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=id', true);
+		req_user.send(null);
+
+/////////////////////////////////////////////////////////////////////////////////
+
+		/*return;
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function()
 		{
@@ -130,16 +259,14 @@ inspector4pda.cScript = {
 			if (!noFuture)
 				inspector4pda.cScript.newIteration();
 		}
-
 		req.timeout = inspector4pda.cScript.timeoutUpdateTime;
 		req.ontimeout = function () {
 			if (!noFuture) {
 				inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
 			}
 		}
-
-		req.open("GET", inspector4pda.cScript.favUrl, true);
-		req.send(null);
+		req.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav', true);
+		req.send(null);*/
 	},
 
 	isNotLogin: function(text)

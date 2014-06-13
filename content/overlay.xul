@@ -67,7 +67,7 @@
 					<hbox id="inspector4pda_panel_loginHBox">
 						<label value="" id="inspector4pda_panel_loginBox" />
 
-						<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' id="refreshImg" tooltip="refresh" tooltiptext="&refresh;" />
+						<image src='chrome://4pdainspector/content/images/refreshblue_9737.png' width='16' height='16' id="inspector4pda_refreshImg" tooltip="refresh" tooltiptext="&refresh;" />
 					</hbox>
 				</hbox>
 				
@@ -77,9 +77,9 @@
 				<hbox id="inspector4pda_panel_linksBox" >
 					<image src="chrome://4pdainspector/content/images/links/homepage_16.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToHomepage" tooltiptext="&Homepage;" />
 					<image src="chrome://4pdainspector/content/images/links/group.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToForum" tooltiptext="&Forum;" />
-					<box class="delimiterBox"></box>
+					<box class="inspector4pda_delimiterBox"></box>
 					<image src="chrome://4pdainspector/content/images/links/subscriptions.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToSubscriptions" tooltiptext="&Subscriptions;" />
-					<box class="delimiterBox"></box>
+					<box class="inspector4pda_delimiterBox"></box>
 					<image src="chrome://4pdainspector/content/images/links/devdb.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToDevDB" tooltiptext="DevDB" />
 					<image src="chrome://4pdainspector/content/images/links/devfaq.png" class="inspector4pda_panel_menuItem" id="inspector4pda_goToDevFAQ" tooltiptext="DevFAQ" />
 				</hbox>
