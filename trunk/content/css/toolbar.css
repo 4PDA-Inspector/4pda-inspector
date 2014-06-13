@@ -121,7 +121,7 @@ label:hover, .inspector4pda_panel_menuItem:hover>label
 	margin-top: 5px;
 }
 
-#refreshImg
+#inspector4pda_refreshImg
 {
 	cursor: pointer;
 	margin-left: 5px;
@@ -165,7 +165,7 @@ image.inspector4pda_panel_menuItem, .inspector4pda_panel_menuItem image
 	padding-top: 5px;
 }
 
-.delimiterBox
+.inspector4pda_delimiterBox
 {
 	margin-right: 10px;
 }

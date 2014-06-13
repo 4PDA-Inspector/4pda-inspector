@@ -89,7 +89,7 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.readAll();
 		});
 
-		this.refreshImg = this.winobj.getElementById('refreshImg');
+		this.refreshImg = this.winobj.getElementById('inspector4pda_refreshImg');
 
 		this.refreshImg.addEventListener('click', function()
 		{

@@ -72,5 +72,14 @@ inspector4pda.utils = {
 		string = string.replace(/&quot;/g, '"');
 		string = string.replace(/&amp;/g, '&');
 		return string;
+	},
+
+	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
+	parse: function(str) {
+		return str.match(this.parseStringRexp);
 	}
 };
+
+function ulog(ttt, json) {
+	inspector4pda.utils.log(ttt, json);
+}
