@@ -35,7 +35,14 @@ inspector4pda.utils = {
 	},
 
 	parse: function(str) {
-		return str.match(this.parseStringRexp);
+		var parsed = str.match(this.parseStringRexp);
+		var pq = '';
+		for (var i = 0; i < parsed.length; i++) {
+			if (pq = parsed[i].match(/\"(.*)\"/)) {
+				parsed[i] = pq[1];
+			};
+		};
+		return parsed;
 	},
 
 	checkNotificationSupport: function() {

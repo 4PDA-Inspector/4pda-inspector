@@ -1,8 +1,13 @@
 inspector4pda.cScript = {
 
 	winobj: null,
-
     updateTimer: 0,
+    prevData: {
+        themes: {},
+        QMS: {}
+    },
+    requestsCount: 0,
+    notifications: [],
 
 	init: function(el)
 	{
@@ -28,11 +33,16 @@ inspector4pda.cScript = {
     {
         var finishCallback = function(){
             inspector4pda.cScript.printCount();
+            if (inspector4pda.cScript.requestsCount++) {
+                inspector4pda.cScript.checkNews();
+            }
             if (callback) {
                 callback();
             };
         };
 
+        this.prevData.themes = inspector4pda.themes.list;
+        this.prevData.QMS = inspector4pda.QMS.list;
         inspector4pda.user.request(function() {
             if (inspector4pda.user.id) {
                 inspector4pda.themes.request(function() {
@@ -98,6 +108,95 @@ inspector4pda.cScript = {
             '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
             '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("New Messages")+': '+qCount
         );*/
+    },
+
+    checkNews: function () {
+        // this.prevData.themes = inspector4pda.themes.list;
+        var hasNews = false;
+
+        //
+
+        if (!(inspector4pda.vars.notification_popup || inspector4pda.vars.notification_sound)) {
+            return false;
+        }
+
+        for (var i in inspector4pda.QMS.list) {
+            var addNot = false
+            if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
+                addNot = true;
+            } else {
+                if (inspector4pda.cScript.prevData.QMS[i].unread_msgs < inspector4pda.QMS.list[i].unread_msgs) {
+                    addNot = true;
+                }
+            }
+
+            if (addNot) {
+                hasNews = true;
+                inspector4pda.cScript.notifications.push({
+                    title: 'Новое сообщение',
+                    body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
+                        ' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')',
+                    type: 'qms',
+                    id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
+                });
+            };
+        }
+
+        for (var i in inspector4pda.themes.list) {
+            if (typeof inspector4pda.cScript.prevData.themes[i] == 'undefined') {
+                hasNews = true;
+                inspector4pda.cScript.notifications.push({
+                    title: 'Новый комментарий',
+                    body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
+                    type: 'theme',
+                    id: i
+                });
+            }
+        }
+        if (hasNews) {
+            if (inspector4pda.vars.notification_sound) {
+                var soundElement = this.winobj.getElementById("inspector4pda_sound");
+                soundElement.volume = inspector4pda.vars.notification_sound_volume;
+                soundElement.play();
+            };
+            if (inspector4pda.vars.notification_popup) {
+                this.showNotifications();
+            };
+        };
+    },
+
+    showNotifications: function() {
+        if (!this.notifications.length)
+            return false;
+
+        var currentNotification = this.notifications.shift();
+
+        var notification = new Notification(currentNotification.title, {
+            tag : "4pdainspector_" + currentNotification.type + '_' + currentNotification.id,
+            body : currentNotification.body,
+            icon : "chrome://4pdainspector/content/icons/icon_64.png"
+        });
+
+        
+        notification.onclick = function() {
+            var tagData = this.tag.split('_');
+            
+            if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
+                ulog(this.tag);
+                return false;
+            }
+
+            if (tagData[1] == 'qms'){
+                inspector4pda.QMS.openDialog(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
+            } else {
+                inspector4pda.themes.open(parseInt(tagData[2]));
+            }
+        }
+
+        setTimeout(function()
+        {
+            inspector4pda.cScript.showNotifications();
+        }, 50);
     }
 };
 

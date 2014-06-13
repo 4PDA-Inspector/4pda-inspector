@@ -1,6 +1,9 @@
 inspector4pda.vars = {
 
 	interval: 5000,
+	notification_sound: true,
+	notification_popup: true,
+	notification_sound_volume: 1,
 
 	prefs: {},
 
@@ -17,18 +20,31 @@ inspector4pda.vars = {
 
 	resetStorage: function()
 	{
-		this.getValue('interval', 1000, 5000);
+		this.getValue('interval', 5000, 1000);
+		this.getValue('notification_sound', true);
+		this.getValue('notification_popup', true);
+		this.getValue('notification_sound_volume', 1, 0.01);
 	},
 
-	getValue: function(field, multiplier, defaultValue)
+	getValue: function(field, defaultValue, multiplier)
 	{
 		try {
-			inspector4pda.vars[field] = inspector4pda.vars.prefs.getIntPref("interval") * (multiplier || 1);
+
+			switch (typeof inspector4pda.vars[field]) {
+				case 'number':
+					inspector4pda.vars[field] = inspector4pda.vars.prefs.getIntPref(field) * (multiplier || 1);
+					break;
+				case 'boolean':
+					inspector4pda.vars[field] = inspector4pda.vars.prefs.getBoolPref(field);
+					break;
+				default:
+					inspector4pda.vars[field] = inspector4pda.defaults.prefs.getCharPref(field);
+			}
 		} catch (e) {
 			if (defaultValue) {
 				inspector4pda.vars[field] = defaultValue;
 			};
-			inspector4pda.utils.log('error');
+			inspector4pda.utils.log('error ' + field);
 			inspector4pda.utils.log(e);
 		}
 	}
