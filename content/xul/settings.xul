@@ -36,7 +36,7 @@
                     <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="10" />
                 </vbox>
                 <hbox id="inspector4pda_notificationPopupHbox">
-                    <checkbox preference="inspector4pda_pref_notification_popup" label="Включить попап" oncommand="inspectorSettings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
+                    <checkbox preference="inspector4pda_pref_notification_popup" label="Включить попап" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
                 </hbox>
 
             </vbox>

@@ -29,6 +29,7 @@
 	</toolbarpalette>
 
 	<toolbox id="navigator-toolbox">
+		<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector4pda_sound" src="chrome://4pdainspector/content/sound/not.wav" />
 		<hbox hidden="true">
 			<html:canvas id="inspector4pda_canvas" width="24" height="24"></html:canvas> 
 		</hbox>

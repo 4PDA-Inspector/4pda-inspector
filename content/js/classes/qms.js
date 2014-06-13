@@ -1,5 +1,9 @@
 inspector4pda.QMS = {
     unreadCount: 0,
+    count: {
+        messages: 0,
+        dialogs: 0
+    },
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms',
     list: [],
 
@@ -17,7 +21,8 @@ inspector4pda.QMS = {
     },
 
     parse: function(text) {
-        this.unreadCount = 0;
+        inspector4pda.QMS.count.messages = 0;
+        inspector4pda.QMS.count.dialogs = 0;
         inspector4pda.QMS.list = [];
         var tText = text.replace('\r','').split('\n');
         for (var i = 0; i < tText.length; i++) {
@@ -25,12 +30,18 @@ inspector4pda.QMS = {
                 var dialog = Object.create(qDialog);
 
                 if (dialog.parse(tText[i])) {
-                    inspector4pda.QMS.list.push(dialog);
-                    inspector4pda.QMS.unreadCount += dialog.unread_msgs;
-                    // ++ ?
+                    inspector4pda.QMS.list[dialog.id] = dialog;
+                    //ulog(dialog, true);
+                    inspector4pda.QMS.count.messages += dialog.unread_msgs;
+                    inspector4pda.QMS.count.dialogs++;
                 }
             }
         }
+        this.unreadCount = inspector4pda.QMS.count.dialogs;
+    },
+
+    openDialog: function(dialogID, themeID) {
+        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''));
     }
 }
 
