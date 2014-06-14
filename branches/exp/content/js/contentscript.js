@@ -104,10 +104,10 @@ inspector4pda.cScript = {
         };
 
         img.src = canvas_img;
-        /*btn.setAttribute('tooltiptext', inspector4pda.cScript.stringBundle.GetStringFromName("4PDA_online")+
-            '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("Unread Topics")+': '+tCount+
-            '\n'+inspector4pda.cScript.stringBundle.GetStringFromName("New Messages")+': '+qCount
-        );*/
+        btn.setAttribute('tooltiptext', inspector4pda.utils.getString("4PDA_online") + 
+            '\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
+            '\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount
+        );
     },
 
     checkNews: function () {
@@ -133,7 +133,7 @@ inspector4pda.cScript = {
             if (addNot) {
                 hasNews = true;
                 inspector4pda.cScript.notifications.push({
-                    title: 'Новое сообщение',
+                    title: inspector4pda.utils.getString('New Message'),
                     body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
                         ' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')',
                     type: 'qms',
@@ -146,7 +146,7 @@ inspector4pda.cScript = {
             if (typeof inspector4pda.cScript.prevData.themes[i] == 'undefined') {
                 hasNews = true;
                 inspector4pda.cScript.notifications.push({
-                    title: 'Новый комментарий',
+                    title: inspector4pda.utils.getString('New Comment'),
                     body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
                     type: 'theme',
                     id: i

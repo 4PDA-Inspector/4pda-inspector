@@ -5,6 +5,7 @@ if (typeof inspector4pda == "undefined") {
 inspector4pda.utils = {
 	
 	consoleService: null,
+	stringBundle: null,
 	firebugConsoleService: null,
 	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
@@ -76,13 +77,32 @@ inspector4pda.utils = {
 		var tBrowser = top.document.getElementById("content");
 		var tab = tBrowser.addTab(page);
 		tBrowser.selectedTab = tab;
+	},
+
+	setStringBundle: function() {
+		ulog('setStringBundle');
+		inspector4pda.utils.stringBundle = (typeof Services == 'object')
+			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
+			: null
+	},
+
+	getString: function(name) {
+		if (!inspector4pda.utils.stringBundle) {
+			this.setStringBundle();
+		};
+
+		ulog(typeof Services);
+
+		if (inspector4pda.utils.stringBundle) {
+			return inspector4pda.utils.stringBundle.GetStringFromName(name);
+		} else {
+			return name;
+		}
 	}
 };
 
-if (typeof utils == "undefined") {
-	var utils = inspector4pda.utils;
-}
-
-function ulog(text, json) {
-	inspector4pda.utils.log(text, json);
+if (typeof ulog == "undefined") {
+	function ulog(text, json) {
+		inspector4pda.utils.log(text, json);
+	}
 }

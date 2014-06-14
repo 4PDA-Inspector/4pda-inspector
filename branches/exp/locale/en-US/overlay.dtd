@@ -1,0 +1,29 @@
+<!ENTITY toolbarbutton_title "4PDA Inspector">
+<!ENTITY toolbarbutton_tooltiptext "4PDA Inspector">
+<!ENTITY openAllFavs "Open all unread theme in new tabs">
+<!ENTITY Messages "Messages">
+<!ENTITY Favorites "Favorites">
+<!ENTITY Settings "Settings">
+<!ENTITY markAllAsRead "Mark all themes as read">
+<!ENTITY refresh "Refresh">
+
+<!ENTITY Homepage "Homepage">
+<!ENTITY Forum "Forum">
+<!ENTITY Subscriptions "Subscriptions">
+
+<!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
+<!ENTITY generalSettings "General Settings">
+<!ENTITY interval "Refresh interval">
+<!ENTITY seconds "sec.">
+<!ENTITY buttonClickAction "Button click action">
+<!ENTITY popup "Popup panel">
+<!ENTITY goToFavThemesList "Go to favorite themes list">
+<!ENTITY buttonSettings "Button settings">
+<!ENTITY fontSize "Font size">
+<!ENTITY fontColor "Font color">
+<!ENTITY areaColor "Area color">
+
+<!ENTITY notification "Notification">
+<!ENTITY enableSoundNotification "Enable sound notification">
+<!ENTITY enablePopupAlerts "Enable popup alerts">
+<!ENTITY volumeNotice "Volume notice">

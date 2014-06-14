@@ -2,3 +2,6 @@ content	4pdainspector	content/
 overlay chrome://browser/content/browser.xul    chrome://4pdainspector/content/overlay.xul
 
 style chrome://global/content/customizeToolbar.xul chrome://4pdainspector/content/css/main.css
+
+locale 4pdainspector ru-RU locale/ru-RU/
+locale 4pdainspector en-US locale/en-US/

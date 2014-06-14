@@ -165,20 +165,10 @@ inspector4pda.toolbar = {
 			}
 		} else {
 			var noThemesLabel = document.createElement('label');
-			noThemesLabel.setAttribute('value', 'Ничего нового');
+			noThemesLabel.setAttribute('value', inspector4pda.utils.getString('No unread topics'));
 			noThemesLabel.className = 'oneTheme';
 			inspector4pda.toolbar.elements.themesList.appendChild(noThemesLabel);
 		}
-
-
-		/*for (var i = 0; i < inspector4pda.themes.list.length; i++) {
-
-			if (inspector4pda.themes.readed.indexOf(inspector4pda.themes.list[i].id) > -1) {
-				inspector4pda.utils.log(inspector4pda.themes.list[i].id);
-				continue;
-			};
-			inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(inspector4pda.themes.list[i]));
-		};*/
 	},
 
 	createThemeRow: function(theme)
@@ -191,12 +181,7 @@ inspector4pda.toolbar = {
 			inspector4pda.themes.open(theme.id);
 			inspector4pda.cScript.printCount();
 			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
-
 			this.classList.add("readed");
-			// inspector4pda.utils.log(theme.posts_num);
-			// inspector4pda.utils.log(theme.last_post_ts);
-			// inspector4pda.utils.log(theme.last_read_ts);
-			// prompt(theme.posts_num, 'http://4pda.ru/forum/index.php?showtopic='+theme.id+'&view=getnewpost');
 		};
 
 		var userCaptionLabel = document.createElement('label');
@@ -215,11 +200,10 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
 		};
 
-		var readImage = document.createElement('image');
-		readImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/view.png');
+		var readImage = document.createElement('box');
+		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		readImage.setAttribute('tooltiptext', 'Отметить как прочитанное');
-		readImage.className = 'oneTheme_manicon';
+		readImage.setAttribute('tooltiptext', inspector4pda.utils.getString('Mark As Read'));
 		readImage.onclick = function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
@@ -231,45 +215,6 @@ inspector4pda.toolbar = {
 				inspector4pda.cScript.printCount();
 			});
 		};
-
-		/*
-		 * Странная ссылка отписки, пока что откажемся 
-
-		var favImage = document.createElement('image');
-		favImage.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite.png');
-		favImage.setAttribute('data-theme', theme.id);
-		favImage.className = 'oneTheme_manicon';
-		favImage.onclick = function () {
-			var current = this;
-			var dataTheme = this.getAttribute('data-theme');
-			current.style.opacity = '0.5';
-			
-			if (Object.keys(inspector4pda.themes.list).indexOf(dataTheme) !== -1) {
-				var xmr = new inspector4pda.XHR();
-				xmr.callback.success = function(resp) {
-					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.color = '#aaa';
-					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.textDecoration = 'line-through';
-					// delete inspector4pda.themes.list[dataTheme];
-					current.setAttribute('tooltiptext', 'Добавить в избранное');
-					current.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite_color.png');
-					current.style.opacity = '';
-					inspector4pda.cScript.printCount();
-				}
-				xmr.send('http://4pda.ru/forum/index.php?autocom=favtopics&CODE=02&selectedtids=' + dataTheme);
-			} else {
-				var xmr = new inspector4pda.XHR();
-				xmr.callback.success = function(resp) {
-					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.color = '';
-					inspector4pda.cScript.winobj.getElementById('oneThemeCaption_'+dataTheme).style.textDecoration = 'none';
-					delete inspector4pda.themes.list[dataTheme];
-					current.setAttribute('tooltiptext', 'Удалить из избранного');
-					current.setAttribute('src', 'chrome://4pdainspector/content/img/toolbar/favorite.png');
-					current.style.opacity = '';
-					inspector4pda.cScript.printCount();
-				}
-				xmr.send('http://4pda.ru/forum/index.php?act=fav&type=topics&tact=delete&selectedtids=' + dataTheme);
-			}
-		};*/
 
 		// BOXES
 
