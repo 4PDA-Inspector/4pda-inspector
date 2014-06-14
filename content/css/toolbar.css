@@ -18,7 +18,7 @@
 	cursor: pointer;
 	color: #3565B5;
 	font-size: 16px;
-	margin: 0;
+	margin: 0 5px 0 0;
 }
 
 #inspector4pda_panelUsername:hover {
@@ -48,6 +48,10 @@
 	background-image: url(chrome://4pdainspector/content/img/message.png);
 }
 
+#inspector4pda_panelQMS:hover {
+	background-image: url(chrome://4pdainspector/content/img/message_hover.png);
+}
+
 #inspector4pda_panelFavorites {
 	background: 0 50% url(chrome://4pdainspector/content/img/favorites_gray.png) no-repeat;
 	height: 16px;
@@ -58,10 +62,18 @@
 	background-image: url(chrome://4pdainspector/content/img/favorites.png);
 }
 
+#inspector4pda_panelFavorites:hover {
+	background-image: url(chrome://4pdainspector/content/img/favorites_hover.png);
+}
+
 #inspector4pda_panelSettings {
 	background: 0 50% url(chrome://4pdainspector/content/img/settings.png) no-repeat;
 	height: 16px;
 	width: 16px;
+}
+
+#inspector4pda_panelSettings:hover {
+	background-image: url(chrome://4pdainspector/content/img/settings_hover.png);
 }
 
 #inspector4pda_panelOpenAll {
@@ -70,10 +82,18 @@
 	width: 22px;
 }
 
+#inspector4pda_panelOpenAll:hover {
+	background-image: url(chrome://4pdainspector/content/img/open_all_hover.png);
+}
+
 #inspector4pda_panelReadAll {
 	background: 0 50% url(chrome://4pdainspector/content/img/read_all.png) no-repeat;
 	height: 16px;
 	width: 22px;
+}
+
+#inspector4pda_panelReadAll:hover {
+	background-image: url(chrome://4pdainspector/content/img/read_all_hover.png);
 }
 
 #inspector4pda_panelRefresh {
@@ -81,6 +101,10 @@
 	height: 16px;
 	width: 16px;
 	margin: 0;
+}
+
+#inspector4pda_panelRefresh:hover {
+	background-image: url(chrome://4pdainspector/content/img/refresh_hover.png);
 }
 
 #inspector4pda_panelUsernameHBox {
@@ -136,9 +160,16 @@
 	margin-right: 10px;
 }
 
-#inspector4pda_themesList .oneTheme_manicon {
+#inspector4pda_themesList .oneTheme_markAsRead {
 	margin-left: 10px;
 	cursor: pointer;
+	background: url(chrome://4pdainspector/content/img/toolbar/view.png) no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+#inspector4pda_themesList .oneTheme_markAsRead:hover {
+	background-image: url(chrome://4pdainspector/content/img/toolbar/view_hover.png)
 }
 
 /* ТЕНИ */

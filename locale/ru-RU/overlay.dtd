@@ -1,0 +1,33 @@
+<!ENTITY toolbarbutton_label "4PDA Инспектор">
+<!ENTITY toolbarbutton_tooltiptext "4PDA Инспектор">
+
+<!ENTITY QMS "QMS">
+<!ENTITY favorites "Избранные темы">
+<!ENTITY settings "Настройки">
+<!ENTITY openAllFavs "Открыть все непрочитанные темы в новых вкладках">
+<!ENTITY markAllAsRead "Пометить все темы прочитанными">
+<!ENTITY refresh "Обновить">
+
+
+<!ENTITY generalSettings "Общие настройки">
+<!ENTITY updateInterval "Интервал обновления">
+<!ENTITY sec "сек.">
+<!ENTITY notification "Оповещения">
+<!ENTITY enableSoundNotification "Включить звуковые оповещения">
+<!ENTITY enablePopupAlerts "Включить всплывающие оповещения">
+<!ENTITY noticeVolume "Громкость уведомления">
+
+
+<!ENTITY Messages "Сообщения">
+<!ENTITY Homepage "Главная">
+<!ENTITY Forum "Форум">
+<!ENTITY Subscriptions "Подписки на темы">
+
+<!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
+<!ENTITY buttonClickAction "Действие при нажатии на кнопку">
+<!ENTITY popup "Всплывающая панель">
+<!ENTITY goToFavThemesList "Перейти к списку избранных тем">
+<!ENTITY buttonSettings "Настройки кнопки">
+<!ENTITY fontSize "Размер шрифта">
+<!ENTITY fontColor "Цвет текста">
+<!ENTITY areaColor "Цвет области">

@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE overlay SYSTEM "chrome://4pdainspector/locale/overlay.dtd">
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://4pdainspector/content/css/settings.css" type="text/css"?>
 
 
 <prefwindow
@@ -19,24 +22,27 @@
         <preference id="inspector4pda_pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
     </preferences>
 
-    <vbox>
-        <vbox>
-            <label value="Интервал обновления, сек.: " />
+    <vbox id="settingsVBox">
+        
+        <label class="caption" value="&generalSettings;" />
+        <hbox>
+            <label value="&updateInterval;, &sec;.: " />
             <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
-        </vbox>
+        </hbox>
 
+        <label class="caption" value="&notification;" />
         <vbox class="inspector_allSettingsBox">
             <vbox>
                 <vbox>
-                    <checkbox preference="inspector4pda_pref_notification_sound" label="Включить звук" />
+                    <checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
                     <hbox>
-                        <label value="Громкость: "/>
+                        <label value="&noticeVolume;: "/>
                         <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
                     </hbox>
                     <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="10" />
                 </vbox>
                 <hbox id="inspector4pda_notificationPopupHbox">
-                    <checkbox preference="inspector4pda_pref_notification_popup" label="Включить попап" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
+                    <checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
                 </hbox>
 
             </vbox>

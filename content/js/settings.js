@@ -2,6 +2,8 @@ inspector4pda.settings = {
     
     init: function()
     {
+        inspector4pda.utils.setStringBundle();
+
         var currentVolume = document.getElementById('inspector4pda_pref_notification_sound_volume').value;
         document.getElementById('inspector4pda_notificationSoundVolumeInput').value = currentVolume;
         document.getElementById('inspector4pda_notificationSoundVolumeLabel').value = currentVolume + '%';
@@ -18,23 +20,26 @@ inspector4pda.settings = {
             
             if (!inspector4pda.utils.checkNotificationSupport()) {
                 el.setAttribute('checked', 'false');
-                alert('Ваш браузер не поддерживает оповещения');
+                alert(inspector4pda.utils.getString('Your browser does not support notifications'));
                 return false;
             }
 
             switch ( Notification.permission.toLowerCase() ) {
                 case "granted":
+                    new Notification(inspector4pda.utils.getString('Notification successfully incorporated'), {
+                        icon : "chrome://4pdainspector/content/icons/icon_64.png"
+                    });
                     break;
 
                 case "denied":
                     el.setAttribute('checked', 'false');
-                    alert('Оповещения запрещены');
+                    alert(inspector4pda.utils.getString('Notification prohibited'));
                     break;
 
                 case "default":
                     Notification.requestPermission( function(permission) {
                         if ( permission == "granted" ) {
-                            new Notification('Оповещения успешно включены', {
+                            new Notification(inspector4pda.utils.getString('Notification successfully incorporated'), {
                                 icon : "chrome://4pdainspector/content/icons/icon_64.png"
                             });
                         } else {
