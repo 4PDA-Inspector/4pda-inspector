@@ -5,14 +5,12 @@ inspector4pda.QMS = {
         dialogs: 0
     },
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms',
-    list: [],
+    list: {},
 
     request: function(callback) {
         var xmr = new inspector4pda.XHR();
         xmr.callback.success = function(resp) {
-            if (resp.responseText) {
-                inspector4pda.QMS.parse(resp.responseText);
-            };
+            inspector4pda.QMS.parse(resp.responseText);
             if (callback) {
                 callback();
             };
@@ -23,25 +21,34 @@ inspector4pda.QMS = {
     parse: function(text) {
         inspector4pda.QMS.count.messages = 0;
         inspector4pda.QMS.count.dialogs = 0;
-        inspector4pda.QMS.list = [];
-        var tText = text.replace('\r','').split('\n');
+        inspector4pda.QMS.unreadCount = 0;
+        inspector4pda.QMS.list = {};
+        var tText = text ? text.replace('\r','').split('\n') : [];
         for (var i = 0; i < tText.length; i++) {
             if (tText[i]) {
                 var dialog = Object.create(qDialog);
 
                 if (dialog.parse(tText[i])) {
                     inspector4pda.QMS.list[dialog.id] = dialog;
-                    //ulog(dialog, true);
                     inspector4pda.QMS.count.messages += dialog.unread_msgs;
                     inspector4pda.QMS.count.dialogs++;
                 }
             }
         }
-        this.unreadCount = inspector4pda.QMS.count.dialogs;
+        inspector4pda.QMS.unreadCount = inspector4pda.QMS.count.dialogs;
     },
 
     openDialog: function(dialogID, themeID) {
         inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''));
+        if (themeID) {
+            delete inspector4pda.QMS.list[themeID];
+        };
+    },
+
+    getCount: function()
+    {
+        this.unreadCount = Object.keys(inspector4pda.QMS.list).length;
+        return this.unreadCount;
     }
 }
 
