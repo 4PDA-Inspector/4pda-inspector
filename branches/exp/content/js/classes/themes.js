@@ -1,5 +1,6 @@
 inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
+	vUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 	list: {},
 
 	request: function(callback) {

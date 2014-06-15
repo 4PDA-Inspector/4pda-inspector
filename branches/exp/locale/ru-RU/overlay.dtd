@@ -8,7 +8,6 @@
 <!ENTITY markAllAsRead "Пометить все темы прочитанными">
 <!ENTITY refresh "Обновить">
 
-
 <!ENTITY generalSettings "Общие настройки">
 <!ENTITY updateInterval "Интервал обновления">
 <!ENTITY sec "сек.">
@@ -16,6 +15,12 @@
 <!ENTITY enableSoundNotification "Включить звуковые оповещения">
 <!ENTITY enablePopupAlerts "Включить всплывающие оповещения">
 <!ENTITY noticeVolume "Громкость уведомления">
+<!ENTITY buttonSettings "Настройки кнопки">
+<!ENTITY buttonClickAction "Действие при нажатии на кнопку">
+<!ENTITY popup "Всплывающая панель">
+<!ENTITY goToFavThemesList "Перейти к списку избранных тем">
+
+
 
 
 <!ENTITY Messages "Сообщения">
@@ -24,10 +29,6 @@
 <!ENTITY Subscriptions "Подписки на темы">
 
 <!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
-<!ENTITY buttonClickAction "Действие при нажатии на кнопку">
-<!ENTITY popup "Всплывающая панель">
-<!ENTITY goToFavThemesList "Перейти к списку избранных тем">
-<!ENTITY buttonSettings "Настройки кнопки">
 <!ENTITY fontSize "Размер шрифта">
 <!ENTITY fontColor "Цвет текста">
 <!ENTITY areaColor "Цвет области">

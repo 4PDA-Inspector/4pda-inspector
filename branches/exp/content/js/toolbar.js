@@ -73,11 +73,26 @@ inspector4pda.toolbar = {
 	bClick: function(parent)
 	{
 		if (inspector4pda.user.id) {
-			if (!inspector4pda.toolbar.panel) {
-				inspector4pda.toolbar.init();
-			};
-			inspector4pda.toolbar.refresh();
-			inspector4pda.toolbar.showPanel(parent);
+			inspector4pda.vars.getPrefs();
+			ulog(inspector4pda.vars.click_action);
+			switch (inspector4pda.vars.click_action) {
+				case 1:
+					if (!inspector4pda.toolbar.panel) {
+						inspector4pda.toolbar.init();
+					};
+					inspector4pda.toolbar.refresh();
+					inspector4pda.toolbar.showPanel(parent);
+					break;
+				case 2:
+					inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
+					break;
+				case 3:
+					inspector4pda.themes.openAll();
+					break;
+				default:
+					alert(inspector4pda.vars.click_action + ' is uncorrect value');
+			}
+
 		} else {
 			// открыть страницу авторизации
 		}
