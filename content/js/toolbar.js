@@ -121,7 +121,7 @@ inspector4pda.toolbar = {
 		};
 	},
 
-	refresh: function()
+	refresh: function(withoutPrintThemes)
 	{
 		inspector4pda.toolbar.elements.usernameLabel.value = inspector4pda.user.name;
 		inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
@@ -130,7 +130,9 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.qmsLabel.value = inspector4pda.QMS.unreadCount;
 		inspector4pda.toolbar.elements.qmsLabel.className = inspector4pda.QMS.unreadCount? 'hasUnread': '';
 
-		inspector4pda.toolbar.printThemesList();
+		if (!withoutPrintThemes) {
+			inspector4pda.toolbar.printThemesList();
+		}
 		
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
 		inspector4pda.toolbar.elements.manualRefresh.style.MozTransform = "rotate(0deg)";
@@ -213,6 +215,7 @@ inspector4pda.toolbar = {
 				current.style.opacity = '';
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
 				inspector4pda.cScript.printCount();
+				inspector4pda.toolbar.printCount();
 			});
 		};
 
@@ -238,6 +241,11 @@ inspector4pda.toolbar = {
 		themeVBox.appendChild(infoHBox);
 
 		return themeVBox;
+	},
+
+	printCount: function()
+	{
+		this.refresh(true);
 	},
 
 	manualRefresh: function()
