@@ -16,6 +16,8 @@
     
     <preferences>
         <preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+        
+        <preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
 
         <preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
         <preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
@@ -30,6 +32,16 @@
             <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
         </hbox>
 
+        <label class="caption" value="&buttonSettings;" />
+        <vbox>
+            <label value="&buttonClickAction;:"/>
+            <radiogroup preference="inspector4pda_pref_click_action">
+                <radio value="1" label="&popup;"/>
+                <radio value="2" label="&goToFavThemesList;"/>
+                <radio value="3" label="&openAllFavs;"/>
+            </radiogroup>
+        </vbox>
+
         <label class="caption" value="&notification;" />
         <vbox class="inspector_allSettingsBox">
             <vbox>
@@ -39,7 +51,7 @@
                         <label value="&noticeVolume;: "/>
                         <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
                     </hbox>
-                    <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="10" />
+                    <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="100" />
                 </vbox>
                 <hbox id="inspector4pda_notificationPopupHbox">
                     <checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />

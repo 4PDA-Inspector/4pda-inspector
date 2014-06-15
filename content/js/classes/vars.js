@@ -4,6 +4,7 @@ inspector4pda.vars = {
 	notification_sound: true,
 	notification_popup: true,
 	notification_sound_volume: 1,
+	click_action: 1,
 
 	prefs: {},
 
@@ -24,6 +25,7 @@ inspector4pda.vars = {
 		this.getValue('notification_sound', true);
 		this.getValue('notification_popup', true);
 		this.getValue('notification_sound_volume', 1, 0.01);
+		this.getValue('click_action', 1);
 	},
 
 	getValue: function(field, defaultValue, multiplier)
