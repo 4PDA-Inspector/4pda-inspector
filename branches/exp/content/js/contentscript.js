@@ -54,7 +54,7 @@ inspector4pda.cScript = {
 
     printCount: function()
     {
-        var qCount = inspector4pda.QMS.unreadCount;
+        var qCount = inspector4pda.QMS.getCount();
         var tCount = inspector4pda.themes.getCount();
 
         var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
@@ -177,7 +177,6 @@ inspector4pda.cScript = {
             icon : "chrome://4pdainspector/content/icons/icon_64.png"
         });
 
-        
         notification.onclick = function() {
             var tagData = this.tag.split('_');
             
@@ -191,6 +190,7 @@ inspector4pda.cScript = {
             } else {
                 inspector4pda.themes.open(parseInt(tagData[2]));
             }
+            inspector4pda.cScript.printCount();
         }
 
         setTimeout(function()

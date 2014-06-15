@@ -91,7 +91,7 @@ inspector4pda.utils = {
 			this.setStringBundle();
 		};
 
-		ulog(typeof Services);
+		//ulog(typeof Services);
 
 		if (inspector4pda.utils.stringBundle) {
 			return inspector4pda.utils.stringBundle.GetStringFromName(name);
