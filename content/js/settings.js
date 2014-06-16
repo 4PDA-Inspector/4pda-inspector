@@ -12,6 +12,10 @@ inspector4pda.settings = {
             document.getElementById('inspector4pda_pref_notification_sound_volume').value = this.value;
             document.getElementById('inspector4pda_notificationSoundVolumeLabel').value = this.value + '%';
         }
+
+        document.getElementById('inspector4pda_pref_toolbar_opentheme_hide').onchange = function() {
+            document.getElementById('inspector4pda_pref_toolbar_opentheme_hide_onlylast').disabled = !this.value;
+        }
     },
 
     checkNotificationPopup: function(el)

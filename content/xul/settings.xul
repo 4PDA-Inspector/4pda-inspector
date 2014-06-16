@@ -22,6 +22,12 @@
         <preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
         <preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
         <preference id="inspector4pda_pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
+        
+        <preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
+        <preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
+        
+        <preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
+        <preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
     </preferences>
 
     <vbox id="settingsVBox">
@@ -43,7 +49,7 @@
         </vbox>
 
         <label class="caption" value="&notification;" />
-        <vbox class="inspector_allSettingsBox">
+        <vbox>
             <vbox>
                 <vbox>
                     <checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
@@ -59,6 +65,19 @@
 
             </vbox>
         </vbox>
+
+        <label class="caption" value="Прикрепленные темы" />
+        <vbox>
+            <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="Выделять цветом" />
+            <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="Выводить сверху" />
+        </vbox>
+
+        <label class="caption" value="Всплывающая панель" />
+        <vbox>
+            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" label="Закрывать при открытии темы" />
+            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
+        </vbox>
+
 
     </vbox>
 

@@ -74,7 +74,6 @@ inspector4pda.toolbar = {
 	{
 		if (inspector4pda.user.id) {
 			inspector4pda.vars.getPrefs();
-			ulog(inspector4pda.vars.click_action);
 			switch (inspector4pda.vars.click_action) {
 				case 1:
 					if (!inspector4pda.toolbar.panel) {
@@ -193,12 +192,24 @@ inspector4pda.toolbar = {
 		var themeCaptionLabel = document.createElement('label');
 		themeCaptionLabel.setAttribute('value', inspector4pda.utils.htmlspecialcharsdecode(theme.title));
 		themeCaptionLabel.className = 'oneTheme_caption';
+		if (theme.pin && inspector4pda.vars.toolbar_pin_color) {
+			themeCaptionLabel.className += ' oneTheme_pin';
+		};
 		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
 		themeCaptionLabel.onclick = function () {
 			inspector4pda.themes.open(theme.id);
 			inspector4pda.cScript.printCount();
 			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
 			this.classList.add("readed");
+			if (inspector4pda.vars.toolbar_opentheme_hide) {
+				if (inspector4pda.vars.toolbar_opentheme_hide_onlylast) {
+					if (inspector4pda.themes.getCount() == 0) {
+						inspector4pda.toolbar.handleHidePanel();
+					}
+				} else {
+					inspector4pda.toolbar.handleHidePanel();
+				}
+			};
 		};
 
 		var userCaptionLabel = document.createElement('label');

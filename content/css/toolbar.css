@@ -135,7 +135,11 @@
 	color: #3565B5;
 	font-size: 12px;
 	margin: 0;
+}
+
+#inspector4pda_themesList .oneTheme_pin {
 	/*font-weight: bold;*/
+	color: #0F890F;
 }
 
 #inspector4pda_themesList .oneTheme_caption.readed {
