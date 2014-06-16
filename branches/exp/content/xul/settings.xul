@@ -66,16 +66,16 @@
             </vbox>
         </vbox>
 
-        <label class="caption" value="Прикрепленные темы" />
+        <label class="caption" value="&pinTopics;" />
         <vbox>
-            <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="Выделять цветом" />
-            <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="Выводить сверху" />
+            <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="&highlight;" />
+            <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="&displayOnTop;" />
         </vbox>
 
-        <label class="caption" value="Всплывающая панель" />
+        <label class="caption" value="&popup;" />
         <vbox>
-            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" label="Закрывать при открытии темы" />
-            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
+            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
+            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
         </vbox>
 
 
