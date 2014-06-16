@@ -5,6 +5,10 @@ inspector4pda.vars = {
 	notification_popup: true,
 	notification_sound_volume: 1,
 	click_action: 1,
+	toolbar_pin_color: true,
+	toolbar_pin_up: false,
+	toolbar_opentheme_hide: false,
+	toolbar_opentheme_hide_onlylast: false,
 
 	prefs: {},
 
@@ -26,6 +30,10 @@ inspector4pda.vars = {
 		this.getValue('notification_popup', true);
 		this.getValue('notification_sound_volume', 1, 0.01);
 		this.getValue('click_action', 1);
+		this.getValue('toolbar_pin_color', true);
+		this.getValue('toolbar_pin_up', false);
+		this.getValue('toolbar_opentheme_hide', false);
+		this.getValue('toolbar_opentheme_hide_onlylast', false);
 	},
 
 	getValue: function(field, defaultValue, multiplier)
