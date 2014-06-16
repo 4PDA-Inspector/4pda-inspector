@@ -19,6 +19,10 @@
 <!ENTITY buttonClickAction "Действие при нажатии на кнопку">
 <!ENTITY popup "Всплывающая панель">
 <!ENTITY goToFavThemesList "Перейти к списку избранных тем">
+<!ENTITY pinTopics "Закрепленные темы">
+<!ENTITY highlight "Выделять цветом">
+<!ENTITY displayOnTop "Выводить сверху">
+<!ENTITY closeOnTheOpeningTopics "Закрывать при открытии темы">
 
 
 
