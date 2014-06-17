@@ -16,7 +16,8 @@ inspector4pda.toolbar = {
 
 	urls: {
 		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
-		qms: 'http://4pda.ru/forum/index.php?act=qms'
+		qms: 'http://4pda.ru/forum/index.php?act=qms',
+		login: 'http://4pda.ru/forum/index.php?act=Login'
 	},
 
 	init: function()
@@ -93,7 +94,11 @@ inspector4pda.toolbar = {
 			}
 
 		} else {
-			// открыть страницу авторизации
+			inspector4pda.cScript.getData(function(){
+				if (!inspector4pda.user.id) {
+					inspector4pda.utils.openPage(inspector4pda.toolbar.urls.login);
+				}
+			});
 		}
 	},
 
