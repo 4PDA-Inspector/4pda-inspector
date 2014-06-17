@@ -48,18 +48,28 @@ inspector4pda.cScript = {
                 inspector4pda.themes.request(function() {
                     inspector4pda.QMS.request(finishCallback);
                 });
-            };
+            } else {
+                inspector4pda.cScript.requestsCount = 0;
+                if (finishCallback) {
+                    finishCallback();
+                }
+            }
         });
     },
 
     printCount: function()
     {
+        if (!inspector4pda.user.id) {
+            this.printLogout();
+            return;
+        }
         var qCount = inspector4pda.QMS.getCount();
         var tCount = inspector4pda.themes.getCount();
 
         var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
-        if (!btn)
+        if (!btn) {
             return false;
+        }
 
         var canvas_width = 20;
         var canvas_height = 16;
@@ -108,6 +118,20 @@ inspector4pda.cScript = {
             '\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
             '\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount
         );
+    },
+
+    printLogout: function(unavailable)
+    {
+        var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+        
+        if (btn) {
+            btn.image = 'chrome://4pdainspector/content/icons/icon_16x_out.png';
+            btn.setAttribute('tooltiptext', unavailable?
+                    inspector4pda.utils.getString("4PDA_Site Unavailable"):
+                    inspector4pda.utils.getString("4PDA_offline")
+                );
+        }
+
     },
 
     checkNews: function () {
