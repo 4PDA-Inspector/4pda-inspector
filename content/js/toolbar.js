@@ -80,8 +80,8 @@ inspector4pda.toolbar = {
 					if (!inspector4pda.toolbar.panel) {
 						inspector4pda.toolbar.init();
 					};
-					inspector4pda.toolbar.refresh();
 					inspector4pda.toolbar.showPanel(parent);
+					inspector4pda.toolbar.refresh();
 					break;
 				case 2:
 					inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
@@ -104,14 +104,21 @@ inspector4pda.toolbar = {
 
 	showPanel: function(parent)
 	{
-		inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+		if (parent) {
+			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+		}
 
 		// подстройка высоты панели под размер окна
+		this.tuneHeight();
+		
+	},
 
+	tuneHeight: function()
+	{
 		inspector4pda.toolbar.elements.themesList.style.height = 'auto';
 		inspector4pda.toolbar.elements.themesList.style.overflowY = 'visible';
 
-// inspector4pda.toolbar.panel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel');
+		// inspector4pda.toolbar.panel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel');
 		var panelHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
 		var documentHeight = inspector4pda.cScript.winobj.getElementById('browser').clientHeight;
 		var minusHeight = (inspector4pda.cScript.winobj.getElementById('inspector4pda_mainPanel').clientHeight);
@@ -120,6 +127,9 @@ inspector4pda.toolbar = {
 		{
 			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - minusHeight - 20)+'px';
 			inspector4pda.toolbar.elements.themesList.style.overflowY = 'scroll';
+		} else {
+			inspector4pda.toolbar.elements.themesList.style.height = 'auto';
+			inspector4pda.toolbar.elements.themesList.style.overflowY = 'auto';
 		}
 
 		inspector4pda.toolbar.themesListSetShadows();
@@ -151,6 +161,7 @@ inspector4pda.toolbar = {
 
 		if (!withoutPrintThemes) {
 			inspector4pda.toolbar.printThemesList();
+			inspector4pda.toolbar.tuneHeight();
 		}
 		
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
