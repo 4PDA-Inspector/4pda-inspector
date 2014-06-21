@@ -37,7 +37,7 @@ tabs {
 tabpanels {
     -moz-appearance: none;
     /*border: 0px solid #000;*/
-    border-radius: 0 5px 5px 5px;
+    border-radius: 0 0 5px 5px;
     border: 0;
     /*outline: 1px solid #000;*/
     /*background: #DDD;*/

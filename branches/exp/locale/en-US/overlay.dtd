@@ -8,6 +8,9 @@
 <!ENTITY markAllAsRead "Mark all themes as read">
 <!ENTITY refresh "Refresh">
 
+<!ENTITY general "General">
+<!ENTITY about "About">
+
 <!ENTITY generalSettings "General settings">
 <!ENTITY updateInterval "Update interval">
 <!ENTITY sec "sec.">
@@ -23,9 +26,11 @@
 <!ENTITY highlight "Highlight">
 <!ENTITY displayOnTop "Display on top">
 <!ENTITY closeOnTheOpeningTopics "Close on the opening topics">
+<!ENTITY onlyWhenNoMore "Only when no more">
+<!ENTITY donate "Donate">
 
 
-
+<!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
 <!ENTITY fontSize "Font size">
 <!ENTITY fontColor "Font color">
 <!ENTITY areaColor "Area color">
