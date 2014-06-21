@@ -8,7 +8,8 @@
 
 <prefwindow
     xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="&inspectorSettingsWindow_Title;">
 <prefpane>
 
     <script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
@@ -34,10 +35,10 @@
 
 <tabbox>
   <tabs>
-    <tab label="Общие"/>
-    <tab label="Панель"/>
-    <tab label="Оповещения"/>
-    <tab label="О дополнении"/>
+    <tab label="&general;"/>
+    <tab label="&popup;"/>
+    <tab label="&notification;"/>
+    <tab label="&about;"/>
   </tabs>
   <tabpanels>
     <tabpanel>
@@ -71,7 +72,7 @@
             <label class="caption" value="&popup;" />
             <vbox>
                 <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
-                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
+                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="&onlyWhenNoMore;" />
             </vbox>
         </vbox>
     </tabpanel>
@@ -108,9 +109,9 @@
                     </label>
                 <vbox flex="1"></vbox>
             </hbox>
-            <label class="caption" value="4PDA Инспектор" />
+            <label class="caption" value="&toolbarbutton_tooltiptext;" />
             <label class="caption" value="v2 beta" />
-            <label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="Помочь проекту"/>
+            <label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
         </vbox>
         <vbox flex="1"></vbox>
     </tabpanel>
