@@ -115,6 +115,7 @@
 
 #inspector4pda_mainPanel {
 	border-bottom: 1px dotted #3565B5;
+	padding: 0 10px;
 }
 
 #inspector4pda_themesList>.oneTheme {
