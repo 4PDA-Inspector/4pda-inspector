@@ -30,56 +30,95 @@
         <preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
     </preferences>
 
-    <vbox id="settingsVBox">
-        
-        <label class="caption" value="&generalSettings;" />
-        <hbox>
-            <label value="&updateInterval;, &sec;.: " />
-            <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
-        </hbox>
+    <box id="settingsVBox">
 
-        <label class="caption" value="&buttonSettings;" />
+<tabbox>
+  <tabs>
+    <tab label="Общие"/>
+    <tab label="Панель"/>
+    <tab label="Оповещения"/>
+    <tab label="О дополнении"/>
+  </tabs>
+  <tabpanels>
+    <tabpanel>
         <vbox>
-            <label value="&buttonClickAction;:"/>
-            <radiogroup preference="inspector4pda_pref_click_action">
-                <radio value="1" label="&popup;"/>
-                <radio value="2" label="&goToFavThemesList;"/>
-                <radio value="3" label="&openAllFavs;"/>
-            </radiogroup>
-        </vbox>
-
-        <label class="caption" value="&notification;" />
-        <vbox>
+            <!-- Общие -->
+            <label class="caption" value="&generalSettings;" />
+            <hbox>
+                <label value="&updateInterval;, &sec;.: " />
+                <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
+            </hbox>
+            <label class="caption" value="&buttonSettings;" />
             <vbox>
-                <vbox>
-                    <checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
-                    <hbox>
-                        <label value="&noticeVolume;: "/>
-                        <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
-                    </hbox>
-                    <html:input id="inspector4pda_notificationSoundVolumeInput" type="range" min="0" max="100" value="100" />
-                </vbox>
-                <hbox id="inspector4pda_notificationPopupHbox">
-                    <checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
-                </hbox>
-
+                <label value="&buttonClickAction;:"/>
+                <radiogroup preference="inspector4pda_pref_click_action">
+                    <radio value="1" label="&popup;"/>
+                    <radio value="2" label="&goToFavThemesList;"/>
+                    <radio value="3" label="&openAllFavs;"/>
+                </radiogroup>
             </vbox>
         </vbox>
-
-        <label class="caption" value="&pinTopics;" />
+    </tabpanel>
+    <tabpanel>
+        <!-- Панель -->
         <vbox>
-            <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="&highlight;" />
-            <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="&displayOnTop;" />
-        </vbox>
+            <label class="caption" value="&pinTopics;" />
+            <vbox>
+                <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="&highlight;" />
+                <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="&displayOnTop;" />
+            </vbox>
 
-        <label class="caption" value="&popup;" />
+            <label class="caption" value="&popup;" />
+            <vbox>
+                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
+                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
+            </vbox>
+        </vbox>
+    </tabpanel>
+    <tabpanel>
+        <!-- Оповещения -->
         <vbox>
-            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
-            <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="Только когда больше нет" />
+            <label class="caption" value="&notification;" />
+            <vbox>
+                <vbox>
+                    <vbox>
+                        <checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
+                        <hbox>
+                            <label value="&noticeVolume;: "/>
+                            <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
+                        </hbox>
+                        <scale preference="inspector4pda_pref_notification_sound_volume" min="0" max="100" id="inspector4pda_notificationSoundVolumeInput" />
+                    </vbox>
+                    <hbox id="inspector4pda_notificationPopupHbox">
+                        <checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
+                    </hbox>
+
+                </vbox>
+            </vbox>
         </vbox>
+    </tabpanel>
+    <tabpanel>
+        <!-- О дополнении -->
+        <vbox flex="1"></vbox>
+        <vbox style="text-align:center;" flex="0">
+            <hbox>
+                <vbox flex="1"></vbox>
+                    <label class="text-link" href="http://4pdainspector.coddism.com/firefox.html">
+                        <image src="chrome://4pdainspector/content/icons/icon_128.png" width="128" height="128" />
+                    </label>
+                <vbox flex="1"></vbox>
+            </hbox>
+            <label class="caption" value="4PDA Инспектор" />
+            <label class="caption" value="v2 beta" />
+            <label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="Помочь проекту"/>
+        </vbox>
+        <vbox flex="1"></vbox>
+    </tabpanel>
+  </tabpanels>
+</tabbox>
 
 
-    </vbox>
+    </box>
 
     <script type="text/javascript">
         inspector4pda.settings.init();
