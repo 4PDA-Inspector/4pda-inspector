@@ -1,3 +1,7 @@
+prefwindow {
+    background: #3565B5;
+}
+
 #settingsVBox .caption {
     font-weight: bold;
     font-size: 16px;
@@ -6,4 +10,58 @@
 
 #inspector4pda_notificationSoundVolumeInput{
     max-width: 320px;
+}
+
+tab {
+    -moz-appearance: none;
+    border:  0px solid #000;
+    /*border-width: 1px 1px 0 1px;*/
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+    margin-right: 2px;
+    /*background: #3565B5;
+    color: #FFF;*/
+    cursor: pointer;
+}
+
+tab:not([selected="true"]) {
+    background: #7EA0DA;
+}
+
+tabs {
+    -moz-appearance: none;
+    /*background: #3565B5;*/
+    /*border-bottom: 1px solid #000;*/
+}
+
+tabpanels {
+    -moz-appearance: none;
+    /*border: 0px solid #000;*/
+    border-radius: 0 5px 5px 5px;
+    border: 0;
+    /*outline: 1px solid #000;*/
+    /*background: #DDD;*/
+}
+
+tabpanel {
+    /*background: #DDD;*/
+}
+
+tabbox {
+    -moz-appearance: none;
+    margin: 5px;
+}
+
+.donateLink {
+    border-radius: 10px;
+    color: #EEE;
+    padding: 5px;
+    text-decoration: none;
+    background: #7a99d0;
+    background: -moz-linear-gradient(top,  #7a99d0 0%, #3565b5 100%);
+    background: linear-gradient(to bottom,  #7a99d0 0%,#3565b5 100%);
+}
+.donateLink:hover {
+    background: #3565B5;
+    text-decoration: none;
 }
