@@ -3,8 +3,11 @@
     background: #FFF;
 }*/
 
+#inspector4pda_panelMainVBox {
+	background: #F0F0F0;
+}
+
 #inspector4pda_panel label {
-	border-bottom: 1px dotted transparent;
 	cursor: pointer;
 }
 
