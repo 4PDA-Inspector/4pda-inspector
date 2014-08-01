@@ -31,14 +31,16 @@
 	</toolbarpalette>
 
 	<toolbox id="navigator-toolbox">
-		<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector4pda_sound" src="chrome://4pdainspector/content/sound/sound3.mp3" />
-		<hbox hidden="true">
-			<html:canvas id="inspector4pda_canvas" width="24" height="24"></html:canvas> 
-		</hbox>
 		<panel type="arrow"
 			id="inspector4pda_panel"
 			align="left"
 			onpopuphiding="inspector4pda.toolbar.hidePanel()">
+
+			<audio xmlns="http://www.w3.org/1999/xhtml" id="inspector4pda_sound" src="chrome://4pdainspector/content/sound/sound3.mp3" />
+			<hbox hidden="true">
+				<html:canvas id="inspector4pda_canvas" width="24" height="24"></html:canvas> 
+			</hbox>
+			
 			<vbox id="inspector4pda_panelMainVBox">
 				<hbox id="inspector4pda_mainPanel">
 					<hbox flex="1" id="inspector4pda_mainPanelButtonsBox">

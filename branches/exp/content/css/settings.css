@@ -1,5 +1,5 @@
-prefwindow {
-    background: #3565B5;
+prefwindow, prefpane {
+    /*background: #3565B5;*/
 }
 
 #settingsVBox .caption {
@@ -22,6 +22,7 @@ tab {
     /*background: #3565B5;
     color: #FFF;*/
     cursor: pointer;
+    background: #F0F0F0;
 }
 
 tab:not([selected="true"]) {
@@ -39,8 +40,10 @@ tabpanels {
     /*border: 0px solid #000;*/
     border-radius: 0 0 5px 5px;
     border: 0;
+    padding: 8px;
     /*outline: 1px solid #000;*/
     /*background: #DDD;*/
+    background: #F0F0F0;
 }
 
 tabpanel {
