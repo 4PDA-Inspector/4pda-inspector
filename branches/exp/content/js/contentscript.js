@@ -99,7 +99,7 @@ inspector4pda.cScript = {
 		img.onload = function()
 		{
 			ctx.textBaseline = 'top';
-			ctx.font = 'bold '+fontSize+'px tahoma,arial';
+			ctx.font = 'bold '+fontSize+'px tahoma,sans-serif,arial';
 			ctx.clearRect(0, 0, canvas_width, canvas_height);
 			ctx.drawImage(img, 2, 0, img.width, img.height);
 
