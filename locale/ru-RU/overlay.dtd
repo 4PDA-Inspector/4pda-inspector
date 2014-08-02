@@ -25,6 +25,7 @@
 <!ENTITY pinTopics "Закрепленные темы">
 <!ENTITY highlight "Выделять цветом">
 <!ENTITY displayOnTop "Выводить сверху">
+<!ENTITY showOnlyPin "Показывать только закрепленные">
 <!ENTITY closeOnTheOpeningTopics "Закрывать при открытии темы">
 <!ENTITY onlyWhenNoMore "Только когда больше нет">
 <!ENTITY donate "Помочь проекту">

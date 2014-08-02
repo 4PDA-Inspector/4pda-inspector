@@ -193,7 +193,7 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.clearThemesList();
 		if (Object.keys(inspector4pda.themes.list).length) {
 			for (var i in inspector4pda.themes.list) {
-				inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(inspector4pda.themes.list[i]));
+				inspector4pda.toolbar.addThemeRow(inspector4pda.themes.list[i]);
 			}
 		} else {
 			var noThemesLabel = document.createElement('label');
@@ -201,6 +201,13 @@ inspector4pda.toolbar = {
 			noThemesLabel.className = 'oneTheme';
 			inspector4pda.toolbar.elements.themesList.appendChild(noThemesLabel);
 		}
+	},
+
+	addThemeRow: function(theme) {
+		/*if (!theme.pin && inspector4pda.vars.toolbar_only_pin) {
+			return false;
+		};*/
+		inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(theme));
 	},
 
 	createThemeRow: function(theme)
