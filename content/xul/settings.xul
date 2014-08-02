@@ -7,128 +7,160 @@
 
 
 <prefwindow
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    title="&inspectorSettingsWindow_Title;">
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="&inspectorSettingsWindow_Title;">
 <prefpane>
 
-    <script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
-    <script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
-    
-    <preferences>
-        <preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
-        
-        <preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/vars.js'></script>
+	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
+	
+	<preferences>
+		<preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
+		
+		<preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
+		<preference id="inspector4pda_pref_button_fontsize" name="extensions.4pda-inspector.button_fontsize" type="int"/>
+		<preference id="inspector4pda_pref_button_big_fontsize" name="extensions.4pda-inspector.button_big_fontsize" type="int"/>
+		<preference id="inspector4pda_pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
+		<preference id="inspector4pda_pref_button_bgcolor" name="extensions.4pda-inspector.button_bgcolor" type="string"/>
 
-        <preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
-        <preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
-        <preference id="inspector4pda_pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
-        
-        <preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
-        <preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
-        <preference id="inspector4pda_pref_toolbar_only_pin" name="extensions.4pda-inspector.toolbar_only_pin" type="bool"/>
-        
-        <preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
-        <preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
-    </preferences>
+		<preference id="inspector4pda_pref_button_show_qms" name="extensions.4pda-inspector.button_show_qms" type="bool"/>
+		<preference id="inspector4pda_pref_button_show_themes" name="extensions.4pda-inspector.button_show_themes" type="bool"/>
 
-    <box id="settingsVBox">
+		<preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
+		<preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
+		<preference id="inspector4pda_pref_notification_sound_volume" name="extensions.4pda-inspector.notification_sound_volume" type="int"/>
+		
+		<preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_only_pin" name="extensions.4pda-inspector.toolbar_only_pin" type="bool"/>
+		
+		<preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
+	</preferences>
 
-<tabbox>
-  <tabs>
-    <tab label="&general;"/>
-    <tab label="&popup;"/>
-    <tab label="&notification;"/>
-    <tab label="&about;"/>
-  </tabs>
-  <tabpanels>
-    <tabpanel>
-        <vbox>
-            <!-- Общие -->
-            <label class="caption" value="&generalSettings;" />
-            <hbox>
-                <label value="&updateInterval;, &sec;.: " />
-                <textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
-            </hbox>
-            <label class="caption" value="&buttonSettings;" />
-            <vbox>
-                <label value="&buttonClickAction;:"/>
-                <radiogroup preference="inspector4pda_pref_click_action">
-                    <radio value="1" label="&popup;"/>
-                    <radio value="2" label="&goToFavThemesList;"/>
-                    <radio value="3" label="&openAllFavs;"/>
-                </radiogroup>
-            </vbox>
-            <label class="caption" value="&pinTopics;" />
-            <vbox>
-                <checkbox preference="inspector4pda_pref_toolbar_only_pin" label="&showOnlyPin;" />
-            </vbox>
-        </vbox>
-    </tabpanel>
-    <tabpanel>
-        <!-- Панель -->
-        <vbox>
-            <label class="caption" value="&pinTopics;" />
-            <vbox>
-                <checkbox preference="inspector4pda_pref_toolbar_pin_color" label="&highlight;" />
-                <checkbox preference="inspector4pda_pref_toolbar_pin_up" label="&displayOnTop;" />
-            </vbox>
+	<box id="settingsVBox">
 
-            <label class="caption" value="&popup;" />
-            <vbox>
-                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
-                <checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="&onlyWhenNoMore;" />
-            </vbox>
-        </vbox>
-    </tabpanel>
-    <tabpanel>
-        <!-- Оповещения -->
-        <vbox>
-            <label class="caption" value="&notification;" />
-            <vbox>
-                <vbox>
-                    <vbox>
-                        <checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
-                        <hbox>
-                            <label value="&noticeVolume;: "/>
-                            <label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
-                        </hbox>
-                        <scale preference="inspector4pda_pref_notification_sound_volume" min="0" max="100" id="inspector4pda_notificationSoundVolumeInput" />
-                    </vbox>
-                    <hbox id="inspector4pda_notificationPopupHbox">
-                        <checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
-                    </hbox>
+	<tabbox>
+		<tabs>
+			<tab label="&general;"/>
+			<tab label="&button;"/>
+			<tab label="&popup;"/>
+			<tab label="&notification;"/>
+			<tab label="&about;"/>
+		</tabs>
+	<tabpanels>
+	<tabpanel>
+		<vbox>
+			<!-- Общие -->
+			<label class="caption" value="&generalSettings;" />
+			<hbox>
+				<label value="&updateInterval;, &sec;.: " />
+				<textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
+			</hbox>
+			<label class="caption" value="&pinTopics;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_toolbar_only_pin" label="&showOnlyPin;" />
+			</vbox>
+		</vbox>
+	</tabpanel>
+	<tabpanel>
+		<!-- Кнопка -->
+		<vbox>
+			<label class="caption" value="&buttonClickAction;" />
+			<vbox>
+				<radiogroup preference="inspector4pda_pref_click_action">
+					<radio value="1" label="&popup;"/>
+					<radio value="2" label="&goToFavThemesList;"/>
+					<radio value="3" label="&openAllFavs;"/>
+				</radiogroup>
+			</vbox>
+			<label class="caption" value="&looks;" />
+			<vbox>
+				<hbox>
+					<label value="&fontSize;, px" control="inspector4pda_button_fontsize" class="inspector4pda_leftLabel" />
+					<textbox preference="inspector4pda_pref_button_fontsize" id="inspector4pda_button_fontsize" type="number" min="1" class="inspector4pda_halfInput" />
+					<textbox preference="inspector4pda_pref_button_big_fontsize" id="inspector4pda_button_big_fontsize" type="number" min="1" class="inspector4pda_halfInput" />
+				</hbox>
+				<hbox>
+					<label value="&fontColor;:" control="inspector4pda_button_fontcolor" id="inspector4pda_button_fontcolor_label" />
+					<colorpicker type="button" preference="inspector4pda_pref_button_color" id="inspector4pda_button_fontcolor" style="width:100px;"/>
+					<label value="&areaColor;:" control="inspector4pda_button_fontbgcolor" id="inspector4pda_button_fontbgcolor_label" />
+					<colorpicker type="button" preference="inspector4pda_pref_button_bgcolor" id="inspector4pda_button_fontbgcolor" style="width:100px;"/>
+				</hbox>
+			</vbox>
+			<label class="caption" value="&thatShow;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_button_show_qms" label="&QMS;" />
+				<checkbox preference="inspector4pda_pref_button_show_themes" label="&favorites;" />
+			</vbox>
+		</vbox>
+	</tabpanel>
+	<tabpanel>
+		<!-- Панель -->
+		<vbox>
+			<label class="caption" value="&pinTopics;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_toolbar_pin_color" label="&highlight;" />
+				<checkbox preference="inspector4pda_pref_toolbar_pin_up" label="&displayOnTop;" />
+			</vbox>
 
-                </vbox>
-            </vbox>
-        </vbox>
-    </tabpanel>
-    <tabpanel>
-        <!-- О дополнении -->
-        <vbox flex="1"></vbox>
-        <vbox style="text-align:center;" flex="0">
-            <hbox>
-                <vbox flex="1"></vbox>
-                    <label class="text-link" href="http://4pdainspector.coddism.com/firefox.html">
-                        <image src="chrome://4pdainspector/content/icons/icon_128.png" width="128" height="128" />
-                    </label>
-                <vbox flex="1"></vbox>
-            </hbox>
-            <label class="caption" value="&toolbarbutton_tooltiptext;" />
-            <label class="caption" value="v2 beta" />
-            <label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
-        </vbox>
-        <vbox flex="1"></vbox>
-    </tabpanel>
+			<label class="caption" value="&popup;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
+				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="&onlyWhenNoMore;" />
+			</vbox>
+		</vbox>
+	</tabpanel>
+	<tabpanel>
+		<!-- Оповещения -->
+		<vbox>
+			<label class="caption" value="&notification;" />
+			<vbox>
+				<vbox>
+					<vbox>
+						<checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
+						<hbox>
+							<label value="&noticeVolume;: "/>
+							<label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
+						</hbox>
+						<scale preference="inspector4pda_pref_notification_sound_volume" min="0" max="100" id="inspector4pda_notificationSoundVolumeInput" />
+					</vbox>
+					<hbox id="inspector4pda_notificationPopupHbox">
+						<checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
+					</hbox>
+
+				</vbox>
+			</vbox>
+		</vbox>
+	</tabpanel>
+	<tabpanel>
+		<!-- О дополнении -->
+		<vbox flex="1"></vbox>
+		<vbox style="text-align:center;" flex="0">
+			<hbox>
+				<vbox flex="1"></vbox>
+					<label class="text-link" href="http://4pdainspector.coddism.com/firefox.html">
+						<image src="chrome://4pdainspector/content/icons/icon_128.png" width="128" height="128" />
+					</label>
+				<vbox flex="1"></vbox>
+			</hbox>
+			<label class="caption" value="&toolbarbutton_tooltiptext;" />
+			<label class="caption" value="v2 beta" />
+			<label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
+		</vbox>
+		<vbox flex="1"></vbox>
+	</tabpanel>
   </tabpanels>
 </tabbox>
 
 
-    </box>
+	</box>
 
-    <script type="text/javascript">
-        inspector4pda.settings.init();
-    </script>
-    
+	<script type="text/javascript">
+		inspector4pda.settings.init();
+	</script>
+	
 </prefpane>
 </prefwindow>

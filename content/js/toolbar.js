@@ -107,12 +107,11 @@ inspector4pda.toolbar = {
 		if (parent) {
 			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		}
-
-		// подстройка высоты панели под размер окна
-		// this.tuneHeight();
-		
 	},
 
+	/*
+	* подстройка высоты панели под размер окна
+	*/
 	tuneHeight: function()
 	{
 		inspector4pda.toolbar.elements.themesList.style.height = 'auto';
@@ -123,8 +122,11 @@ inspector4pda.toolbar = {
 		var documentHeight = inspector4pda.cScript.winobj.getElementById('browser').clientHeight;
 		var minusHeight = (inspector4pda.cScript.winobj.getElementById('inspector4pda_mainPanel').clientHeight);
 
-		if (panelHeight > documentHeight)
-		{
+		ulog('panelHeight = ' + panelHeight);
+		ulog('documentHeight = ' + documentHeight);
+		ulog('minusHeight = ' + minusHeight);
+
+		if (panelHeight > documentHeight) {
 			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - minusHeight - 30)+'px';
 			inspector4pda.toolbar.elements.themesList.style.overflowY = 'scroll';
 		} else {
@@ -204,9 +206,6 @@ inspector4pda.toolbar = {
 	},
 
 	addThemeRow: function(theme) {
-		/*if (!theme.pin && inspector4pda.vars.toolbar_only_pin) {
-			return false;
-		};*/
 		inspector4pda.toolbar.elements.themesList.appendChild(inspector4pda.toolbar.createThemeRow(theme));
 	},
 
