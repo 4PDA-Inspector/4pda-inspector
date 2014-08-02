@@ -5,6 +5,7 @@
 
 #inspector4pda_panelMainVBox {
 	background: #FFF;
+	border-radius: 5px;
 }
 
 #inspector4pda_panel label {

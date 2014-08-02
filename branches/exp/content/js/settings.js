@@ -4,12 +4,6 @@ inspector4pda.settings = {
 	{
 		inspector4pda.utils.setStringBundle();
 
-		if (inspector4pda.vars.osString == 'Linux' || inspector4pda.vars.button_big) {
-			document.getElementById('inspector4pda_button_fontsize').style.display = 'none';
-		} else {
-			document.getElementById('inspector4pda_button_big_fontsize').style.display = 'none';
-		}
-
 		var currentVolume = document.getElementById('inspector4pda_pref_notification_sound_volume').value;
 		document.getElementById('inspector4pda_notificationSoundVolumeInput').value = currentVolume;
 		document.getElementById('inspector4pda_notificationSoundVolumeLabel').value = currentVolume + '%';

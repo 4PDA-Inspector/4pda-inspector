@@ -20,8 +20,8 @@
 		<preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
 		
 		<preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
+		<preference id="inspector4pda_pref_button_big" name="extensions.4pda-inspector.button_big" type="bool"/>
 		<preference id="inspector4pda_pref_button_fontsize" name="extensions.4pda-inspector.button_fontsize" type="int"/>
-		<preference id="inspector4pda_pref_button_big_fontsize" name="extensions.4pda-inspector.button_big_fontsize" type="int"/>
 		<preference id="inspector4pda_pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
 		<preference id="inspector4pda_pref_button_bgcolor" name="extensions.4pda-inspector.button_bgcolor" type="string"/>
 
@@ -81,7 +81,6 @@
 				<hbox>
 					<label value="&fontSize;, px" control="inspector4pda_button_fontsize" class="inspector4pda_leftLabel" />
 					<textbox preference="inspector4pda_pref_button_fontsize" id="inspector4pda_button_fontsize" type="number" min="1" class="inspector4pda_halfInput" />
-					<textbox preference="inspector4pda_pref_button_big_fontsize" id="inspector4pda_button_big_fontsize" type="number" min="1" class="inspector4pda_halfInput" />
 				</hbox>
 				<hbox>
 					<label value="&fontColor;:" control="inspector4pda_button_fontcolor" id="inspector4pda_button_fontcolor_label" />
@@ -89,6 +88,7 @@
 					<label value="&areaColor;:" control="inspector4pda_button_fontbgcolor" id="inspector4pda_button_fontbgcolor_label" />
 					<colorpicker type="button" preference="inspector4pda_pref_button_bgcolor" id="inspector4pda_button_fontbgcolor" style="width:100px;"/>
 				</hbox>
+				<checkbox preference="inspector4pda_pref_button_big" label="&bigSize; (22x22)" />
 			</vbox>
 			<label class="caption" value="&thatShow;" />
 			<vbox>
