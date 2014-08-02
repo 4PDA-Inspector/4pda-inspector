@@ -83,6 +83,7 @@
 	background: 0 50% url(chrome://4pdainspector/content/img/open_all.png) no-repeat;
 	height: 16px;
 	width: 22px;
+	margin-right: 10px;
 }
 
 #inspector4pda_panelOpenAll:hover {
