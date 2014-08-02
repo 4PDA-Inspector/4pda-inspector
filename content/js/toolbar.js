@@ -109,7 +109,7 @@ inspector4pda.toolbar = {
 		}
 
 		// подстройка высоты панели под размер окна
-		this.tuneHeight();
+		// this.tuneHeight();
 		
 	},
 

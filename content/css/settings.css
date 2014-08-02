@@ -26,7 +26,7 @@ tab {
 }
 
 tab:not([selected="true"]) {
-    background: #7EA0DA;
+    background: #C0C0C0;
 }
 
 tabs {
