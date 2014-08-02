@@ -32,6 +32,13 @@ inspector4pda.themes = {
 			if (tText[i]) {
 				var theme = Object.create(themeObj);
 				if (theme.parse(tText[i])) {
+
+					if (inspector4pda.vars.toolbar_only_pin) {
+						if (!theme.pin) {
+							continue;
+						}
+					};
+
 					if (inspector4pda.vars.toolbar_pin_up) {
 						if (theme.pin) {
 							inspector4pda.themes.list[theme.id] = theme;

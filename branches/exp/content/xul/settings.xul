@@ -26,6 +26,7 @@
         
         <preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
         <preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
+        <preference id="inspector4pda_pref_toolbar_only_pin" name="extensions.4pda-inspector.toolbar_only_pin" type="bool"/>
         
         <preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
         <preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
@@ -57,6 +58,10 @@
                     <radio value="2" label="&goToFavThemesList;"/>
                     <radio value="3" label="&openAllFavs;"/>
                 </radiogroup>
+            </vbox>
+            <label class="caption" value="&pinTopics;" />
+            <vbox>
+                <checkbox preference="inspector4pda_pref_toolbar_only_pin" label="&showOnlyPin;" />
             </vbox>
         </vbox>
     </tabpanel>

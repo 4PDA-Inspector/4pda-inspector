@@ -25,10 +25,10 @@
 <!ENTITY pinTopics "Pin topics">
 <!ENTITY highlight "Highlight">
 <!ENTITY displayOnTop "Display on top">
+<!ENTITY showOnlyPin "Show only pin">
 <!ENTITY closeOnTheOpeningTopics "Close on the opening topics">
 <!ENTITY onlyWhenNoMore "Only when no more">
 <!ENTITY donate "Donate">
-
 
 <!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
 <!ENTITY fontSize "Font size">
