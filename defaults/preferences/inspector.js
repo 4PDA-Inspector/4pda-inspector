@@ -2,7 +2,7 @@ pref("extensions.4pda-inspector.interval", 5);
 pref("extensions.4pda-inspector.click_action", 1);
 
 pref("extensions.4pda-inspector.button_fontsize", 8);
-pref("extensions.4pda-inspector.button_big_fontsize", 12);
+pref("extensions.4pda-inspector.button_big_fontsize", 11);
 pref("extensions.4pda-inspector.button_color", '#FFFFFF');
 pref("extensions.4pda-inspector.button_bgcolor", '#3333FF');
 pref("extensions.4pda-inspector.button_show_qms", true);
