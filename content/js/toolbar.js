@@ -114,20 +114,21 @@ inspector4pda.toolbar = {
 	*/
 	tuneHeight: function()
 	{
+		// return false;
 		inspector4pda.toolbar.elements.themesList.style.height = 'auto';
 		inspector4pda.toolbar.elements.themesList.style.overflowY = 'visible';
 
 		// inspector4pda.toolbar.panel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel');
-		var panelHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
+		var panelHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel').clientHeight;
+		var vboxHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
 		var documentHeight = inspector4pda.cScript.winobj.getElementById('browser').clientHeight;
-		var minusHeight = (inspector4pda.cScript.winobj.getElementById('inspector4pda_mainPanel').clientHeight);
-
+		
 		ulog('panelHeight = ' + panelHeight);
+		ulog('vboxHeight = ' + vboxHeight);
 		ulog('documentHeight = ' + documentHeight);
-		ulog('minusHeight = ' + minusHeight);
-
+		
 		if (panelHeight > documentHeight) {
-			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - minusHeight - 30)+'px';
+			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - 60)+'px';
 			inspector4pda.toolbar.elements.themesList.style.overflowY = 'scroll';
 		} else {
 			inspector4pda.toolbar.elements.themesList.style.height = 'auto';

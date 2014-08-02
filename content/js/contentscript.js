@@ -77,12 +77,11 @@ inspector4pda.cScript = {
 		var title_padding = 2;
 		var fontSize = inspector4pda.vars.button_fontsize;
 
-		if (inspector4pda.vars.osString == 'Linux' || inspector4pda.vars.button_big)
+		if (inspector4pda.vars.button_big)
 		{
 			var canvas_width = 26;
 			var canvas_height = 24;
 			var canvas_img = "chrome://4pdainspector/content/icons/icon_22x.png";
-			var fontSize = inspector4pda.vars.button_big_fontsize;
 		}
 
 		var button_bgcolor = inspector4pda.vars.button_bgcolor;
@@ -140,7 +139,7 @@ inspector4pda.cScript = {
 		var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
 		
 		if (btn) {
-			btn.image = 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.osString == 'Linux' || inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png';
+			btn.image = 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png';
 			btn.setAttribute('tooltiptext', unavailable?
 					inspector4pda.utils.getString("4PDA_Site Unavailable"):
 					inspector4pda.utils.getString("4PDA_offline")
