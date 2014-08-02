@@ -138,8 +138,6 @@ inspector4pda.cScript = {
         // this.prevData.themes = inspector4pda.themes.list;
         var hasNews = false;
 
-        //
-
         if (!(inspector4pda.vars.notification_popup || inspector4pda.vars.notification_sound)) {
             return false;
         }

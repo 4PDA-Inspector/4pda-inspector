@@ -22,7 +22,7 @@ tab {
     /*background: #3565B5;
     color: #FFF;*/
     cursor: pointer;
-    background: #F0F0F0;
+    background: #FFF;
 }
 
 tab:not([selected="true"]) {
@@ -43,7 +43,7 @@ tabpanels {
     padding: 8px;
     /*outline: 1px solid #000;*/
     /*background: #DDD;*/
-    background: #F0F0F0;
+    background: #FFF;
 }
 
 tabpanel {
