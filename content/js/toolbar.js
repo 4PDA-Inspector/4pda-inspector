@@ -114,7 +114,6 @@ inspector4pda.toolbar = {
 	*/
 	tuneHeight: function()
 	{
-		// return false;
 		inspector4pda.toolbar.elements.themesList.style.height = 'auto';
 		inspector4pda.toolbar.elements.themesList.style.overflowY = 'visible';
 
