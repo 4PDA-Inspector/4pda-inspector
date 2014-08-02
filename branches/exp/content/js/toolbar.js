@@ -125,7 +125,7 @@ inspector4pda.toolbar = {
 
 		if (panelHeight > documentHeight)
 		{
-			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - minusHeight - 20)+'px';
+			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - minusHeight - 30)+'px';
 			inspector4pda.toolbar.elements.themesList.style.overflowY = 'scroll';
 		} else {
 			inspector4pda.toolbar.elements.themesList.style.height = 'auto';
