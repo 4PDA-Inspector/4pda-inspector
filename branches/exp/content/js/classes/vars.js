@@ -13,10 +13,22 @@ inspector4pda.vars = {
 	toolbar_opentheme_hide: false,
 	toolbar_opentheme_hide_onlylast: false,
 
+	button_big: false,
+	button_bgcolor: '#3333FF',
+	button_color: '#FFFFFF',
+	button_fontsize: 8,
+	button_big_fontsize: 12,
+	button_show_qms: true,
+	button_show_themes: true,
+
+	osString: '',
+
 	prefs: {},
 
 	getPrefs: function()
 	{
+		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
+
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
 			.getBranch("extensions.4pda-inspector.");
@@ -30,6 +42,13 @@ inspector4pda.vars = {
 	{
 		this.getValue('interval', 5000, 1000);
 		this.getValue('click_action', 1);
+		
+		this.getValue('button_bgcolor', '#3333FF');
+		this.getValue('button_color', '#FFFFFF');
+		this.getValue('button_fontsize', 8);
+		this.getValue('button_big_fontsize', 12);
+		this.getValue('button_show_qms', true);
+		this.getValue('button_show_themes', true);
 		
 		this.getValue('notification_sound', true);
 		this.getValue('notification_popup', true);
@@ -54,7 +73,7 @@ inspector4pda.vars = {
 					inspector4pda.vars[field] = inspector4pda.vars.prefs.getBoolPref(field);
 					break;
 				default:
-					inspector4pda.vars[field] = inspector4pda.defaults.prefs.getCharPref(field);
+					inspector4pda.vars[field] = inspector4pda.vars.prefs.getCharPref(field);
 			}
 		} catch (e) {
 			if (defaultValue) {

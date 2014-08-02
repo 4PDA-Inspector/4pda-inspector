@@ -18,6 +18,7 @@
 <!ENTITY enableSoundNotification "Включить звуковые оповещения">
 <!ENTITY enablePopupAlerts "Включить всплывающие оповещения">
 <!ENTITY noticeVolume "Громкость уведомления">
+<!ENTITY button "Кнопка">
 <!ENTITY buttonSettings "Настройки кнопки">
 <!ENTITY buttonClickAction "Действие при нажатии на кнопку">
 <!ENTITY popup "Всплывающая панель">
@@ -31,6 +32,8 @@
 <!ENTITY donate "Помочь проекту">
 
 <!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
+<!ENTITY looks "Оформление">
+<!ENTITY thatShow "Что показывать">
 <!ENTITY fontSize "Размер шрифта">
 <!ENTITY fontColor "Цвет текста">
 <!ENTITY areaColor "Цвет области">

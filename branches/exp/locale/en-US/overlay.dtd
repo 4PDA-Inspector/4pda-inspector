@@ -18,6 +18,7 @@
 <!ENTITY enableSoundNotification "Enable sound notification">
 <!ENTITY enablePopupAlerts "Enable popup alerts">
 <!ENTITY noticeVolume "Notice volume">
+<!ENTITY button "Button">
 <!ENTITY buttonSettings "Button settings">
 <!ENTITY buttonClickAction "Button click action">
 <!ENTITY popup "Popup panel">
@@ -31,6 +32,8 @@
 <!ENTITY donate "Donate">
 
 <!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
+<!ENTITY looks "Looks">
+<!ENTITY thatShow "That show">
 <!ENTITY fontSize "Font size">
 <!ENTITY fontColor "Font color">
 <!ENTITY areaColor "Area color">
