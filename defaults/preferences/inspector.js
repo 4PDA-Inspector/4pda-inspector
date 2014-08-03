@@ -18,3 +18,4 @@ pref("extensions.4pda-inspector.toolbar_pin_up", false);
 pref("extensions.4pda-inspector.toolbar_only_pin", false);
 pref("extensions.4pda-inspector.toolbar_opentheme_hide", false);
 pref("extensions.4pda-inspector.toolbar_opentheme_hide_onlylast", false);
+pref("extensions.4pda-inspector.toolbar_simple_list", false);

@@ -234,25 +234,6 @@ inspector4pda.toolbar = {
 			};
 		};
 
-		var userCaptionLabel = document.createElement('label');
-		var last_user_name = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
-		userCaptionLabel.setAttribute('value', last_user_name);
-		userCaptionLabel.className = 'oneTheme_user';
-		userCaptionLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open User Profile') + ' ' + last_user_name);
-		userCaptionLabel.onclick = function () {
-			inspector4pda.user.open(theme.last_user_id);
-		};
-
-		var lastPostLabel = document.createElement('label');
-		lastPostLabel.setAttribute('value', new Date(theme.last_post_ts*1000).toLocaleString());
-		lastPostLabel.className = 'oneTheme_lastPost';
-		lastPostLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open Last Post'));
-		lastPostLabel.onclick = function () {
-			inspector4pda.themes.openLast(theme.id);
-			inspector4pda.cScript.printCount();
-			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
-		};
-
 		var readImage = document.createElement('box');
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
@@ -270,28 +251,58 @@ inspector4pda.toolbar = {
 			});
 		};
 
-		// BOXES
-
-		var infoHBox = document.createElement('hbox');
-		infoHBox.className = 'oneThemeInfoHBox';
-		infoHBox.appendChild(userCaptionLabel);
-		infoHBox.appendChild(lastPostLabel);
-
-		var box = document.createElement('box');
-		box.setAttribute('flex', '1');
-		infoHBox.appendChild(box);
+		if (!inspector4pda.vars.toolbar_simple_list) {
 		
-		infoHBox.appendChild(readImage);
+			var userCaptionLabel = document.createElement('label');
+			var last_user_name = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
+			userCaptionLabel.setAttribute('value', last_user_name);
+			userCaptionLabel.className = 'oneTheme_user';
+			userCaptionLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open User Profile') + ' ' + last_user_name);
+			userCaptionLabel.onclick = function () {
+				inspector4pda.user.open(theme.last_user_id);
+			};
 
-		var mainHBox = document.createElement('hbox');
-		mainHBox.appendChild(themeCaptionLabel);
-		
-		var themeVBox = document.createElement('vbox');
-		themeVBox.className = 'oneTheme';
-		themeVBox.appendChild(mainHBox);
-		themeVBox.appendChild(infoHBox);
+			var lastPostLabel = document.createElement('label');
+			lastPostLabel.setAttribute('value', new Date(theme.last_post_ts*1000).toLocaleString());
+			lastPostLabel.className = 'oneTheme_lastPost';
+			lastPostLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open Last Post'));
+			lastPostLabel.onclick = function () {
+				inspector4pda.themes.openLast(theme.id);
+				inspector4pda.cScript.printCount();
+				inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
+			};
 
-		return themeVBox;
+			// BOXES
+
+			var infoHBox = document.createElement('hbox');
+			infoHBox.className = 'oneThemeInfoHBox';
+			infoHBox.appendChild(userCaptionLabel);
+			infoHBox.appendChild(lastPostLabel);
+
+			var box = document.createElement('box');
+			box.setAttribute('flex', '1');
+			infoHBox.appendChild(box);
+			
+			infoHBox.appendChild(readImage);
+
+			var mainHBox = document.createElement('hbox');
+			mainHBox.appendChild(themeCaptionLabel);
+			
+			var themeVBox = document.createElement('vbox');
+			themeVBox.className = 'oneTheme';
+			themeVBox.appendChild(mainHBox);
+			themeVBox.appendChild(infoHBox);
+			return themeVBox;
+		} else {
+			var mainHBox = document.createElement('hbox');
+			mainHBox.className = 'oneTheme';
+			themeCaptionLabel.setAttribute('flex', '1');
+			mainHBox.appendChild(themeCaptionLabel);
+			mainHBox.appendChild(readImage);
+			return mainHBox;
+		}
+
+		return false;
 	},
 
 	printCount: function()

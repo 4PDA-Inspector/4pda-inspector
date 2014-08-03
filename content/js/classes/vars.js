@@ -12,6 +12,7 @@ inspector4pda.vars = {
 	toolbar_only_pin: false,
 	toolbar_opentheme_hide: false,
 	toolbar_opentheme_hide_onlylast: false,
+	toolbar_simple_list: false,
 
 	button_big: false,
 	button_bgcolor: '#3333FF',
@@ -28,14 +29,16 @@ inspector4pda.vars = {
 	{
 		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
-		var toolbar = document.getElementById("nav-bar");
-		this.button_big = (toolbar.getAttribute('iconsize') != 'small');
-
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
 			.getBranch("extensions.4pda-inspector.");
 		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch);
 		this.prefs.addObserver("", this, false);
+
+		var toolbar = document.getElementById("nav-bar");
+		this.button_big = toolbar ?
+				(toolbar.getAttribute('iconsize') != 'small') || inspector4pda.vars.prefs.getBoolPref('button_big') :
+				inspector4pda.vars.prefs.getBoolPref('button_big');
 
 		this.resetStorage();
 	},
@@ -60,6 +63,7 @@ inspector4pda.vars = {
 		this.getValue('toolbar_only_pin', false);
 		this.getValue('toolbar_opentheme_hide', false);
 		this.getValue('toolbar_opentheme_hide_onlylast', false);
+		this.getValue('toolbar_simple_list', false);
 	},
 
 	getValue: function(field, defaultValue, multiplier)
