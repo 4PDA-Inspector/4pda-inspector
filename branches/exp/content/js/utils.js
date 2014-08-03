@@ -80,7 +80,6 @@ inspector4pda.utils = {
 	},
 
 	setStringBundle: function() {
-		ulog('setStringBundle');
 		inspector4pda.utils.stringBundle = (typeof Services == 'object')
 			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
 			: null
@@ -90,8 +89,6 @@ inspector4pda.utils = {
 		if (!inspector4pda.utils.stringBundle) {
 			this.setStringBundle();
 		};
-
-		//ulog(typeof Services);
 
 		if (inspector4pda.utils.stringBundle) {
 			return inspector4pda.utils.stringBundle.GetStringFromName(name);

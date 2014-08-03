@@ -28,6 +28,9 @@ inspector4pda.vars = {
 	{
 		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
 
+		var toolbar = document.getElementById("nav-bar");
+		this.button_big = (toolbar.getAttribute('iconsize') != 'small');
+
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
 			.getBranch("extensions.4pda-inspector.");
@@ -41,8 +44,7 @@ inspector4pda.vars = {
 	{
 		this.getValue('interval', 5000, 1000);
 		this.getValue('click_action', 1);
-		
-		this.getValue('button_big', false);
+
 		this.getValue('button_bgcolor', '#3333FF');
 		this.getValue('button_color', '#FFFFFF');
 		this.getValue('button_fontsize', 8);

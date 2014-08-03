@@ -77,8 +77,7 @@ inspector4pda.cScript = {
 		var title_padding = 2;
 		var fontSize = inspector4pda.vars.button_fontsize;
 
-		if (inspector4pda.vars.button_big)
-		{
+		if (inspector4pda.vars.button_big) {
 			var canvas_width = 26;
 			var canvas_height = 24;
 			var canvas_img = "chrome://4pdainspector/content/icons/icon_22x.png";
