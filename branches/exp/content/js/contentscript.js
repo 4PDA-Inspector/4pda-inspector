@@ -233,7 +233,27 @@ inspector4pda.cScript = {
 		{
 			inspector4pda.cScript.showNotifications();
 		}, 50);
+	},
+
+	addButtonToToolbar: function() {
+		var id = "inspector4pda_button";
+		if (!document.getElementById(id)) {
+			var toolbar = document.getElementById("nav-bar");
+
+			toolbar.insertItem(id);
+			toolbar.setAttribute("currentset", toolbar.currentSet);
+			document.persist(toolbar.id, "currentset");
+		}
 	}
 };
 
 inspector4pda.cScript.init();
+
+Application.getExtensions(function (extensions) {
+	let extension = extensions.get("4pda_inspector_beta@coddism.com");
+
+	if (extension.firstRun) {
+		inspector4pda.cScript.addButtonToToolbar();
+	}
+})
+
