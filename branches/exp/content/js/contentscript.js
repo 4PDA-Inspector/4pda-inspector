@@ -169,8 +169,10 @@ inspector4pda.cScript = {
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
 					title: inspector4pda.utils.getString('New Message'),
-					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
-						' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')',
+					body: inspector4pda.QMS.list[i].opponent_id?
+							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
+							' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')':
+							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title),
 					type: 'qms',
 					id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
 				});
@@ -236,12 +238,13 @@ inspector4pda.cScript = {
 
 	firstRun: function(extensions) {
 		var id = "inspector4pda_button";
-		/*if (document.getElementById(id)) {
-			return false;
-		}*/
 		var extension = extensions.get("4pda_inspector_beta@coddism.com");
 		if (extension.firstRun) {
 			var toolbar = document.getElementById("nav-bar");
+			if (toolbar.getElementsByAttribute('id', "inspector4pda_button").length) {
+				//кнопка уже добавлена
+				return false;
+			}
 			toolbar.insertItem(id, null, null, false);
 			toolbar.setAttribute("currentset", toolbar.currentSet);
 			document.persist(toolbar.id, "currentset");
