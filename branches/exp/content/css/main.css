@@ -1,7 +1,3 @@
 #inspector4pda_button, toolbar[iconsize="small"] #inspector4pda_button {
 	list-style-image: url("chrome://4pdainspector/content/icons/icon_16x_out.png");
 }
-
-#inspector4pda_panel {
-    padding: 5px 15px;
-}
