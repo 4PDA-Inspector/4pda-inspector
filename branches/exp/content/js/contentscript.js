@@ -235,25 +235,23 @@ inspector4pda.cScript = {
 		}, 50);
 	},
 
-	addButtonToToolbar: function() {
-		var id = "inspector4pda_button";
-		if (!document.getElementById(id)) {
+	firstRun: function(extensions) {
+		var extension = extensions.get("4pda_inspector_beta@coddism.com");
+		if (extension.firstRun) {
+			var id = "inspector4pda_button";
 			var toolbar = document.getElementById("nav-bar");
-
-			toolbar.insertItem(id);
+			toolbar.insertItem(id, null, null, false);
 			toolbar.setAttribute("currentset", toolbar.currentSet);
 			document.persist(toolbar.id, "currentset");
+			toolbar.collapsed = false;
 		}
 	}
 };
 
+if (Application.extensions) {
+	inspector4pda.cScript.firstRun(Application.extensions);
+} else {
+	Application.getExtensions(inspector4pda.cScript.firstRun);
+}
+
 inspector4pda.cScript.init();
-
-Application.getExtensions(function (extensions) {
-	let extension = extensions.get("4pda_inspector_beta@coddism.com");
-
-	if (extension.firstRun) {
-		inspector4pda.cScript.addButtonToToolbar();
-	}
-})
-
