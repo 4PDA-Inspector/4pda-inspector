@@ -34,6 +34,7 @@
 		<preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
 		<preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
 		<preference id="inspector4pda_pref_toolbar_only_pin" name="extensions.4pda-inspector.toolbar_only_pin" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_simple_list" name="extensions.4pda-inspector.toolbar_simple_list" type="bool"/>
 		
 		<preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
 		<preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
@@ -108,6 +109,11 @@
 			<vbox>
 				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
 				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="&onlyWhenNoMore;" />
+			</vbox>
+
+			<label class="caption" value="&looks;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_toolbar_simple_list" label="&simpleList;" />
 			</vbox>
 		</vbox>
 	</tabpanel>
