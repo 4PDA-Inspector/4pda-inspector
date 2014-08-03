@@ -235,9 +235,12 @@ inspector4pda.cScript = {
 	},
 
 	firstRun: function(extensions) {
+		var id = "inspector4pda_button";
+		if (document.getElementById(id)) {
+			return false;
+		}
 		var extension = extensions.get("4pda_inspector_beta@coddism.com");
 		if (extension.firstRun) {
-			var id = "inspector4pda_button";
 			var toolbar = document.getElementById("nav-bar");
 			toolbar.insertItem(id, null, null, false);
 			toolbar.setAttribute("currentset", toolbar.currentSet);
