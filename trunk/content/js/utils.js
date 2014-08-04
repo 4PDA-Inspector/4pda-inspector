@@ -1,25 +1,13 @@
-/*
- * Main Script File
- *
- * utils
- * cScript
- * defaults
- * settings
- * toolbar
-*/
-
 if (typeof inspector4pda == "undefined") {
-	var inspector4pda = {
-		stringBundle: (typeof Services == 'object')
-			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
-			: null
-	}
+	var inspector4pda = {}
 }
 
 inspector4pda.utils = {
 	
 	consoleService: null,
+	stringBundle: null,
 	firebugConsoleService: null,
+	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
 	log: function(msg, json) {
 		if (this.consoleService == null) {
@@ -45,6 +33,17 @@ inspector4pda.utils = {
 		}
 		
 		this.firebugConsoleService.Console.log(msg);
+	},
+
+	parse: function(str) {
+		var parsed = str.match(this.parseStringRexp);
+		var pq = '';
+		for (var i = 0; i < parsed.length; i++) {
+			if (pq = parsed[i].match(/\"(.*)\"/)) {
+				parsed[i] = pq[1];
+			};
+		};
+		return parsed;
 	},
 
 	checkNotificationSupport: function() {
@@ -74,12 +73,33 @@ inspector4pda.utils = {
 		return string;
 	},
 
-	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
-	parse: function(str) {
-		return str.match(this.parseStringRexp);
+	openPage: function(page) {
+		var tBrowser = top.document.getElementById("content");
+		var tab = tBrowser.addTab(page);
+		tBrowser.selectedTab = tab;
+	},
+
+	setStringBundle: function() {
+		inspector4pda.utils.stringBundle = (typeof Services == 'object')
+			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
+			: null
+	},
+
+	getString: function(name) {
+		if (!inspector4pda.utils.stringBundle) {
+			this.setStringBundle();
+		};
+
+		if (inspector4pda.utils.stringBundle) {
+			return inspector4pda.utils.stringBundle.GetStringFromName(name);
+		} else {
+			return name;
+		}
 	}
 };
 
-function ulog(ttt, json) {
-	inspector4pda.utils.log(ttt, json);
+if (typeof ulog == "undefined") {
+	function ulog(text, json) {
+		inspector4pda.utils.log(text, json);
+	}
 }

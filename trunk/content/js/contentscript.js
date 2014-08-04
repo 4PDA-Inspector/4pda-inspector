@@ -1,497 +1,232 @@
-// inspectorContentScript
 inspector4pda.cScript = {
 
-	updateTimer: 0,
 	winobj: null,
-
-	favUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
-
-	newPostImgRegExp: /(http:\/\/s.4pda.ru\/forum\/style_images\/1\/newpost.gif)/ig,
-	qmsBlockRegExp: /\<a href\=\"http\:\/\/4pda\.ru\/forum\/index\.php\?act\=qms\&\" id\=\"events\-count\"\>Сообщений\: (\d+)\<\/a\>/,
-	findLoginFormRegExp: /\<input type\=\"text\".*? name\=\"UserName\" \/\>/,
-	findLoginLinkRegExp: /\<a href\=\"\/forum\/index\.php\?act\=login\&amp\;CODE\=00\"\>Вход\<\/a\>/,
-	parseUserRegExp: /\"http\:\/\/4pda\.ru\/forum\/index\.php\?showuser\=(\d+)\"\>(.*?)\<\/a\>/i,
-
-	unreadThemesCount: 0,
-	unreadMessageCount: 0,
-	unreadQmsCount: 0,
-	isLogin: false,
-
-	userName: '',
-	userId: '',
-
-	osString: '',
-
-	notifications: [],
-
-	lastCount: {
-		themes: false,
-		qms: false,
-		themesIds: []
+	updateTimer: 0,
+	prevData: {
+		themes: {},
+		QMS: {}
 	},
-
-	unreadThemes: [],
-
-	timeoutUpdateTime: 3000,
-	lastUpdateRequest: 0,
-
-	/*constructor: function()
-	{
-		alert(typeof inspector4pda.stringBundle);
-	}(),*/
+	requestsCount: 0,
+	notifications: [],
 
 	init: function(el)
 	{
 		var obj = document.getElementById("navigator-toolbox");
-		this.winobj = (obj)?window.document:window.opener.document;
-		
-		this.osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
+		inspector4pda.cScript.winobj = (obj) ? window.document : window.opener.document;
 
-		inspector4pda.cScript.getNewCount(true, null, null, true);
-		setTimeout(function() {
-			inspector4pda.cScript.getNewCount(false, null, null, true);
-		}, 2000);
-
+		inspector4pda.cScript.request();
 	},
 
-	newIteration: function(interval)
+	request: function(interval)
 	{
-		inspector4pda.defaults.getPrefs();
-		clearTimeout(this.updateTimer);
-		this.updateTimer = setTimeout(function() {
-			inspector4pda.cScript.getNewCount();
-		}, (interval || inspector4pda.defaults.interval));
+		inspector4pda.vars.getPrefs();
+		clearTimeout(inspector4pda.cScript.updateTimer);
+		inspector4pda.cScript.getData();
+
+		inspector4pda.cScript.updateTimer = setTimeout(function() {
+			inspector4pda.cScript.request();
+		}, (interval || inspector4pda.vars.interval));
 	},
 
-	getNewCount: function(noFuture, callback, errorCallback, hideNotification)
+	getData: function(callback)
 	{
-		// inspector4pda.utils.log('new update - '+inspector4pda.defaults.interval);
-		var nowTime = new Date().getTime();
-		if (nowTime - this.lastUpdateRequest < 1000) {
-			return false;
-		}
-		this.lastUpdateRequest = nowTime;
+		var finishCallback = function(){
+			inspector4pda.cScript.printCount();
+			if (inspector4pda.cScript.requestsCount++) {
+				inspector4pda.cScript.checkNews();
+			}
+			if (callback) {
+				callback();
+			};
+		};
 
-		var req_user = new XMLHttpRequest();
-		req_user.onreadystatechange = function() {
-			if (req_user.readyState == 4) {
-				if (req_user.status == 200) {
-					if (req_user.responseText) {
-						var res = inspector4pda.utils.parse(req_user.responseText);
-						if (res.length == 2) {
-							inspector4pda.cScript.isLogin = true;
-							inspector4pda.cScript.userId = parseInt(res[0]);
-							inspector4pda.cScript.userName = res[1];
-
-							// request themes
-							var req_themes = new XMLHttpRequest();
-							req_themes.onreadystatechange = function() {
-								if (req_themes.readyState == 4) {
-									if (req_themes.status == 200) {
-										var text = req_themes.responseText;
-										inspector4pda.cScript.unreadThemes = {};
-										var tText = text.replace('\r','').split('\n');
-										for (var i = 0; i < tText.length; i++) {
-											if (tText[i]) {
-												var obj = inspector4pda.utils.parse(tText[i]);
-												inspector4pda.cScript.unreadThemes[obj[0]] = {
-													title: obj[1],
-													date: new Date(obj[5]*1000).toLocaleString(),
-													author: obj[4],
-												};
-											}
-										}
-										inspector4pda.cScript.unreadThemesCount = Object.keys(inspector4pda.cScript.unreadThemes).length;
-										
-										// request QMS
-										var req_qms = new XMLHttpRequest();
-										req_qms.onreadystatechange = function() {
-											if (req_qms.readyState == 4) {
-												if (req_qms.status == 200) {
-													inspector4pda.cScript.unreadQmsCount = 0;
-													var tText = req_qms.responseText.replace('\r','').split('\n');
-													for (var i = 0; i < tText.length; i++) {
-														if (tText[i]) {
-															var qObj = inspector4pda.utils.parse(tText[i]);
-															inspector4pda.cScript.unreadQmsCount++;
-														}
-													}
-													inspector4pda.cScript.printCount(inspector4pda.cScript.unreadThemesCount, inspector4pda.cScript.unreadQmsCount);
-													inspector4pda.cScript.checkNews(hideNotification);
-												}
-											}
-										}
-
-										req_qms.onerror = function() {
-											inspector4pda.cScript.printLogout();
-											if (errorCallback && typeof errorCallback == 'function')
-												errorCallback();
-											if (!noFuture)
-												inspector4pda.cScript.newIteration();
-										}
-										req_qms.timeout = inspector4pda.cScript.timeoutUpdateTime;
-										req_qms.ontimeout = function () {
-											if (!noFuture) {
-												inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
-											}
-										}
-
-										req_qms.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms', true);
-										req_qms.send(null);
-
-
-										if (callback && typeof callback == 'function')
-											callback();
-										if (!noFuture) {
-											inspector4pda.cScript.newIteration();
-										}
-										return;
-									} else {
-										//inspector4pda_XHR.callback.not200Success(req);
-									}
-								}
-							}
-							req_themes.onerror = function() {
-								inspector4pda.cScript.printLogout();
-								if (errorCallback && typeof errorCallback == 'function')
-									errorCallback();
-								if (!noFuture)
-									inspector4pda.cScript.newIteration();
-							}
-							req_themes.timeout = inspector4pda.cScript.timeoutUpdateTime;
-							req_themes.ontimeout = function () {
-								if (!noFuture) {
-									inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
-								}
-							}
-
-							req_themes.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav', true);
-							req_themes.send(null);
-						};
-					} else {
-						inspector4pda.cScript.printLogout();
-						if (errorCallback && typeof errorCallback == 'function')
-							errorCallback();
-						if (!noFuture)
-							inspector4pda.cScript.newIteration();
-					}
-				} else {
-					inspector4pda.cScript.printLogout(true);
+		this.prevData.themes = inspector4pda.themes.list;
+		this.prevData.QMS = inspector4pda.QMS.list;
+		inspector4pda.user.request(function() {
+			if (inspector4pda.user.id) {
+				inspector4pda.themes.request(function() {
+					inspector4pda.QMS.request(finishCallback);
+				});
+			} else {
+				inspector4pda.cScript.requestsCount = 0;
+				if (finishCallback) {
+					finishCallback();
 				}
 			}
-		}
-
-		req_user.onerror = function() {
-			inspector4pda.cScript.printLogout();
-			if (errorCallback && typeof errorCallback == 'function')
-				errorCallback();
-			if (!noFuture)
-				inspector4pda.cScript.newIteration();
-		}
-		req_user.timeout = inspector4pda.cScript.timeoutUpdateTime;
-		req_user.ontimeout = function () {
-			if (!noFuture) {
-				inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
-			}
-		}
-
-		req_user.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=id', true);
-		req_user.send(null);
-
-/////////////////////////////////////////////////////////////////////////////////
-
-		/*return;
-		var req = new XMLHttpRequest();
-		req.onreadystatechange = function()
-		{
-			if (req.readyState == 4)
-			{
-				if (req.status == 200)
-				{
-					if (req.responseText)
-					{
-						inspector4pda.toolbar.removedThemes = {};
-						if (inspector4pda.cScript.isNotLogin(req.responseText))
-						{
-							inspector4pda.cScript.printLogout();
-							if (errorCallback && typeof errorCallback == 'function')
-								errorCallback();
-						}
-						else
-						{
-							inspector4pda.cScript.parseUserName(req.responseText);
-
-							inspector4pda.cScript.parseThemes(req.responseText);
-
-							inspector4pda.cScript.unreadThemesCount = inspector4pda.cScript.getFavCount(req.responseText);
-							inspector4pda.cScript.unreadQmsCount = inspector4pda.cScript.getQmsCount(req.responseText);
-
-							inspector4pda.cScript.printCount(inspector4pda.cScript.unreadThemesCount, inspector4pda.cScript.unreadQmsCount);
-							inspector4pda.cScript.checkNews(hideNotification);
-						}
-
-						if (callback && typeof callback == 'function')
-							callback();
-						if (!noFuture)
-							inspector4pda.cScript.newIteration();
-						return;
-					}
-					else
-					{
-						inspector4pda.cScript.printLogout();
-						if (errorCallback && typeof errorCallback == 'function')
-							errorCallback();
-						if (!noFuture)
-							inspector4pda.cScript.newIteration();
-					}
-				}
-				else
-				{
-					inspector4pda.cScript.printLogout(true);
-				}
-			}
-		}
-
-		req.onerror = function() {
-			inspector4pda.cScript.printLogout();
-			if (errorCallback && typeof errorCallback == 'function')
-				errorCallback();
-			if (!noFuture)
-				inspector4pda.cScript.newIteration();
-		}
-		req.timeout = inspector4pda.cScript.timeoutUpdateTime;
-		req.ontimeout = function () {
-			if (!noFuture) {
-				inspector4pda.cScript.newIteration(inspector4pda.cScript.timeoutUpdateTime);
-			}
-		}
-		req.open("GET", 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav', true);
-		req.send(null);*/
+		});
 	},
 
-	isNotLogin: function(text)
+	printCount: function()
 	{
-		if (!text)
+		if (!inspector4pda.user.id) {
+			this.printLogout();
+			return;
+		}
+		var qCount = inspector4pda.QMS.getCount();
+		var tCount = inspector4pda.themes.getCount();
+
+		var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+		if (!btn) {
 			return false;
-
-		var ff = text.match(inspector4pda.cScript.findLoginFormRegExp);
-		var ff2 = text.match(inspector4pda.cScript.findLoginLinkRegExp);
-
-		inspector4pda.cScript.isLogin = ((typeof ff != 'object' || ff == null) && (typeof ff2 != 'object' || ff2 == null));
-
-		return !inspector4pda.cScript.isLogin;
-	},
-
-	getFavCount: function(text)
-	{
-		if (!text)
-			return 0;
-
-		var favs = text.match(inspector4pda.cScript.newPostImgRegExp);
-
-		if (typeof favs == 'object' && favs != null)
-			return favs.length;
-			else
-			return 0;
-	},
-
-	getQmsCount: function(text)
-	{
-		if (!text)
-			return 0;
-
-		var ff = text.match(inspector4pda.cScript.qmsBlockRegExp);
-
-		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
-			return ff[1];
-			else
-			return 0;
-	},
-
-	parseUserName: function(text)
-	{
-		if (!text)
-			return false;
-
-		var ff = text.match(inspector4pda.cScript.parseUserRegExp);
-
-		if (typeof (ff) == 'object' && ff != null && (typeof ff[1] != 'undefined'))
-		{
-			inspector4pda.cScript.userName = ff[2];
-			inspector4pda.cScript.userId = ff[1];
 		}
 
-	},
+		var canvas_width = 20;
+		var canvas_height = 18;
+		var canvas_img = "chrome://4pdainspector/content/icons/icon_16x.png";
+		var title_padding = 2;
+		var fontSize = inspector4pda.vars.button_fontsize;
 
-	printCount: function(count, mesCount)
-	{
-		var btn = this.winobj.getElementById('inspector-button');
-
-		if (!btn)
-			return false;
-
-		if (this.osString == 'Linux' || inspector4pda.defaults.button_big)
-		{
+		if (inspector4pda.vars.button_big) {
 			var canvas_width = 26;
 			var canvas_height = 24;
 			var canvas_img = "chrome://4pdainspector/content/icons/icon_22x.png";
-			var title_padding = 0;
-			var fontSize = inspector4pda.defaults.button_big_fontsize;
-		}
-		else
-		{
-			var canvas_width = 20;
-			var canvas_height = 16;
-			var canvas_img = "chrome://4pdainspector/content/icons/icon_16x.png";
-			var title_padding = 2;
-			var fontSize = inspector4pda.defaults.button_fontsize;
 		}
 
-		var canvas = this.winobj.getElementById("inspector4pda_button_canvas");
+		var button_bgcolor = inspector4pda.vars.button_bgcolor;
+		var button_color = inspector4pda.vars.button_color;
+
+		var canvas = inspector4pda.cScript.winobj.getElementById("inspector4pda_canvas");
 		canvas.setAttribute("width", canvas_width);
 		canvas.setAttribute("height", canvas_height);
 		var ctx = canvas.getContext("2d");
-		
+
 		var img = new Image();
+
+		
 		img.onload = function()
 		{
 			ctx.textBaseline = 'top';
-			ctx.font = 'bold '+fontSize+'px tahoma,arial';
+			ctx.font = 'bold '+fontSize+'px tahoma,sans-serif,arial';
 			ctx.clearRect(0, 0, canvas_width, canvas_height);
 			ctx.drawImage(img, 2, 0, img.width, img.height);
 
-			var w = ctx.measureText(count).width;
+			var w = ctx.measureText(tCount).width;
 			var h = fontSize + title_padding;
 
 			var x = canvas_width - w;
 			var y = canvas_height - h;
 
-			ctx.fillStyle = inspector4pda.defaults.button_bgcolor;
-			ctx.fillRect(x-1, y, w+1, h);
-			ctx.fillStyle = inspector4pda.defaults.button_color;
-			ctx.fillText(count, x, y+1);
+			if (inspector4pda.vars.button_show_themes) {
+				ctx.fillStyle = button_bgcolor;
+				ctx.fillRect(x-1, y, w+1, h);
+				ctx.fillStyle = button_color;
+				ctx.fillText(tCount, x, y+1);
+			}
 
-			var w = ctx.measureText(mesCount).width;
-			ctx.fillStyle = inspector4pda.defaults.button_bgcolor;
-			ctx.fillRect(0, y, w+2, h);
-			ctx.fillStyle = inspector4pda.defaults.button_color;
-			ctx.fillText(mesCount, 1, y+1);
+			if (inspector4pda.vars.button_show_qms) {
+				var w = ctx.measureText(qCount).width;
+				ctx.fillStyle = button_bgcolor;
+				ctx.fillRect(0, y, w+2, h);
+				ctx.fillStyle = button_color;
+				ctx.fillText(qCount, 1, y+1);
+			};
+
 
 			btn.image = canvas.toDataURL("image/png");
 		};
 
 		img.src = canvas_img;
-		btn.setAttribute('tooltiptext', inspector4pda.stringBundle.GetStringFromName("4PDA_online")+
-			'\n'+inspector4pda.stringBundle.GetStringFromName("Unread Topics")+': '+count+
-			'\n'+inspector4pda.stringBundle.GetStringFromName("New Messages")+': '+inspector4pda.cScript.unreadQmsCount
+		btn.setAttribute('tooltiptext', inspector4pda.utils.getString("4PDA_online") + 
+			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
+			'\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount
 		);
 	},
 
 	printLogout: function(unavailable)
 	{
-		var btn = this.winobj.getElementById('inspector-button');
-
-		if (btn)
-		{
-			btn.image = 'chrome://4pdainspector/content/icons/icon_'+((this.osString == 'Linux')?'22':'16')+'x_out.png';
+		var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+		
+		if (btn) {
+			btn.image = 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png';
 			btn.setAttribute('tooltiptext', unavailable?
-					inspector4pda.stringBundle.GetStringFromName("4PDA_Site Unavailable"):
-					inspector4pda.stringBundle.GetStringFromName("4PDA_offline")
+					inspector4pda.utils.getString("4PDA_Site Unavailable"):
+					inspector4pda.utils.getString("4PDA_offline")
 				);
 		}
 
 	},
 
-	settingsAccept: function()
-	{
-		inspector4pda.defaults.getPrefs();
-		clearTimeout(this.updateTimer);
-		inspector4pda.cScript.lastUpdateRequest = 0;
-		this.getNewCount();
-	},
+	checkNews: function () {
+		// this.prevData.themes = inspector4pda.themes.list;
+		var hasNews = false;
 
-	checkNews: function(hideNotification)
-	{
-		if (!hideNotification)
-		{
-			var hasNews = false;
+		if (!(inspector4pda.vars.notification_popup || inspector4pda.vars.notification_sound)) {
+			return false;
+		}
 
-			if ( (this.lastCount.qms !== false) && (this.lastCount.qms < inspector4pda.cScript.unreadQmsCount) )
-			{
+		for (var i in inspector4pda.QMS.list) {
+			var addNot = false
+			if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
+				addNot = true;
+			} else {
+				if (inspector4pda.cScript.prevData.QMS[i].unread_msgs < inspector4pda.QMS.list[i].unread_msgs) {
+					addNot = true;
+				}
+			}
+
+			if (addNot) {
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.stringBundle.GetStringFromName("New Message"),
-					body: inspector4pda.stringBundle.GetStringFromName("New Message"),
-					type: 'qms'
+					title: inspector4pda.utils.getString('New Message'),
+					body: inspector4pda.QMS.list[i].opponent_id?
+							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
+							' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')':
+							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title),
+					type: 'qms',
+					id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
+				});
+			};
+		}
+
+		for (var i in inspector4pda.themes.list) {
+			if (typeof inspector4pda.cScript.prevData.themes[i] == 'undefined') {
+				hasNews = true;
+				inspector4pda.cScript.notifications.push({
+					title: inspector4pda.utils.getString('New Comment'),
+					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
+					type: 'theme',
+					id: i
 				});
 			}
-
-			var themesIds = Object.keys(inspector4pda.cScript.unreadThemes);
-			for (var key in themesIds)
-			{
-				if (this.lastCount.themesIds.indexOf(themesIds[key]) < 0)
-				{
-					hasNews = true;
-					inspector4pda.cScript.notifications.push({
-						title: inspector4pda.stringBundle.GetStringFromName("New Comment"),
-						body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.cScript.unreadThemes[themesIds[key]].title),
-						type: themesIds[key]
-					});
-				};
-			}
-
-			if (hasNews)
-			{
-				this.notification();
-			}
 		}
-
-		this.lastCount.themes = inspector4pda.cScript.unreadThemesCount,
-		this.lastCount.qms = inspector4pda.cScript.unreadQmsCount;
-		this.lastCount.themesIds = Object.keys(inspector4pda.cScript.unreadThemes);
-
+		if (hasNews) {
+			if (inspector4pda.vars.notification_sound) {
+				var soundElement = this.winobj.getElementById("inspector4pda_sound");
+				soundElement.volume = inspector4pda.vars.notification_sound_volume;
+				soundElement.play();
+			};
+			if (inspector4pda.vars.notification_popup) {
+				this.showNotifications();
+			};
+		};
 	},
 
-	notification: function()
-	{
-		if (inspector4pda.defaults.notification_sound)
-		{
-			var soundElement = this.winobj.getElementById("inspector4pda_sound");
-			soundElement.volume = inspector4pda.defaults.notification_sound_volume;
-			soundElement.play();
-		}
-
-		if (inspector4pda.defaults.notification_popup)
-		{
-			this.showNotifications();
-		}
-
-	},
-
-	showNotifications: function()
-	{
+	showNotifications: function() {
 		if (!this.notifications.length)
 			return false;
 
 		var currentNotification = this.notifications.shift();
 
 		var notification = new Notification(currentNotification.title, {
-			tag : "4pdainspector_"+ currentNotification.type,
+			tag : "4pdainspector_" + currentNotification.type + '_' + currentNotification.id,
 			body : currentNotification.body,
 			icon : "chrome://4pdainspector/content/icons/icon_64.png"
 		});
 
-		
 		notification.onclick = function() {
-			tagData = this.tag.split('_');
+			var tagData = this.tag.split('_');
 			
-			if (!tagData[1])
+			if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
+				ulog(this.tag);
 				return false;
+			}
 
-			if (tagData[1] == 'qms')
-				inspector4pda.toolbar.openPage(inspector4pda.toolbar.link_qms);
-			else
-				inspector4pda.toolbar.openTheme(tagData[1]);
+			if (tagData[1] == 'qms'){
+				inspector4pda.QMS.openDialog(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
+			} else {
+				inspector4pda.themes.open(parseInt(tagData[2]));
+			}
+			inspector4pda.cScript.printCount();
 		}
 
 		setTimeout(function()
@@ -500,29 +235,27 @@ inspector4pda.cScript = {
 		}, 50);
 	},
 
-	parseThemes: function(text)
-	{
-		inspector4pda.cScript.unreadThemes = {};
-		if (!text)
-			return false;
-
-		var themes = text.match(/\<a href\=[\"\']([\w\=\&\?\.\/\;\:]+)[\"\']\>\<img.+?src=[\"\']http\:\/\/s\.4pda.ru\/forum\/style_images\/1\/newpost\.gif[\"\'].+?\>\<\/a\>[\s\S]*?\<span class\=\"lastaction\"\>.*?\<\/span\>/ig);
-
-		if (themes)
-		{
-			for (var i = 0; i<themes.length; i++)
-			{
-				var theme = themes[i].match(/\<a.+?href\=\'.*?showtopic\=(\d+).*?\'.*?\<a id\=\"tid\-link.*?\>(.+?)\<\/a\>[\S\s]*\"lastaction\"\>(.+?)\<br.*?\<b\>\<a.*\>(.+?)\<\/a\>\<\/b\>/i);
-
-				if (theme)
-				{
-					inspector4pda.cScript.unreadThemes[theme[1]] = {
-						title: theme[2],
-						date: theme[3],
-						author: theme[4],
-					};
-				}
-			};
+	firstRun: function(extensions) {
+		var id = "inspector4pda_button";
+		var extension = extensions.get("4pda_inspector_beta@coddism.com");
+		if (extension.firstRun) {
+			var toolbar = document.getElementById("nav-bar");
+			if (toolbar.getElementsByAttribute('id', "inspector4pda_button").length) {
+				//кнопка уже добавлена
+				return false;
+			}
+			toolbar.insertItem(id, null, null, false);
+			toolbar.setAttribute("currentset", toolbar.currentSet);
+			document.persist(toolbar.id, "currentset");
+			toolbar.collapsed = false;
 		}
 	}
 };
+
+if (Application.extensions) {
+	inspector4pda.cScript.firstRun(Application.extensions);
+} else {
+	Application.getExtensions(inspector4pda.cScript.firstRun);
+}
+
+inspector4pda.cScript.init();

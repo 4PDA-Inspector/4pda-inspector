@@ -1,43 +1,25 @@
-// inspectorSettings
 inspector4pda.settings = {
-
+	
 	init: function()
 	{
-		var osString = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).OS;
+		inspector4pda.utils.setStringBundle();
 
-		if (osString == 'Linux' || inspector4pda.defaults.button_big)
-			document.getElementById('inspector4pda_button_fontsize').style.display = 'none';
-		else
-			document.getElementById('inspector4pda_button_big_fontsize').style.display = 'none';
-		
-		if (!inspector4pda.utils.checkNotificationSupport()) {
-			document.getElementById('inspector4pda_notification_popup_checkbox').setAttribute('checked', 'false');
-			document.getElementById('inspector4pda_notification_popup_hbox').style.display = 'none';
-		}
-		
-		// notification sound
 		var currentVolume = document.getElementById('inspector4pda_pref_notification_sound_volume').value;
-		document.getElementById('inspector4pda_notification_sound_volume_input').value = currentVolume;
-		document.getElementById('inspector4pda_notification_sound_volume_label').value = currentVolume + '%';
+		document.getElementById('inspector4pda_notificationSoundVolumeInput').value = currentVolume;
+		document.getElementById('inspector4pda_notificationSoundVolumeLabel').value = currentVolume + '%';
 
-		document.getElementById('inspector4pda_notification_sound_volume_input').onchange = function() {
-			document.getElementById('inspector4pda_pref_notification_sound_volume').value = this.value;
-			document.getElementById('inspector4pda_notification_sound_volume_label').value = this.value + '%';
+		document.getElementById('inspector4pda_notificationSoundVolumeInput').onchange = function() {
+			document.getElementById('inspector4pda_notificationSoundVolumeLabel').value = this.value + '%';
+		}
+
+		document.getElementById('inspector4pda_pref_toolbar_opentheme_hide_onlylast').disabled = !document.getElementById('inspector4pda_pref_toolbar_opentheme_hide').value;
+		document.getElementById('inspector4pda_pref_toolbar_opentheme_hide').onchange = function() {
+			document.getElementById('inspector4pda_pref_toolbar_opentheme_hide_onlylast').disabled = !this.value;
 		}
 	},
-
-	testNotification: function()
+	accept: function()
 	{
-		Notification.requestPermission( function(permission) {
-    		if( permission != "granted" )
-    		{
-    			alert('Оповещения запрещены');
-    			return false;
-    		}
-    		new Notification('Оповещения успешно включены', {
-    			icon : "chrome://4pdainspector/content/icons/icon_64.png"
-    		});
-    	} );
+		ulog('CS ' + typeof inspector4pda.cScript);
 	},
 
 	checkNotificationPopup: function(el)
@@ -46,36 +28,33 @@ inspector4pda.settings = {
 			
 			if (!inspector4pda.utils.checkNotificationSupport()) {
 				el.setAttribute('checked', 'false');
-				alert('Ваш браузер не поддерживает оповещения');
+				alert(inspector4pda.utils.getString('Your browser does not support notifications'));
 				return false;
 			}
 
 			switch ( Notification.permission.toLowerCase() ) {
-			    case "granted":
-			        break;
+				case "granted":
+					new Notification(inspector4pda.utils.getString('Notification successfully incorporated'), {
+						icon : "chrome://4pdainspector/content/icons/icon_64.png"
+					});
+					break;
 
-			    case "denied":
-			        el.setAttribute('checked', 'false');
-			        alert('Оповещения запрещены');
-			        break;
+				case "denied":
+					el.setAttribute('checked', 'false');
+					alert(inspector4pda.utils.getString('Notification prohibited'));
+					break;
 
-			    case "default":
-			    	Notification.requestPermission( function(permission) {
-			    		if ( permission == "granted" ) {
-			    			new Notification('Оповещения успешно включены', {
-				    			icon : "chrome://4pdainspector/content/icons/icon_64.png"
-				    		});
-			    		} else {
-			    			el.setAttribute('checked', 'false');
-			    		}
-			    	} )
+				case "default":
+					Notification.requestPermission( function(permission) {
+						if ( permission == "granted" ) {
+							new Notification(inspector4pda.utils.getString('Notification successfully incorporated'), {
+								icon : "chrome://4pdainspector/content/icons/icon_64.png"
+							});
+						} else {
+							el.setAttribute('checked', 'false');
+						}
+					} )
 			}
 		};
-	},
-
-	settingsAccept: function()
-	{
-		alert(inspector4pda.cScript.updateTimer);
 	}
-
 }
