@@ -133,10 +133,6 @@
 	background-color: #D0E4EC;
 }
 
-/*#inspector4pda_themesList>.oneTheme label:hover {
-	color: #3565B5;
-}*/
-
 #inspector4pda_themesList .oneTheme_caption {
 	color: #3565B5;
 	font-size: 12px;
@@ -144,7 +140,6 @@
 }
 
 #inspector4pda_themesList .oneTheme_pin {
-	/*font-weight: bold;*/
 	color: #0F890F;
 }
 
