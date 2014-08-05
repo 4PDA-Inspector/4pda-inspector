@@ -14,7 +14,8 @@ inspector4pda.toolbar = {
 		manualRefresh: null
 	},
 
-	button_id: 'inspector4pda_button',
+	buttonId: 'inspector4pda_button',
+	settingsXulUrl: 'chrome://4pdainspector/content/xul/settings.xul',
 
 	urls: {
 		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
@@ -44,7 +45,7 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.settingsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelSettings');
 		inspector4pda.toolbar.elements.settingsLabel.onclick = function() {
 			inspector4pda.toolbar.handleHidePanel();
-			window.openDialog('chrome://4pdainspector/content/xul/settings.xul', 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
+			window.openDialog(inspector4pda.toolbar.settingsXulUrl, 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
 		}
 		
 		inspector4pda.toolbar.elements.themesList = inspector4pda.cScript.winobj.getElementById('inspector4pda_themesList');
@@ -319,7 +320,7 @@ inspector4pda.toolbar = {
 		inspector4pda.cScript.getData(function() {
 			inspector4pda.toolbar.panel.hidePopup();
 			inspector4pda.toolbar.refresh();
-			var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.button_id );
+			var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.buttonId );
 			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		});
 	}
