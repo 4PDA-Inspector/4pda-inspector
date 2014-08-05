@@ -75,6 +75,5 @@ var qDialog = {
             return false;
         }
         return this;
-        // tid title posts_num last_user_id last_user_name last_post_ts last_read_ts
     }
 }

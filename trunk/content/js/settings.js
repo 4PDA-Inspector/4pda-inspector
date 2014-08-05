@@ -17,10 +17,8 @@ inspector4pda.settings = {
 			document.getElementById('inspector4pda_pref_toolbar_opentheme_hide_onlylast').disabled = !this.value;
 		}
 	},
-	accept: function()
-	{
-		ulog('CS ' + typeof inspector4pda.cScript);
-	},
+	
+	accept: function() {},
 
 	checkNotificationPopup: function(el)
 	{
