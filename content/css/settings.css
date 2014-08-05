@@ -15,22 +15,22 @@ prefwindow, prefpane {
 tab {
     -moz-appearance: none;
     border:  0px solid #000;
-    /*border-width: 1px 1px 0 1px;*/
     padding: 5px;
     border-radius: 5px 5px 0 0;
-    margin-right: 2px;
-    /*background: #3565B5;
-    color: #FFF;*/
     cursor: pointer;
     background: #FFF;
+    color: #000;
+    margin: 0 2px 0 0;
 }
 
 tab:not([selected="true"]) {
     background: #C0C0C0;
+    color: #444;
 }
 
 tabs {
     -moz-appearance: none;
+    margin: 0;
     /*background: #3565B5;*/
     /*border-bottom: 1px solid #000;*/
 }
