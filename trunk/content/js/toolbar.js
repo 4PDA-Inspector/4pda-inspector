@@ -14,6 +14,8 @@ inspector4pda.toolbar = {
 		manualRefresh: null
 	},
 
+	button_id: 'inspector4pda_button',
+
 	urls: {
 		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 		qms: 'http://4pda.ru/forum/index.php?act=qms',
@@ -121,11 +123,6 @@ inspector4pda.toolbar = {
 		var vboxHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
 		var documentHeight = inspector4pda.cScript.winobj.getElementById('browser').clientHeight;
 		var panelHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel').clientHeight;
-		
-		ulog('===================');
-		ulog('panelHeight = ' + panelHeight);
-		ulog('vboxHeight = ' + vboxHeight);
-		ulog('documentHeight = ' + documentHeight);
 		
 		if (panelHeight > documentHeight) {
 			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - 60)+'px';
@@ -319,6 +316,11 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.elements.manualRefresh.style.MozTransform = "rotate("+refreshImgRotate+"deg)";
 		}, 30);
 
-		inspector4pda.cScript.getData(inspector4pda.toolbar.refresh);
+		inspector4pda.cScript.getData(function() {
+			inspector4pda.toolbar.panel.hidePopup();
+			inspector4pda.toolbar.refresh();
+			var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.button_id );
+			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+		});
 	}
 }
