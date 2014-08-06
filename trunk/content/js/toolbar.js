@@ -120,15 +120,17 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.themesList.style.height = 'auto';
 		inspector4pda.toolbar.elements.themesList.style.overflowY = 'visible';
 		inspector4pda.toolbar.panel.style.height = 'auto';
+		inspector4pda.toolbar.panel.style.maxHeight = 'none';
 
 		var vboxHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelMainVBox').clientHeight;
 		var documentHeight = inspector4pda.cScript.winobj.getElementById('browser').clientHeight;
 		var panelHeight = inspector4pda.cScript.winobj.getElementById('inspector4pda_panel').clientHeight;
-		
+
 		if (panelHeight > documentHeight) {
 			inspector4pda.toolbar.elements.themesList.style.height = (documentHeight - 60)+'px';
 			inspector4pda.toolbar.elements.themesList.style.overflowY = 'scroll';
 			inspector4pda.toolbar.panel.style.height = documentHeight + 'px';
+			inspector4pda.toolbar.panel.style.maxHeight = documentHeight + 'px';
 		}
 
 		inspector4pda.toolbar.themesListSetShadows();
