@@ -221,7 +221,7 @@ inspector4pda.cScript = {
 			}
 
 			if (tagData[1] == 'qms'){
-				inspector4pda.QMS.openDialog(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
+				inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
 			} else {
 				inspector4pda.themes.open(parseInt(tagData[2]));
 			}
