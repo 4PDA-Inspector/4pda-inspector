@@ -45,7 +45,7 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.settingsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelSettings');
 		inspector4pda.toolbar.elements.settingsLabel.onclick = function() {
 			inspector4pda.toolbar.handleHidePanel();
-			window.openDialog(inspector4pda.toolbar.settingsXulUrl, 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal');
+			window.openDialog(inspector4pda.toolbar.settingsXulUrl, 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspector4pda.cScript);
 		}
 		
 		inspector4pda.toolbar.elements.themesList = inspector4pda.cScript.winobj.getElementById('inspector4pda_themesList');
