@@ -248,6 +248,11 @@ inspector4pda.cScript = {
 			document.persist(toolbar.id, "currentset");
 			toolbar.collapsed = false;
 		}
+	},
+
+	settingsAccept: function()
+	{
+		this.request();
 	}
 };
 

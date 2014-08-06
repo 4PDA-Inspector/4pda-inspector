@@ -10,15 +10,19 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&inspectorSettingsWindow_Title;"
-	ondialogaccept="inspector4pda.settings.accept()"
-	ondialogcancel="inspector4pda.settings.accept()">
+	ondialogaccept="inspectorContentScript.settingsAccept()"
+	ondialogcancel="inspectorContentScript.settingsAccept()">
 
 <prefpane>
 
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/utils.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/classes/vars.js'></script>
 	<script type='text/javascript' src='chrome://4pdainspector/content/js/settings.js'></script>
-	
+	<script type="text/javascript">
+		if (window.arguments)
+		{var inspectorContentScript = window.arguments[0];}
+		else{var inspectorContentScript = {settingsAccept: function(){}}}
+	</script>	
 	<preferences>
 		<preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
 		
