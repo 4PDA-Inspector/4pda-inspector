@@ -6,9 +6,7 @@ inspector4pda.themes = {
 	request: function(callback) {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
-			if (resp.responseText) {
-				inspector4pda.themes.parse(resp.responseText);
-			};
+			inspector4pda.themes.parse(resp.responseText);
 			if (callback) {
 				callback();
 			};
