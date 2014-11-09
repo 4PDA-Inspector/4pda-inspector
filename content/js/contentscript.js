@@ -53,7 +53,7 @@ inspector4pda.cScript = {
 					finishCallback();
 				}
 			}
-		});
+		}, inspector4pda.cScript.clearData());
 	},
 
 	printCount: function()
@@ -250,9 +250,14 @@ inspector4pda.cScript = {
 		}
 	},
 
-	settingsAccept: function()
-	{
+	settingsAccept: function() {
 		this.request();
+	},
+
+	clearData: function() {
+		/*inspector4pda.themes.list = {};
+		inspector4pda.QMS.list = {};*/
+		inspector4pda.user.clearData();
 	}
 };
 

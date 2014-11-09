@@ -3,7 +3,7 @@
 <Description about="urn:mozilla:install-manifest">
 
 	<em:id>4pda_inspector@coddism.com</em:id>
-	<em:version>2.0</em:version>
+	<em:version>2.0.1</em:version>
 	<em:creator>coddism.com</em:creator>
 	<em:developer>iSergium</em:developer>
 	<em:type>2</em:type>
