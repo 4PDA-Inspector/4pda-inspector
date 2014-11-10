@@ -8,6 +8,7 @@ inspector4pda.cScript = {
 	},
 	requestsCount: 0,
 	notifications: [],
+	successLastRequest: true,
 
 	init: function(el)
 	{
@@ -32,34 +33,43 @@ inspector4pda.cScript = {
 	{
 		var finishCallback = function(){
 			inspector4pda.cScript.printCount();
-			if (inspector4pda.cScript.requestsCount++) {
+			if (inspector4pda.user.id && inspector4pda.cScript.requestsCount++) {
 				inspector4pda.cScript.checkNews();
 			}
-			if (callback) {
+			if (typeof callback == 'function') {
 				callback();
 			};
 		};
 
-		this.prevData.themes = inspector4pda.themes.list;
-		this.prevData.QMS = inspector4pda.QMS.list;
+		inspector4pda.cScript.prevData.themes = inspector4pda.themes.list;
+		inspector4pda.cScript.prevData.QMS = inspector4pda.QMS.list;
 		inspector4pda.user.request(function() {
+			inspector4pda.cScript.successLastRequest = true;
 			if (inspector4pda.user.id) {
 				inspector4pda.themes.request(function() {
 					inspector4pda.QMS.request(finishCallback);
 				});
 			} else {
 				inspector4pda.cScript.requestsCount = 0;
-				if (finishCallback) {
-					finishCallback();
-				}
+				finishCallback();
+				inspector4pda.cScript.clearData();
 			}
-		}, inspector4pda.cScript.clearData());
+		}, function() {
+			if (inspector4pda.cScript.successLastRequest) {
+				inspector4pda.cScript.siteUnavailableNotification();
+			}
+			inspector4pda.cScript.successLastRequest = false;
+			inspector4pda.cScript.clearData();
+			if (typeof callback == 'function') {
+				callback();
+			};
+		});
 	},
 
 	printCount: function()
 	{
 		if (!inspector4pda.user.id) {
-			this.printLogout();
+			inspector4pda.cScript.printLogout();
 			return;
 		}
 		var qCount = inspector4pda.QMS.getCount();
@@ -121,8 +131,8 @@ inspector4pda.cScript = {
 				ctx.fillText(qCount, 1, y+1);
 			};
 
-
-			btn.image = canvas.toDataURL("image/png");
+			//btn.image = canvas.toDataURL("image/png");
+			btn.style.listStyleImage = "url('" + canvas.toDataURL("image/png") + "')";
 		};
 
 		img.src = canvas_img;
@@ -190,26 +200,35 @@ inspector4pda.cScript = {
 		}
 		if (hasNews) {
 			if (inspector4pda.vars.notification_sound) {
-				var soundElement = this.winobj.getElementById("inspector4pda_sound");
+				var soundElement = inspector4pda.cScript.winobj.getElementById("inspector4pda_sound");
 				soundElement.volume = inspector4pda.vars.notification_sound_volume;
 				soundElement.play();
 			};
 			if (inspector4pda.vars.notification_popup) {
-				this.showNotifications();
+				inspector4pda.cScript.showNotifications();
 			};
 		};
 	},
 
 	showNotifications: function() {
-		if (!this.notifications.length)
+		if (!inspector4pda.cScript.notifications.length)
 			return false;
 
-		var currentNotification = this.notifications.shift();
+		var currentNotification = inspector4pda.cScript.notifications.shift();
+
+		var icon;
+		switch (currentNotification.type) {
+			case "info_SiteUnavailable":
+				icon = "chrome://4pdainspector/content/icons/icon_64_out.png"
+				break;
+			default:
+				icon = "chrome://4pdainspector/content/icons/icon_64.png"
+		}
 
 		var notification = new Notification(currentNotification.title, {
 			tag : "4pdainspector_" + currentNotification.type + '_' + currentNotification.id,
 			body : currentNotification.body,
-			icon : "chrome://4pdainspector/content/icons/icon_64.png"
+			icon : icon
 		});
 
 		notification.onclick = function() {
@@ -222,14 +241,15 @@ inspector4pda.cScript = {
 
 			if (tagData[1] == 'qms'){
 				inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
-			} else {
+			} else if (tagData[1] == 'theme') {
 				inspector4pda.themes.open(parseInt(tagData[2]));
+			} else {
+				this.cancel();
 			}
 			inspector4pda.cScript.printCount();
 		}
 
-		setTimeout(function()
-		{
+		setTimeout(function() {
 			inspector4pda.cScript.showNotifications();
 		}, 50);
 	},
@@ -251,13 +271,23 @@ inspector4pda.cScript = {
 	},
 
 	settingsAccept: function() {
-		this.request();
+		inspector4pda.cScript.request();
 	},
 
 	clearData: function() {
 		/*inspector4pda.themes.list = {};
 		inspector4pda.QMS.list = {};*/
 		inspector4pda.user.clearData();
+	},
+
+	siteUnavailableNotification: function() {
+		inspector4pda.cScript.notifications.push({
+			title: inspector4pda.utils.getString('4PDA Inspector'),
+			body: inspector4pda.utils.getString('4PDA_Site Unavailable'),
+			type: 'info_SiteUnavailable',
+			id: 0
+		});
+		inspector4pda.cScript.showNotifications();
 	}
 };
 

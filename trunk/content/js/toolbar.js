@@ -98,7 +98,9 @@ inspector4pda.toolbar = {
 
 		} else {
 			inspector4pda.cScript.getData(function(){
-				if (!inspector4pda.user.id) {
+				if (!inspector4pda.cScript.successLastRequest) {
+					inspector4pda.cScript.siteUnavailableNotification();
+				} else if (!inspector4pda.user.id) {
 					inspector4pda.utils.openPage(inspector4pda.toolbar.urls.login);
 				}
 			});
