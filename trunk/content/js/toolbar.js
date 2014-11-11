@@ -59,14 +59,12 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.openAllLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelOpenAll');
 		inspector4pda.toolbar.elements.openAllLabel.onclick = function() {
 			inspector4pda.themes.openAll();
-			inspector4pda.cScript.printCount();
 			inspector4pda.toolbar.refresh();
 		}
 		
 		inspector4pda.toolbar.elements.readAllLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelReadAll');
 		inspector4pda.toolbar.elements.readAllLabel.onclick = function() {
 			inspector4pda.themes.readAll();
-			inspector4pda.cScript.printCount();
 			inspector4pda.toolbar.refresh();
 		}
 		
@@ -77,33 +75,44 @@ inspector4pda.toolbar = {
 
 	},
 
+	bClickEvent: function(clickAction, e) {
+		switch (clickAction) {
+			case 1:
+				if (!inspector4pda.toolbar.panel) {
+					inspector4pda.toolbar.init();
+				};
+				inspector4pda.toolbar.showPanel(e.target);
+				inspector4pda.toolbar.refresh();
+				break;
+			case 2:
+				inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
+				break;
+			case 3:
+				inspector4pda.themes.openAll();
+				break;
+			default:
+				inspector4pda.utils.log(clickAction + ' is uncorrect value');
+		}
+	},
+
 	bClick: function(e)
 	{
+		if (e.button !== 0 && e.button !== 1) {
+			return false;
+		}
+
 		if (inspector4pda.user.id) {
 			inspector4pda.vars.getPrefs();
-			switch (inspector4pda.vars.click_action) {
+
+			switch (e.button) {
+				case 0:
+					//LMB
+					inspector4pda.toolbar.bClickEvent(inspector4pda.vars.click_action, e);
+					break;
 				case 1:
-					switch (e.button) {
-						case 0:
-							if (!inspector4pda.toolbar.panel) {
-								inspector4pda.toolbar.init();
-							};
-							inspector4pda.toolbar.showPanel(e.target);
-							inspector4pda.toolbar.refresh();
-							break;
-						case 1:
-							inspector4pda.cScript.getData();
-							break;
-					}
+					//MMB
+					inspector4pda.toolbar.bClickEvent(inspector4pda.vars.MMB_click_action, e);
 					break;
-				case 2:
-					inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
-					break;
-				case 3:
-					inspector4pda.themes.openAll();
-					break;
-				default:
-					alert(inspector4pda.vars.click_action + ' is uncorrect value');
 			}
 
 		} else {
@@ -171,6 +180,9 @@ inspector4pda.toolbar = {
 		
 		inspector4pda.toolbar.elements.qmsLabel.value = inspector4pda.QMS.unreadCount;
 		inspector4pda.toolbar.elements.qmsLabel.className = inspector4pda.QMS.unreadCount? 'hasUnread': '';
+
+		inspector4pda.toolbar.elements.openAllLabel.className = (inspector4pda.vars.toolbar_openAllFavs_button) ? '' : 'hidden';
+		inspector4pda.toolbar.elements.readAllLabel.className = (inspector4pda.vars.toolbar_markAllAsRead_button) ? '' : 'hidden';
 
 		if (!withoutPrintThemes) {
 			inspector4pda.toolbar.printThemesList();

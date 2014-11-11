@@ -2,6 +2,9 @@
     font-family: Arial, sans-serif;
     background: #FFF;
 }*/
+#inspector4pda_panel .hidden {
+	display: none;
+}
 
 #inspector4pda_panelMainVBox {
 	background: #FFF;

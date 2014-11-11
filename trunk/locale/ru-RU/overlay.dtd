@@ -21,6 +21,8 @@
 <!ENTITY button "Кнопка">
 <!ENTITY buttonSettings "Настройки кнопки">
 <!ENTITY buttonClickAction "Действие при нажатии на кнопку">
+<!ENTITY LMB "Левая кнопка мыши">
+<!ENTITY MMB "Средняя кнопка мыши">
 <!ENTITY popup "Всплывающая панель">
 <!ENTITY goToFavThemesList "Перейти к списку избранных тем">
 <!ENTITY pinTopics "Закрепленные темы">
@@ -37,3 +39,4 @@
 <!ENTITY fontColor "Цвет текста">
 <!ENTITY areaColor "Цвет области">
 <!ENTITY simpleList "Простой список">
+<!ENTITY ControlButtons "Управляющие кнопки">

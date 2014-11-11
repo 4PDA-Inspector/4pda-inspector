@@ -1,5 +1,6 @@
 pref("extensions.4pda-inspector.interval", 10);
 pref("extensions.4pda-inspector.click_action", 1);
+pref("extensions.4pda-inspector.MMB_click_action", 3);
 
 pref("extensions.4pda-inspector.button_big", false);
 pref("extensions.4pda-inspector.button_fontsize", 8);
@@ -18,3 +19,6 @@ pref("extensions.4pda-inspector.toolbar_pin_up", false);
 pref("extensions.4pda-inspector.toolbar_only_pin", false);
 pref("extensions.4pda-inspector.toolbar_opentheme_hide", false);
 pref("extensions.4pda-inspector.toolbar_simple_list", false);
+
+pref("extensions.4pda-inspector.toolbar_openAllFavs_button", true);
+pref("extensions.4pda-inspector.toolbar_markAllAsRead_button", true);

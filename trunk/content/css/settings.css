@@ -4,6 +4,11 @@
     color: #3565B5;
 }
 
+#settingsVBox .caption2 {
+    font-weight: bold;
+    color: #3565B5;
+}
+
 #inspector4pda_notificationSoundVolumeInput{
     max-width: 320px;
 }
