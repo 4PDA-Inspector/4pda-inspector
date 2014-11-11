@@ -84,6 +84,7 @@ inspector4pda.themes = {
 			inspector4pda.themes.open(themesIds[i]);
 		};
 		inspector4pda.themes.list = {};
+		inspector4pda.cScript.printCount();
 	},
 
 	readAll: function() {
@@ -92,6 +93,7 @@ inspector4pda.themes = {
 			inspector4pda.themes.read(themesIds[i]);
 		};
 		inspector4pda.themes.list = {};
+		inspector4pda.cScript.printCount();
 	},
 }
 

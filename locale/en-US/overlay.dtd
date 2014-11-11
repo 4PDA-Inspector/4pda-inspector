@@ -21,6 +21,8 @@
 <!ENTITY button "Button">
 <!ENTITY buttonSettings "Button settings">
 <!ENTITY buttonClickAction "Button click action">
+<!ENTITY LMB "Left mouse button">
+<!ENTITY MMB "Middle mouse button">
 <!ENTITY popup "Popup panel">
 <!ENTITY goToFavThemesList "Go to favorite themes list">
 <!ENTITY pinTopics "Pin topics">
@@ -37,3 +39,4 @@
 <!ENTITY fontColor "Font color">
 <!ENTITY areaColor "Area color">
 <!ENTITY simpleList "Simple list">
+<!ENTITY ControlButtons "Control buttons">

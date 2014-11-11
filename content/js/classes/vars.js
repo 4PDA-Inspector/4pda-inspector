@@ -2,6 +2,7 @@ inspector4pda.vars = {
 
 	interval: 5000,
 	click_action: 1,
+	MMB_click_action: 3,
 	
 	notification_sound: true,
 	notification_popup: true,
@@ -11,7 +12,9 @@ inspector4pda.vars = {
 	toolbar_pin_up: false,
 	toolbar_only_pin: false,
 	toolbar_opentheme_hide: false,
-	toolbar_simple_list: false,
+	toolbar_simple_list: false,	
+	toolbar_openAllFavs_button: true,
+	toolbar_markAllAsRead_button: true,
 
 	button_big: false,
 	button_bgcolor: '#3333FF',
@@ -46,6 +49,7 @@ inspector4pda.vars = {
 	{
 		this.getValue('interval', 5000, 1000);
 		this.getValue('click_action', 1);
+		this.getValue('MMB_click_action', 3);
 
 		this.getValue('button_bgcolor', '#3333FF');
 		this.getValue('button_color', '#FFFFFF');
@@ -62,6 +66,8 @@ inspector4pda.vars = {
 		this.getValue('toolbar_only_pin', false);
 		this.getValue('toolbar_opentheme_hide', false);
 		this.getValue('toolbar_simple_list', false);
+		this.getValue('toolbar_openAllFavs_button', true);
+		this.getValue('toolbar_markAllAsRead_button', true);
 	},
 
 	getValue: function(field, defaultValue, multiplier)
@@ -83,7 +89,6 @@ inspector4pda.vars = {
 				inspector4pda.vars[field] = defaultValue;
 			};
 			inspector4pda.utils.log('error ' + field);
-			inspector4pda.utils.log(e);
 		}
 	}
 }

@@ -28,6 +28,8 @@
 		<preference id="inspector4pda_pref_interval" name="extensions.4pda-inspector.interval" type="int"/>
 		
 		<preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
+		<preference id="inspector4pda_pref_MMB_click_action" name="extensions.4pda-inspector.MMB_click_action" type="int"/>
+
 		<preference id="inspector4pda_pref_button_fontsize" name="extensions.4pda-inspector.button_fontsize" type="int"/>
 		<preference id="inspector4pda_pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
 		<preference id="inspector4pda_pref_button_bgcolor" name="extensions.4pda-inspector.button_bgcolor" type="string"/>
@@ -42,7 +44,9 @@
 		<preference id="inspector4pda_pref_toolbar_pin_color" name="extensions.4pda-inspector.toolbar_pin_color" type="bool"/>
 		<preference id="inspector4pda_pref_toolbar_pin_up" name="extensions.4pda-inspector.toolbar_pin_up" type="bool"/>
 		<preference id="inspector4pda_pref_toolbar_only_pin" name="extensions.4pda-inspector.toolbar_only_pin" type="bool"/>
-		<preference id="inspector4pda_pref_toolbar_simple_list" name="extensions.4pda-inspector.toolbar_simple_list" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_simple_list" name="extensions.4pda-inspector.toolbar_simple_list" type="bool"/>		
+		<preference id="inspector4pda_pref_toolbar_openAllFavs_button" name="extensions.4pda-inspector.toolbar_openAllFavs_button" type="bool"/>
+		<preference id="inspector4pda_pref_toolbar_markAllAsRead_button" name="extensions.4pda-inspector.toolbar_markAllAsRead_button" type="bool"/>
 		
 		<preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
 	</preferences>
@@ -76,8 +80,17 @@
 		<!-- Кнопка -->
 		<vbox>
 			<label class="caption" value="&buttonClickAction;" />
+			<label class="caption2" value="&LMB;" />
 			<vbox>
 				<radiogroup preference="inspector4pda_pref_click_action">
+					<radio value="1" label="&popup;"/>
+					<radio value="2" label="&goToFavThemesList;"/>
+					<radio value="3" label="&openAllFavs;"/>
+				</radiogroup>
+			</vbox>
+			<label class="caption2" value="&MMB;" />
+			<vbox>
+				<radiogroup preference="inspector4pda_pref_MMB_click_action">
 					<radio value="1" label="&popup;"/>
 					<radio value="2" label="&goToFavThemesList;"/>
 					<radio value="3" label="&openAllFavs;"/>
@@ -114,12 +127,18 @@
 
 			<label class="caption" value="&popup;" />
 			<vbox>
-				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningNewPage;" />
+				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningNewPage;" />
 			</vbox>
 
 			<label class="caption" value="&looks;" />
 			<vbox>
 				<checkbox preference="inspector4pda_pref_toolbar_simple_list" label="&simpleList;" />
+			</vbox>
+
+			<label class="caption" value="&ControlButtons;" />
+			<vbox>
+				<checkbox preference="inspector4pda_pref_toolbar_openAllFavs_button" label="&openAllFavs;" />
+				<checkbox preference="inspector4pda_pref_toolbar_markAllAsRead_button" label="&markAllAsRead;" />
 			</vbox>
 		</vbox>
 	</tabpanel>
