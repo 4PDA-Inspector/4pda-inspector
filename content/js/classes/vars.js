@@ -11,7 +11,6 @@ inspector4pda.vars = {
 	toolbar_pin_up: false,
 	toolbar_only_pin: false,
 	toolbar_opentheme_hide: false,
-	toolbar_opentheme_hide_onlylast: false,
 	toolbar_simple_list: false,
 
 	button_big: false,
@@ -62,7 +61,6 @@ inspector4pda.vars = {
 		this.getValue('toolbar_pin_up', false);
 		this.getValue('toolbar_only_pin', false);
 		this.getValue('toolbar_opentheme_hide', false);
-		this.getValue('toolbar_opentheme_hide_onlylast', false);
 		this.getValue('toolbar_simple_list', false);
 	},
 
