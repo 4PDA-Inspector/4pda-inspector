@@ -1,6 +1,7 @@
 inspector4pda.cScript = {
 
 	winobj: null,
+	button: null,
 	updateTimer: 0,
 	prevData: {
 		themes: {},
@@ -74,7 +75,7 @@ inspector4pda.cScript = {
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
-		var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+		var btn = inspector4pda.cScript.getPanelButton();
 		if (!btn) {
 			return false;
 		}
@@ -130,8 +131,7 @@ inspector4pda.cScript = {
 				ctx.fillText(qCount, 1, y+1);
 			};
 
-			//btn.image = canvas.toDataURL("image/png");
-			btn.style.listStyleImage = "url('" + canvas.toDataURL("image/png") + "')";
+			inspector4pda.cScript.setButtonImage( canvas.toDataURL("image/png") );
 		};
 
 		img.src = canvas_img;
@@ -143,10 +143,10 @@ inspector4pda.cScript = {
 
 	printLogout: function(unavailable)
 	{
-		var btn = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+		var btn = inspector4pda.cScript.getPanelButton();
 		
 		if (btn) {
-			btn.image = 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png';
+			inspector4pda.cScript.setButtonImage( 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png' );
 			btn.setAttribute('tooltiptext', unavailable?
 					inspector4pda.utils.getString("4PDA_Site Unavailable"):
 					inspector4pda.utils.getString("4PDA_offline")
@@ -231,6 +231,7 @@ inspector4pda.cScript = {
 		});
 
 		notification.onclick = function() {
+
 			var tagData = this.tag.split('_');
 			
 			if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
@@ -274,8 +275,6 @@ inspector4pda.cScript = {
 	},
 
 	clearData: function() {
-		/*inspector4pda.themes.list = {};
-		inspector4pda.QMS.list = {};*/
 		inspector4pda.user.clearData();
 	},
 
@@ -287,6 +286,22 @@ inspector4pda.cScript = {
 			id: 0
 		});
 		inspector4pda.cScript.showNotifications();
+	},
+
+	getPanelButton: function() {
+		if (!inspector4pda.cScript.button) {
+			inspector4pda.cScript.button = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
+		}
+		return inspector4pda.cScript.button;
+	},
+
+	setButtonImage: function(image) {
+		var btn = inspector4pda.cScript.getPanelButton();
+		if (!btn) {
+			return false;
+		}
+		btn.image = image;
+		btn.style.listStyleImage = "url('" + image + "')";
 	}
 };
 
