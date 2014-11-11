@@ -14,7 +14,6 @@ inspector4pda.cScript = {
 	{
 		var obj = document.getElementById("navigator-toolbox");
 		inspector4pda.cScript.winobj = (obj) ? window.document : window.opener.document;
-
 		inspector4pda.cScript.request();
 	},
 

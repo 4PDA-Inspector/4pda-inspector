@@ -73,18 +73,25 @@ inspector4pda.toolbar = {
 		}
 
 	},
-	
-	bClick: function(parent)
+
+	bClick: function(e)
 	{
 		if (inspector4pda.user.id) {
 			inspector4pda.vars.getPrefs();
 			switch (inspector4pda.vars.click_action) {
 				case 1:
-					if (!inspector4pda.toolbar.panel) {
-						inspector4pda.toolbar.init();
-					};
-					inspector4pda.toolbar.showPanel(parent);
-					inspector4pda.toolbar.refresh();
+					switch (e.button) {
+						case 0:
+							if (!inspector4pda.toolbar.panel) {
+								inspector4pda.toolbar.init();
+							};
+							inspector4pda.toolbar.showPanel(e.target);
+							inspector4pda.toolbar.refresh();
+							break;
+						case 1:
+							inspector4pda.cScript.getData();
+							break;
+					}
 					break;
 				case 2:
 					inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
