@@ -30,16 +30,19 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.usernameLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelUsername');
 		inspector4pda.toolbar.elements.usernameLabel.onclick = function() {
 			inspector4pda.user.open(inspector4pda.user.id);
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
 		inspector4pda.toolbar.elements.favoritesLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelFavorites');
 		inspector4pda.toolbar.elements.favoritesLabel.onclick = function() {
 			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.favorites);
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
 		inspector4pda.toolbar.elements.qmsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelQMS');
 		inspector4pda.toolbar.elements.qmsLabel.onclick = function() {
 			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.qms);
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 
 		inspector4pda.toolbar.elements.settingsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelSettings');
@@ -231,15 +234,7 @@ inspector4pda.toolbar = {
 			inspector4pda.cScript.printCount();
 			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
 			this.classList.add("readed");
-			if (inspector4pda.vars.toolbar_opentheme_hide) {
-				if (inspector4pda.vars.toolbar_opentheme_hide_onlylast) {
-					if (inspector4pda.themes.getCount() == 0) {
-						inspector4pda.toolbar.handleHidePanel();
-					}
-				} else {
-					inspector4pda.toolbar.handleHidePanel();
-				}
-			};
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		};
 
 		var readImage = document.createElement('box');
@@ -334,5 +329,12 @@ inspector4pda.toolbar = {
 			var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.buttonId );
 			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
 		});
+	},
+
+	checkOpenthemeHiding: function()
+	{
+		if (inspector4pda.vars.toolbar_opentheme_hide) {
+			inspector4pda.toolbar.handleHidePanel();
+		}
 	}
 }

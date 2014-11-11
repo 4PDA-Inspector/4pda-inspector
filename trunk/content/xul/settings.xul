@@ -45,7 +45,6 @@
 		<preference id="inspector4pda_pref_toolbar_simple_list" name="extensions.4pda-inspector.toolbar_simple_list" type="bool"/>
 		
 		<preference id="inspector4pda_pref_toolbar_opentheme_hide" name="extensions.4pda-inspector.toolbar_opentheme_hide" type="bool"/>
-		<preference id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" name="extensions.4pda-inspector.toolbar_opentheme_hide_onlylast" type="bool"/>
 	</preferences>
 
 	<box id="settingsVBox">
@@ -115,8 +114,7 @@
 
 			<label class="caption" value="&popup;" />
 			<vbox>
-				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningTopics;" />
-				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide_onlylast" id="inspector4pda_pref_toolbar_opentheme_hide_onlylast" label="&onlyWhenNoMore;" />
+				<checkbox preference="inspector4pda_pref_toolbar_opentheme_hide" id="inspector4pda_pref_toolbar_opentheme_hide" label="&closeOnTheOpeningNewPage;" />
 			</vbox>
 
 			<label class="caption" value="&looks;" />

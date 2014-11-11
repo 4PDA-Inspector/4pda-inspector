@@ -27,8 +27,7 @@
 <!ENTITY highlight "Выделять цветом">
 <!ENTITY displayOnTop "Выводить сверху">
 <!ENTITY showOnlyPin "Показывать только закрепленные">
-<!ENTITY closeOnTheOpeningTopics "Закрывать при открытии темы">
-<!ENTITY onlyWhenNoMore "Только когда больше нет">
+<!ENTITY closeOnTheOpeningNewPage "Закрывать при открытии новой страницы">
 <!ENTITY donate "Помочь проекту">
 
 <!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
