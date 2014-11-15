@@ -48,7 +48,7 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.settingsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelSettings');
 		inspector4pda.toolbar.elements.settingsLabel.onclick = function() {
 			inspector4pda.toolbar.handleHidePanel();
-			window.openDialog(inspector4pda.toolbar.settingsXulUrl, 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspector4pda.cScript);
+			inspector4pda.toolbar.showSetting();
 		}
 		
 		inspector4pda.toolbar.elements.themesList = inspector4pda.cScript.winobj.getElementById('inspector4pda_themesList');
@@ -70,9 +70,13 @@ inspector4pda.toolbar = {
 		
 		inspector4pda.toolbar.elements.manualRefresh = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelRefresh');
 		inspector4pda.toolbar.elements.manualRefresh.onclick = function() {
-			inspector4pda.toolbar.manualRefresh();
+			inspector4pda.toolbar.manualRefresh(true);
 		}
 
+	},
+
+	showSetting: function() {
+		window.openDialog(inspector4pda.toolbar.settingsXulUrl, 'inspectorSettingWindow', 'chrome, centerscreen, dependent, dialog, titlebar, modal', inspector4pda.cScript);
 	},
 
 	bClickEvent: function(clickAction, e) {
@@ -89,6 +93,13 @@ inspector4pda.toolbar = {
 				break;
 			case 3:
 				inspector4pda.themes.openAll();
+				break;
+			case 4:
+				inspector4pda.toolbar.showSetting();
+				break;
+			case 5:
+				inspector4pda.cScript.setButtonImage('chrome://4pdainspector/content/img/button_refresh-' + ((inspector4pda.vars.button_big) ? '22' : '16') + '.png');
+				inspector4pda.toolbar.manualRefresh();
 				break;
 			default:
 				inspector4pda.utils.log(clickAction + ' is uncorrect value');
@@ -325,7 +336,7 @@ inspector4pda.toolbar = {
 		this.refresh(true);
 	},
 
-	manualRefresh: function()
+	manualRefresh: function(showPopup)
 	{
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
 		var refreshImgRotate = 0;
@@ -336,10 +347,12 @@ inspector4pda.toolbar = {
 		}, 30);
 
 		inspector4pda.cScript.getData(function() {
-			inspector4pda.toolbar.panel.hidePopup();
-			inspector4pda.toolbar.refresh();
-			var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.buttonId );
-			inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+			if (showPopup) {
+				inspector4pda.toolbar.panel.hidePopup();
+				inspector4pda.toolbar.refresh();
+				var parent = inspector4pda.cScript.winobj.getElementById( inspector4pda.toolbar.buttonId );
+				inspector4pda.toolbar.panel.openPopup(parent, 'after_start', 0, 0, false, true);
+			}
 		});
 	},
 

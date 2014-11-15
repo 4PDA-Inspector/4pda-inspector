@@ -35,6 +35,7 @@
 <!ENTITY inspectorSettingsWindow_Title "Settings - 4PDA Inspector">
 <!ENTITY looks "Looks">
 <!ENTITY thatShow "That show">
+<!ENTITY ShowOnlyMoreThanZero "Show only more than zero">
 <!ENTITY fontSize "Font size">
 <!ENTITY fontColor "Font color">
 <!ENTITY areaColor "Area color">

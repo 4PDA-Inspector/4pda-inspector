@@ -101,12 +101,10 @@ inspector4pda.cScript = {
 		var ctx = canvas.getContext("2d");
 
 		var img = new Image();
-
-		
 		img.onload = function()
 		{
 			ctx.textBaseline = 'top';
-			ctx.font = 'bold '+fontSize+'px tahoma,sans-serif,arial';
+			ctx.font = 'bold '+fontSize+'px tahoma,arial,sans-serif';
 			ctx.clearRect(0, 0, canvas_width, canvas_height);
 			ctx.drawImage(img, 2, 0, img.width, img.height);
 
@@ -116,14 +114,14 @@ inspector4pda.cScript = {
 			var x = canvas_width - w;
 			var y = canvas_height - h;
 
-			if (inspector4pda.vars.button_show_themes) {
+			if (inspector4pda.vars.button_show_themes && (!inspector4pda.vars.button_show_onlyMoreZero || tCount) ) {
 				ctx.fillStyle = button_bgcolor;
 				ctx.fillRect(x-1, y, w+1, h);
 				ctx.fillStyle = button_color;
 				ctx.fillText(tCount, x, y+1);
 			}
 
-			if (inspector4pda.vars.button_show_qms) {
+			if (inspector4pda.vars.button_show_qms && (!inspector4pda.vars.button_show_onlyMoreZero || qCount)) {
 				var w = ctx.measureText(qCount).width;
 				ctx.fillStyle = button_bgcolor;
 				ctx.fillRect(0, y, w+2, h);
@@ -133,8 +131,8 @@ inspector4pda.cScript = {
 
 			inspector4pda.cScript.setButtonImage( canvas.toDataURL("image/png") );
 		};
-
 		img.src = canvas_img;
+
 		btn.setAttribute('tooltiptext', inspector4pda.utils.getString("4PDA_online") + 
 			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
 			'\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount

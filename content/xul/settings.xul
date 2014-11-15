@@ -36,6 +36,7 @@
 
 		<preference id="inspector4pda_pref_button_show_qms" name="extensions.4pda-inspector.button_show_qms" type="bool"/>
 		<preference id="inspector4pda_pref_button_show_themes" name="extensions.4pda-inspector.button_show_themes" type="bool"/>
+		<preference id="inspector4pda_pref_button_show_onlyMoreZero" name="extensions.4pda-inspector.button_show_onlyMoreZero" type="bool"/>
 
 		<preference id="inspector4pda_pref_notification_sound" name="extensions.4pda-inspector.notification_sound" type="bool"/>
 		<preference id="inspector4pda_pref_notification_popup" name="extensions.4pda-inspector.notification_popup" type="bool"/>
@@ -68,7 +69,7 @@
 			<label class="caption" value="&generalSettings;" />
 			<hbox>
 				<label value="&updateInterval;, &sec;.: " />
-				<textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="1" />
+				<textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="5" />
 			</hbox>
 			<label class="caption" value="&pinTopics;" />
 			<vbox>
@@ -80,22 +81,29 @@
 		<!-- Кнопка -->
 		<vbox>
 			<label class="caption" value="&buttonClickAction;" />
-			<label class="caption2" value="&LMB;" />
-			<vbox>
+
+			<hbox>
+				<image src="chrome://4pdainspector/content/img/settings/LMB.png" tooltiptext="&LMB;" width="48" height="48"/>
+				<box  flex="1" />
+				<image src="chrome://4pdainspector/content/img/settings/MMB.png" tooltiptext="&MMB;" width="48" height="48" />
+			</hbox>
+			<hbox id="clicks">
 				<radiogroup preference="inspector4pda_pref_click_action">
 					<radio value="1" label="&popup;"/>
 					<radio value="2" label="&goToFavThemesList;"/>
 					<radio value="3" label="&openAllFavs;"/>
+					<radio value="4" label="&settings;"/>
+					<radio value="5" label="&refresh;"/>
 				</radiogroup>
-			</vbox>
-			<label class="caption2" value="&MMB;" />
-			<vbox>
 				<radiogroup preference="inspector4pda_pref_MMB_click_action">
-					<radio value="1" label="&popup;"/>
-					<radio value="2" label="&goToFavThemesList;"/>
-					<radio value="3" label="&openAllFavs;"/>
+					<radio value="1"/>
+					<radio value="2"/>
+					<radio value="3"/>
+					<radio value="4"/>
+					<radio value="5"/>
 				</radiogroup>
-			</vbox>
+			</hbox>
+
 			<label class="caption" value="&looks;" />
 			<vbox>
 				<hbox>
@@ -113,6 +121,8 @@
 			<vbox>
 				<checkbox preference="inspector4pda_pref_button_show_qms" label="&QMS;" />
 				<checkbox preference="inspector4pda_pref_button_show_themes" label="&favorites;" />
+				<separator class="horizontal" />
+				<checkbox preference="inspector4pda_pref_button_show_onlyMoreZero" label="&ShowOnlyMoreThanZero;" />
 			</vbox>
 		</vbox>
 	</tabpanel>

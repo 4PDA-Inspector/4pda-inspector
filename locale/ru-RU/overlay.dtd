@@ -35,6 +35,7 @@
 <!ENTITY inspectorSettingsWindow_Title "Настройки - 4PDA Инспектор">
 <!ENTITY looks "Оформление">
 <!ENTITY thatShow "Что показывать">
+<!ENTITY ShowOnlyMoreThanZero "Показывать только больше нуля">
 <!ENTITY fontSize "Размер шрифта">
 <!ENTITY fontColor "Цвет текста">
 <!ENTITY areaColor "Цвет области">
