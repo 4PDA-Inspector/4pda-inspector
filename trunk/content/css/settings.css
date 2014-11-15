@@ -1,64 +1,75 @@
 #settingsVBox .caption {
-    font-weight: bold;
-    font-size: 16px;
-    color: #3565B5;
+	font-weight: bold;
+	font-size: 16px;
+	color: #3565B5;
+	margin-top: 10px;
 }
 
 #settingsVBox .caption2 {
-    font-weight: bold;
-    color: #3565B5;
+	font-weight: bold;
+	color: #3565B5;
 }
 
 #inspector4pda_notificationSoundVolumeInput{
-    max-width: 320px;
+	max-width: 320px;
 }
 
 tab {
-    -moz-appearance: none;
-    border:  0px solid #000;
-    padding: 5px;
-    border-radius: 5px 5px 0 0;
-    cursor: pointer;
-    background: #FFF;
-    color: #000;
-    margin: 0 2px 0 0;
+	-moz-appearance: none;
+	border:  0px solid #000;
+	padding: 5px;
+	border-radius: 5px 5px 0 0;
+	cursor: pointer;
+	background: #FFF;
+	color: #000;
+	margin: 0 2px 0 0;
 }
 
 tab:not([selected="true"]) {
-    background: #C0C0C0;
-    color: #444;
+	background: #C0C0C0;
+	color: #444;
 }
 
 tabs {
-    -moz-appearance: none;
-    margin: 0;
+	-moz-appearance: none;
+	margin: 0;
 }
 
 tabpanels {
-    -moz-appearance: none;
-    border-radius: 0 0 5px 5px;
-    border: 0;
-    padding: 8px;
-    background: #FFF;
+	-moz-appearance: none;
+	border-radius: 0 0 5px 5px;
+	border: 0;
+	padding: 0 8px 8px;
+	background: #FFF;
 }
 
 tabpanel {}
 
 tabbox {
-    -moz-appearance: none;
-    margin: 5px;
+	-moz-appearance: none;
+	margin: 5px;
 }
 
 .donateLink {
-    border-radius: 10px;
-    color: #EEE;
-    padding: 5px;
-    text-decoration: none;
-    background: #7a99d0;
-    background: linear-gradient(to bottom,  #7a99d0 0%,#3565b5 100%);
+	border-radius: 10px;
+	color: #EEE;
+	padding: 5px;
+	text-decoration: none;
+	background: #7a99d0;
+	background: linear-gradient(to bottom,  #7a99d0 0%,#3565b5 100%);
 }
 
 .donateLink:hover {
-    background: #3565B5;
-    text-decoration: none;
+	background: #3565B5;
+	text-decoration: none;
+}
+
+separator.horizontal {
+	margin: 5px 0;
+	height: 1px;
+	border-bottom: 1px dotted #3565B5;
+}
+
+#clicks radio {
+	padding: 0 10px;
 }

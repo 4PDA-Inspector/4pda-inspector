@@ -22,6 +22,7 @@ inspector4pda.vars = {
 	button_fontsize: 8,
 	button_show_qms: true,
 	button_show_themes: true,
+	button_show_onlyMoreZero: true,
 
 	osString: '',
 
@@ -56,6 +57,7 @@ inspector4pda.vars = {
 		this.getValue('button_fontsize', 8);
 		this.getValue('button_show_qms', true);
 		this.getValue('button_show_themes', true);
+		this.getValue('button_show_onlyMoreZero', true);
 		
 		this.getValue('notification_sound', true);
 		this.getValue('notification_popup', true);

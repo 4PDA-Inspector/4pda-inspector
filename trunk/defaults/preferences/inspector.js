@@ -9,6 +9,7 @@ pref("extensions.4pda-inspector.button_color", '#FFFFFF');
 pref("extensions.4pda-inspector.button_bgcolor", '#3333FF');
 pref("extensions.4pda-inspector.button_show_qms", true);
 pref("extensions.4pda-inspector.button_show_themes", true);
+pref("extensions.4pda-inspector.button_show_onlyMoreZero", true);
 
 pref("extensions.4pda-inspector.notification_sound", true);
 pref("extensions.4pda-inspector.notification_popup", true);
