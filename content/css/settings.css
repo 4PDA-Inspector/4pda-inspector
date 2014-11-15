@@ -52,11 +52,11 @@ tabbox {
 
 .donateLink {
 	border-radius: 10px;
-	color: #EEE;
+	color: #FFF;
 	padding: 5px;
 	text-decoration: none;
 	background: #7a99d0;
-	background: linear-gradient(to bottom,  #7a99d0 0%,#3565b5 100%);
+	background: linear-gradient(to bottom,  #7a99d0 0,#3565b5 100%);
 }
 
 .donateLink:hover {
@@ -67,9 +67,18 @@ tabbox {
 separator.horizontal {
 	margin: 5px 0;
 	height: 1px;
-	border-bottom: 1px dotted #3565B5;
+	border-bottom: 1px solid #EEE;
 }
 
 #clicks radio {
 	padding: 0 10px;
+	outline: none;
+}
+
+#clicks separator.horizontal {
+	margin: 1px 0;
+}
+
+label.text-link, label.text-link image {
+	outline: none;
 }

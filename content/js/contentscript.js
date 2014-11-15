@@ -142,7 +142,6 @@ inspector4pda.cScript = {
 	printLogout: function(unavailable)
 	{
 		var btn = inspector4pda.cScript.getPanelButton();
-		
 		if (btn) {
 			inspector4pda.cScript.setButtonImage( 'chrome://4pdainspector/content/icons/icon_' + ((inspector4pda.vars.button_big) ? '22' : '16') + 'x_out.png' );
 			btn.setAttribute('tooltiptext', unavailable?
@@ -277,6 +276,11 @@ inspector4pda.cScript = {
 	},
 
 	siteUnavailableNotification: function() {
+
+		if (!inspector4pda.vars.notification_popup) {
+			return false;
+		}
+
 		inspector4pda.cScript.notifications.push({
 			title: inspector4pda.utils.getString('4PDA Inspector'),
 			body: inspector4pda.utils.getString('4PDA_Site Unavailable'),
