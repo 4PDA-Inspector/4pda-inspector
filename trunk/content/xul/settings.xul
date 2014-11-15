@@ -59,7 +59,6 @@
 			<tab label="&general;"/>
 			<tab label="&button;"/>
 			<tab label="&popup;"/>
-			<tab label="&notification;"/>
 			<tab label="&about;"/>
 		</tabs>
 	<tabpanels>
@@ -74,6 +73,25 @@
 			<label class="caption" value="&pinTopics;" />
 			<vbox>
 				<checkbox preference="inspector4pda_pref_toolbar_only_pin" label="&showOnlyPin;" />
+			</vbox>
+
+			<!-- Оповещения -->
+			<label class="caption" value="&notification;" />
+			<vbox>
+				<vbox>
+					<vbox>
+						<checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
+						<hbox>
+							<label value="&noticeVolume;: "/>
+							<label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
+						</hbox>
+						<scale preference="inspector4pda_pref_notification_sound_volume" min="0" max="100" id="inspector4pda_notificationSoundVolumeInput" />
+					</vbox>
+					<hbox id="inspector4pda_notificationPopupHbox">
+						<checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
+					</hbox>
+
+				</vbox>
 			</vbox>
 		</vbox>
 	</tabpanel>
@@ -90,17 +108,25 @@
 			<hbox id="clicks">
 				<radiogroup preference="inspector4pda_pref_click_action">
 					<radio value="1" label="&popup;"/>
+					<separator class="horizontal" />
 					<radio value="2" label="&goToFavThemesList;"/>
+					<separator class="horizontal" />
 					<radio value="3" label="&openAllFavs;"/>
+					<separator class="horizontal" />
 					<radio value="4" label="&settings;"/>
+					<separator class="horizontal" />
 					<radio value="5" label="&refresh;"/>
 				</radiogroup>
 				<radiogroup preference="inspector4pda_pref_MMB_click_action">
-					<radio value="1"/>
-					<radio value="2"/>
-					<radio value="3"/>
-					<radio value="4"/>
-					<radio value="5"/>
+					<radio value="1" label="&#160;"/>
+					<separator class="horizontal" />
+					<radio value="2" label="&#160;"/>
+					<separator class="horizontal" />
+					<radio value="3" label="&#160;"/>
+					<separator class="horizontal" />
+					<radio value="4" label="&#160;"/>
+					<separator class="horizontal" />
+					<radio value="5" label="&#160;"/>
 				</radiogroup>
 			</hbox>
 
@@ -153,36 +179,14 @@
 		</vbox>
 	</tabpanel>
 	<tabpanel>
-		<!-- Оповещения -->
-		<vbox>
-			<label class="caption" value="&notification;" />
-			<vbox>
-				<vbox>
-					<vbox>
-						<checkbox preference="inspector4pda_pref_notification_sound" label="&enableSoundNotification;" />
-						<hbox>
-							<label value="&noticeVolume;: "/>
-							<label value="" id="inspector4pda_notificationSoundVolumeLabel"/>
-						</hbox>
-						<scale preference="inspector4pda_pref_notification_sound_volume" min="0" max="100" id="inspector4pda_notificationSoundVolumeInput" />
-					</vbox>
-					<hbox id="inspector4pda_notificationPopupHbox">
-						<checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
-					</hbox>
-
-				</vbox>
-			</vbox>
-		</vbox>
-	</tabpanel>
-	<tabpanel>
 		<!-- О дополнении -->
 		<vbox flex="1"></vbox>
 		<vbox style="text-align:center;" flex="0">
 			<hbox>
 				<vbox flex="1"></vbox>
-					<label class="text-link" href="http://4pdainspector.coddism.com/firefox.html">
-						<image src="chrome://4pdainspector/content/icons/icon_128.png" width="128" height="128" />
-					</label>
+				<label class="text-link" href="http://4pdainspector.coddism.com/firefox.html">
+					<image src="chrome://4pdainspector/content/icons/icon_128.png" width="128" height="128" />
+				</label>
 				<vbox flex="1"></vbox>
 			</hbox>
 			<label class="caption" value="&toolbarbutton_tooltiptext;" />
