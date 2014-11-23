@@ -302,7 +302,7 @@ inspector4pda.cScript = {
 		if (!btn) {
 			return false;
 		}
-		btn.image = image;
+		btn.setAttribute('image', image);
 		btn.style.listStyleImage = "url('" + image + "')";
 	}
 };

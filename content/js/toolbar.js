@@ -60,12 +60,14 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.openAllLabel.onclick = function() {
 			inspector4pda.themes.openAll();
 			inspector4pda.toolbar.refresh();
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
 		inspector4pda.toolbar.elements.readAllLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelReadAll');
 		inspector4pda.toolbar.elements.readAllLabel.onclick = function() {
 			inspector4pda.themes.readAll();
 			inspector4pda.toolbar.refresh();
+			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
 		inspector4pda.toolbar.elements.manualRefresh = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelRefresh');
@@ -339,12 +341,15 @@ inspector4pda.toolbar = {
 	manualRefresh: function(showPopup)
 	{
 		clearInterval(inspector4pda.toolbar.refreshImgRotateInterval);
-		var refreshImgRotate = 0;
-		inspector4pda.toolbar.refreshImgRotateInterval = setInterval(function()
-		{
-			refreshImgRotate += 10;
-			inspector4pda.toolbar.elements.manualRefresh.style.MozTransform = "rotate("+refreshImgRotate+"deg)";
-		}, 30);
+
+		if (showPopup) {
+			var refreshImgRotate = 0;
+			inspector4pda.toolbar.refreshImgRotateInterval = setInterval(function()
+			{
+				refreshImgRotate += 10;
+				inspector4pda.toolbar.elements.manualRefresh.style.MozTransform = "rotate("+refreshImgRotate+"deg)";
+			}, 30);
+		}
 
 		inspector4pda.cScript.getData(function() {
 			if (showPopup) {

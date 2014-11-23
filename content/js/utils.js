@@ -55,7 +55,7 @@ inspector4pda.utils = {
 		}
 	},
 
-	htmlspecialcharsdecode: function (string = '')
+	htmlspecialcharsdecode: function (string)
 	{
 		var codes = string.match(/&#(\d+);/g);
 
