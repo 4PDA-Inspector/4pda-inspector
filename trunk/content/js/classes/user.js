@@ -30,9 +30,14 @@ inspector4pda.user = {
             if (resp.responseText) {
                 var res = inspector4pda.utils.parse(resp.responseText);
                 if (res.length == 2) {
-                    inspector4pda.user.id = res[0];
+                    inspector4pda.user.id = parseInt(res[0]);
                     inspector4pda.user.name = res[1];
-                };
+                } else {
+                    inspector4pda.cScript.printLogout();
+                }
+                if (!inspector4pda.user.id) {
+                    inspector4pda.cScript.printLogout();
+                }
             } else {
                 inspector4pda.cScript.printLogout();
             }
