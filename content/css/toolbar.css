@@ -11,7 +11,7 @@
 	border-radius: 5px;
 }
 
-#inspector4pda_panel label {
+#inspector4pda_panel label, .icoAndCount {
 	cursor: pointer;
 }
 
@@ -27,7 +27,6 @@
 	font-size: 16px;
 	margin: 0 5px 0 0;
 }
-
 #inspector4pda_panelUsername:hover {
 	color: #14A5F4;
 }
@@ -40,79 +39,72 @@
 	margin: 0 10px 0 0;
 	font-size: 18px;
 }
-
 #inspector4pda_mainPanelButtonsBox label:hover {
 	color: #14A5F4;
 }
 
-#inspector4pda_panelQMS {
-	background: 0 50% url(chrome://4pdainspector/content/img/message_gray.png) no-repeat;
+#inspector4pda_mainPanel label.icon {
+	margin: 2px 2px 0 0;
+	font-size: 10px;
 	height: 16px;
-	padding-left: 18px;
+	width: 16px;
+	background-image: url(chrome://4pdainspector/content/img/icons1.png);
+	background-repeat: no-repeat;
 }
 
-#inspector4pda_panelQMS.hasUnread {
-	background-image: url(chrome://4pdainspector/content/img/message.png);
+#inspector4pda_panelQMS .icon {
+	background-position: -16px -16px;
+}
+#inspector4pda_panelQMS.hasUnread .icon {
+	background-position: 0 -16px;
+}
+#inspector4pda_panelQMS:hover .icon {
+	background-position: -32px -16px;
 }
 
-#inspector4pda_panelQMS:hover {
-	background-image: url(chrome://4pdainspector/content/img/message_hover.png);
+#inspector4pda_panelFavorites .icon {
+	background-position: -16px 0;
 }
-
-#inspector4pda_panelFavorites {
-	background: 0 50% url(chrome://4pdainspector/content/img/favorites_gray.png) no-repeat;
-	height: 16px;
-	padding-left: 18px;
+#inspector4pda_panelFavorites.hasUnread .icon {
+	background-position: 0 0;
 }
-
-#inspector4pda_panelFavorites.hasUnread {
-	background-image: url(chrome://4pdainspector/content/img/favorites.png);
-}
-
-#inspector4pda_panelFavorites:hover {
-	background-image: url(chrome://4pdainspector/content/img/favorites_hover.png);
+#inspector4pda_panelFavorites:hover .icon {
+	background-position: -32px 0;
 }
 
 #inspector4pda_panelSettings {
-	background: 0 50% url(chrome://4pdainspector/content/img/settings.png) no-repeat;
-	height: 16px;
-	width: 16px;
+	background-position: -64px 0;
 }
-
 #inspector4pda_panelSettings:hover {
-	background-image: url(chrome://4pdainspector/content/img/settings_hover.png);
+	background-position: -64px -16px;
 }
 
+#massThemesActions label {
+	margin: 2px 10px 0 0;
+	background-image: url(chrome://4pdainspector/content/img/icons1.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 22px;
+	font-size: 10px;
+}
 #inspector4pda_panelOpenAll {
-	background: 0 50% url(chrome://4pdainspector/content/img/open_all.png) no-repeat;
-	height: 16px;
-	width: 22px;
-	margin-right: 10px;
+	background-position: -80px 0;
 }
-
 #inspector4pda_panelOpenAll:hover {
-	background-image: url(chrome://4pdainspector/content/img/open_all_hover.png);
+	background-position: -80px -16px;
 }
-
 #inspector4pda_panelReadAll {
-	background: 0 50% url(chrome://4pdainspector/content/img/read_all.png) no-repeat;
-	height: 16px;
-	width: 22px;
+	background-position: -102px 0;
 }
-
 #inspector4pda_panelReadAll:hover {
-	background-image: url(chrome://4pdainspector/content/img/read_all_hover.png);
+	background-position: -102px -16px;
 }
 
 #inspector4pda_panelRefresh {
-	background: 0 50% url(chrome://4pdainspector/content/img/refresh.png) no-repeat;
-	height: 16px;
-	width: 16px;
-	margin: 0;
+	background-position: -48px 0;
 }
-
 #inspector4pda_panelRefresh:hover {
-	background-image: url(chrome://4pdainspector/content/img/refresh_hover.png);
+	background-position: -48px -16px;
 }
 
 #inspector4pda_panelUsernameHBox {
@@ -131,7 +123,6 @@
 	color: #222;
 	padding: 2px 4px;
 }
-
 #inspector4pda_themesList>.oneTheme:hover {
 	background-color: #D0E4EC;
 }
@@ -171,13 +162,12 @@
 #inspector4pda_themesList .oneTheme_markAsRead {
 	margin-left: 10px;
 	cursor: pointer;
-	background: url(chrome://4pdainspector/content/img/toolbar/view.png) no-repeat;
+	background: -124px 0 url(chrome://4pdainspector/content/img/icons1.png) no-repeat;
 	height: 16px;
 	width: 16px;
 }
-
 #inspector4pda_themesList .oneTheme_markAsRead:hover {
-	background-image: url(chrome://4pdainspector/content/img/toolbar/view_hover.png)
+	background-position: -124px -16px;
 }
 
 /* ТЕНИ */

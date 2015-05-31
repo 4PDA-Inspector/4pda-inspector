@@ -45,22 +45,29 @@
 				<hbox id="inspector4pda_mainPanel">
 					<hbox flex="1" id="inspector4pda_mainPanelButtonsBox">
 
-						<label value="0" tooltiptext="&QMS;" id="inspector4pda_panelQMS" />
-						<label value="0" tooltiptext="&favorites;" id="inspector4pda_panelFavorites" />
+						<hbox id="inspector4pda_panelQMS" tooltiptext="&QMS;" class="icoAndCount">
+							<vbox><label value="" class="icon" /></vbox>
+							<label value="0" class="count" />
+						</hbox>
 
-						<label value="" tooltiptext="&settings;" id="inspector4pda_panelSettings" />
+						<hbox id="inspector4pda_panelFavorites" tooltiptext="&favorites;" class="icoAndCount">
+							<vbox><label value="" class="icon" /></vbox>
+							<label value="0" class="count" />
+						</hbox>
+
+						<vbox><label value="" tooltiptext="&settings;" id="inspector4pda_panelSettings" class="icon" /></vbox>
 
 						<box class="separator"></box>
 					</hbox>
 
-					<hbox flex="1">
-						<label value="" tooltiptext="&openAllFavs;" id="inspector4pda_panelOpenAll" />
-						<label value="" tooltiptext="&markAllAsRead;" id="inspector4pda_panelReadAll" />
+					<hbox flex="1" id="massThemesActions">
+						<vbox><label value="" tooltiptext="&openAllFavs;" id="inspector4pda_panelOpenAll" /></vbox>
+						<vbox><label value="" tooltiptext="&markAllAsRead;" id="inspector4pda_panelReadAll" /></vbox>
 					</hbox>
 
 					<hbox id="inspector4pda_panelUsernameHBox">
 					    <label value="" id="inspector4pda_panelUsername" />
-						<label value="" tooltiptext="&refresh;" id="inspector4pda_panelRefresh" />
+					    <vbox><label value="" tooltiptext="&refresh;" id="inspector4pda_panelRefresh" class="icon" /></vbox>
 					</hbox>
 				</hbox>
 				<vbox id="inspector4pda_themesList"></vbox>

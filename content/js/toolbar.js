@@ -5,7 +5,9 @@ inspector4pda.toolbar = {
 
 	elements: {
 		usernameLabel: null,
+		favoritesBox: null,
 		favoritesLabel: null,
+		qmsBox: null,
 		qmsLabel: null,
 		themesList: null,
 		settingsLabel: null,
@@ -20,7 +22,7 @@ inspector4pda.toolbar = {
 	urls: {
 		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 		qms: 'http://4pda.ru/forum/index.php?act=qms',
-		login: 'http://4pda.ru/forum/index.php?act=Login'
+		login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00'
 	},
 
 	init: function()
@@ -33,14 +35,16 @@ inspector4pda.toolbar = {
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
-		inspector4pda.toolbar.elements.favoritesLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelFavorites');
-		inspector4pda.toolbar.elements.favoritesLabel.onclick = function() {
+		inspector4pda.toolbar.elements.favoritesBox = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelFavorites');
+		inspector4pda.toolbar.elements.favoritesLabel = inspector4pda.toolbar.elements.favoritesBox.getElementsByClassName('count')[0];
+		inspector4pda.toolbar.elements.favoritesBox.onclick = function() {
 			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.favorites);
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
-		inspector4pda.toolbar.elements.qmsLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelQMS');
-		inspector4pda.toolbar.elements.qmsLabel.onclick = function() {
+		inspector4pda.toolbar.elements.qmsBox = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelQMS');
+		inspector4pda.toolbar.elements.qmsLabel = inspector4pda.toolbar.elements.qmsBox.getElementsByClassName('count')[0];
+		inspector4pda.toolbar.elements.qmsBox.onclick = function() {
 			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.qms);
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
@@ -188,11 +192,12 @@ inspector4pda.toolbar = {
 	refresh: function(withoutPrintThemes)
 	{
 		inspector4pda.toolbar.elements.usernameLabel.value = inspector4pda.user.name;
+
 		inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
-		inspector4pda.toolbar.elements.favoritesLabel.className = inspector4pda.themes.getCount()? 'hasUnread': '';
+		inspector4pda.toolbar.elements.favoritesBox.className = inspector4pda.themes.getCount()? 'hasUnread': '';
 		
 		inspector4pda.toolbar.elements.qmsLabel.value = inspector4pda.QMS.unreadCount;
-		inspector4pda.toolbar.elements.qmsLabel.className = inspector4pda.QMS.unreadCount? 'hasUnread': '';
+		inspector4pda.toolbar.elements.qmsBox.className = inspector4pda.QMS.unreadCount? 'hasUnread': '';
 
 		inspector4pda.toolbar.elements.openAllLabel.className = (inspector4pda.vars.toolbar_openAllFavs_button) ? '' : 'hidden';
 		inspector4pda.toolbar.elements.readAllLabel.className = (inspector4pda.vars.toolbar_markAllAsRead_button) ? '' : 'hidden';
