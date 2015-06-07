@@ -56,13 +56,14 @@
 						</hbox>
 
 						<hbox align="center"><label value="" tooltiptext="&settings;" id="inspector4pda_panelSettings" class="icon" /></hbox>
-
 						<box class="separator"></box>
 					</hbox>
 
 					<hbox flex="1" id="massThemesActions" align="center">
+						<box class="separator"></box>
 						<vbox><label value="" tooltiptext="&openAllFavs;" id="inspector4pda_panelOpenAll" /></vbox>
 						<vbox><label value="" tooltiptext="&openAllPinFavs;" id="inspector4pda_panelOpenAllPin" /></vbox>
+						<box class="separator"></box>
 						<vbox><label value="" tooltiptext="&markAllAsRead;" id="inspector4pda_panelReadAll" /></vbox>
 					</hbox>
 
