@@ -190,7 +190,7 @@
 				<vbox flex="1"></vbox>
 			</hbox>
 			<label class="caption" value="&toolbarbutton_tooltiptext;" />
-			<label class="caption" value="v2.1" />
+			<label class="caption" value="v2.1.1.1" />
 			<label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
 		</vbox>
 		<vbox flex="1"></vbox>

@@ -22,7 +22,7 @@ inspector4pda.toolbar = {
 	urls: {
 		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
 		qms: 'http://4pda.ru/forum/index.php?act=qms',
-		login: 'http://4pda.ru/forum/index.php?act=Login&CODE=00'
+		login: 'http://4pda.ru/forum/index.php?act=login&CODE=00'
 	},
 
 	init: function()
@@ -290,10 +290,6 @@ inspector4pda.toolbar = {
 			var last_user_name = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.setAttribute('value', last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
-			userCaptionLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open User Profile') + ' ' + last_user_name);
-			userCaptionLabel.onclick = function () {
-				inspector4pda.user.open(theme.last_user_id);
-			};
 
 			var lastPostLabel = document.createElement('label');
 			lastPostLabel.setAttribute('value', new Date(theme.last_post_ts*1000).toLocaleString());

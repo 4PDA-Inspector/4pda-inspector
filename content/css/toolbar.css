@@ -11,7 +11,7 @@
 	border-radius: 5px;
 }
 
-#inspector4pda_panel label, .icoAndCount {
+#inspector4pda_mainPanel label, .icoAndCount {
 	cursor: pointer;
 }
 
@@ -22,7 +22,6 @@
 /***************** BUTTONS *****************/
 
 #inspector4pda_panelUsername {
-	cursor: pointer;
 	color: #3565B5;
 	font-size: 16px;
 	margin: 0 5px 0 0;
@@ -118,12 +117,15 @@
 	padding: 0 10px;
 }
 
-#inspector4pda_themesList>.oneTheme {
+#inspector4pda_themesList label:not(.oneTheme_user) {
+	cursor: pointer;
+}
+#inspector4pda_themesList > .oneTheme {
 	border-bottom: 1px solid #D0E4EC;
 	color: #222;
 	padding: 2px 4px;
 }
-#inspector4pda_themesList>.oneTheme:hover {
+#inspector4pda_themesList > .oneTheme:hover {
 	background-color: #D0E4EC;
 }
 
@@ -145,18 +147,14 @@
 	color: #14A5F4;
 }
 
-.oneThemeInfoHBox>label {
+.oneThemeInfoHBox > label {
 	color: #888;
 	font-size: 11px;
-	margin: 0;
+	margin: 0 10px 0 0;
 }
 
-.oneThemeInfoHBox>label:hover {
+.oneThemeInfoHBox>.oneTheme_lastPost:hover {
 	color: #14A5F4;
-}
-
-#inspector4pda_themesList .oneTheme_user {
-	margin-right: 10px;
 }
 
 #inspector4pda_themesList .oneTheme_markAsRead {
