@@ -5,6 +5,7 @@ inspector4pda.QMS = {
         dialogs: 0
     },
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms',
+    vUrl: 'http://4pda.ru/forum/index.php?act=qms',
     list: {},
 
     request: function(callback) {

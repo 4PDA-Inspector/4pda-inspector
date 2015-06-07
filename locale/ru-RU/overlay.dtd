@@ -25,6 +25,7 @@
 <!ENTITY MMB "Средняя кнопка мыши">
 <!ENTITY popup "Всплывающая панель">
 <!ENTITY goToFavThemesList "Перейти к списку избранных тем">
+<!ENTITY goToQMSDialogs "Перейти к QMS-диалогам">
 <!ENTITY pinTopics "Закрепленные темы">
 <!ENTITY highlight "Выделять цветом">
 <!ENTITY displayOnTop "Выводить сверху">

@@ -25,6 +25,7 @@
 <!ENTITY MMB "Middle mouse button">
 <!ENTITY popup "Popup panel">
 <!ENTITY goToFavThemesList "Go to favorite themes list">
+<!ENTITY goToQMSDialogs "Go to QMS dialogs">
 <!ENTITY pinTopics "Pin topics">
 <!ENTITY highlight "Highlight">
 <!ENTITY displayOnTop "Display on top">

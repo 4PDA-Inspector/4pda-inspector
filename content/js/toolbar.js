@@ -20,8 +20,6 @@ inspector4pda.toolbar = {
 	settingsXulUrl: 'chrome://4pdainspector/content/xul/settings.xul',
 
 	urls: {
-		favorites: 'http://4pda.ru/forum/index.php?autocom=favtopics',
-		qms: 'http://4pda.ru/forum/index.php?act=qms',
 		login: 'http://4pda.ru/forum/index.php?act=login&CODE=00'
 	},
 
@@ -38,14 +36,14 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.favoritesBox = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelFavorites');
 		inspector4pda.toolbar.elements.favoritesLabel = inspector4pda.toolbar.elements.favoritesBox.getElementsByClassName('count')[0];
 		inspector4pda.toolbar.elements.favoritesBox.onclick = function() {
-			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.favorites);
+			inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 		
 		inspector4pda.toolbar.elements.qmsBox = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelQMS');
 		inspector4pda.toolbar.elements.qmsLabel = inspector4pda.toolbar.elements.qmsBox.getElementsByClassName('count')[0];
 		inspector4pda.toolbar.elements.qmsBox.onclick = function() {
-			inspector4pda.utils.openPage(inspector4pda.toolbar.urls.qms);
+			inspector4pda.utils.openPage(inspector4pda.QMS.vUrl);
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
 
@@ -106,6 +104,9 @@ inspector4pda.toolbar = {
 			case 5:
 				inspector4pda.cScript.setButtonImage('chrome://4pdainspector/content/img/button_refresh-' + ((inspector4pda.vars.button_big) ? '22' : '16') + '.png');
 				inspector4pda.toolbar.manualRefresh();
+				break;
+			case 6:
+				inspector4pda.utils.openPage(inspector4pda.QMS.vUrl);
 				break;
 			default:
 				inspector4pda.utils.log(clickAction + ' is uncorrect value');

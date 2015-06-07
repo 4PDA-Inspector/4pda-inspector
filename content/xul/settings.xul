@@ -116,6 +116,8 @@
 					<radio value="4" label="&settings;"/>
 					<separator class="horizontal" />
 					<radio value="5" label="&refresh;"/>
+					<separator class="horizontal" />
+					<radio value="6" label="&goToQMSDialogs;"/>
 				</radiogroup>
 				<radiogroup preference="inspector4pda_pref_MMB_click_action">
 					<radio value="1" label="&#160;"/>
@@ -127,6 +129,8 @@
 					<radio value="4" label="&#160;"/>
 					<separator class="horizontal" />
 					<radio value="5" label="&#160;"/>
+					<separator class="horizontal" />
+					<radio value="6" label="&#160;"/>
 				</radiogroup>
 			</hbox>
 
@@ -190,7 +194,7 @@
 				<vbox flex="1"></vbox>
 			</hbox>
 			<label class="caption" value="&toolbarbutton_tooltiptext;" />
-			<label class="caption" value="v2.1.1.1" />
+			<label class="caption" value="v2.1.2" />
 			<label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
 		</vbox>
 		<vbox flex="1"></vbox>
