@@ -12,6 +12,7 @@ inspector4pda.toolbar = {
 		themesList: null,
 		settingsLabel: null,
 		openAllLabel: null,
+		openAllLabelPin: null,
 		readAllLabel: null,
 		manualRefresh: null
 	},
@@ -20,7 +21,7 @@ inspector4pda.toolbar = {
 	settingsXulUrl: 'chrome://4pdainspector/content/xul/settings.xul',
 
 	urls: {
-		login: 'http://4pda.ru/forum/index.php?act=login&CODE=00'
+		login: 'http://4pda.ru/forum/index.php?act=login'
 	},
 
 	init: function()
@@ -61,6 +62,13 @@ inspector4pda.toolbar = {
 		inspector4pda.toolbar.elements.openAllLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelOpenAll');
 		inspector4pda.toolbar.elements.openAllLabel.onclick = function() {
 			inspector4pda.themes.openAll();
+			inspector4pda.toolbar.refresh();
+			inspector4pda.toolbar.checkOpenthemeHiding();
+		}
+		
+		inspector4pda.toolbar.elements.openAllPinLabel = inspector4pda.cScript.winobj.getElementById('inspector4pda_panelOpenAllPin');
+		inspector4pda.toolbar.elements.openAllPinLabel.onclick = function() {
+			inspector4pda.themes.openAllPin();
 			inspector4pda.toolbar.refresh();
 			inspector4pda.toolbar.checkOpenthemeHiding();
 		}
@@ -202,6 +210,7 @@ inspector4pda.toolbar = {
 
 		inspector4pda.toolbar.elements.openAllLabel.className = (inspector4pda.vars.toolbar_openAllFavs_button) ? '' : 'hidden';
 		inspector4pda.toolbar.elements.readAllLabel.className = (inspector4pda.vars.toolbar_markAllAsRead_button) ? '' : 'hidden';
+		inspector4pda.toolbar.elements.openAllPinLabel.className = (inspector4pda.vars.toolbar_only_pin) ? 'hidden' : '';
 
 		if (!withoutPrintThemes) {
 			inspector4pda.toolbar.printThemesList();

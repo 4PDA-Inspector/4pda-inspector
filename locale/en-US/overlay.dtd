@@ -4,7 +4,8 @@
 <!ENTITY QMS "QMS">
 <!ENTITY favorites "Favorites">
 <!ENTITY settings "Settings">
-<!ENTITY openAllFavs "Open all unread theme in new tabs">
+<!ENTITY openAllFavs "Open all unread themes in new tabs">
+<!ENTITY openAllPinFavs "Open pin unread themes in new tabs">
 <!ENTITY markAllAsRead "Mark all themes as read">
 <!ENTITY refresh "Refresh">
 

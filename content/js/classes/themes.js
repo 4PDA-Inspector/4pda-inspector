@@ -86,6 +86,18 @@ inspector4pda.themes = {
 		inspector4pda.cScript.printCount();
 	},
 
+	openAllPin: function() {
+		var themesIds = Object.keys(inspector4pda.themes.list);
+		
+		for (var i = 0; i < themesIds.length; i++) {
+			var themeId = themesIds[i];
+			if (inspector4pda.themes.list[themeId].isPin()) {
+				inspector4pda.themes.open(themesIds[i]);
+			}
+		};
+		inspector4pda.cScript.printCount();
+	},
+
 	readAll: function() {
 		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
@@ -120,5 +132,9 @@ var themeObj = {
 			return false;
 		}
 		return this;
+	},
+
+	isPin: function() {
+		return this.pin;
 	}
 }

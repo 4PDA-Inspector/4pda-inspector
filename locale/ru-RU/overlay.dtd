@@ -5,6 +5,7 @@
 <!ENTITY favorites "Избранные темы">
 <!ENTITY settings "Настройки">
 <!ENTITY openAllFavs "Открыть все непрочитанные темы в новых вкладках">
+<!ENTITY openAllPinFavs "Открыть закреплённые непрочитанные темы в новых вкладках">
 <!ENTITY markAllAsRead "Пометить все темы прочитанными">
 <!ENTITY refresh "Обновить">
 

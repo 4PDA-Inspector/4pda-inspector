@@ -62,6 +62,7 @@
 
 					<hbox flex="1" id="massThemesActions">
 						<vbox><label value="" tooltiptext="&openAllFavs;" id="inspector4pda_panelOpenAll" /></vbox>
+						<vbox><label value="" tooltiptext="&openAllPinFavs;" id="inspector4pda_panelOpenAllPin" /></vbox>
 						<vbox><label value="" tooltiptext="&markAllAsRead;" id="inspector4pda_panelReadAll" /></vbox>
 					</hbox>
 
