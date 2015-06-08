@@ -1,3 +1,7 @@
+#inspector4pda_panel {
+	font-family: sans-serif;
+}
+
 #inspector4pda_panel .hidden {
 	display: none;
 }
@@ -33,7 +37,7 @@
 
 #inspector4pda_mainPanelButtonsBox label {
 	margin: 0 10px 0 0;
-	font-size: 18px;
+	font-size: 16px;
 }
 #inspector4pda_mainPanelButtonsBox label:hover, #inspector4pda_panelUsername:hover {
 	color: #2196F3;
