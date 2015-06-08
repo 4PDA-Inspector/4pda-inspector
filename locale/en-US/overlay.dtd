@@ -7,6 +7,8 @@
 <!ENTITY openAllFavs "Open all unread themes in new tabs">
 <!ENTITY openAllPinFavs "Open pin unread themes in new tabs">
 <!ENTITY markAllAsRead "Mark all themes as read">
+<!ENTITY OpenPortionsBy "Open portions by">
+<!ENTITY noLimit "no limit">
 <!ENTITY refresh "Refresh">
 
 <!ENTITY general "General">

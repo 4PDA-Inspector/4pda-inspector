@@ -179,9 +179,9 @@
 			<vbox>
 				<checkbox preference="inspector4pda_pref_toolbar_openAllFavs_button" label="&openAllFavs;" />
 				<hbox align="center">
-					<label value="Открывать порциями по:" />
+					<label value="&OpenPortionsBy;:" />
 					<textbox preference="inspector4pda_pref_open_themes_limit" id="inspector4pda_intervalInput" type="number" min="0" width="50" />
-					<label value="0 - без ограничений" class="infoLabel" />
+					<label value="0 - &noLimit;" class="infoLabel" />
 				</hbox>
 				<checkbox preference="inspector4pda_pref_toolbar_markAllAsRead_button" label="&markAllAsRead;" />
 			</vbox>
