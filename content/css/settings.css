@@ -82,3 +82,7 @@ separator.horizontal {
 label.text-link, label.text-link image {
 	outline: none;
 }
+
+.infoLabel {
+	color: #9E9E9E;
+}

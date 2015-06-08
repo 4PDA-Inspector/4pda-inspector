@@ -1,6 +1,7 @@
 pref("extensions.4pda-inspector.interval", 10);
 pref("extensions.4pda-inspector.click_action", 1);
 pref("extensions.4pda-inspector.MMB_click_action", 3);
+pref("extensions.4pda-inspector.open_themes_limit", 0);
 
 pref("extensions.4pda-inspector.button_big", false);
 pref("extensions.4pda-inspector.button_fontsize", 8);

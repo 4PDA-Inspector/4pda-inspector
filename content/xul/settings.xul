@@ -29,6 +29,7 @@
 		
 		<preference id="inspector4pda_pref_click_action" name="extensions.4pda-inspector.click_action" type="int"/>
 		<preference id="inspector4pda_pref_MMB_click_action" name="extensions.4pda-inspector.MMB_click_action" type="int"/>
+		<preference id="inspector4pda_pref_open_themes_limit" name="extensions.4pda-inspector.open_themes_limit" type="int"/>
 
 		<preference id="inspector4pda_pref_button_fontsize" name="extensions.4pda-inspector.button_fontsize" type="int"/>
 		<preference id="inspector4pda_pref_button_color" name="extensions.4pda-inspector.button_color" type="string"/>
@@ -66,7 +67,7 @@
 		<vbox>
 			<!-- Общие -->
 			<label class="caption" value="&generalSettings;" />
-			<hbox>
+			<hbox align="center">
 				<label value="&updateInterval;, &sec;.: " />
 				<textbox preference="inspector4pda_pref_interval" id="inspector4pda_intervalInput" type="number" min="5" />
 			</hbox>
@@ -90,7 +91,6 @@
 					<hbox id="inspector4pda_notificationPopupHbox">
 						<checkbox preference="inspector4pda_pref_notification_popup" label="&enablePopupAlerts;" oncommand="inspector4pda.settings.checkNotificationPopup(this);" id="inspector4pda_notificationPopupCheckbox" />
 					</hbox>
-
 				</vbox>
 			</vbox>
 		</vbox>
@@ -178,6 +178,11 @@
 			<label class="caption" value="&ControlButtons;" />
 			<vbox>
 				<checkbox preference="inspector4pda_pref_toolbar_openAllFavs_button" label="&openAllFavs;" />
+				<hbox align="center">
+					<label value="Открывать порциями по:" />
+					<textbox preference="inspector4pda_pref_open_themes_limit" id="inspector4pda_intervalInput" type="number" min="0" width="50" />
+					<label value="0 - без ограничений" class="infoLabel" />
+				</hbox>
 				<checkbox preference="inspector4pda_pref_toolbar_markAllAsRead_button" label="&markAllAsRead;" />
 			</vbox>
 		</vbox>
@@ -194,7 +199,7 @@
 				<vbox flex="1"></vbox>
 			</hbox>
 			<label class="caption" value="&toolbarbutton_tooltiptext;" />
-			<label class="caption" value="v2.1.2" />
+			<label class="caption" value="v2.2" />
 			<label href="http://4pdainspector.coddism.com/firefox.html#donate" class="text-link donateLink" value="&donate;"/>
 		</vbox>
 		<vbox flex="1"></vbox>

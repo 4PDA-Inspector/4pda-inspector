@@ -3,6 +3,7 @@ inspector4pda.vars = {
 	interval: 5000,
 	click_action: 1,
 	MMB_click_action: 3,
+	open_themes_limit: 0,
 	
 	notification_sound: true,
 	notification_popup: true,
@@ -51,6 +52,7 @@ inspector4pda.vars = {
 		this.getValue('interval', 5000, 1000);
 		this.getValue('click_action', 1);
 		this.getValue('MMB_click_action', 3);
+		this.getValue('open_themes_limit', 0);
 
 		this.getValue('button_bgcolor', '#3333FF');
 		this.getValue('button_color', '#FFFFFF');

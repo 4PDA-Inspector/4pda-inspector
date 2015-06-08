@@ -210,7 +210,7 @@ inspector4pda.toolbar = {
 
 		inspector4pda.toolbar.elements.openAllLabel.className = (inspector4pda.vars.toolbar_openAllFavs_button) ? '' : 'hidden';
 		inspector4pda.toolbar.elements.readAllLabel.className = (inspector4pda.vars.toolbar_markAllAsRead_button) ? '' : 'hidden';
-		inspector4pda.toolbar.elements.openAllPinLabel.className = (inspector4pda.vars.toolbar_only_pin) ? 'hidden' : '';
+		inspector4pda.toolbar.elements.openAllPinLabel.className = (inspector4pda.vars.toolbar_only_pin || !inspector4pda.vars.toolbar_openAllFavs_button) ? 'hidden' : '';
 
 		if (!withoutPrintThemes) {
 			inspector4pda.toolbar.printThemesList();

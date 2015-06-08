@@ -79,17 +79,26 @@ inspector4pda.themes = {
 	},
 
 	openAll: function() {
+		var limit = inspector4pda.vars.open_themes_limit;
+
 		var themesIds = Object.keys(inspector4pda.themes.list);
 		for (var i = 0; i < themesIds.length; i++) {
+			if (limit && i >= limit) {
+				break;
+			}
 			inspector4pda.themes.open(themesIds[i]);
 		};
 		inspector4pda.cScript.printCount();
 	},
 
 	openAllPin: function() {
+		var limit = inspector4pda.vars.open_themes_limit;
 		var themesIds = Object.keys(inspector4pda.themes.list);
 		
 		for (var i = 0; i < themesIds.length; i++) {
+			if (limit && i >= limit) {
+				break;
+			}
 			var themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				inspector4pda.themes.open(themesIds[i]);
