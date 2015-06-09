@@ -14,8 +14,25 @@ inspector4pda.themes = {
 		xmr.send(inspector4pda.themes.rUrl);
 	},
 
+	getThemesIds: function() {
+		return Object.keys(inspector4pda.themes.list);
+	},
+
 	getCount: function() {
-		return Object.keys(inspector4pda.themes.list).length;
+		return this.getThemesIds().length;
+	},
+
+	getPinCount: function() {
+		var themesIds = this.getThemesIds();
+		var count = 0;
+		
+		for (var i = 0; i < themesIds.length; i++) {
+			var themeId = themesIds[i];
+			if (inspector4pda.themes.list[themeId].isPin()) {
+				count++;
+			}
+		};
+		return count;
 	},
 
 	parse: function(text) {
@@ -81,7 +98,7 @@ inspector4pda.themes = {
 	openAll: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
 
-		var themesIds = Object.keys(inspector4pda.themes.list);
+		var themesIds = this.getThemesIds();
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
 				break;
@@ -93,7 +110,7 @@ inspector4pda.themes = {
 
 	openAllPin: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
-		var themesIds = Object.keys(inspector4pda.themes.list);
+		var themesIds = this.getThemesIds();
 		
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
@@ -101,14 +118,14 @@ inspector4pda.themes = {
 			}
 			var themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isPin()) {
-				inspector4pda.themes.open(themesIds[i]);
+				inspector4pda.themes.open(themeId);
 			}
 		};
 		inspector4pda.cScript.printCount();
 	},
 
 	readAll: function() {
-		var themesIds = Object.keys(inspector4pda.themes.list);
+		var themesIds = this.getThemesIds();
 		for (var i = 0; i < themesIds.length; i++) {
 			inspector4pda.themes.read(themesIds[i]);
 		};
