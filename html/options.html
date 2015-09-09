@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Options</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="js/jquery-1.8.0.min.js" type="text/javascript"></script>
+	<script src="js/default.js" type="text/javascript"></script>
+	<script src="js/options.js" type="text/javascript"></script>
+
+	<style type="text/css">
+		body {
+			font-family: Arial;
+		}
+
+		textarea {
+			width: 500px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div id="mainDiv">
+		
+		<h3>Домены, на которых проверять</h3>
+		<p>
+			Список HTTP-доменов: <br>
+			<textarea id="httpHomeDomens"></textarea>
+		</p>
+
+		<h3>Домены с аудиофайлами</h3>
+		<p>
+			<label>
+				<input type="checkbox" value="1" id="dropboxCB"> Dropbox
+			</label> <br>
+			Список HTTP-доменов: <br>
+			<textarea id="httpDomens"></textarea>
+		</p>
+		<p>
+			Список FTP-доменов: <br>
+			<textarea id="ftpDomens"></textarea>
+		</p>
+	</div>
+
+	<button id="saveButton">Сохранить</button>
+</body>
+</html>

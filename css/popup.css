@@ -1,0 +1,169 @@
+body {
+	font-family: sans-serif;
+	color: #3F51B5;
+}
+
+/***************** BUTTONS *****************/
+
+#mainPanel {
+	border-bottom: 1px dotted #3F51B5;
+	padding: 0 5px 5px;
+}
+
+#mainPanel > div {
+	display: inline-block;
+}
+
+#mainPanel > div > span {
+	display: inline-block;
+	cursor: pointer;
+	margin: 0 10px 0 0;
+	font-size: 18px;
+}
+
+#mainPanel span.icon {
+	display: inline-block;
+	/*margin: 2px 2px 0 0;*/
+	height: 16px;
+	width: 16px;
+	background-image: url(/img/icons1.png);
+	background-repeat: no-repeat;
+}
+
+#mainPanel > div > span:hover {
+	color: #2196F3;
+}
+
+#panelQMS .icon {
+	background-position: -16px -16px;
+}
+#panelQMS.hasUnread .icon {
+	background-position: 0 -16px;
+}
+#panelQMS:hover .icon {
+	background-position: -32px -16px;
+}
+
+#panelFavorites .icon {
+	background-position: -16px 0;
+}
+#panelFavorites.hasUnread .icon {
+	background-position: 0 0;
+}
+#panelFavorites:hover .icon {
+	background-position: -32px 0;
+}
+
+#panelSettings {
+	background-position: -64px 0;
+}
+#panelSettings:hover {
+	background-position: -64px -16px;
+}
+
+#massThemesActions > span.icon {
+	margin: 0 5px 0 0;
+	width: 22px;
+}
+#panelOpenAll {
+	background-position: -80px 0;
+}
+#panelOpenAll:hover {
+	background-position: -80px -16px;
+}
+#panelOpenAllPin {
+	background-position: -140px 0;
+}
+#panelOpenAllPin:hover {
+	background-position: -140px -16px;
+}
+#panelReadAll {
+	background-position: -102px 0;
+}
+#panelReadAll:hover {
+	background-position: -102px -16px;
+}
+
+#panelRefresh {
+	background-position: -48px 0;
+}
+#panelRefresh:hover {
+	background-position: -48px -16px;
+}
+
+#panelUsernameHBox {
+	margin-left: 10px;
+}
+
+#panelUsername {
+	font-size: 16px;
+	margin: 0 5px 0 0;
+}
+
+/***************** THEMES LIST *****************/
+
+#themesList {
+	min-width: 400px;
+	white-space: nowrap;
+}
+
+
+#themesList span:not(.oneTheme_user) {
+	cursor: pointer;
+}
+#themesList > .oneTheme {
+	display: block;
+	border-bottom: 1px solid #D0E4EC;
+	color: #222;
+	padding: 2px 4px;
+	position: relative;
+	cursor: pointer;
+}
+#themesList > .oneTheme:hover {
+	background-color: #D0E4EC;
+}
+
+#themesList .oneTheme_caption {
+	color: #3F51B5;
+	font-size: 12px;
+	margin: 0;
+}
+#themesList .oneTheme_caption:hover {
+	color: #2196F3;
+}
+
+#themesList .oneTheme_pin {
+	color: #558B2F;
+}
+#themesList .oneTheme_pin:hover {
+	color: #8BC34A;
+}
+
+#themesList .oneTheme_caption.readed {
+	color: #9E9E9E;
+}
+
+.oneThemeInfoHBox > span {
+	color: #9E9E9E;
+	font-size: 11px;
+	margin: 0 10px 0 0;
+}
+
+.oneThemeInfoHBox>.oneTheme_lastPost:hover {
+	color: #2196F3;
+}
+
+#themesList .oneTheme_markAsRead {
+	display: block;
+	margin-left: 10px;
+	cursor: pointer;
+	background: -124px 0 url(/img/icons1.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+#themesList .oneTheme_markAsRead:hover {
+	background-position: -124px -16px;
+}
