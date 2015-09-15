@@ -61,7 +61,7 @@ inspector4pda.vars = {
 		this.getValue('button_show_onlyMoreZero', true);
 		
 		this.getValue('notification_sound', true);
-		this.getValue('notification_popup', true);
+		this.getValue('notification_popup', false); //
 		this.getValue('notification_sound_volume', 1, 0.01);
 		
 		this.getValue('toolbar_pin_color', true);

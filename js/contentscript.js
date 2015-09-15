@@ -1,16 +1,3 @@
-chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		if (request.method == 'getData') {
-			console.log('cs onMessage');
-			chrome.runtime.sendMessage({method: 'sendData', data: {
-				themes: inspector4pda.themes,
-				qms: inspector4pda.QMS,
-				user: inspector4pda.user
-			}});
-		}
-	}
-);
-
 inspector4pda.cScript = {
 
 	winobj: null,
@@ -26,8 +13,6 @@ inspector4pda.cScript = {
 
 	init: function(el)
 	{
-		/*var obj = document.getElementById("navigator-toolbox");
-		inspector4pda.cScript.winobj = (obj) ? window.document : window.opener.document;*/
 		inspector4pda.cScript.request();
 	},
 

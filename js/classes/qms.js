@@ -50,6 +50,10 @@ inspector4pda.QMS = {
     {
         this.unreadCount = Object.keys(inspector4pda.QMS.list).length;
         return this.unreadCount;
+    },
+
+    openPage: function () {
+        inspector4pda.utils.openPage(inspector4pda.QMS.vUrl);
     }
 }
 

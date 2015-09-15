@@ -374,8 +374,9 @@ inspector4pda.toolbar = {
 
 	checkOpenthemeHiding: function()
 	{
-		if (inspector4pda.vars.toolbar_opentheme_hide) {
+		console.log('TODO toolbar :: 377');
+		/*if (inspector4pda.vars.toolbar_opentheme_hide) {
 			inspector4pda.toolbar.handleHidePanel();
-		}
+		}*/
 	}
 }

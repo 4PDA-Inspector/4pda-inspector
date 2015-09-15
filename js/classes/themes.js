@@ -1,6 +1,6 @@
 inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
+	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
 	request: function(callback) {
@@ -131,6 +131,10 @@ inspector4pda.themes = {
 		};
 		inspector4pda.cScript.printCount();
 	},
+
+    openPage: function () {
+        inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
+    }
 }
 
 var themeObj = {

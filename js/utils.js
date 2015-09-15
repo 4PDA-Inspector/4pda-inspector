@@ -60,10 +60,7 @@ inspector4pda.utils = {
 	},
 
 	openPage: function(page) {
-		console.log('TODO open page');
-		/*var tBrowser = top.document.getElementById("content");
-		var tab = tBrowser.addTab(page);
-		tBrowser.selectedTab = tab;*/
+		chrome.tabs.create({ url: page });
 	},
 
 	setStringBundle: function() {
