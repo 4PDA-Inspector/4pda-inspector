@@ -201,10 +201,9 @@ inspector4pda.cScript = {
 		}
 		if (hasNews) {
 			if (inspector4pda.vars.notification_sound) {
-				console.log('TODO play sound');
-				/*var soundElement = inspector4pda.cScript.winobj.getElementById("inspector4pda_sound");
+				var soundElement = document.getElementById("inspector4pda_sound");
 				soundElement.volume = inspector4pda.vars.notification_sound_volume;
-				soundElement.play();*/
+				soundElement.play();
 			};
 			if (inspector4pda.vars.notification_popup) {
 				inspector4pda.cScript.showNotifications();
