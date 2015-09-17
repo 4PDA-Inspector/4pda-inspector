@@ -16,6 +16,9 @@ popup = {
 		manualRefresh: null
 	},
 
+	/**
+	 * @var inspector4pda
+	 */
 	bg: null,
 
 	init: function(data) {
@@ -78,6 +81,16 @@ popup = {
 
 		if (popup.bg.vars.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';
+		}
+
+		if (!this.bg.vars.toolbar_openAllFavs_button) {
+			this.elements.openAllLabel.classList.add('hidden');
+		}
+		if (!this.bg.vars.toolbar_openAllFavs_button || (this.bg.vars.toolbar_only_pin ||  !this.bg.themes.getPinCount())) {
+			this.elements.openAllPinLabel.classList.add('hidden');
+		}
+		if (!this.bg.vars.toolbar_markAllAsRead_button) {
+			this.elements.readAllLabel.classList.add('hidden');
 		}
 
 		if (!withoutPrintThemes) {

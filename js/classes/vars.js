@@ -32,12 +32,18 @@ inspector4pda.vars = {
 	prefs: {},
 
 	init: function(callback) {
-		chrome.extension.sendRequest({action: "getLocalStorage"}, function(localStorage) {
+		inspector4pda.vars.prefs = localStorage;
+		if (typeof callback == 'function') {
+			callback();
+		}
+		/*chrome.extension.sendRequest({action: "getLocalStorage"}, function(localStorage) {
 			inspector4pda.vars.prefs = localStorage;
+			console.log('vars init finish', inspector4pda.vars.prefs);
+			//console.log('toolbar_pin_color', localStorage.toolbar_pin_color);
 			if (typeof callback == 'function') {
 				callback();
-			};
-		})
+			}
+		})*/
 	},
 
 	getPrefs: function()
@@ -76,23 +82,48 @@ inspector4pda.vars = {
 	getValue: function(field, defaultValue, multiplier)
 	{
 		try {
+			if (typeof inspector4pda.vars.prefs[field] == 'undefined') {
+				throw new Error();
+			}
+
 			switch (typeof inspector4pda.vars[field]) {
 				case 'number':
 					inspector4pda.vars[field] = Number(inspector4pda.vars.prefs[field]) * (multiplier || 1);
 					break;
 				case 'boolean':
-					inspector4pda.vars[field] = Boolean(inspector4pda.vars.prefs[field]);
+					inspector4pda.vars[field] = (inspector4pda.vars.prefs[field] === 'true');
 					break;
 				default:
 					inspector4pda.vars[field] = inspector4pda.vars.prefs[field];
 			}
+
 		} catch (e) {
 			if (defaultValue) {
 				inspector4pda.vars[field] = defaultValue;
-			};
-			//inspector4pda.utils.log('error ' + field + ': ' + defaultValue);
+			}
 		}
+	},
+
+	setValue: function(field, value) {
+		localStorage[field] = value;
+		this.resetStorage();
+		console.log(field, value);
+	},
+
+	getAll: function() {
+		var exp = {};
+		var self = this;
+		for (var i in self) {
+			if (['number', 'boolean', 'string'].indexOf(typeof self[i]) == -1 ) {
+				continue;
+			}
+			if (i == 'interval') {
+				self[i] = Math.max( self[i] / 1000, 5);
+			}
+			exp[i] = self[i];
+		}
+		return exp;
 	}
-}
+};
 
 inspector4pda.vars.getPrefs();

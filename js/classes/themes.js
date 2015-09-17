@@ -9,8 +9,8 @@ inspector4pda.themes = {
 			inspector4pda.themes.parse(resp.responseText);
 			if (callback) {
 				callback();
-			};
-		}
+			}
+		};
 		xmr.send(inspector4pda.themes.rUrl);
 	},
 
@@ -31,7 +31,7 @@ inspector4pda.themes = {
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				count++;
 			}
-		};
+		}
 		return count;
 	},
 
@@ -52,7 +52,7 @@ inspector4pda.themes = {
 						if (!theme.pin) {
 							continue;
 						}
-					};
+					}
 
 					if (inspector4pda.vars.toolbar_pin_up) {
 						if (theme.pin) {
@@ -70,7 +70,7 @@ inspector4pda.themes = {
 		if (inspector4pda.vars.toolbar_pin_up && notPin) {
 			for (var i = 0; i < notPin.length; i++) {
 				inspector4pda.themes.list[notPin[i].id] = notPin[i];
-			};
+			}
 		}
 	},
 

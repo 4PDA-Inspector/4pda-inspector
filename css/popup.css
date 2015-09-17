@@ -3,6 +3,10 @@ body {
 	color: #3F51B5;
 }
 
+.hidden {
+	display: none !important;
+}
+
 /***************** BUTTONS *****************/
 
 #mainPanel {
@@ -121,7 +125,6 @@ body {
 	color: #222;
 	padding: 2px 4px;
 	position: relative;
-	cursor: pointer;
 }
 #themesList > .oneTheme:hover {
 	background-color: #D0E4EC;

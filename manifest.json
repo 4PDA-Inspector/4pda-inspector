@@ -1,5 +1,5 @@
 {
-	"name": "4PDA Инспектор",
+	"name": "4PDA Инспектор beta",
 	"version": "1.0",
 	"description": "4PDA Инспектор",
 	"icons": {
@@ -11,7 +11,8 @@
 	"permissions": [
 		"tabs",
 		"http://4pda.ru/forum/*",
-		"notifications"
+		"notifications",
+		"storage"
 	],
 	"browser_action": {
 		"default_title": "4PDA Инспектор",

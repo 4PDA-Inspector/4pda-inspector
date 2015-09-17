@@ -19,10 +19,11 @@ inspector4pda.cScript = {
 	request: function(interval)
 	{
 		inspector4pda.vars.getPrefs();
+
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData();
 
-		console.log('request');
+		console.log('request', inspector4pda.vars.interval);
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
@@ -221,10 +222,10 @@ inspector4pda.cScript = {
 		var icon;
 		switch (currentNotification.type) {
 			case "info_SiteUnavailable":
-				icon = "icons/icon_64_out.png"
+				icon = "/icons/icon_64_out.png"
 				break;
 			default:
-				icon = "icons/icon_64.png"
+				icon = "/icons/icon_64.png"
 		}
 
 		var notification = new Notification(currentNotification.title, {

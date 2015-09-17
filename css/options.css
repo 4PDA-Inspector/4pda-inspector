@@ -13,3 +13,30 @@ body {
 	padding: 8px;
 	border-radius: 10px;
 }
+
+
+.caption {
+	font-weight: bold;
+	font-size: 16px;
+	color: #3565B5;
+	margin-top: 10px;
+}
+
+.donateLink {
+	border-radius: 10px;
+	color: #FFF;
+	padding: 5px;
+	text-decoration: none;
+	background: #7a99d0;
+	background: linear-gradient(to bottom,  #7a99d0 0,#3565b5 100%);
+	display: inline-block;
+}
+
+.donateLink:hover {
+	background: #3565B5;
+	text-decoration: none;
+}
+
+label.text-link, label.text-link image {
+	outline: none;
+}
