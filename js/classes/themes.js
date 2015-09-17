@@ -39,10 +39,6 @@ inspector4pda.themes = {
 		inspector4pda.themes.list = {};
 		var tText = text.replace('\r','').split('\n');
 
-		if (inspector4pda.vars.toolbar_pin_up) {
-			var notPin = [];
-		}
-
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
 				var theme = Object.create(themeObj);
@@ -54,24 +50,27 @@ inspector4pda.themes = {
 						}
 					}
 
-					if (inspector4pda.vars.toolbar_pin_up) {
-						if (theme.pin) {
-							inspector4pda.themes.list[theme.id] = theme;
-						} else {
-							notPin.push(theme);
-						}
-					} else {
-						inspector4pda.themes.list[theme.id] = theme;
-					}
+					inspector4pda.themes.list[theme.id] = theme;
 				}
 			}
 		}
 
-		if (inspector4pda.vars.toolbar_pin_up && notPin) {
-			for (var i = 0; i < notPin.length; i++) {
-				inspector4pda.themes.list[notPin[i].id] = notPin[i];
+		console.log(inspector4pda.themes.list);
+
+	},
+
+	getSortedKeys: function() {
+		var list = inspector4pda.themes.list;
+		keysSorted = Object.keys(list).sort(function(a,b){
+			if (inspector4pda.vars.toolbar_pin_up) {
+				var pinDef = list[b].pin - list[a].pin;
+				if (pinDef !== 0) {
+					return pinDef;
+				}
 			}
-		}
+			return  list[b].last_post_ts - list[a].last_post_ts;
+		});
+		return keysSorted;
 	},
 
 	open: function(id) {

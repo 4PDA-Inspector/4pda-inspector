@@ -42,6 +42,11 @@ popup = {
 			popup.bg.QMS.openPage();
 		}, false);
 
+		this.elements.settingsLabel = document.getElementById('panelSettings');
+		this.elements.settingsLabel.addEventListener("click", function () {
+			popup.bg.utils.openPage('/html/options.html');
+		}, false);
+
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
 		this.elements.openAllLabel.addEventListener('click', function() {
 			popup.bg.themes.openAll();
@@ -128,8 +133,9 @@ popup = {
 		this.clearThemesList();
 
 		if (this.bg.themes.getCount()) {
-			for (var i in this.bg.themes.list) {
-				this.addThemeRow(this.bg.themes.list[i]);
+			var themesKeys = this.bg.themes.getSortedKeys();
+			for (var i = 0; i < themesKeys.length; i++) {
+				this.addThemeRow(this.bg.themes.list[themesKeys[i]]);
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');

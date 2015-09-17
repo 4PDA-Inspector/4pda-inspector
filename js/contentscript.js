@@ -39,7 +39,7 @@ inspector4pda.cScript = {
 			}
 			if (typeof callback == 'function') {
 				callback();
-			};
+			}
 		};
 
 		inspector4pda.cScript.prevData.themes = inspector4pda.themes.list;

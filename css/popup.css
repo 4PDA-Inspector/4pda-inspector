@@ -27,7 +27,7 @@ body {
 	font-size: 18px;
 }
 
-#mainPanel span.icon {
+#mainPanel .icon {
 	display: inline-block;
 	/*margin: 2px 2px 0 0;*/
 	height: 16px;
