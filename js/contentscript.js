@@ -15,6 +15,7 @@ inspector4pda.cScript = {
 	{
 		inspector4pda.cScript.request();
 		chrome.notifications.onClicked.addListener(inspector4pda.cScript.notificationClick);
+		chrome.browserAction.setBadgeBackgroundColor({ color: [63, 81, 181, 255] });
 	},
 
 	request: function(interval)
@@ -78,7 +79,9 @@ inspector4pda.cScript = {
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
-		chrome.browserAction.setBadgeText({text: qCount + '-' + tCount });
+		chrome.browserAction.setBadgeText({text: '' + tCount });
+		//chrome.browserAction.setBadgeText({text: qCount + '-' + tCount });
+
 		/*console.log('print count');
 		return false;*/
 
@@ -87,22 +90,16 @@ inspector4pda.cScript = {
 			return false;
 		}*/
 
-		/*var canvas_width = 20;
-		var canvas_height = 18;
-		var canvas_img = "chrome://4pdainspector/content/icons/icon_16x.png";
+		var canvas_width = 19;
+		var canvas_height = 19;
+		var canvas_img = "/icons/icon_16.png";
 		var title_padding = 2;
 		var fontSize = inspector4pda.vars.button_fontsize;
-
-		if (inspector4pda.vars.button_big) {
-			var canvas_width = 26;
-			var canvas_height = 24;
-			var canvas_img = "chrome://4pdainspector/content/icons/icon_22x.png";
-		}
 
 		var button_bgcolor = inspector4pda.vars.button_bgcolor;
 		var button_color = inspector4pda.vars.button_color;
 
-		var canvas = inspector4pda.cScript.winobj.getElementById("inspector4pda_canvas");
+		var canvas = document.getElementById("inspector4pda_canvas");
 		canvas.setAttribute("width", canvas_width);
 		canvas.setAttribute("height", canvas_height);
 		var ctx = canvas.getContext("2d");
@@ -121,12 +118,12 @@ inspector4pda.cScript = {
 			var x = canvas_width - w;
 			var y = canvas_height - h;
 
-			if (inspector4pda.vars.button_show_themes && (!inspector4pda.vars.button_show_onlyMoreZero || tCount) ) {
+			/*if (inspector4pda.vars.button_show_themes && (!inspector4pda.vars.button_show_onlyMoreZero || tCount) ) {
 				ctx.fillStyle = button_bgcolor;
 				ctx.fillRect(x-1, y, w+1, h);
 				ctx.fillStyle = button_color;
 				ctx.fillText(tCount, x, y+1);
-			}
+			}*/
 
 			if (inspector4pda.vars.button_show_qms && (!inspector4pda.vars.button_show_onlyMoreZero || qCount)) {
 				var w = ctx.measureText(qCount).width;
@@ -134,11 +131,11 @@ inspector4pda.cScript = {
 				ctx.fillRect(0, y, w+2, h);
 				ctx.fillStyle = button_color;
 				ctx.fillText(qCount, 1, y+1);
-			};
+			}
 
-			inspector4pda.cScript.setButtonImage( canvas.toDataURL("image/png") );
+			inspector4pda.cScript.setButtonImage( ctx.getImageData(0, 0, 19, 19) );
 		};
-		img.src = canvas_img;*/
+		img.src = canvas_img;
 
 		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") + 
 			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
@@ -293,12 +290,9 @@ inspector4pda.cScript = {
 	},
 
 	setButtonImage: function(image) {
-		var btn = inspector4pda.cScript.getPanelButton();
-		if (!btn) {
-			return false;
-		}
-		btn.setAttribute('image', image);
-		btn.style.listStyleImage = "url('" + image + "')";
+		chrome.browserAction.setIcon({
+			imageData: image
+		});
 	}
 };
 

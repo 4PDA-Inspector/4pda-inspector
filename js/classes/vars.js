@@ -61,7 +61,7 @@ inspector4pda.vars = {
 
 		this.getValue('button_bgcolor', '#3333FF');
 		this.getValue('button_color', '#FFFFFF');
-		this.getValue('button_fontsize', 8);
+		this.getValue('button_fontsize', 10);
 		this.getValue('button_show_qms', true);
 		this.getValue('button_show_themes', true);
 		this.getValue('button_show_onlyMoreZero', true);
