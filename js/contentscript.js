@@ -11,11 +11,13 @@ inspector4pda.cScript = {
 	notifications: [],
 	successLastRequest: true,
 
+	defaultColor: [63, 81, 181, 255],
+	hasQmsColor: [76, 175, 80, 255],
+
 	init: function(el)
 	{
 		inspector4pda.cScript.request();
 		chrome.notifications.onClicked.addListener(inspector4pda.cScript.notificationClick);
-		chrome.browserAction.setBadgeBackgroundColor({ color: [63, 81, 181, 255] });
 	},
 
 	request: function(interval)
@@ -79,65 +81,16 @@ inspector4pda.cScript = {
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
+		if (qCount) {
+			chrome.browserAction.setBadgeBackgroundColor({ color: this.hasQmsColor });
+		} else {
+			chrome.browserAction.setBadgeBackgroundColor({ color: this.defaultColor });
+		}
+
 		chrome.browserAction.setBadgeText({text: '' + tCount });
 		//chrome.browserAction.setBadgeText({text: qCount + '-' + tCount });
 
-		/*console.log('print count');
-		return false;*/
-
-		/*var btn = inspector4pda.cScript.getPanelButton();
-		if (!btn) {
-			return false;
-		}*/
-
-		var canvas_width = 19;
-		var canvas_height = 19;
-		var canvas_img = "/icons/icon_16.png";
-		var title_padding = 2;
-		var fontSize = inspector4pda.vars.button_fontsize;
-
-		var button_bgcolor = inspector4pda.vars.button_bgcolor;
-		var button_color = inspector4pda.vars.button_color;
-
-		var canvas = document.getElementById("inspector4pda_canvas");
-		canvas.setAttribute("width", canvas_width);
-		canvas.setAttribute("height", canvas_height);
-		var ctx = canvas.getContext("2d");
-
-		var img = new Image();
-		img.onload = function()
-		{
-			ctx.textBaseline = 'top';
-			ctx.font = 'bold '+fontSize+'px tahoma,arial,sans-serif';
-			ctx.clearRect(0, 0, canvas_width, canvas_height);
-			ctx.drawImage(img, 2, 0, img.width, img.height);
-
-			var w = ctx.measureText(tCount).width;
-			var h = fontSize + title_padding;
-
-			var x = canvas_width - w;
-			var y = canvas_height - h;
-
-			/*if (inspector4pda.vars.button_show_themes && (!inspector4pda.vars.button_show_onlyMoreZero || tCount) ) {
-				ctx.fillStyle = button_bgcolor;
-				ctx.fillRect(x-1, y, w+1, h);
-				ctx.fillStyle = button_color;
-				ctx.fillText(tCount, x, y+1);
-			}*/
-
-			if (inspector4pda.vars.button_show_qms && (!inspector4pda.vars.button_show_onlyMoreZero || qCount)) {
-				var w = ctx.measureText(qCount).width;
-				ctx.fillStyle = button_bgcolor;
-				ctx.fillRect(0, y, w+2, h);
-				ctx.fillStyle = button_color;
-				ctx.fillText(qCount, 1, y+1);
-			}
-
-			inspector4pda.cScript.setButtonImage( ctx.getImageData(0, 0, 19, 19) );
-		};
-		img.src = canvas_img;
-
-		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") + 
+		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") +
 			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
 			'\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount
 		});
@@ -220,10 +173,10 @@ inspector4pda.cScript = {
 		var icon;
 		switch (currentNotification.type) {
 			case "info_SiteUnavailable":
-				icon = "/icons/icon_64_out.png"
+				icon = "/icons/icon_80_out.png";
 				break;
 			default:
-				icon = "/icons/icon_128.png"
+				icon = "/icons/icon_80.png";
 		}
 
 		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id, {
