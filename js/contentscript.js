@@ -14,6 +14,7 @@ inspector4pda.cScript = {
 	init: function(el)
 	{
 		inspector4pda.cScript.request();
+		chrome.notifications.onClicked.addListener(inspector4pda.cScript.notificationClick);
 	},
 
 	request: function(interval)
@@ -225,53 +226,40 @@ inspector4pda.cScript = {
 				icon = "/icons/icon_64_out.png"
 				break;
 			default:
-				icon = "/icons/icon_64.png"
+				icon = "/icons/icon_128.png"
 		}
 
-		var notification = new Notification(currentNotification.title, {
-			tag : "4pdainspector_" + currentNotification.type + '_' + currentNotification.id,
-			body : currentNotification.body,
-			icon : icon
+		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id, {
+			type: "basic",
+			title: currentNotification.body,
+			message: currentNotification.title,
+			iconUrl: icon,
+			isClickable: true
 		});
 
-		notification.onclick = function() {
-
-			var tagData = this.tag.split('_');
-			
-			if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
-				ulog(this.tag);
-				return false;
-			}
-
-			if (tagData[1] == 'qms'){
-				inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
-			} else if (tagData[1] == 'theme') {
-				inspector4pda.themes.open(parseInt(tagData[2]));
-			} else {
-				this.cancel();
-			}
-			inspector4pda.cScript.printCount();
-		}
+		chrome.notifications.onClicked.addListener(function () {});
 
 		setTimeout(function() {
 			inspector4pda.cScript.showNotifications();
 		}, 50);
 	},
 
-	firstRun: function(extensions) {
-		var id = "inspector4pda_button";
-		var extension = extensions.get("4pda_inspector@coddism.com");
-		if (extension.firstRun) {
-			var toolbar = document.getElementById("nav-bar");
-			if (toolbar.getElementsByAttribute('id', "inspector4pda_button").length) {
-				//кнопка уже добавлена
-				return false;
-			}
-			toolbar.insertItem(id, null, null, false);
-			toolbar.setAttribute("currentset", toolbar.currentSet);
-			document.persist(toolbar.id, "currentset");
-			toolbar.collapsed = false;
+	notificationClick: function(tag) {
+		var tagData = tag.split('_');
+
+		if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
+			//ulog(tag);
+			return false;
 		}
+
+		if (tagData[1] == 'qms'){
+			inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])));
+		} else if (tagData[1] == 'theme') {
+			inspector4pda.themes.open(parseInt(tagData[2]));
+		} else {
+			this.cancel();
+		}
+		inspector4pda.cScript.printCount();
 	},
 
 	settingsAccept: function() {
@@ -313,11 +301,5 @@ inspector4pda.cScript = {
 		btn.style.listStyleImage = "url('" + image + "')";
 	}
 };
-
-/*if (Application.extensions) {
-	inspector4pda.cScript.firstRun(Application.extensions);
-} else {
-	Application.getExtensions(inspector4pda.cScript.firstRun);
-}*/
 
 inspector4pda.cScript.init();
