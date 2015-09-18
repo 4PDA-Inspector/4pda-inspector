@@ -68,7 +68,7 @@ inspector4pda.vars = {
 		
 		this.getValue('notification_sound', true);
 		this.getValue('notification_popup', false); //
-		this.getValue('notification_sound_volume', 1, 0.01);
+		this.getValue('notification_sound_volume', 1);
 		
 		this.getValue('toolbar_pin_color', true);
 		this.getValue('toolbar_pin_up', false);
@@ -120,7 +120,7 @@ inspector4pda.vars = {
 				continue;
 			}
 			if (i == 'interval') {
-				self[i] = Math.max( self[i] / 1000, 5);
+				self[i] = Math.max( self[i] / 1000, 1);
 			}
 			exp[i] = self[i];
 		}

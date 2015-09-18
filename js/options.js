@@ -15,6 +15,7 @@ for (var i = 0; i < inputs.length; i++) {
                 break;
             case "text":
             case "number":
+            case "range":
                 setValue(name, this.value);
                 break;
         }
@@ -43,3 +44,8 @@ function printValues() {
 function setValue(name, value) {
     bg.vars.setValue(name, value);
 }
+
+document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
+document.getElementById('notification_sound_volume').addEventListener('input', function() {
+    document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(this.value * 100) + '%';
+});
