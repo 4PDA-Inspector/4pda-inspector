@@ -16,14 +16,22 @@ popup = {
 		manualRefresh: null
 	},
 
+	urls: {
+		login: 'http://4pda.ru/forum/index.php?act=login'
+	},
+
 	/**
 	 * @var inspector4pda
 	 */
 	bg: null,
 
 	init: function(data) {
-
 		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
+
+		if (!this.bg.user.id) {
+			this.bg.utils.openPage(this.urls.login);
+			return false;
+		}
 		
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
@@ -151,12 +159,12 @@ popup = {
 
 	createThemeRow: function(theme)	{
 		
-		var themeCaptionLabel = document.createElement('div');
+		var themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
 		if (theme.pin && popup.bg.vars.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
-		};
+		}
 		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
 		themeCaptionLabel.dataId = theme.id;
 		themeCaptionLabel.addEventListener("click", function () {
@@ -207,7 +215,7 @@ popup = {
 			infoHBox.className = 'oneThemeInfoHBox';
 			infoHBox.appendChild(userCaptionLabel);
 			infoHBox.appendChild(lastPostLabel);
-			
+
 			infoHBox.appendChild(readImage);
 
 			var mainHBox = document.createElement('div');

@@ -134,6 +134,7 @@ body {
 	color: #3F51B5;
 	font-size: 12px;
 	margin: 0;
+	display: block;
 }
 #themesList.simpleList .oneTheme_caption {
 	margin-right: 15px;

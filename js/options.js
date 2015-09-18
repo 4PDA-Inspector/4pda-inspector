@@ -14,6 +14,7 @@ for (var i = 0; i < inputs.length; i++) {
                 setValue(name, this.checked);
                 break;
             case "text":
+            case "number":
                 setValue(name, this.value);
                 break;
         }

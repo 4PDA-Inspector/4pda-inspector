@@ -107,7 +107,9 @@ inspector4pda.vars = {
 	setValue: function(field, value) {
 		localStorage[field] = value;
 		this.resetStorage();
-		console.log(field, value);
+		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
+			inspector4pda.cScript.request();
+		}
 	},
 
 	getAll: function() {

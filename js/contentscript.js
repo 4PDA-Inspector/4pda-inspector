@@ -13,6 +13,7 @@ inspector4pda.cScript = {
 
 	defaultColor: [63, 81, 181, 255],
 	hasQmsColor: [76, 175, 80, 255],
+	logoutColor: [158, 158, 158, 255],
 
 	init: function(el)
 	{
@@ -27,7 +28,7 @@ inspector4pda.cScript = {
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData();
 
-		console.log('request', inspector4pda.vars.interval);
+		//console.log('request', inspector4pda.vars.interval);
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
@@ -67,7 +68,7 @@ inspector4pda.cScript = {
 			inspector4pda.cScript.clearData();
 			if (typeof callback == 'function') {
 				callback();
-			};
+			}
 		});
 	},
 
@@ -78,6 +79,9 @@ inspector4pda.cScript = {
 			inspector4pda.cScript.printLogout();
 			return;
 		}
+		chrome.browserAction.setIcon({
+			path: '/icons/icon_19.png'
+		});
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
@@ -99,14 +103,13 @@ inspector4pda.cScript = {
 	printLogout: function(unavailable)
 	{
 		chrome.browserAction.setBadgeText({ text: "logout" });
+		chrome.browserAction.setBadgeBackgroundColor({ color: this.logoutColor });
+		chrome.browserAction.setIcon({path: '/icons/icon_19_out.png'});
 
 		chrome.browserAction.setTitle({'title': unavailable?
 					inspector4pda.utils.getString("4PDA_Site Unavailable"):
 					inspector4pda.utils.getString("4PDA_offline")
 		});
-
-		console.log('print logout');
-		//TODO сменить иконку
 	},
 
 	checkNews: function () {

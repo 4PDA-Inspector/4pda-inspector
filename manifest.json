@@ -1,6 +1,6 @@
 {
 	"name": "4PDA Инспектор beta",
-	"version": "1.0",
+	"version": "1",
 	"description": "4PDA Инспектор",
 	"icons": {
 		"128":"icons/icon_128.png",
@@ -16,7 +16,7 @@
 	],
 	"browser_action": {
 		"default_title": "4PDA Инспектор",
-		"default_icon": "icons/icon_16.png",
+		"default_icon": "icons/icon_19.png",
 		"default_popup": "html/popup.html"
 	 },
 	"options_page": "html/options.html",

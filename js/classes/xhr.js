@@ -7,7 +7,7 @@ inspector4pda.XHR = function () {
 		not200Success: function(){}
 	};
 
-	this.timeoutTime = 5000;
+	this.timeoutTime = 10000;
 	
 	this.send = function(url) {
 
