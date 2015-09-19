@@ -4,7 +4,7 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.vars = {
 
-	interval: 10000,
+	interval: 10,
 	click_action: 1,
 	MMB_click_action: 3,
 	open_themes_limit: 0,
@@ -54,7 +54,7 @@ inspector4pda.vars = {
 
 	resetStorage: function()
 	{
-		this.getValue('interval', 10000, 1000);
+		this.getValue('interval', 10);
 		this.getValue('click_action', 1);
 		this.getValue('MMB_click_action', 3);
 		this.getValue('open_themes_limit', 0);
@@ -105,7 +105,11 @@ inspector4pda.vars = {
 	},
 
 	setValue: function(field, value) {
+		if (field == 'interval') {
+			value = Math.max( value, 5);
+		}
 		localStorage[field] = value;
+		//console.log(field, value);
 		this.resetStorage();
 		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
 			inspector4pda.cScript.request();
@@ -118,9 +122,6 @@ inspector4pda.vars = {
 		for (var i in self) {
 			if (['number', 'boolean', 'string'].indexOf(typeof self[i]) == -1 ) {
 				continue;
-			}
-			if (i == 'interval') {
-				self[i] = Math.max( self[i] / 1000, 1);
 			}
 			exp[i] = self[i];
 		}

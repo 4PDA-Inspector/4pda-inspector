@@ -147,7 +147,7 @@ popup = {
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');
-			noThemesLabel.setAttribute('value', inspector4pda.utils.getString('No unread topics'));
+			noThemesLabel.innerHTML = inspector4pda.utils.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}

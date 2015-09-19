@@ -9,6 +9,23 @@ inspector4pda.utils = {
 	firebugConsoleService: null,
 	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
+	translates: {
+		"4PDA Inspector": "4PDA Инспектор",
+		"No unread topics": "Непрочитанных тем нет",
+		"Mark As Read": "Пометить как прочитанное",
+		"New Message": "Новое сообщение",
+		"New Comment": "Новый комментарий",
+		"Unread Topics": "Непрочитанных тем",
+		"New Messages": "Новых сообщений",
+		"4PDA_online": "4PDA - В сети",
+		"Open Last Post": "Открыть последнее сообщение",
+		"4PDA_offline": "4PDA - Не в сети",
+		"4PDA_Site Unavailable": "4PDA - Сайт недоступен",
+		"You Are Not Authorized": "Вы не авторизованы",
+		"Remove From Favorites": "Удалить из избранного",
+		"Add To Favorites": "Добавить в избранное"
+	},
+
 	log: function(msg, json) {
 		/*if (this.consoleService == null) {
 			this.consoleService = Components.classes["@mozilla.org/consoleservice;1"]
@@ -71,7 +88,11 @@ inspector4pda.utils = {
 
 	getString: function(name) {
 
-		return name;
+		if (this.translates.hasOwnProperty(name)) {
+			return this.translates[name];
+		} else {
+			return name;
+		}
 		/*if (!inspector4pda.utils.stringBundle) {
 			this.setStringBundle();
 		};

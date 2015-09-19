@@ -32,7 +32,7 @@ inspector4pda.cScript = {
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
-		}, (interval || inspector4pda.vars.interval));
+		}, (interval || inspector4pda.vars.interval * 1000));
 	},
 
 	getData: function(callback)

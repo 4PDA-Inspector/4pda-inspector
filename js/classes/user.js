@@ -11,19 +11,19 @@ inspector4pda.user = {
             if (typeof notSuccessCallback == 'function') {
                 notSuccessCallback();
             }
-        }
+        };
         xmr.callback.not200Success = function() {
             inspector4pda.cScript.printLogout(true);
             if (typeof notSuccessCallback == 'function') {
                 notSuccessCallback();
             }
-        }
+        };
         xmr.callback.error = function() {
             inspector4pda.cScript.printLogout(true);
             if (typeof notSuccessCallback == 'function') {
                 notSuccessCallback();
             }
-        }
+        };
         xmr.callback.success = function(resp) {
 
             inspector4pda.user.clearData();
@@ -45,7 +45,7 @@ inspector4pda.user = {
             if (typeof successCallback == 'function') {
                 successCallback();
             }
-        }
+        };
         xmr.send(this.rUrl);
     },
 
@@ -58,4 +58,4 @@ inspector4pda.user = {
         var id = id || inspector4pda.user.id;
         inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id);
     }
-}
+};
