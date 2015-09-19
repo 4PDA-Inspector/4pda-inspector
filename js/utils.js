@@ -1,4 +1,4 @@
-if (typeof inspector4pda == "undefined") {
+﻿if (typeof inspector4pda == "undefined") {
 	var inspector4pda = {}
 }
 
