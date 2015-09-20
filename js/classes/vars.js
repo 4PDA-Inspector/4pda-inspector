@@ -36,14 +36,6 @@ inspector4pda.vars = {
 		if (typeof callback == 'function') {
 			callback();
 		}
-		/*chrome.extension.sendRequest({action: "getLocalStorage"}, function(localStorage) {
-			inspector4pda.vars.prefs = localStorage;
-			console.log('vars init finish', inspector4pda.vars.prefs);
-			//console.log('toolbar_pin_color', localStorage.toolbar_pin_color);
-			if (typeof callback == 'function') {
-				callback();
-			}
-		})*/
 	},
 
 	getPrefs: function()
@@ -105,8 +97,13 @@ inspector4pda.vars = {
 	},
 
 	setValue: function(field, value) {
-		if (field == 'interval') {
-			value = Math.max( value, 5);
+		switch (field) {
+			case 'interval':
+				value = Math.max( value, 5);
+				break;
+			case 'open_themes_limit':
+				value = Math.max( value, 0);
+				break;
 		}
 		localStorage[field] = value;
 		//console.log(field, value);

@@ -81,7 +81,7 @@ inspector4pda.themes = {
 
 		if (typeof callback == 'function') {
 			callback();
-		};
+		}
 	},
 
 	openLast: function(id) {
@@ -91,20 +91,20 @@ inspector4pda.themes = {
 
 	openAll: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
+		var themesIds = this.getSortedKeys();
 
-		var themesIds = this.getThemesIds();
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
 				break;
 			}
 			inspector4pda.themes.open(themesIds[i]);
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
 
 	openAllPin: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
-		var themesIds = this.getThemesIds();
+		var themesIds = this.getSortedKeys();
 		
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
@@ -114,22 +114,22 @@ inspector4pda.themes = {
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				inspector4pda.themes.open(themeId);
 			}
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
 
 	readAll: function() {
-		var themesIds = this.getThemesIds();
+		var themesIds = this.getSortedKeys();
 		for (var i = 0; i < themesIds.length; i++) {
 			inspector4pda.themes.read(themesIds[i]);
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
 
     openPage: function () {
         inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
     }
-}
+};
 
 var themeObj = {
 	id: 0,
