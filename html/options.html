@@ -1,7 +1,7 @@
-<html>
+﻿<html>
 <head>
 	<title>4PDA Инспектор - Настройки</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="/css/options.css">
 </head>
 <body>
@@ -22,10 +22,13 @@
 			<label><input type="checkbox" name="notification_popup">Включить всплывающие оповещения</label>
 			<br><br>
 			Громкость уведомления: <span id="inspector4pda_notificationSoundVolumeLabel"></span> <br>
-			<input type="range" name="notification_sound_volume" id="notification_sound_volume" min="0" max="1" step="0.05">
+			<input type="range" name="notification_sound_volume" id="notification_sound_volume" min="0" max="1" step="0.05" />
 		</p>
 
 		<h1>Всплывающая панель</h1>
+		<p>
+			<label><input type="checkbox" name="toolbar_opentheme_hide">Закрывать при открытии новой страницы (активировать новую вкладку)</label>
+		</p>
 		<h2>Закреплённые темы</h2>
 		<p>
 			<label><input type="checkbox" name="toolbar_pin_color">Выделять цветом</label><br>

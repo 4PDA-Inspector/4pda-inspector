@@ -27,11 +27,6 @@ inspector4pda.utils = {
 	},
 
 	log: function(msg, json) {
-		/*if (this.consoleService == null) {
-			this.consoleService = Components.classes["@mozilla.org/consoleservice;1"]
-				.getService(Components.interfaces.nsIConsoleService);
-		}*/
-
 		if (json)
 			msg = JSON.stringify(msg);
 		
@@ -44,8 +39,8 @@ inspector4pda.utils = {
 		for (var i = 0; i < parsed.length; i++) {
 			if (pq = parsed[i].match(/\"(.*)\"/)) {
 				parsed[i] = pq[1];
-			};
-		};
+			}
+		}
 		return parsed;
 	},
 
@@ -77,7 +72,10 @@ inspector4pda.utils = {
 	},
 
 	openPage: function(page) {
-		chrome.tabs.create({ url: page });
+		chrome.tabs.create({
+			url: page,
+			active: Boolean(inspector4pda.vars.toolbar_opentheme_hide)
+		});
 	},
 
 	setStringBundle: function() {
