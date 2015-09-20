@@ -37,40 +37,46 @@ popup = {
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
 			popup.bg.user.open();
+			this.checkOpenthemeHiding();
 		}, false);
 		
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.addEventListener("click", function () {
 			popup.bg.themes.openPage();
+			this.checkOpenthemeHiding();
 		}, false);
 
 		this.elements.qmsLabel = document.getElementById('panelQMSCount');
 		this.elements.qmsBox = document.getElementById('panelQMS');
 		this.elements.qmsBox.addEventListener("click", function () {
 			popup.bg.QMS.openPage();
+			this.checkOpenthemeHiding();
 		}, false);
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
 		this.elements.settingsLabel.addEventListener("click", function () {
-			popup.bg.utils.openPage('/html/options.html');
+			popup.bg.utils.openPage('/html/options.html', true);
 		}, false);
 
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
 		this.elements.openAllLabel.addEventListener('click', function() {
 			popup.bg.themes.openAll();
+			this.checkOpenthemeHiding();
 			popup.refresh();
 		}, false);
 		
 		this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
 		this.elements.openAllPinLabel.addEventListener('click', function() {
 			popup.bg.themes.openAllPin();
+			this.checkOpenthemeHiding();
 			popup.refresh();
 		}, false);
 		
 		this.elements.readAllLabel = document.getElementById('panelReadAll');
 		this.elements.readAllLabel.addEventListener('click', function() {
 			popup.bg.themes.readAll();
+			this.checkOpenthemeHiding();
 			popup.refresh();
 		}, false);
 
@@ -237,6 +243,13 @@ popup = {
 		}
 
 		return false;
+	},
+
+	checkOpenthemeHiding: function()
+	{
+		if (this.bg.vars.toolbar_opentheme_hide) {
+			window.close();
+		}
 	}
 }
 
