@@ -161,11 +161,11 @@ inspector4pda.cScript = {
 				var soundElement = document.getElementById("inspector4pda_sound");
 				soundElement.volume = inspector4pda.vars.notification_sound_volume;
 				soundElement.play();
-			};
+			}
 			if (inspector4pda.vars.notification_popup) {
 				inspector4pda.cScript.showNotifications();
-			};
-		};
+			}
+		}
 	},
 
 	showNotifications: function() {
@@ -184,7 +184,7 @@ inspector4pda.cScript = {
 				icon = "/icons/icon_80.png";
 		}
 
-		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id, {
+		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()), {
 			type: "basic",
 			title: currentNotification.body,
 			message: currentNotification.title,
