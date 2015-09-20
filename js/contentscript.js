@@ -15,6 +15,10 @@ inspector4pda.cScript = {
 	hasQmsColor: [76, 175, 80, 255],
 	logoutColor: [158, 158, 158, 255],
 
+	defaultIcon: '/icons/icon_19.png',
+	hasQmsIcon: '/icons/icon_19_green.png',
+	logoutIcon: '/icons/icon_19_out.png',
+
 	init: function(el)
 	{
 		inspector4pda.cScript.request();
@@ -79,20 +83,18 @@ inspector4pda.cScript = {
 			inspector4pda.cScript.printLogout();
 			return;
 		}
-		chrome.browserAction.setIcon({
-			path: '/icons/icon_19.png'
-		});
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
 		if (qCount) {
+			chrome.browserAction.setIcon({path: this.hasQmsIcon});
 			chrome.browserAction.setBadgeBackgroundColor({ color: this.hasQmsColor });
 		} else {
+			chrome.browserAction.setIcon({path: this.defaultIcon});
 			chrome.browserAction.setBadgeBackgroundColor({ color: this.defaultColor });
 		}
 
 		chrome.browserAction.setBadgeText({text: '' + tCount });
-		//chrome.browserAction.setBadgeText({text: qCount + '-' + tCount });
 
 		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") +
 			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
@@ -102,9 +104,9 @@ inspector4pda.cScript = {
 
 	printLogout: function(unavailable)
 	{
-		chrome.browserAction.setBadgeText({ text: "logout" });
+		chrome.browserAction.setBadgeText({ text: "login" });
 		chrome.browserAction.setBadgeBackgroundColor({ color: this.logoutColor });
-		chrome.browserAction.setIcon({path: '/icons/icon_19_out.png'});
+		chrome.browserAction.setIcon({path: this.logoutIcon});
 
 		chrome.browserAction.setTitle({'title': unavailable?
 					inspector4pda.utils.getString("4PDA_Site Unavailable"):
@@ -236,19 +238,6 @@ inspector4pda.cScript = {
 			id: 0
 		});
 		inspector4pda.cScript.showNotifications();
-	},
-
-	getPanelButton: function() {
-		if (!inspector4pda.cScript.button) {
-			inspector4pda.cScript.button = inspector4pda.cScript.winobj.getElementById('inspector4pda_button');
-		}
-		return inspector4pda.cScript.button;
-	},
-
-	setButtonImage: function(image) {
-		chrome.browserAction.setIcon({
-			imageData: image
-		});
 	}
 };
 
