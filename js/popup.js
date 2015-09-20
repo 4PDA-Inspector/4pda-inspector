@@ -25,11 +25,12 @@ popup = {
 	 */
 	bg: null,
 
-	init: function(data) {
+	init: function() {
 		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
 
 		if (!this.bg.user.id) {
-			this.bg.utils.openPage(this.urls.login);
+			this.bg.utils.openPage(this.urls.login, true);
+			window.close();
 			return false;
 		}
 		

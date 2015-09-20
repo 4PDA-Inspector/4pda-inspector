@@ -71,10 +71,13 @@ inspector4pda.utils = {
 		return string;
 	},
 
-	openPage: function(page) {
+	openPage: function(page, setActive) {
+
+		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
+
 		chrome.tabs.create({
 			url: page,
-			active: Boolean(inspector4pda.vars.toolbar_opentheme_hide)
+			active: setActive
 		});
 	},
 
