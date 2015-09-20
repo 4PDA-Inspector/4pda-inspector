@@ -94,7 +94,7 @@ inspector4pda.cScript = {
 			chrome.browserAction.setBadgeBackgroundColor({ color: this.defaultColor });
 		}
 
-		chrome.browserAction.setBadgeText({text: '' + tCount });
+		chrome.browserAction.setBadgeText({text: (tCount ? tCount + '' : '') });
 
 		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") +
 			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
