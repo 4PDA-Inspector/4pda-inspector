@@ -19,6 +19,9 @@ inspector4pda.cScript = {
 	hasQmsIcon: '/icons/icon_19_green.png',
 	logoutIcon: '/icons/icon_19_out.png',
 
+	notificationIcon: "/icons/icon_80.png",
+	notificationOutIcon: "/icons/icon_80_out.png",
+
 	init: function(el)
 	{
 		inspector4pda.cScript.request();
@@ -178,21 +181,20 @@ inspector4pda.cScript = {
 		var icon;
 		switch (currentNotification.type) {
 			case "info_SiteUnavailable":
-				icon = "/icons/icon_80_out.png";
+				icon = this.notificationOutIcon;
 				break;
 			default:
-				icon = "/icons/icon_80.png";
+				icon = this.notificationIcon;
 		}
 
 		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()), {
 			type: "basic",
 			title: currentNotification.body,
 			message: currentNotification.title,
-			iconUrl: icon,
+			//iconUrl: icon,
+			iconUrl: 'chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + icon,
 			isClickable: true
 		});
-
-		chrome.notifications.onClicked.addListener(function () {});
 
 		setTimeout(function() {
 			inspector4pda.cScript.showNotifications();
