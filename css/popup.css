@@ -1,5 +1,6 @@
 body {
-	font-family: sans-serif;
+	/*font-family: sans-serif;*/
+	font-size: 13px;
 	color: #3F51B5;
 }
 
@@ -132,7 +133,7 @@ body {
 
 #themesList .oneTheme_caption {
 	color: #3F51B5;
-	font-size: 12px;
+	font-size: 13px;
 	margin: 0;
 	display: block;
 }
@@ -144,7 +145,7 @@ body {
 }
 
 #themesList .oneTheme_pin {
-	color: #558B2F;
+	color: #43a047;
 }
 #themesList .oneTheme_pin:hover {
 	color: #8BC34A;

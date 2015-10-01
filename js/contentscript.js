@@ -20,7 +20,11 @@ inspector4pda.cScript = {
 	logoutIcon: '/icons/icon_19_out.png',
 
 	notificationIcon: "/icons/icon_80.png",
+	notificationQMSIcon: "/icons/icon_80_message.png",
+	notificationThemeIcon: "/icons/icon_80_favorite.png",
 	notificationOutIcon: "/icons/icon_80_out.png",
+
+	systemMessagesTitle: "Сообщения 4PDA",
 
 	init: function(el)
 	{
@@ -125,7 +129,7 @@ inspector4pda.cScript = {
 		}
 
 		for (var i in inspector4pda.QMS.list) {
-			var addNot = false
+			var addNot = false;
 			if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
 				addNot = true;
 			} else {
@@ -137,11 +141,8 @@ inspector4pda.cScript = {
 			if (addNot) {
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.utils.getString('New Message'),
-					body: inspector4pda.QMS.list[i].opponent_id?
-							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) +
-							' (' + inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ')':
-							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title),
+					title: parseInt(inspector4pda.QMS.list[i].opponent_id) ? inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) : this.systemMessagesTitle,
+					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')',
 					type: 'qms',
 					id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
 				});
@@ -152,8 +153,8 @@ inspector4pda.cScript = {
 			if (typeof inspector4pda.cScript.prevData.themes[i] == 'undefined') {
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.utils.getString('New Comment'),
-					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
+					title: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
+					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].last_user_name),
 					type: 'theme',
 					id: i
 				});
@@ -183,15 +184,20 @@ inspector4pda.cScript = {
 			case "info_SiteUnavailable":
 				icon = this.notificationOutIcon;
 				break;
+			case "theme":
+				icon = this.notificationThemeIcon;
+				break;
+			case "qms":
+				icon = this.notificationQMSIcon;
+				break;
 			default:
 				icon = this.notificationIcon;
 		}
 
 		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()), {
 			type: "basic",
-			title: currentNotification.body,
-			message: currentNotification.title,
-			//iconUrl: icon,
+			title: currentNotification.title,
+			message: currentNotification.body,
 			iconUrl: 'chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + icon,
 			isClickable: true
 		});
