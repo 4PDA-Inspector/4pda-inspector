@@ -39,8 +39,8 @@ inspector4pda.QMS = {
         inspector4pda.QMS.unreadCount = inspector4pda.QMS.count.dialogs;
     },
 
-    openChat: function(dialogID, themeID) {
-        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''));
+    openChat: function(dialogID, themeID, setActive) {
+        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''), setActive);
         if (themeID) {
             delete inspector4pda.QMS.list[themeID];
         };

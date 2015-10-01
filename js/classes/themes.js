@@ -68,8 +68,8 @@ inspector4pda.themes = {
 		return keysSorted;
 	},
 
-	open: function(id) {
-		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
+	open: function(id, setActive) {
+		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
 		delete inspector4pda.themes.list[id];
 	},
 
