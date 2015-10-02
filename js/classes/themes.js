@@ -54,8 +54,9 @@ inspector4pda.themes = {
 		}
 	},
 
-	getSortedKeys: function() {
+	getSortedKeys: function(sort_by_acs) {
 		var list = inspector4pda.themes.list;
+		var sort = sort_by_acs ? -1 : 1;
 		keysSorted = Object.keys(list).sort(function(a,b){
 			if (inspector4pda.vars.toolbar_pin_up) {
 				var pinDef = list[b].pin - list[a].pin;
@@ -63,7 +64,7 @@ inspector4pda.themes = {
 					return pinDef;
 				}
 			}
-			return  list[b].last_post_ts - list[a].last_post_ts;
+			return  (list[b].last_post_ts - list[a].last_post_ts)*sort;
 		});
 		return keysSorted;
 	},
@@ -76,12 +77,14 @@ inspector4pda.themes = {
 	read: function(id, callback) {
 		var xmr = new inspector4pda.XHR();
 
+		xmr.callback.success = function () {
+			if (typeof callback == 'function') {
+				callback();
+			}
+		};
+
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
 		delete inspector4pda.themes.list[id];
-
-		if (typeof callback == 'function') {
-			callback();
-		}
 	},
 
 	openLast: function(id) {
@@ -91,7 +94,7 @@ inspector4pda.themes = {
 
 	openAll: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
-		var themesIds = this.getSortedKeys();
+		var themesIds = this.getSortedKeys(true);
 
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {

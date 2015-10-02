@@ -14,8 +14,8 @@ inspector4pda.QMS = {
             inspector4pda.QMS.parse(resp.responseText);
             if (callback) {
                 callback();
-            };
-        }
+            }
+        };
         xmr.send(inspector4pda.QMS.rUrl);
     },
 

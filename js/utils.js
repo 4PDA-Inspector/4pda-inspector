@@ -71,14 +71,14 @@ inspector4pda.utils = {
 		return string;
 	},
 
-	openPage: function(page, setActive) {
+	openPage: function(page, setActive, callback) {
 
 		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
 
 		chrome.tabs.create({
 			url: page,
 			active: setActive
-		});
+		}, callback);
 	},
 
 	setStringBundle: function() {
