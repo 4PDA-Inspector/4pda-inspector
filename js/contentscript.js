@@ -1,7 +1,5 @@
 inspector4pda.cScript = {
 
-	winobj: null,
-	button: null,
 	updateTimer: 0,
 	prevData: {
 		themes: {},
@@ -38,8 +36,6 @@ inspector4pda.cScript = {
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData();
-
-		//console.log('request', inspector4pda.vars.interval);
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
@@ -85,7 +81,6 @@ inspector4pda.cScript = {
 
 	printCount: function()
 	{
-		// http://chrome-ext.blogspot.ru/2014/02/browser-actions.html
 		if (!inspector4pda.user.id) {
 			inspector4pda.cScript.printLogout();
 			return;
@@ -146,7 +141,7 @@ inspector4pda.cScript = {
 					type: 'qms',
 					id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
 				});
-			};
+			}
 		}
 
 		for (var i in inspector4pda.themes.list) {

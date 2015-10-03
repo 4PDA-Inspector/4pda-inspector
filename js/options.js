@@ -49,3 +49,9 @@ document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML 
 document.getElementById('notification_sound_volume').addEventListener('input', function() {
     document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(this.value * 100) + '%';
 });
+
+document.getElementById('notification_popup').addEventListener('change', function() {
+    if (this.checked) {
+        inspector4pda.browser.showNotification();
+    }
+});

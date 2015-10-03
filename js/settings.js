@@ -46,6 +46,6 @@ inspector4pda.settings = {
 						}
 					} )
 			}
-		};
+		}
 	}
-}
+};
