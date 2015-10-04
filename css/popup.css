@@ -26,11 +26,11 @@ body {
 	cursor: pointer;
 	margin: 0 10px 0 0;
 	font-size: 18px;
+	vertical-align: middle;
 }
 
 #mainPanel .icon {
 	display: inline-block;
-	/*margin: 2px 2px 0 0;*/
 	height: 16px;
 	width: 16px;
 	background-image: url(/img/icons1.png);
@@ -73,7 +73,7 @@ body {
 	text-align: center;
 }
 #massThemesActions > span.icon {
-	margin: 0 5px 0 0;
+	margin: 3px 5px 0 0;
 	width: 22px;
 }
 #panelOpenAll {
@@ -106,9 +106,8 @@ body {
 	margin-left: 10px;
 }
 
-#panelUsername {
-	font-size: 16px;
-	margin: 0 5px 0 0;
+#mainPanel > div > #panelUsername {
+	margin: -4px 5px 0 0;
 }
 
 /***************** THEMES LIST *****************/
