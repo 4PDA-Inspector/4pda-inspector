@@ -32,7 +32,7 @@ inspector4pda.vars = {
 	prefs: {},
 
 	init: function(callback) {
-		inspector4pda.vars.prefs = localStorage;
+		inspector4pda.vars.prefs = inspector4pda.browser.getVarsStorageObject();
 		if (typeof callback == 'function') {
 			callback();
 		}
@@ -105,8 +105,7 @@ inspector4pda.vars = {
 				value = Math.max( value, 0);
 				break;
 		}
-		localStorage[field] = value;
-		//console.log(field, value);
+		inspector4pda.browser.setVarToStorage(field, value);
 		this.resetStorage();
 		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
 			inspector4pda.cScript.request();

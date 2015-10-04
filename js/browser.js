@@ -104,6 +104,14 @@ inspector4pda.browser = {
             url: page,
             active: setActive
         }, callback);
+    },
+
+    getVarsStorageObject: function() {
+        return localStorage;
+    },
+
+    setVarToStorage: function(field, value) {
+        localStorage[field] = value;
     }
 
 };

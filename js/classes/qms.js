@@ -43,11 +43,10 @@ inspector4pda.QMS = {
         inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''), setActive);
         if (themeID) {
             delete inspector4pda.QMS.list[themeID];
-        };
+        }
     },
 
-    getCount: function()
-    {
+    getCount: function() {
         this.unreadCount = Object.keys(inspector4pda.QMS.list).length;
         return this.unreadCount;
     },
@@ -55,7 +54,7 @@ inspector4pda.QMS = {
     openPage: function () {
         inspector4pda.utils.openPage(inspector4pda.QMS.vUrl);
     }
-}
+};
 
 var qDialog = {
     id: 0,
@@ -81,4 +80,4 @@ var qDialog = {
         }
         return this;
     }
-}
+};

@@ -21,21 +21,21 @@ inspector4pda.XHR = function () {
 					self.callback.not200Success(req);
 				}
 			}
-		}
+		};
 
 		req.onerror = function() {
 			self.callback.error();
-		}
+		};
 
 		if (self.timeoutTime) {
 			req.timeout = self.timeoutTime;
 			req.ontimeout = function () {
 				self.callback.timeout();
 			}
-		};
+		}
 
 		req.open("GET", url, true);
 		req.send(null);
 	};
 
-}
+};
