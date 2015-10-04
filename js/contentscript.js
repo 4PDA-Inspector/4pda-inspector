@@ -133,7 +133,7 @@ inspector4pda.cScript = {
 		}
 
 		for (var j in inspector4pda.themes.list) {
-			if (typeof inspector4pda.cScript.prevData.themes[j] == 'undefined') {
+			if (typeof inspector4pda.cScript.prevData.themes[j] == 'undefined' && (inspector4pda.themes.list[j].last_user_id != inspector4pda.user.id)) {
 				hasNews = true;
 				inspector4pda.cScript.addNotification(
 					j,
