@@ -41,19 +41,30 @@ inspector4pda.browser = {
             id: '4pdainspector_test_' + (new Date().getTime()),
             title: this.getString("4PDA Inspector"),
             message: 'Оповещения успешно включены',
-            iconUrl: inspector4pda.cScript.notificationIcon,
-            isClickable: false
+            iconUrl: "/icons/icon_80.png"
         };
 
-        params = Object.assign(defaultParams, params);
+        params = this.mergeObjects(defaultParams, params);
 
         chrome.notifications.create(params.id, {
             type: "basic",
             title: params.title,
             message: params.message,
             iconUrl: 'chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + params.iconUrl,
-            isClickable: params.isClickable
+            isClickable: true
         });
+    },
+
+    mergeObjects: function(ar1, ar2) {
+        if (typeof Object.assign != 'function') {
+            Object.prototype.assign = function(ar1, ar2) {
+                for (var i in ar2) {
+                    ar1[i] = ar2[i];
+                }
+                return ar1;
+            };
+        }
+        return Object.assign(ar1, ar2)
     },
 
     setButtonIcon: function(icon) {

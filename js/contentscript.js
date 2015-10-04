@@ -122,7 +122,7 @@ inspector4pda.cScript = {
 			if (addNot) {
 				hasNews = true;
 				inspector4pda.cScript.addNotification(
-					inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id,
+					inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id + '_' + inspector4pda.QMS.list[i].last_msg_ts,
 					'qms',
 					parseInt(inspector4pda.QMS.list[i].opponent_id) ?
 						inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) :
@@ -161,6 +161,7 @@ inspector4pda.cScript = {
 
 		var icon;
 		var notificationId = "4pdainspector_" + type + '_' + id;
+
 		switch (type) {
 			case this.systemNotificationErrorType:
 				icon = this.notificationOutIcon;
@@ -172,7 +173,6 @@ inspector4pda.cScript = {
 				break;
 			case "qms":
 				icon = this.notificationQMSIcon;
-				notificationId += '_' + inspector4pda.QMS.list[id].last_msg_ts;
 				break;
 			default:
 				icon = this.notificationIcon;
@@ -183,7 +183,7 @@ inspector4pda.cScript = {
 			title: title,
 			body: message,
 			type: type,
-			id: id,
+			id: notificationId,
 			icon: icon
 		});
 	},
@@ -219,8 +219,6 @@ inspector4pda.cScript = {
 			inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])), true);
 		} else if (tagData[1] == 'theme') {
 			inspector4pda.themes.open(parseInt(tagData[2]), true);
-		} else {
-			this.cancel();
 		}
 		inspector4pda.cScript.printCount();
 	},
