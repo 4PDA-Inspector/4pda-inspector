@@ -179,3 +179,7 @@ body {
 #themesList .oneTheme_markAsRead:hover {
 	background-position: -124px -16px;
 }
+
+#themesList .oneTheme_markAsRead.loading {
+	background: url("/img/ajax-loader.gif");
+}

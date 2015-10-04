@@ -196,7 +196,7 @@ inspector4pda.cScript = {
 		var currentNotification = inspector4pda.cScript.notifications.shift();
 
 		inspector4pda.browser.showNotification({
-			id: "4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()),
+			id: currentNotification.id,
 			title: currentNotification.title,
 			message: currentNotification.body,
 			iconUrl: currentNotification.icon,

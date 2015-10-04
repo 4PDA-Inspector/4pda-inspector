@@ -186,10 +186,10 @@ popup = {
 		readImage.addEventListener("click", function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
-			current.style.opacity = '0.5';
-			
+			current.classList.add('loading');
+
 			popup.bg.themes.read(dataTheme, function() {
-				current.style.opacity = '';
+				current.classList.remove('loading');
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
 				popup.bg.cScript.printCount();
 				popup.printCount();
