@@ -26,8 +26,8 @@ inspector4pda.cScript = {
 
 	init: function(el)
 	{
+		inspector4pda.browser.csInit();
 		inspector4pda.cScript.request();
-		chrome.notifications.onClicked.addListener(inspector4pda.cScript.notificationClick);
 	},
 
 	request: function(interval)
@@ -88,32 +88,17 @@ inspector4pda.cScript = {
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
 
-		if (qCount) {
-			chrome.browserAction.setIcon({path: this.hasQmsIcon});
-			chrome.browserAction.setBadgeBackgroundColor({ color: this.hasQmsColor });
-		} else {
-			chrome.browserAction.setIcon({path: this.defaultIcon});
-			chrome.browserAction.setBadgeBackgroundColor({ color: this.defaultColor });
-		}
-
-		chrome.browserAction.setBadgeText({text: (tCount ? tCount + '' : '') });
-
-		chrome.browserAction.setTitle({'title': inspector4pda.utils.getString("4PDA_online") +
-			'\n' + inspector4pda.utils.getString("Unread Topics") + ': ' + tCount + 
-			'\n' + inspector4pda.utils.getString("New Messages") + ': ' + qCount
-		});
+		inspector4pda.browser.printCount(qCount, tCount);
 	},
 
 	printLogout: function(unavailable)
 	{
-		chrome.browserAction.setBadgeText({ text: "login" });
-		chrome.browserAction.setBadgeBackgroundColor({ color: this.logoutColor });
-		chrome.browserAction.setIcon({path: this.logoutIcon});
+		var iBrowser = inspector4pda.browser;
 
-		chrome.browserAction.setTitle({'title': unavailable?
-					inspector4pda.utils.getString("4PDA_Site Unavailable"):
-					inspector4pda.utils.getString("4PDA_offline")
-		});
+		iBrowser.setBadgeText('login');
+		iBrowser.setBadgeBackgroundColor(this.logoutColor);
+		iBrowser.setButtonIcon(this.logoutIcon);
+		iBrowser.setTitle( iBrowser.getString( unavailable ? "4PDA_Site Unavailable" : "4PDA_offline" ) );
 	},
 
 	checkNews: function () {
@@ -144,22 +129,20 @@ inspector4pda.cScript = {
 			}
 		}
 
-		for (var i in inspector4pda.themes.list) {
-			if (typeof inspector4pda.cScript.prevData.themes[i] == 'undefined') {
+		for (var j in inspector4pda.themes.list) {
+			if (typeof inspector4pda.cScript.prevData.themes[j] == 'undefined') {
 				hasNews = true;
 				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].title),
-					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[i].last_user_name),
+					title: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].title),
+					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].last_user_name),
 					type: 'theme',
-					id: i
+					id: j
 				});
 			}
 		}
 		if (hasNews) {
 			if (inspector4pda.vars.notification_sound) {
-				var soundElement = document.getElementById("inspector4pda_sound");
-				soundElement.volume = inspector4pda.vars.notification_sound_volume;
-				soundElement.play();
+				inspector4pda.browser.playNotificationSound();
 			}
 			if (inspector4pda.vars.notification_popup) {
 				inspector4pda.cScript.showNotifications();
@@ -189,11 +172,11 @@ inspector4pda.cScript = {
 				icon = this.notificationIcon;
 		}
 
-		chrome.notifications.create("4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()), {
-			type: "basic",
+		inspector4pda.browser.showNotification({
+			id: "4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()),
 			title: currentNotification.title,
 			message: currentNotification.body,
-			iconUrl: 'chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + icon,
+			iconUrl: icon,
 			isClickable: true
 		});
 
@@ -206,7 +189,6 @@ inspector4pda.cScript = {
 		var tagData = tag.split('_');
 
 		if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
-			//ulog(tag);
 			return false;
 		}
 
@@ -221,6 +203,7 @@ inspector4pda.cScript = {
 	},
 
 	settingsAccept: function() {
+		// Chrome - TODO
 		inspector4pda.cScript.request();
 	},
 
@@ -235,8 +218,8 @@ inspector4pda.cScript = {
 		}
 
 		inspector4pda.cScript.notifications.push({
-			title: inspector4pda.utils.getString('4PDA Inspector'),
-			body: inspector4pda.utils.getString('4PDA_Site Unavailable'),
+			title: inspector4pda.browser.getString('4PDA Inspector'),
+			body: inspector4pda.browser.getString('4PDA_Site Unavailable'),
 			type: 'info_SiteUnavailable',
 			id: 0
 		});

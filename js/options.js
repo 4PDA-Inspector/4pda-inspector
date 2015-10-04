@@ -1,6 +1,3 @@
-/**
- * @var inspector4pda
- */
 var bg = chrome.extension.getBackgroundPage().inspector4pda;
 var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
 
@@ -21,8 +18,6 @@ for (var i = 0; i < inputs.length; i++) {
         }
     });
 }
-
-//console.log(bg.vars);
 
 function printValues() {
     var vars = bg.vars.getAll();

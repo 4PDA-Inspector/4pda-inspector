@@ -4,33 +4,14 @@
 
 inspector4pda.utils = {
 	
-	consoleService: null,
-	stringBundle: null,
-	firebugConsoleService: null,
 	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
-	translates: {
-		"4PDA Inspector": "4PDA Инспектор",
-		"No unread topics": "Непрочитанных тем нет",
-		"Mark As Read": "Пометить как прочитанное",
-		"New Message": "Новое сообщение",
-		"New Comment": "Новый комментарий",
-		"Unread Topics": "Непрочитанных тем",
-		"New Messages": "Новых сообщений",
-		"4PDA_online": "4PDA - В сети",
-		"Open Last Post": "Открыть последнее сообщение",
-		"4PDA_offline": "4PDA - Не в сети",
-		"4PDA_Site Unavailable": "4PDA - Сайт недоступен",
-		"You Are Not Authorized": "Вы не авторизованы",
-		"Remove From Favorites": "Удалить из избранного",
-		"Add To Favorites": "Добавить в избранное"
-	},
-
 	log: function(msg, json) {
-		if (json)
+		if (json) {
 			msg = JSON.stringify(msg);
-		
-		console.log(msg);
+		}
+
+		inspector4pda.browser.log(msg);
 	},
 
 	parse: function(str) {
@@ -42,15 +23,6 @@ inspector4pda.utils = {
 			}
 		}
 		return parsed;
-	},
-
-	checkNotificationSupport: function() {
-		try {
-			Notification.permission;
-			return true;
-		} catch(e) {
-			return false;
-		}
 	},
 
 	htmlspecialcharsdecode: function (string)
@@ -72,37 +44,8 @@ inspector4pda.utils = {
 	},
 
 	openPage: function(page, setActive, callback) {
-
 		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
-
-		chrome.tabs.create({
-			url: page,
-			active: setActive
-		}, callback);
-	},
-
-	setStringBundle: function() {
-		inspector4pda.utils.stringBundle = (typeof Services == 'object')
-			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
-			: null
-	},
-
-	getString: function(name) {
-
-		if (this.translates.hasOwnProperty(name)) {
-			return this.translates[name];
-		} else {
-			return name;
-		}
-		/*if (!inspector4pda.utils.stringBundle) {
-			this.setStringBundle();
-		};
-
-		if (inspector4pda.utils.stringBundle) {
-			return inspector4pda.utils.stringBundle.GetStringFromName(name);
-		} else {
-			return name;
-		}*/
+		inspector4pda.browser.openPage(page, setActive, callback);
 	}
 };
 

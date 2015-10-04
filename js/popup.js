@@ -20,9 +20,6 @@ popup = {
 		login: 'http://4pda.ru/forum/index.php?act=login'
 	},
 
-	/**
-	 * @var inspector4pda
-	 */
 	bg: null,
 
 	init: function() {
@@ -154,7 +151,7 @@ popup = {
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');
-			noThemesLabel.innerHTML = inspector4pda.utils.getString('No unread topics');
+			noThemesLabel.innerHTML = inspector4pda.browser.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}
@@ -185,7 +182,7 @@ popup = {
 		var readImage = document.createElement('span');
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		readImage.setAttribute('tooltiptext', inspector4pda.utils.getString('Mark As Read'));
+		readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
 		readImage.addEventListener("click", function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
@@ -209,7 +206,7 @@ popup = {
 			var lastPostLabel = document.createElement('span');
 			lastPostLabel.innerHTML = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
-			lastPostLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open Last Post'));
+			lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
 			lastPostLabel.addEventListener("click", function () {
 				popup.bg.themes.openLast(theme.id);
 				popup.bg.cScript.printCount();
