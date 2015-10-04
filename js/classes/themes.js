@@ -15,7 +15,14 @@ inspector4pda.themes = {
 	},
 
 	getThemesIds: function() {
-		return Object.keys(inspector4pda.themes.list);
+		var ids = [];
+		for (var id in inspector4pda.themes.list) {
+			if (!inspector4pda.themes.list[id].isRead()) {
+				ids.push(id);
+			}
+		}
+
+		return ids;
 	},
 
 	getCount: function() {
@@ -28,6 +35,9 @@ inspector4pda.themes = {
 		
 		for (var i = 0; i < themesIds.length; i++) {
 			var themeId = themesIds[i];
+			if (inspector4pda.themes.list[themeId].isRead()) {
+				continue;
+			}
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				count++;
 			}
@@ -55,7 +65,7 @@ inspector4pda.themes = {
 	getSortedKeys: function(sort_by_acs) {
 		var list = inspector4pda.themes.list;
 		var sort = sort_by_acs ? -1 : 1;
-		var keysSorted = Object.keys(list).sort(function(a,b){
+		var keysSorted = inspector4pda.themes.getThemesIds().sort(function(a,b){
 			if (inspector4pda.vars.toolbar_pin_up) {
 				var pinDef = list[b].pin - list[a].pin;
 				if (pinDef !== 0) {
@@ -69,7 +79,7 @@ inspector4pda.themes = {
 
 	open: function(id, setActive) {
 		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
-		delete inspector4pda.themes.list[id];
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	read: function(id, callback) {
@@ -80,12 +90,12 @@ inspector4pda.themes = {
 			}
 		};
 		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
-		delete inspector4pda.themes.list[id];
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	openLast: function(id) {
 		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
-		delete inspector4pda.themes.list[id];
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	openAll: function() {
@@ -141,6 +151,7 @@ var themeObj = {
 	last_post_ts: '',
 	last_read_ts: '',
 	pin: false,
+	read: false,
 
 	parse: function(text) {
 		try {
@@ -148,15 +159,24 @@ var themeObj = {
 			this.id = obj[0];
 			this.title = obj[1];
 			this.posts_num = obj[2];
-			this.last_user_id = obj[3];
+			this.last_user_id = parseInt(obj[3]);
 			this.last_user_name = obj[4];
-			this.last_post_ts = obj[5];
-			this.last_read_ts = obj[6];
+			this.last_post_ts = parseInt(obj[5]);
+			this.last_read_ts = parseInt(obj[6]);
 			this.pin = parseInt(obj[7]);
+			this.read = false;
 		} catch(e) {
 			return false;
 		}
 		return this;
+	},
+
+	isRead: function() {
+		return this.read;
+	},
+
+	setRead: function() {
+		this.read = true;
 	},
 
 	isPin: function() {

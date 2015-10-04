@@ -31,12 +31,12 @@ inspector4pda.cScript = {
 		inspector4pda.cScript.request();
 	},
 
-	request: function(interval)
+	request: function(interval, callback)
 	{
 		inspector4pda.vars.getPrefs();
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
-		inspector4pda.cScript.getData();
+		inspector4pda.cScript.getData(callback);
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
@@ -133,13 +133,20 @@ inspector4pda.cScript = {
 		}
 
 		for (var j in inspector4pda.themes.list) {
-			if (typeof inspector4pda.cScript.prevData.themes[j] == 'undefined' && (inspector4pda.themes.list[j].last_user_id != inspector4pda.user.id)) {
+			var prevTheme = inspector4pda.cScript.prevData.themes[j];
+			var newTheme = inspector4pda.themes.list[j];
+
+			if (
+				(typeof prevTheme == 'undefined' ||
+					(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
+				&& (newTheme.last_user_id != inspector4pda.user.id)
+			) {
 				hasNews = true;
 				inspector4pda.cScript.addNotification(
 					j,
 					'theme',
-					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].title),
-					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].last_user_name)
+					inspector4pda.utils.htmlspecialcharsdecode(newTheme.title),
+					inspector4pda.utils.htmlspecialcharsdecode(newTheme.last_user_name)
 				);
 			}
 		}
