@@ -22,7 +22,8 @@ inspector4pda.cScript = {
 	notificationThemeIcon: "/icons/icon_80_favorite.png",
 	notificationOutIcon: "/icons/icon_80_out.png",
 
-	systemMessagesTitle: "Сообщения 4PDA",
+	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
+	systemNotificationErrorType: 'site_unavailable',
 
 	init: function(el)
 	{
@@ -113,31 +114,33 @@ inspector4pda.cScript = {
 			if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
 				addNot = true;
 			} else {
-				if (inspector4pda.cScript.prevData.QMS[i].unread_msgs < inspector4pda.QMS.list[i].unread_msgs) {
+				if (inspector4pda.cScript.prevData.QMS[i].last_msg_ts < inspector4pda.QMS.list[i].last_msg_ts) {
 					addNot = true;
 				}
 			}
 
 			if (addNot) {
 				hasNews = true;
-				inspector4pda.cScript.notifications.push({
-					title: parseInt(inspector4pda.QMS.list[i].opponent_id) ? inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) : this.systemMessagesTitle,
-					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')',
-					type: 'qms',
-					id: inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id
-				});
+				inspector4pda.cScript.addNotification(
+					inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id,
+					'qms',
+					parseInt(inspector4pda.QMS.list[i].opponent_id) ?
+						inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) :
+						this.systemNotificationTitle,
+					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')'
+				);
 			}
 		}
 
 		for (var j in inspector4pda.themes.list) {
 			if (typeof inspector4pda.cScript.prevData.themes[j] == 'undefined') {
 				hasNews = true;
-				inspector4pda.cScript.notifications.push({
-					title: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].title),
-					body: inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].last_user_name),
-					type: 'theme',
-					id: j
-				});
+				inspector4pda.cScript.addNotification(
+					j,
+					'theme',
+					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].title),
+					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.themes.list[j].last_user_name)
+				);
 			}
 		}
 		if (hasNews) {
@@ -150,6 +153,41 @@ inspector4pda.cScript = {
 		}
 	},
 
+	addNotification: function(id, type, title, message) {
+
+		if (!inspector4pda.vars.notification_popup) {
+			return false;
+		}
+
+		var icon;
+		var notificationId = "4pdainspector_" + type + '_' + id;
+		switch (type) {
+			case this.systemNotificationErrorType:
+				icon = this.notificationOutIcon;
+				notificationId += '_' + (new Date().getTime());
+				break;
+			case "theme":
+				icon = this.notificationThemeIcon;
+				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
+				break;
+			case "qms":
+				icon = this.notificationQMSIcon;
+				notificationId += '_' + inspector4pda.QMS.list[id].last_msg_ts;
+				break;
+			default:
+				icon = this.notificationIcon;
+				notificationId += '_' + (new Date().getTime());
+		}
+
+		inspector4pda.cScript.notifications.push({
+			title: title,
+			body: message,
+			type: type,
+			id: id,
+			icon: icon
+		});
+	},
+
 	showNotifications: function() {
 		if (!inspector4pda.cScript.notifications.length) {
 			return false;
@@ -157,26 +195,11 @@ inspector4pda.cScript = {
 
 		var currentNotification = inspector4pda.cScript.notifications.shift();
 
-		var icon;
-		switch (currentNotification.type) {
-			case "info_SiteUnavailable":
-				icon = this.notificationOutIcon;
-				break;
-			case "theme":
-				icon = this.notificationThemeIcon;
-				break;
-			case "qms":
-				icon = this.notificationQMSIcon;
-				break;
-			default:
-				icon = this.notificationIcon;
-		}
-
 		inspector4pda.browser.showNotification({
 			id: "4pdainspector_" + currentNotification.type + '_' + currentNotification.id + '_' + (new Date().getTime()),
 			title: currentNotification.title,
 			message: currentNotification.body,
-			iconUrl: icon,
+			iconUrl: currentNotification.icon,
 			isClickable: true
 		});
 
@@ -212,17 +235,12 @@ inspector4pda.cScript = {
 	},
 
 	siteUnavailableNotification: function() {
-
-		if (!inspector4pda.vars.notification_popup) {
-			return false;
-		}
-
-		inspector4pda.cScript.notifications.push({
-			title: inspector4pda.browser.getString('4PDA Inspector'),
-			body: inspector4pda.browser.getString('4PDA_Site Unavailable'),
-			type: 'info_SiteUnavailable',
-			id: 0
-		});
+		inspector4pda.cScript.addNotification(
+			0,
+			this.systemNotificationErrorType,
+			inspector4pda.browser.getString('4PDA Inspector'),
+			inspector4pda.browser.getString('4PDA_Site Unavailable')
+		);
 		inspector4pda.cScript.showNotifications();
 	}
 };

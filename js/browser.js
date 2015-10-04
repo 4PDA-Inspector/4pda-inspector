@@ -18,7 +18,8 @@ inspector4pda.browser = {
         "4PDA_Site Unavailable": "4PDA - Сайт недоступен",
         "You Are Not Authorized": "Вы не авторизованы",
         "Remove From Favorites": "Удалить из избранного",
-        "Add To Favorites": "Добавить в избранное"
+        "Add To Favorites": "Добавить в избранное",
+        "4PDA Messages":    "Сообщения 4PDA"
     },
 
     getString: function(name) {
@@ -38,9 +39,9 @@ inspector4pda.browser = {
 
         var defaultParams = {
             id: '4pdainspector_test_' + (new Date().getTime()),
-            title: '4PDA Инспектор',
+            title: this.getString("4PDA Inspector"),
             message: 'Оповещения успешно включены',
-            iconUrl: '/icons/icon_80.png',
+            iconUrl: inspector4pda.cScript.notificationIcon,
             isClickable: false
         };
 
