@@ -56,6 +56,6 @@ inspector4pda.user = {
 
     open: function(id) {
         id = id || inspector4pda.user.id;
-        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id);
+        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id, true);
     }
 };

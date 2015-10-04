@@ -52,7 +52,7 @@ inspector4pda.QMS = {
     },
 
     openPage: function () {
-        inspector4pda.utils.openPage(inspector4pda.QMS.vUrl);
+        inspector4pda.utils.openPage(inspector4pda.QMS.vUrl, true);
     }
 };
 

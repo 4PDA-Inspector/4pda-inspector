@@ -101,10 +101,25 @@ inspector4pda.browser = {
     },
 
     openPage: function(page, setActive, callback) {
-        chrome.tabs.create({
-            url: page,
-            active: setActive
-        }, callback);
+
+        chrome.tabs.query({
+            url: page
+        }, function (tab) {
+            if (tab && tab.length) {
+                var tabId = parseInt(tab[0].id);
+                chrome.tabs.reload(tabId, {}, callback);
+                if (setActive) {
+                    chrome.tabs.highlight({
+                        tabs: tab[0].index
+                    });
+                }
+            } else {
+                chrome.tabs.create({
+                    url: page,
+                    active: setActive
+                }, callback);
+            }
+        });
     },
 
     getVarsStorageObject: function() {

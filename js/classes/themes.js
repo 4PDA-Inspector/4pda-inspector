@@ -128,7 +128,7 @@ inspector4pda.themes = {
 	},
 
     openPage: function () {
-        inspector4pda.utils.openPage(inspector4pda.themes.vUrl);
+        inspector4pda.utils.openPage(inspector4pda.themes.vUrl, true);
     }
 };
 
