@@ -104,14 +104,16 @@ inspector4pda.themes = {
 	openAllPin: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
 		var themesIds = this.getSortedKeys();
-		
+
+		var openedPagesCount = 0;
 		for (var i = 0; i < themesIds.length; i++) {
-			if (limit && i >= limit) {
+			if (limit && openedPagesCount >= limit) {
 				break;
 			}
 			var themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				inspector4pda.themes.open(themeId);
+				openedPagesCount++;
 			}
 		}
 		inspector4pda.cScript.printCount();

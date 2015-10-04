@@ -199,8 +199,7 @@ popup = {
 		if (!popup.bg.vars.toolbar_simple_list) {
 		
 			var userCaptionLabel = document.createElement('span');
-			var last_user_name = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
-			userCaptionLabel.innerHTML = last_user_name;
+			userCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
 
 			var lastPostLabel = document.createElement('span');
@@ -238,8 +237,6 @@ popup = {
 			mainHBox.appendChild(readImage);
 			return mainHBox;
 		}
-
-		return false;
 	},
 
 	checkOpenthemeHiding: function()
@@ -248,6 +245,6 @@ popup = {
 			window.close();
 		}
 	}
-}
+};
 
 popup.init();
