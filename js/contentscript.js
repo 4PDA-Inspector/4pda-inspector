@@ -9,14 +9,6 @@ inspector4pda.cScript = {
 	notifications: [],
 	successLastRequest: true,
 
-	defaultColor: [63, 81, 181, 255],
-	hasQmsColor: [76, 175, 80, 255],
-	logoutColor: [158, 158, 158, 255],
-
-	defaultIcon: '/icons/icon_19.png',
-	hasQmsIcon: '/icons/icon_19_green.png',
-	logoutIcon: '/icons/icon_19_out.png',
-
 	notificationIcon: "/icons/icon_80.png",
 	notificationQMSIcon: "/icons/icon_80_message.png",
 	notificationThemeIcon: "/icons/icon_80_favorite.png",
@@ -97,8 +89,8 @@ inspector4pda.cScript = {
 		var iBrowser = inspector4pda.browser;
 
 		iBrowser.setBadgeText('login');
-		iBrowser.setBadgeBackgroundColor(this.logoutColor);
-		iBrowser.setButtonIcon(this.logoutIcon);
+		iBrowser.setBadgeBackgroundColor(iBrowser.logoutColor);
+		iBrowser.setButtonIcon(iBrowser.logoutIcon);
 		iBrowser.setTitle( iBrowser.getString( unavailable ? "4PDA_Site Unavailable" : "4PDA_offline" ) );
 	},
 

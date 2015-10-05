@@ -172,7 +172,7 @@ var themeObj = {
 	},
 
 	isRead: function() {
-		return this.read;
+		return (this.read == true);
 	},
 
 	setRead: function() {

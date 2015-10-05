@@ -4,6 +4,16 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.browser = {
 
+    defaultIcon: '/icons/icon_19.png',
+    hasQmsIcon: '/icons/icon_19_green.png',
+    logoutIcon: '/icons/icon_19_out.png',
+
+    defaultColor: [63, 81, 181, 255],
+    hasQmsColor: [76, 175, 80, 255],
+    logoutColor: [158, 158, 158, 255],
+
+    bgClass: chrome.extension.getBackgroundPage().inspector4pda,
+
     translates: {
         "4PDA Inspector":   "4PDA Инспектор",
         "No unread topics": "Непрочитанных тем нет",
@@ -32,7 +42,7 @@ inspector4pda.browser = {
     },
 
     csInit: function() {
-        chrome.notifications.onClicked.addListener(inspector4pda.cScript.notificationClick);
+        chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
     },
 
     showNotification: function(params) {
@@ -85,11 +95,11 @@ inspector4pda.browser = {
 
     printCount: function(qCount, tCount) {
         if (qCount) {
-            inspector4pda.browser.setButtonIcon(inspector4pda.cScript.hasQmsIcon);
-            inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.cScript.hasQmsColor);
+            inspector4pda.browser.setButtonIcon(inspector4pda.browser.hasQmsIcon);
+            inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.browser.hasQmsColor);
         } else {
-            inspector4pda.browser.setButtonIcon(inspector4pda.cScript.defaultIcon);
-            inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.cScript.defaultColor);
+            inspector4pda.browser.setButtonIcon(inspector4pda.browser.defaultIcon);
+            inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.browser.defaultColor);
         }
 
         this.setBadgeText(tCount ? tCount : '');
@@ -103,7 +113,7 @@ inspector4pda.browser = {
 
     playNotificationSound: function() {
         var soundElement = document.getElementById("inspector4pda_sound");
-        soundElement.volume = inspector4pda.vars.notification_sound_volume;
+        soundElement.volume = this.bgClass.vars.notification_sound_volume;
         soundElement.play();
     },
 

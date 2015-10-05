@@ -1,6 +1,6 @@
 {
 	"name": "4PDA Инспектор beta",
-	"version": "1.4.1",
+	"version": "1.4.2",
 	"description": "Мониторинг изменений на форуме 4pda.ru",
 	"icons": {
 		"128":"icons/icon_128.png",
