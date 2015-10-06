@@ -9,11 +9,6 @@ inspector4pda.cScript = {
 	notifications: [],
 	successLastRequest: true,
 
-	notificationIcon: "/icons/icon_80.png",
-	notificationQMSIcon: "/icons/icon_80_message.png",
-	notificationThemeIcon: "/icons/icon_80_favorite.png",
-	notificationOutIcon: "/icons/icon_80_out.png",
-
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
 
@@ -163,18 +158,18 @@ inspector4pda.cScript = {
 
 		switch (type) {
 			case this.systemNotificationErrorType:
-				icon = this.notificationOutIcon;
+				icon = inspector4pda.browser.notificationOutIcon;
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
-				icon = this.notificationThemeIcon;
+				icon = inspector4pda.browser.notificationThemeIcon;
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
-				icon = this.notificationQMSIcon;
+				icon = inspector4pda.browser.notificationQMSIcon;
 				break;
 			default:
-				icon = this.notificationIcon;
+				icon = inspector4pda.browser.notificationIcon;
 				notificationId += '_' + (new Date().getTime());
 		}
 

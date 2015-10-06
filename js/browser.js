@@ -8,6 +8,11 @@ inspector4pda.browser = {
     hasQmsIcon: '/icons/icon_19_green.png',
     logoutIcon: '/icons/icon_19_out.png',
 
+    notificationIcon: "/icons/icon_80.png",
+    notificationQMSIcon: "/icons/icon_80_message.png",
+    notificationThemeIcon: "/icons/icon_80_favorite.png",
+    notificationOutIcon: "/icons/icon_80_out.png",
+
     defaultColor: [63, 81, 181, 255],
     hasQmsColor: [76, 175, 80, 255],
     logoutColor: [158, 158, 158, 255],
