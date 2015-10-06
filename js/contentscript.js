@@ -25,6 +25,8 @@ inspector4pda.cScript = {
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData(callback);
 
+		//console.log((new Date()).toLocaleString(), 'request', inspector4pda.vars.interval);
+
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
 		}, (interval || inspector4pda.vars.interval * 1000));
@@ -42,8 +44,8 @@ inspector4pda.cScript = {
 			}
 		};
 
-		inspector4pda.cScript.prevData.themes = inspector4pda.themes.list;
-		inspector4pda.cScript.prevData.QMS = inspector4pda.QMS.list;
+		inspector4pda.cScript.prevData.themes = Object.create(inspector4pda.themes.list);
+		inspector4pda.cScript.prevData.QMS = Object.create(inspector4pda.QMS.list);
 		inspector4pda.user.request(function() {
 			inspector4pda.cScript.successLastRequest = true;
 			if (inspector4pda.user.id) {
@@ -119,13 +121,14 @@ inspector4pda.cScript = {
 			}
 		}
 
-		for (var j in inspector4pda.themes.list) {
+		var themesIds = inspector4pda.themes.getThemesIds(true);
+		themesIds.forEach(function(j) {
 			var prevTheme = inspector4pda.cScript.prevData.themes[j];
 			var newTheme = inspector4pda.themes.list[j];
 
 			if (
 				(typeof prevTheme == 'undefined' ||
-					(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
+				(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
 				&& (newTheme.last_user_id != inspector4pda.user.id)
 			) {
 				hasNews = true;
@@ -136,7 +139,7 @@ inspector4pda.cScript = {
 					inspector4pda.utils.htmlspecialcharsdecode(newTheme.last_user_name)
 				);
 			}
-		}
+		});
 		if (hasNews) {
 			if (inspector4pda.vars.notification_sound) {
 				inspector4pda.browser.playNotificationSound();
@@ -193,8 +196,7 @@ inspector4pda.cScript = {
 			id: currentNotification.id,
 			title: currentNotification.title,
 			message: currentNotification.body,
-			iconUrl: currentNotification.icon,
-			isClickable: true
+			iconUrl: currentNotification.icon
 		});
 
 		setTimeout(function() {

@@ -14,14 +14,14 @@ inspector4pda.themes = {
 		xmr.send(inspector4pda.themes.rUrl);
 	},
 
-	getThemesIds: function() {
+	getThemesIds: function(withRead) {
 		var ids = [];
-		for (var id in inspector4pda.themes.list) {
-			if (!inspector4pda.themes.list[id].isRead()) {
-				ids.push(id);
+		var themesIds = Object.keys(inspector4pda.themes.list);
+		for (var i = 0; i < themesIds.length; i++) {
+			if (withRead || !inspector4pda.themes.list[themesIds[i]].isRead()) {
+				ids.push(themesIds[i]);
 			}
 		}
-
 		return ids;
 	},
 
@@ -51,7 +51,7 @@ inspector4pda.themes = {
 
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
-				var theme = Object.create(themeObj);
+				var theme = new themeObj();
 				if (theme.parse(tText[i])) {
 					if (inspector4pda.vars.toolbar_only_pin && !theme.pin) {
 						continue;
@@ -142,18 +142,19 @@ inspector4pda.themes = {
     }
 };
 
-var themeObj = {
-	id: 0,
-	title: '',
-	posts_num: '',
-	last_user_id: '',
-	last_user_name: '',
-	last_post_ts: '',
-	last_read_ts: '',
-	pin: false,
-	read: false,
+var themeObj = function () {
 
-	parse: function(text) {
+	this.id = 0;
+	this.title = '';
+	this.posts_num = '';
+	this.last_user_id = '';
+	this.last_user_name = '';
+	this.last_post_ts = '';
+	this.last_read_ts = '';
+	this.pin = false;
+	this.read = false;
+
+	this.parse = function(text) {
 		try {
 			var obj = inspector4pda.utils.parse(text);
 			this.id = obj[0];
@@ -169,17 +170,17 @@ var themeObj = {
 			return false;
 		}
 		return this;
-	},
+	};
 
-	isRead: function() {
+	this.isRead = function() {
 		return (this.read == true);
-	},
+	};
 
-	setRead: function() {
+	this.setRead = function() {
 		this.read = true;
-	},
+	};
 
-	isPin: function() {
+	this.isPin = function() {
 		return this.pin;
-	}
+	};
 };

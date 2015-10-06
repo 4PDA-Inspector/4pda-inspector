@@ -176,7 +176,7 @@ popup = {
 			popup.bg.cScript.printCount();
 			popup.elements.favoritesLabel.innerHTML = popup.bg.themes.getCount();
 			this.classList.add("readed");
-			inspector4pda.toolbar.checkOpenthemeHiding();
+			popup.checkOpenthemeHiding();
 		}, false);
 
 		var readImage = document.createElement('span');
