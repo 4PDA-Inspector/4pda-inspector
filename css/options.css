@@ -1,3 +1,7 @@
+html, body {
+	min-height: 100%;
+}
+
 body {
 	/*font-family: sans-serif;*/
 	font-size: 13px;
@@ -10,7 +14,7 @@ body {
 	margin: 10px auto;
 	width: 600px;
 	background: #FFF;
-	padding: 8px;
+	padding: 8px 15px;
 	border-radius: 10px;
 }
 
@@ -43,4 +47,15 @@ label.text-link, label.text-link image {
 
 .infoLabel {
 	color: #9E9E9E;
+}
+
+
+.whatsnew {
+	top: calc(50% - 80px);
+	position: absolute;
+	left: calc(50% - 300px);
+}
+
+.whatsnew p {
+	font-size: 15px;
 }

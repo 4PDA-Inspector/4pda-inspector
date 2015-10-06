@@ -4,6 +4,8 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.browser = {
 
+    currentBuild: '20151007-0304',
+
     defaultIcon: '/icons/icon_19.png',
     hasQmsIcon: '/icons/icon_19_green.png',
     logoutIcon: '/icons/icon_19_out.png',
@@ -48,6 +50,12 @@ inspector4pda.browser = {
 
     csInit: function() {
         chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
+
+        var build = this.bgClass.vars.getValue('build', false);
+        if (build < this.currentBuild) {
+            this.openPage('/html/whatsnew.html');
+            this.bgClass.vars.setValue('build', this.currentBuild);
+        }
     },
 
     showNotification: function(params) {

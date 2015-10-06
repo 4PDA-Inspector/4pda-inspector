@@ -95,6 +95,8 @@ inspector4pda.vars = {
 				inspector4pda.vars[field] = defaultValue;
 			}
 		}
+
+		return inspector4pda.vars[field];
 	},
 
 	setValue: function(field, value) {
