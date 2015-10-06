@@ -16,12 +16,11 @@ inspector4pda.themes = {
 
 	getThemesIds: function(withRead) {
 		var ids = [];
-		var themesIds = Object.keys(inspector4pda.themes.list);
-		for (var i = 0; i < themesIds.length; i++) {
-			if (withRead || !inspector4pda.themes.list[themesIds[i]].isRead()) {
-				ids.push(themesIds[i]);
+		Object.keys(inspector4pda.themes.list).forEach(function(id){
+			if (withRead || !inspector4pda.themes.list[id].isRead()) {
+				ids.push(id);
 			}
-		}
+		});
 		return ids;
 	},
 
@@ -165,7 +164,6 @@ var themeObj = function () {
 			this.last_post_ts = parseInt(obj[5]);
 			this.last_read_ts = parseInt(obj[6]);
 			this.pin = parseInt(obj[7]);
-			this.read = false;
 		} catch(e) {
 			return false;
 		}

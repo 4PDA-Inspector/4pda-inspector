@@ -27,8 +27,7 @@ inspector4pda.QMS = {
         var tText = text ? text.replace('\r','').split('\n') : [];
         for (var i = 0; i < tText.length; i++) {
             if (tText[i]) {
-                var dialog = Object.create(qDialog);
-
+                var dialog = new qDialog();
                 if (dialog.parse(tText[i])) {
                     inspector4pda.QMS.list[dialog.id] = dialog;
                     inspector4pda.QMS.count.messages += dialog.unread_msgs;
@@ -40,10 +39,16 @@ inspector4pda.QMS = {
     },
 
     openChat: function(dialogID, themeID, setActive) {
-        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''), setActive);
-        if (themeID) {
-            delete inspector4pda.QMS.list[themeID];
-        }
+        inspector4pda.utils.openPage(
+            'http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''),
+            setActive,
+            function() {
+                if (themeID) {
+                    delete inspector4pda.QMS.list[themeID];
+                    inspector4pda.cScript.printCount();
+                }
+            }
+        );
     },
 
     getCount: function() {
@@ -56,16 +61,17 @@ inspector4pda.QMS = {
     }
 };
 
-var qDialog = {
-    id: 0,
-    title: '',
-    opponent_id: '',
-    opponent_name: '',
-    last_msg_ts: '',
-    unread_msgs: 0,
-    last_msg_id: '',
+var qDialog = function () {
+    this.id = 0;
+    this.title = '';
+    this.opponent_id = '';
+    this.opponent_name = '';
+    this.last_msg_ts = '';
+    this.unread_msgs = 0;
+    this.last_msg_id = '';
+    this.read = false;
 
-    parse: function(text) {
+    this.parse = function(text) {
         try {
             var obj = inspector4pda.utils.parse(text);
             this.id = obj[0];
@@ -79,5 +85,13 @@ var qDialog = {
             return false;
         }
         return this;
-    }
+    };
+
+    this.isRead = function() {
+        return (this.read == true);
+    };
+
+    this.setRead = function() {
+        this.read = true;
+    };
 };
