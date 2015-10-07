@@ -50,3 +50,7 @@ document.getElementById('notification_popup').addEventListener('change', functio
         inspector4pda.browser.showNotification();
     }
 });
+
+document.getElementById('testNotifications').addEventListener('click', function() {
+    bg.browser.playNotificationSound();
+});

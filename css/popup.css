@@ -1,5 +1,5 @@
 body {
-	/*font-family: sans-serif;*/
+	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
 	font-size: 13px;
 	color: #3F51B5;
 }
@@ -152,6 +152,7 @@ body {
 
 #themesList .oneTheme_caption.readed {
 	color: #9E9E9E;
+	text-decoration: line-through;
 }
 
 .oneThemeInfoHBox > span {
