@@ -7,7 +7,7 @@ inspector4pda.browser = {
     currentBuild: '20151007-0304',
 
     defaultIcon: '/icons/icon_19.png',
-    hasQmsIcon: '/icons/icon_19_green.png',
+    hasQmsIcon: '/icons/icon_19_qms.png',
     logoutIcon: '/icons/icon_19_out.png',
 
     notificationIcon: "/icons/icon_80.png",
@@ -28,6 +28,7 @@ inspector4pda.browser = {
         "New Message":      "Новое сообщение",
         "New Comment":      "Новый комментарий",
         "Unread Topics":    "Непрочитанных тем",
+        "Unread Dialogs":   "Непрочитанных диалогов",
         "New Messages":     "Новых сообщений",
         "4PDA_online":      "4PDA - В сети",
         "Open Last Post":   "Открыть последнее сообщение",
@@ -120,7 +121,7 @@ inspector4pda.browser = {
         this.setTitle(
             this.getString("4PDA_online") + '\n' +
             this.getString("Unread Topics") + ': ' + tCount + '\n' +
-            this.getString("New Messages") + ': ' + qCount
+            this.getString("Unread Dialogs") + ': ' + qCount
         );
     },
 
