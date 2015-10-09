@@ -58,9 +58,9 @@ inspector4pda.cScript = {
 				inspector4pda.cScript.clearData();
 			}
 		}, function() {
-			if (inspector4pda.cScript.successLastRequest) {
+			/*if (inspector4pda.cScript.successLastRequest) {
 				inspector4pda.cScript.siteUnavailableNotification();
-			}
+			}*/
 			inspector4pda.cScript.successLastRequest = false;
 			inspector4pda.cScript.clearData();
 			if (typeof callback == 'function') {
@@ -85,7 +85,7 @@ inspector4pda.cScript = {
 	{
 		var iBrowser = inspector4pda.browser;
 
-		iBrowser.setBadgeText('login');
+		iBrowser.setBadgeText(unavailable ? "N/A" : 'login');
 		iBrowser.setBadgeBackgroundColor(iBrowser.logoutColor);
 		iBrowser.setButtonIcon(iBrowser.logoutIcon);
 		iBrowser.setTitle( iBrowser.getString( unavailable ? "4PDA_Site Unavailable" : "4PDA_offline" ) );
