@@ -142,12 +142,23 @@ inspector4pda.browser = {
         }, function (tab) {
             if (tab && tab.length) {
                 var tabId = parseInt(tab[0].id);
-                chrome.tabs.reload(tabId, {}, callback);
-                if (setActive) {
-                    chrome.tabs.highlight({
-                        tabs: tab[0].index
+
+                chrome.windows.getCurrent( {populate:false}, function(window) {
+                    var moveProperties = {
+                        index: -1
+                    };
+                    if (tab.windowId != window.id) {
+                        moveProperties.windowId = window.id;
+                    }
+                    chrome.tabs.move(tabId, moveProperties, function(tab) {
+                        if (setActive) {
+                            chrome.tabs.highlight({
+                                tabs: tab.index
+                            });
+                        }
+                        chrome.tabs.reload(tab.id, {}, callback);
                     });
-                }
+                });
             } else {
                 chrome.tabs.create({
                     url: page,
