@@ -51,7 +51,7 @@ label.text-link, label.text-link image {
 
 
 .whatsnew {
-	top: calc(50% - 80px);
+	top: 50px;
 	position: absolute;
 	left: calc(50% - 300px);
 }
