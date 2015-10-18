@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-	"name": "4PDA Инспектор beta",
-	"version": "1.4.5",
+	"name": "4PDA Инспектор",
+	"version": "3.0",
 
 	"description": "Мониторинг изменений на форуме 4pda.ru",
     "homepage_url": "http://4pdainspector.coddism.com",
