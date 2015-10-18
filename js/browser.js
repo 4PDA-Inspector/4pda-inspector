@@ -53,7 +53,7 @@ inspector4pda.browser = {
         chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
 
         var build = this.bgClass.vars.getValue('build', false);
-        if (build < this.currentBuild) {
+        if (!build || build < this.currentBuild) {
             this.openPage('/html/whatsnew.html');
             this.bgClass.vars.setValue('build', this.currentBuild);
         }
