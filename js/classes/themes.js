@@ -1,6 +1,6 @@
 inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
+	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
 	request: function(callback) {
@@ -9,13 +9,19 @@ inspector4pda.themes = {
 			inspector4pda.themes.parse(resp.responseText);
 			if (callback) {
 				callback();
-			};
-		}
+			}
+		};
 		xmr.send(inspector4pda.themes.rUrl);
 	},
 
-	getThemesIds: function() {
-		return Object.keys(inspector4pda.themes.list);
+	getThemesIds: function(withRead) {
+		var ids = [];
+		Object.keys(inspector4pda.themes.list).forEach(function(id){
+			if (withRead || !inspector4pda.themes.list[id].isRead()) {
+				ids.push(id);
+			}
+		});
+		return ids;
 	},
 
 	getCount: function() {
@@ -28,10 +34,13 @@ inspector4pda.themes = {
 		
 		for (var i = 0; i < themesIds.length; i++) {
 			var themeId = themesIds[i];
+			if (inspector4pda.themes.list[themeId].isRead()) {
+				continue;
+			}
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				count++;
 			}
-		};
+		}
 		return count;
 	},
 
@@ -39,128 +48,137 @@ inspector4pda.themes = {
 		inspector4pda.themes.list = {};
 		var tText = text.replace('\r','').split('\n');
 
-		if (inspector4pda.vars.toolbar_pin_up) {
-			var notPin = [];
-		}
-
 		for (var i = 0; i < tText.length; i++) {
 			if (tText[i]) {
-				var theme = Object.create(themeObj);
+				var theme = new themeObj();
 				if (theme.parse(tText[i])) {
-
-					if (inspector4pda.vars.toolbar_only_pin) {
-						if (!theme.pin) {
-							continue;
-						}
-					};
-
-					if (inspector4pda.vars.toolbar_pin_up) {
-						if (theme.pin) {
-							inspector4pda.themes.list[theme.id] = theme;
-						} else {
-							notPin.push(theme);
-						}
-					} else {
-						inspector4pda.themes.list[theme.id] = theme;
+					if (inspector4pda.vars.toolbar_only_pin && !theme.pin) {
+						continue;
 					}
+					inspector4pda.themes.list[theme.id] = theme;
 				}
 			}
 		}
-
-		if (inspector4pda.vars.toolbar_pin_up && notPin) {
-			for (var i = 0; i < notPin.length; i++) {
-				inspector4pda.themes.list[notPin[i].id] = notPin[i];
-			};
-		}
 	},
 
-	open: function(id) {
-		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost');
-		delete inspector4pda.themes.list[id];
+	getSortedKeys: function(sort_by_acs) {
+		var list = inspector4pda.themes.list;
+		var sort = sort_by_acs ? -1 : 1;
+		var keysSorted = inspector4pda.themes.getThemesIds().sort(function(a,b){
+			if (inspector4pda.vars.toolbar_pin_up) {
+				var pinDef = list[b].pin - list[a].pin;
+				if (pinDef !== 0) {
+					return pinDef;
+				}
+			}
+			return  (list[b].last_post_ts - list[a].last_post_ts)*sort;
+		});
+		return keysSorted;
+	},
+
+	open: function(id, setActive) {
+		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	read: function(id, callback) {
 		var xmr = new inspector4pda.XHR();
-
-		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
-		delete inspector4pda.themes.list[id];
-
-		if (typeof callback == 'function') {
-			callback();
+		xmr.callback.success = function () {
+			if (typeof callback == 'function') {
+				callback();
+			}
 		};
+		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	openLast: function(id) {
 		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
-		delete inspector4pda.themes.list[id];
+		inspector4pda.themes.list[id].setRead();
 	},
 
 	openAll: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
+		var themesIds = this.getSortedKeys(true);
 
-		var themesIds = this.getThemesIds();
 		for (var i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
 				break;
 			}
 			inspector4pda.themes.open(themesIds[i]);
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
 
 	openAllPin: function() {
 		var limit = inspector4pda.vars.open_themes_limit;
-		var themesIds = this.getThemesIds();
-		
+		var themesIds = this.getSortedKeys();
+
+		var openedPagesCount = 0;
 		for (var i = 0; i < themesIds.length; i++) {
-			if (limit && i >= limit) {
+			if (limit && openedPagesCount >= limit) {
 				break;
 			}
 			var themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				inspector4pda.themes.open(themeId);
+				openedPagesCount++;
 			}
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
 
 	readAll: function() {
-		var themesIds = this.getThemesIds();
+		var themesIds = this.getSortedKeys();
 		for (var i = 0; i < themesIds.length; i++) {
 			inspector4pda.themes.read(themesIds[i]);
-		};
+		}
 		inspector4pda.cScript.printCount();
 	},
-}
 
-var themeObj = {
-	id: 0,
-	title: '',
-	posts_num: '',
-	last_user_id: '',
-	last_user_name: '',
-	last_post_ts: '',
-	last_read_ts: '',
-	pin: false,
+    openPage: function () {
+        inspector4pda.utils.openPage(inspector4pda.themes.vUrl, true);
+    }
+};
 
-	parse: function(text) {
+var themeObj = function () {
+
+	this.id = 0;
+	this.title = '';
+	this.posts_num = '';
+	this.last_user_id = '';
+	this.last_user_name = '';
+	this.last_post_ts = '';
+	this.last_read_ts = '';
+	this.pin = false;
+	this.read = false;
+
+	this.parse = function(text) {
 		try {
 			var obj = inspector4pda.utils.parse(text);
 			this.id = obj[0];
 			this.title = obj[1];
 			this.posts_num = obj[2];
-			this.last_user_id = obj[3];
+			this.last_user_id = parseInt(obj[3]);
 			this.last_user_name = obj[4];
-			this.last_post_ts = obj[5];
-			this.last_read_ts = obj[6];
+			this.last_post_ts = parseInt(obj[5]);
+			this.last_read_ts = parseInt(obj[6]);
 			this.pin = parseInt(obj[7]);
 		} catch(e) {
 			return false;
 		}
 		return this;
-	},
+	};
 
-	isPin: function() {
+	this.isRead = function() {
+		return (this.read == true);
+	};
+
+	this.setRead = function() {
+		this.read = true;
+	};
+
+	this.isPin = function() {
 		return this.pin;
-	}
-}
+	};
+};

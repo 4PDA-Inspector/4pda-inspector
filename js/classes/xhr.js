@@ -7,7 +7,7 @@ inspector4pda.XHR = function () {
 		not200Success: function(){}
 	};
 
-	this.timeoutTime = 5000;
+	this.timeoutTime = 10000;
 	
 	this.send = function(url) {
 
@@ -21,21 +21,21 @@ inspector4pda.XHR = function () {
 					self.callback.not200Success(req);
 				}
 			}
-		}
+		};
 
 		req.onerror = function() {
 			self.callback.error();
-		}
+		};
 
 		if (self.timeoutTime) {
 			req.timeout = self.timeoutTime;
 			req.ontimeout = function () {
 				self.callback.timeout();
 			}
-		};
+		}
 
 		req.open("GET", url, true);
 		req.send(null);
 	};
 
-}
+};

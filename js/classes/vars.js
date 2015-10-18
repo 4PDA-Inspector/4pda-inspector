@@ -4,7 +4,7 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.vars = {
 
-	interval: 10000,
+	interval: 10,
 	click_action: 1,
 	MMB_click_action: 3,
 	open_themes_limit: 0,
@@ -32,12 +32,10 @@ inspector4pda.vars = {
 	prefs: {},
 
 	init: function(callback) {
-		chrome.extension.sendRequest({action: "getLocalStorage"}, function(localStorage) {
-			inspector4pda.vars.prefs = localStorage;
-			if (typeof callback == 'function') {
-				callback();
-			};
-		})
+		inspector4pda.vars.prefs = inspector4pda.browser.getVarsStorageObject();
+		if (typeof callback == 'function') {
+			callback();
+		}
 	},
 
 	getPrefs: function()
@@ -48,21 +46,22 @@ inspector4pda.vars = {
 
 	resetStorage: function()
 	{
-		this.getValue('interval', 10000, 1000);
+		this.getValue('interval', 10);
 		this.getValue('click_action', 1);
 		this.getValue('MMB_click_action', 3);
 		this.getValue('open_themes_limit', 0);
 
 		this.getValue('button_bgcolor', '#3333FF');
 		this.getValue('button_color', '#FFFFFF');
-		this.getValue('button_fontsize', 8);
+		this.getValue('button_fontsize', 10);
 		this.getValue('button_show_qms', true);
 		this.getValue('button_show_themes', true);
 		this.getValue('button_show_onlyMoreZero', true);
 		
-		this.getValue('notification_sound', true);
 		this.getValue('notification_popup', true);
-		this.getValue('notification_sound_volume', 1, 0.01);
+		this.getValue('notification_sound_volume', 1);
+
+		this.notification_sound = (this.notification_sound_volume > 0);
 		
 		this.getValue('toolbar_pin_color', true);
 		this.getValue('toolbar_pin_up', false);
@@ -76,23 +75,57 @@ inspector4pda.vars = {
 	getValue: function(field, defaultValue, multiplier)
 	{
 		try {
+			if (typeof inspector4pda.vars.prefs[field] == 'undefined') {
+				throw new Error();
+			}
+
 			switch (typeof inspector4pda.vars[field]) {
 				case 'number':
 					inspector4pda.vars[field] = Number(inspector4pda.vars.prefs[field]) * (multiplier || 1);
 					break;
 				case 'boolean':
-					inspector4pda.vars[field] = Boolean(inspector4pda.vars.prefs[field]);
+					inspector4pda.vars[field] = (inspector4pda.vars.prefs[field] === 'true');
 					break;
 				default:
 					inspector4pda.vars[field] = inspector4pda.vars.prefs[field];
 			}
+
 		} catch (e) {
 			if (defaultValue) {
 				inspector4pda.vars[field] = defaultValue;
-			};
-			//inspector4pda.utils.log('error ' + field + ': ' + defaultValue);
+			}
 		}
+
+		return inspector4pda.vars[field];
+	},
+
+	setValue: function(field, value) {
+		switch (field) {
+			case 'interval':
+				value = Math.max( value, 5);
+				break;
+			case 'open_themes_limit':
+				value = Math.max( value, 0);
+				break;
+		}
+		inspector4pda.browser.setVarToStorage(field, value);
+		this.resetStorage();
+		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
+			inspector4pda.cScript.request();
+		}
+	},
+
+	getAll: function() {
+		var exp = {};
+		var self = this;
+		for (var i in self) {
+			if (['number', 'boolean', 'string'].indexOf(typeof self[i]) == -1 ) {
+				continue;
+			}
+			exp[i] = self[i];
+		}
+		return exp;
 	}
-}
+};
 
 inspector4pda.vars.getPrefs();

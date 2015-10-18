@@ -1,24 +1,17 @@
-if (typeof inspector4pda == "undefined") {
+﻿if (typeof inspector4pda == "undefined") {
 	var inspector4pda = {}
 }
 
 inspector4pda.utils = {
 	
-	consoleService: null,
-	stringBundle: null,
-	firebugConsoleService: null,
 	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
 	log: function(msg, json) {
-		/*if (this.consoleService == null) {
-			this.consoleService = Components.classes["@mozilla.org/consoleservice;1"]
-				.getService(Components.interfaces.nsIConsoleService);
-		}*/
-
-		if (json)
+		if (json) {
 			msg = JSON.stringify(msg);
-		
-		console.log(msg);
+		}
+
+		inspector4pda.browser.log(msg);
 	},
 
 	parse: function(str) {
@@ -27,18 +20,9 @@ inspector4pda.utils = {
 		for (var i = 0; i < parsed.length; i++) {
 			if (pq = parsed[i].match(/\"(.*)\"/)) {
 				parsed[i] = pq[1];
-			};
-		};
-		return parsed;
-	},
-
-	checkNotificationSupport: function() {
-		try {
-			Notification.permission;
-			return true;
-		} catch(e) {
-			return false;
+			}
 		}
+		return parsed;
 	},
 
 	htmlspecialcharsdecode: function (string)
@@ -59,31 +43,9 @@ inspector4pda.utils = {
 		return string;
 	},
 
-	openPage: function(page) {
-		console.log('TODO open page');
-		/*var tBrowser = top.document.getElementById("content");
-		var tab = tBrowser.addTab(page);
-		tBrowser.selectedTab = tab;*/
-	},
-
-	setStringBundle: function() {
-		inspector4pda.utils.stringBundle = (typeof Services == 'object')
-			? Services.strings.createBundle("chrome://4pdainspector/locale/strings.properties")
-			: null
-	},
-
-	getString: function(name) {
-
-		return name;
-		/*if (!inspector4pda.utils.stringBundle) {
-			this.setStringBundle();
-		};
-
-		if (inspector4pda.utils.stringBundle) {
-			return inspector4pda.utils.stringBundle.GetStringFromName(name);
-		} else {
-			return name;
-		}*/
+	openPage: function(page, setActive, callback) {
+		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
+		inspector4pda.browser.openPage(page, setActive, callback);
 	}
 };
 

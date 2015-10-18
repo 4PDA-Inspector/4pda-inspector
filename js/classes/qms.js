@@ -14,8 +14,8 @@ inspector4pda.QMS = {
             inspector4pda.QMS.parse(resp.responseText);
             if (callback) {
                 callback();
-            };
-        }
+            }
+        };
         xmr.send(inspector4pda.QMS.rUrl);
     },
 
@@ -27,8 +27,7 @@ inspector4pda.QMS = {
         var tText = text ? text.replace('\r','').split('\n') : [];
         for (var i = 0; i < tText.length; i++) {
             if (tText[i]) {
-                var dialog = Object.create(qDialog);
-
+                var dialog = new qDialog();
                 if (dialog.parse(tText[i])) {
                     inspector4pda.QMS.list[dialog.id] = dialog;
                     inspector4pda.QMS.count.messages += dialog.unread_msgs;
@@ -39,30 +38,40 @@ inspector4pda.QMS = {
         inspector4pda.QMS.unreadCount = inspector4pda.QMS.count.dialogs;
     },
 
-    openChat: function(dialogID, themeID) {
-        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''));
-        if (themeID) {
-            delete inspector4pda.QMS.list[themeID];
-        };
+    openChat: function(dialogID, themeID, setActive) {
+        inspector4pda.utils.openPage(
+            'http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''),
+            setActive,
+            function() {
+                if (themeID) {
+                    delete inspector4pda.QMS.list[themeID];
+                    inspector4pda.cScript.printCount();
+                }
+            }
+        );
     },
 
-    getCount: function()
-    {
+    getCount: function() {
         this.unreadCount = Object.keys(inspector4pda.QMS.list).length;
         return this.unreadCount;
+    },
+
+    openPage: function () {
+        inspector4pda.utils.openPage(inspector4pda.QMS.vUrl, true);
     }
-}
+};
 
-var qDialog = {
-    id: 0,
-    title: '',
-    opponent_id: '',
-    opponent_name: '',
-    last_msg_ts: '',
-    unread_msgs: 0,
-    last_msg_id: '',
+var qDialog = function () {
+    this.id = 0;
+    this.title = '';
+    this.opponent_id = '';
+    this.opponent_name = '';
+    this.last_msg_ts = '';
+    this.unread_msgs = 0;
+    this.last_msg_id = '';
+    this.read = false;
 
-    parse: function(text) {
+    this.parse = function(text) {
         try {
             var obj = inspector4pda.utils.parse(text);
             this.id = obj[0];
@@ -76,5 +85,13 @@ var qDialog = {
             return false;
         }
         return this;
-    }
-}
+    };
+
+    this.isRead = function() {
+        return (this.read == true);
+    };
+
+    this.setRead = function() {
+        this.read = true;
+    };
+};

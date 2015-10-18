@@ -1,6 +1,11 @@
 body {
-	font-family: sans-serif;
+	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
+	font-size: 13px;
 	color: #3F51B5;
+}
+
+.hidden {
+	display: none !important;
 }
 
 /***************** BUTTONS *****************/
@@ -8,10 +13,12 @@ body {
 #mainPanel {
 	border-bottom: 1px dotted #3F51B5;
 	padding: 0 5px 5px;
+	display: flex;
 }
 
 #mainPanel > div {
 	display: inline-block;
+	white-space: nowrap;
 }
 
 #mainPanel > div > span {
@@ -19,11 +26,11 @@ body {
 	cursor: pointer;
 	margin: 0 10px 0 0;
 	font-size: 18px;
+	vertical-align: middle;
 }
 
-#mainPanel span.icon {
+#mainPanel .icon {
 	display: inline-block;
-	/*margin: 2px 2px 0 0;*/
 	height: 16px;
 	width: 16px;
 	background-image: url(/img/icons1.png);
@@ -61,8 +68,12 @@ body {
 	background-position: -64px -16px;
 }
 
+#massThemesActions {
+	flex: 1;
+	text-align: center;
+}
 #massThemesActions > span.icon {
-	margin: 0 5px 0 0;
+	margin: 3px 5px 0 0;
 	width: 22px;
 }
 #panelOpenAll {
@@ -95,18 +106,15 @@ body {
 	margin-left: 10px;
 }
 
-#panelUsername {
-	font-size: 16px;
-	margin: 0 5px 0 0;
+#mainPanel > div > #panelUsername {
+	margin: -4px 5px 0 0;
 }
 
 /***************** THEMES LIST *****************/
 
 #themesList {
-	min-width: 400px;
 	white-space: nowrap;
 }
-
 
 #themesList span:not(.oneTheme_user) {
 	cursor: pointer;
@@ -117,7 +125,6 @@ body {
 	color: #222;
 	padding: 2px 4px;
 	position: relative;
-	cursor: pointer;
 }
 #themesList > .oneTheme:hover {
 	background-color: #D0E4EC;
@@ -125,15 +132,19 @@ body {
 
 #themesList .oneTheme_caption {
 	color: #3F51B5;
-	font-size: 12px;
+	font-size: 13px;
 	margin: 0;
+	display: block;
+}
+#themesList.simpleList .oneTheme_caption {
+	margin-right: 15px;
 }
 #themesList .oneTheme_caption:hover {
 	color: #2196F3;
 }
 
 #themesList .oneTheme_pin {
-	color: #558B2F;
+	color: #43a047;
 }
 #themesList .oneTheme_pin:hover {
 	color: #8BC34A;
@@ -141,6 +152,7 @@ body {
 
 #themesList .oneTheme_caption.readed {
 	color: #9E9E9E;
+	text-decoration: line-through;
 }
 
 .oneThemeInfoHBox > span {
@@ -155,7 +167,7 @@ body {
 
 #themesList .oneTheme_markAsRead {
 	display: block;
-	margin-left: 10px;
+	margin: 0;
 	cursor: pointer;
 	background: -124px 0 url(/img/icons1.png) no-repeat;
 	height: 16px;
@@ -166,4 +178,8 @@ body {
 }
 #themesList .oneTheme_markAsRead:hover {
 	background-position: -124px -16px;
+}
+
+#themesList .oneTheme_markAsRead.loading {
+	background: url("/img/ajax-loader.gif");
 }

@@ -1,14 +1,6 @@
-chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		if (request.method == 'sendData') {
-			console.log('popup onMessage');
-			popup.init(request.data);
-		}
-	}
-);
-chrome.runtime.sendMessage({method: 'getData'});
-
 popup = {
+
+	refreshImgRotateInterval: 0,
 
 	elements: {
 		usernameLabel: null,
@@ -19,23 +11,129 @@ popup = {
 		themesList: null,
 		settingsLabel: null,
 		openAllLabel: null,
-		openAllLabelPin: null,
+		openAllPinLabel: null,
 		readAllLabel: null,
 		manualRefresh: null
 	},
 
-	themes: null,
-	qms: null,
-	user: null,
+	urls: {
+		login: 'http://4pda.ru/forum/index.php?act=login'
+	},
 
-	init: function(data) {
-		this.themes = data.themes;
-		this.qms = data.qms;
-		this.user = data.user;
+	bg: null,
+
+	init: function() {
+		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
+
+		if (!this.bg.user.id) {
+			this.bg.utils.openPage(this.urls.login, true);
+			window.close();
+			return false;
+		}
 		
+		this.elements.usernameLabel = document.getElementById('panelUsername');
+		this.elements.usernameLabel.addEventListener("click", function () {
+			popup.bg.user.open();
+			popup.checkOpenthemeHiding();
+		}, false);
+		
+		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
+		this.elements.favoritesBox = document.getElementById('panelFavorites');
+		this.elements.favoritesBox.addEventListener("click", function () {
+			popup.bg.themes.openPage();
+			popup.checkOpenthemeHiding();
+		}, false);
+
+		this.elements.qmsLabel = document.getElementById('panelQMSCount');
+		this.elements.qmsBox = document.getElementById('panelQMS');
+		this.elements.qmsBox.addEventListener("click", function () {
+			popup.bg.QMS.openPage();
+			popup.checkOpenthemeHiding();
+		}, false);
+
+		this.elements.settingsLabel = document.getElementById('panelSettings');
+		this.elements.settingsLabel.addEventListener("click", function () {
+			popup.bg.utils.openPage('chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + '/html/options.html', true);
+		}, false);
+
+		this.elements.openAllLabel = document.getElementById('panelOpenAll');
+		this.elements.openAllLabel.addEventListener('click', function() {
+			popup.bg.themes.openAll();
+			popup.checkOpenthemeHiding();
+			popup.refresh();
+		}, false);
+		
+		this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
+		this.elements.openAllPinLabel.addEventListener('click', function() {
+			popup.bg.themes.openAllPin();
+			popup.checkOpenthemeHiding();
+			popup.refresh();
+		}, false);
+		
+		this.elements.readAllLabel = document.getElementById('panelReadAll');
+		this.elements.readAllLabel.addEventListener('click', function() {
+			popup.bg.themes.readAll();
+			popup.checkOpenthemeHiding();
+			popup.refresh();
+		}, false);
+
 		this.elements.themesList = document.getElementById('themesList');
 
-		this.printThemesList();
+		this.elements.manualRefresh = document.getElementById('panelRefresh');
+		this.elements.manualRefresh.addEventListener('click', function() {
+			popup.manualRefresh(true);
+		}, false);
+
+		this.refresh();
+	},
+
+	refresh: function(withoutPrintThemes) {
+		this.elements.usernameLabel.innerHTML = this.bg.user.name;
+		
+		this.elements.favoritesLabel.innerHTML = this.bg.themes.getCount();
+		this.elements.favoritesBox.className = this.bg.themes.getCount() ? 'hasUnread': '';
+
+		this.elements.qmsLabel.innerHTML = this.bg.QMS.getCount();
+		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
+
+		if (popup.bg.vars.toolbar_simple_list) {
+			this.elements.themesList.className = 'simpleList';
+		}
+
+		if (!this.bg.vars.toolbar_openAllFavs_button) {
+			this.elements.openAllLabel.classList.add('hidden');
+		}
+		if (!this.bg.vars.toolbar_openAllFavs_button || (this.bg.vars.toolbar_only_pin ||  !this.bg.themes.getPinCount())) {
+			this.elements.openAllPinLabel.classList.add('hidden');
+		}
+		if (!this.bg.vars.toolbar_markAllAsRead_button) {
+			this.elements.readAllLabel.classList.add('hidden');
+		}
+
+		if (!withoutPrintThemes) {
+			this.printThemesList();
+		}
+
+		clearInterval(this.refreshImgRotateInterval);
+		this.elements.manualRefresh.style.transform = "rotate(0deg)";
+	},
+
+	manualRefresh: function() {
+		clearInterval(this.refreshImgRotateInterval);
+		var refreshImgRotate = 0;
+		popup.refreshImgRotateInterval = setInterval(function() {
+			refreshImgRotate += 10;
+			popup.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
+		}, 30);
+
+		this.bg.cScript.request(false, function() {
+			clearInterval(popup.refreshImgRotateInterval);
+			popup.refresh();
+		});
+	},
+
+	printCount: function() {
+		this.refresh(true);
 	},
 
 	clearThemesList: function() {
@@ -46,16 +144,17 @@ popup = {
 
 		this.clearThemesList();
 
-		if (Object.keys(this.themes.list).length) {
-			for (var i in this.themes.list) {
-				this.addThemeRow(this.themes.list[i]);
+		if (this.bg.themes.getCount()) {
+			var themesKeys = this.bg.themes.getSortedKeys();
+			for (var i = 0; i < themesKeys.length; i++) {
+				this.addThemeRow(this.bg.themes.list[themesKeys[i]]);
 			}
-		}/* else {
-			var noThemesLabel = document.createElement('label');
-			noThemesLabel.setAttribute('value', inspector4pda.utils.getString('No unread topics'));
+		} else {
+			var noThemesLabel = document.createElement('div');
+			noThemesLabel.innerHTML = inspector4pda.browser.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
-			inspector4pda.toolbar.elements.themesList.appendChild(noThemesLabel);
-		}*/
+			this.elements.themesList.appendChild(noThemesLabel);
+		}
 	},
 
 	addThemeRow: function(theme) {
@@ -64,55 +163,54 @@ popup = {
 
 	createThemeRow: function(theme)	{
 		
-		var themeCaptionLabel = document.createElement('div');
+		var themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
-		/*if (theme.pin && inspector4pda.vars.toolbar_pin_color) {
+		if (theme.pin && popup.bg.vars.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
-		};*/
+		}
 		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
-		/*themeCaptionLabel.onclick = function () {
-			inspector4pda.themes.open(theme.id);
-			inspector4pda.cScript.printCount();
-			inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
+		themeCaptionLabel.dataId = theme.id;
+		themeCaptionLabel.addEventListener("click", function () {
+			popup.bg.themes.open(theme.id);
+			popup.bg.cScript.printCount();
+			popup.elements.favoritesLabel.innerHTML = popup.bg.themes.getCount();
 			this.classList.add("readed");
-			inspector4pda.toolbar.checkOpenthemeHiding();
-		};*/
+			popup.checkOpenthemeHiding();
+		}, false);
 
 		var readImage = document.createElement('span');
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		readImage.setAttribute('tooltiptext', inspector4pda.utils.getString('Mark As Read'));
-		/*readImage.onclick = function () {
+		readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
+		readImage.addEventListener("click", function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
-			current.style.opacity = '0.5';
-			
-			inspector4pda.themes.read(dataTheme, function() {
-				current.style.opacity = '';
-				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
-				inspector4pda.cScript.printCount();
-				inspector4pda.toolbar.printCount();
-			});
-		};*/
+			current.classList.add('loading');
 
-		//if (!inspector4pda.vars.toolbar_simple_list) {
-		if (1) {
+			popup.bg.themes.read(dataTheme, function() {
+				current.classList.remove('loading');
+				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
+				popup.bg.cScript.printCount();
+				popup.printCount();
+			});
+		});
+
+		if (!popup.bg.vars.toolbar_simple_list) {
 		
 			var userCaptionLabel = document.createElement('span');
-			var last_user_name = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
-			userCaptionLabel.innerHTML = last_user_name;
+			userCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
 
 			var lastPostLabel = document.createElement('span');
 			lastPostLabel.innerHTML = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
-			lastPostLabel.setAttribute('tooltiptext', inspector4pda.utils.getString('Open Last Post'));
-			/*lastPostLabel.onclick = function () {
-				inspector4pda.themes.openLast(theme.id);
-				inspector4pda.cScript.printCount();
-				inspector4pda.toolbar.elements.favoritesLabel.value = inspector4pda.themes.getCount();
-			};*/
+			lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
+			lastPostLabel.addEventListener("click", function () {
+				popup.bg.themes.openLast(theme.id);
+				popup.bg.cScript.printCount();
+				//popup.elements.favoritesLabel.innerHTML = popup.bg.themes.getCount();
+			}, false);
 
 			// BOXES
 
@@ -121,10 +219,6 @@ popup = {
 			infoHBox.appendChild(userCaptionLabel);
 			infoHBox.appendChild(lastPostLabel);
 
-			/*var box = document.createElement('div');
-			box.setAttribute('flex', '1');
-			infoHBox.appendChild(box);*/
-			
 			infoHBox.appendChild(readImage);
 
 			var mainHBox = document.createElement('div');
@@ -136,14 +230,21 @@ popup = {
 			themeVBox.appendChild(infoHBox);
 			return themeVBox;
 		} else {
-			var mainHBox = document.createElement('hbox');
+			var mainHBox = document.createElement('div');
 			mainHBox.className = 'oneTheme';
-			themeCaptionLabel.setAttribute('flex', '1');
+			//themeCaptionLabel.setAttribute('flex', '1');
 			mainHBox.appendChild(themeCaptionLabel);
 			mainHBox.appendChild(readImage);
 			return mainHBox;
 		}
+	},
 
-		return false;
+	checkOpenthemeHiding: function()
+	{
+		if (this.bg.vars.toolbar_opentheme_hide) {
+			window.close();
+		}
 	}
-}
+};
+
+popup.init();
