@@ -141,19 +141,28 @@ inspector4pda.browser = {
             url: page
         }, function (tab) {
             if (tab && tab.length) {
-                var tabId = parseInt(tab[0].id);
+
+                var currentTab = tab[0];
+                var tabId = parseInt(currentTab.id);
+                var tabWindowId = parseInt(currentTab.windowId);
 
                 chrome.windows.getCurrent( {populate:false}, function(window) {
+
                     var moveProperties = {
                         index: -1
                     };
-                    if (tab.windowId != window.id) {
+                    if (window.id == tabWindowId || currentTab.pinned) {
+                        moveProperties.index = currentTab.index;
+                    } else {
                         moveProperties.windowId = window.id;
+                        tabWindowId = window.id;
                     }
+
                     chrome.tabs.move(tabId, moveProperties, function(tab) {
                         if (setActive) {
                             chrome.tabs.highlight({
-                                tabs: tab.index
+                                tabs: tab.index,
+                                windowId: tabWindowId
                             });
                         }
                         chrome.tabs.reload(tab.id, {}, callback);
