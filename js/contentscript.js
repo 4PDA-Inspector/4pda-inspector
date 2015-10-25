@@ -217,6 +217,8 @@ inspector4pda.cScript = {
 			inspector4pda.themes.open(parseInt(tagData[2]), true);
 		}
 		inspector4pda.cScript.printCount();
+
+		inspector4pda.browser.clearNotification(tag);
 	},
 
 	settingsAccept: function() {

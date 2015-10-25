@@ -77,6 +77,14 @@ inspector4pda.browser = {
             iconUrl: 'chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + params.iconUrl,
             isClickable: true
         });
+
+        setTimeout(function() {
+            inspector4pda.browser.clearNotification(params.id);
+        }, 30000);
+    },
+
+    clearNotification: function(id) {
+        chrome.notifications.clear(id);
     },
 
     mergeObjects: function(ar1, ar2) {
