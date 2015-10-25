@@ -8,11 +8,14 @@ inspector4pda.vars = {
 	click_action: 1,
 	MMB_click_action: 3,
 	open_themes_limit: 0,
-	
-	notification_sound: true,
-	notification_popup: true,
+
 	notification_sound_volume: 1,
-	
+
+	notification_sound_themes: true,
+	notification_popup_themes: true,
+	notification_sound_qms: true,
+	notification_popup_qms: true,
+
 	toolbar_pin_color: true,
 	toolbar_pin_up: false,
 	toolbar_only_pin: false,
@@ -22,12 +25,6 @@ inspector4pda.vars = {
 	toolbar_markAllAsRead_button: true,
 
 	button_big: false,
-	button_bgcolor: '#3333FF',
-	button_color: '#FFFFFF',
-	button_fontsize: 8,
-	button_show_qms: true,
-	button_show_themes: true,
-	button_show_onlyMoreZero: true,
 
 	prefs: {},
 
@@ -50,19 +47,13 @@ inspector4pda.vars = {
 		this.getValue('click_action', 1);
 		this.getValue('MMB_click_action', 3);
 		this.getValue('open_themes_limit', 0);
-
-		this.getValue('button_bgcolor', '#3333FF');
-		this.getValue('button_color', '#FFFFFF');
-		this.getValue('button_fontsize', 10);
-		this.getValue('button_show_qms', true);
-		this.getValue('button_show_themes', true);
-		this.getValue('button_show_onlyMoreZero', true);
 		
-		this.getValue('notification_popup', true);
 		this.getValue('notification_sound_volume', 1);
+		this.getValue('notification_sound_themes', true);
+		this.getValue('notification_popup_themes', true);
+		this.getValue('notification_sound_qms', true);
+		this.getValue('notification_popup_qms', true);
 
-		this.notification_sound = (this.notification_sound_volume > 0);
-		
 		this.getValue('toolbar_pin_color', true);
 		this.getValue('toolbar_pin_up', false);
 		this.getValue('toolbar_only_pin', false);

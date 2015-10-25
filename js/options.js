@@ -45,9 +45,20 @@ document.getElementById('notification_sound_volume').addEventListener('input', f
     document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(this.value * 100) + '%';
 });
 
-document.getElementById('notification_popup').addEventListener('change', function() {
+document.getElementById('notification_popup_qms').addEventListener('change', function() {
     if (this.checked) {
-        inspector4pda.browser.showNotification();
+        inspector4pda.browser.showNotification({
+            message: "Оповещения о QMS успешно включены",
+            iconUrl: inspector4pda.browser.notificationQMSIcon
+        });
+    }
+});
+document.getElementById('notification_popup_themes').addEventListener('change', function() {
+    if (this.checked) {
+        inspector4pda.browser.showNotification({
+            message: "Оповещения о темах успешно включены",
+            iconUrl: inspector4pda.browser.notificationThemeIcon
+        });
     }
 });
 

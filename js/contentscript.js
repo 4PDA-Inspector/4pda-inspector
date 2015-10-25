@@ -92,69 +92,69 @@ inspector4pda.cScript = {
 	},
 
 	checkNews: function () {
-		var hasNews = false;
-
-		if (!(inspector4pda.vars.notification_popup || inspector4pda.vars.notification_sound)) {
-			return false;
-		}
-
-		for (var i in inspector4pda.QMS.list) {
-			var addNot = false;
-			if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
-				addNot = true;
-			} else {
-				if (inspector4pda.cScript.prevData.QMS[i].last_msg_ts < inspector4pda.QMS.list[i].last_msg_ts) {
+		var hasNewQMS = false;
+		if (inspector4pda.vars.notification_popup_qms || inspector4pda.vars.notification_sound_qms) {
+			for (var i in inspector4pda.QMS.list) {
+				var addNot = false;
+				if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
 					addNot = true;
+				} else {
+					if (inspector4pda.cScript.prevData.QMS[i].last_msg_ts < inspector4pda.QMS.list[i].last_msg_ts) {
+						addNot = true;
+					}
+				}
+
+				if (addNot) {
+					hasNewQMS = true;
+					if (inspector4pda.vars.notification_popup_qms) {
+						inspector4pda.cScript.addNotification(
+							inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id + '_' + inspector4pda.QMS.list[i].last_msg_ts,
+							'qms',
+							parseInt(inspector4pda.QMS.list[i].opponent_id) ?
+								inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) :
+								this.systemNotificationTitle,
+							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')'
+						);
+					}
 				}
 			}
-
-			if (addNot) {
-				hasNews = true;
-				inspector4pda.cScript.addNotification(
-					inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id + '_' + inspector4pda.QMS.list[i].last_msg_ts,
-					'qms',
-					parseInt(inspector4pda.QMS.list[i].opponent_id) ?
-						inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) :
-						this.systemNotificationTitle,
-					inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')'
-				);
-			}
 		}
 
-		var themesIds = inspector4pda.themes.getThemesIds(true);
-		themesIds.forEach(function(j) {
-			var prevTheme = inspector4pda.cScript.prevData.themes[j];
-			var newTheme = inspector4pda.themes.list[j];
+		var hasNewThemes = false;
+		if (inspector4pda.vars.notification_popup_themes || inspector4pda.vars.notification_sound_themes) {
+			var themesIds = inspector4pda.themes.getThemesIds(true);
+			themesIds.forEach(function(j) {
+				var prevTheme = inspector4pda.cScript.prevData.themes[j];
+				var newTheme = inspector4pda.themes.list[j];
 
-			if (
-				(typeof prevTheme == 'undefined' ||
-				(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
-				&& (newTheme.last_user_id != inspector4pda.user.id)
-			) {
-				hasNews = true;
-				inspector4pda.cScript.addNotification(
-					j,
-					'theme',
-					inspector4pda.utils.htmlspecialcharsdecode(newTheme.title),
-					inspector4pda.utils.htmlspecialcharsdecode(newTheme.last_user_name)
-				);
-			}
-		});
-		if (hasNews) {
-			if (inspector4pda.vars.notification_sound) {
-				inspector4pda.browser.playNotificationSound();
-			}
-			if (inspector4pda.vars.notification_popup) {
-				inspector4pda.cScript.showNotifications();
-			}
+				if (
+					(typeof prevTheme == 'undefined' ||
+					(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
+					&& (newTheme.last_user_id != inspector4pda.user.id)
+				) {
+					hasNewThemes = true;
+					if (inspector4pda.vars.notification_popup_themes) {
+						inspector4pda.cScript.addNotification(
+							j,
+							'theme',
+							inspector4pda.utils.htmlspecialcharsdecode(newTheme.title),
+							inspector4pda.utils.htmlspecialcharsdecode(newTheme.last_user_name)
+						);
+					}
+				}
+			});
+		}
+
+		if ((hasNewQMS && inspector4pda.vars.notification_sound_qms) || (hasNewThemes && inspector4pda.vars.notification_sound_themes)) {
+			inspector4pda.browser.playNotificationSound();
+		}
+
+		if ((hasNewQMS && inspector4pda.vars.notification_popup_qms) || (hasNewThemes && inspector4pda.vars.notification_popup_themes)) {
+			inspector4pda.cScript.showNotifications();
 		}
 	},
 
 	addNotification: function(id, type, title, message) {
-
-		if (!inspector4pda.vars.notification_popup) {
-			return false;
-		}
 
 		var icon;
 		var notificationId = "4pdainspector_" + type + '_' + id;
@@ -226,16 +226,6 @@ inspector4pda.cScript = {
 
 	clearData: function() {
 		inspector4pda.user.clearData();
-	},
-
-	siteUnavailableNotification: function() {
-		inspector4pda.cScript.addNotification(
-			0,
-			this.systemNotificationErrorType,
-			inspector4pda.browser.getString('4PDA Inspector'),
-			inspector4pda.browser.getString('4PDA_Site Unavailable')
-		);
-		inspector4pda.cScript.showNotifications();
 	}
 };
 

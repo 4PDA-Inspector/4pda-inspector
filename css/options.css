@@ -18,6 +18,13 @@ body {
 	border-radius: 10px;
 }
 
+#testNotifications {
+	cursor: pointer;
+}
+#testNotifications:hover {
+	color: #43a047;
+}
+
 
 .caption {
 	font-weight: bold;
