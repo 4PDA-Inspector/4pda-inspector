@@ -4,7 +4,7 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.browser = {
 
-    currentBuild: '20151007-0304',
+    currentBuild: '20151025-1711',
 
     defaultIcon: '/icons/icon_19.png',
     hasQmsIcon: '/icons/icon_19_qms.png',
@@ -54,7 +54,7 @@ inspector4pda.browser = {
 
         var build = this.bgClass.vars.getValue('build', false);
         if (!build || build < this.currentBuild) {
-            this.openPage('/html/whatsnew.html');
+            this.openPage('chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + '/html/whatsnew.html');
             this.bgClass.vars.setValue('build', this.currentBuild);
         }
     },
