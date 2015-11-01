@@ -110,6 +110,10 @@ popup = {
 			this.elements.readAllLabel.classList.add('hidden');
 		}
 
+		if (popup.bg.vars.user_links) {
+			this.printUserLinks();
+		}
+
 		if (!withoutPrintThemes) {
 			this.printThemesList();
 		}
@@ -243,6 +247,20 @@ popup = {
 	{
 		if (this.bg.vars.toolbar_opentheme_hide) {
 			window.close();
+		}
+	},
+
+	printUserLinks: function() {
+		var uLinks = document.getElementById('userLinks');
+		uLinks.style.display = 'block';
+		uLinks.innerHTML = '';
+		for (var i = 0; i < popup.bg.vars.user_links.length; i++) {
+			var item = popup.bg.vars.user_links[i];
+			var link = document.createElement('a');
+			link.href = item.url;
+			link.target = '_blank';
+			link.innerText = item.title;
+			uLinks.appendChild(link);
 		}
 	}
 };

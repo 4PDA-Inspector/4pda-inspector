@@ -24,6 +24,8 @@ inspector4pda.vars = {
 	toolbar_openAllFavs_button: true,
 	toolbar_markAllAsRead_button: true,
 
+	user_links: [],
+
 	button_big: false,
 
 	prefs: {},
@@ -47,7 +49,9 @@ inspector4pda.vars = {
 		this.getValue('click_action', 1);
 		this.getValue('MMB_click_action', 3);
 		this.getValue('open_themes_limit', 0);
-		
+
+		this.getValue('user_links', []);
+
 		this.getValue('notification_sound_volume', 1);
 		this.getValue('notification_sound_themes', true);
 		this.getValue('notification_popup_themes', true);
@@ -76,6 +80,9 @@ inspector4pda.vars = {
 					break;
 				case 'boolean':
 					inspector4pda.vars[field] = (inspector4pda.vars.prefs[field] === 'true');
+					break;
+				case 'object':
+					inspector4pda.vars[field] = JSON.parse(inspector4pda.vars.prefs[field]);
 					break;
 				default:
 					inspector4pda.vars[field] = inspector4pda.vars.prefs[field];
@@ -110,7 +117,7 @@ inspector4pda.vars = {
 		var exp = {};
 		var self = this;
 		for (var i in self) {
-			if (['number', 'boolean', 'string'].indexOf(typeof self[i]) == -1 ) {
+			if (i == 'prefs' || ['number', 'boolean', 'string', 'object'].indexOf(typeof self[i]) == -1 ) {
 				continue;
 			}
 			exp[i] = self[i];

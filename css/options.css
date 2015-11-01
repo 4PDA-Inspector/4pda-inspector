@@ -18,10 +18,10 @@ body {
 	border-radius: 10px;
 }
 
-#testNotifications {
+.linkStyled {
 	cursor: pointer;
 }
-#testNotifications:hover {
+.linkStyled:hover {
 	color: #43a047;
 }
 
@@ -65,4 +65,8 @@ label.text-link, label.text-link image {
 
 .whatsnew p {
 	font-size: 15px;
+}
+
+.userLinkUrl {
+	width: 300px;
 }

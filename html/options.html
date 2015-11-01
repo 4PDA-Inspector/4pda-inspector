@@ -17,7 +17,7 @@
 
 		<h2>Оповещения</h2>
 		<p>
-			Громкость звукового уведомления: <span id="inspector4pda_notificationSoundVolumeLabel"></span> &nbsp;<span id="testNotifications">ТЕСТ</span> <br>
+			Громкость звукового уведомления: <span id="inspector4pda_notificationSoundVolumeLabel"></span> &nbsp;<span id="testNotifications" class="linkStyled">ТЕСТ</span> <br>
 			<input type="range" name="notification_sound_volume" id="notification_sound_volume" min="0" max="1" step="0.05" />
 			<br>
 			<b>QMS</b>:<br>
@@ -47,6 +47,14 @@
 			Открывать порциями по: <input type="number" min="0" name="open_themes_limit"> <span class="infoLabel">0 - без ограничений</span><br>
 			<label><input type="checkbox" name="toolbar_markAllAsRead_button">"Пометить все темы прочитанными"</label>
 		</p>
+		<h2>Пользовательские ссылки</h2>
+		<div id="userLinksDiv">
+			<div class="userLinkDiv">
+				URL <input type="text" class="userLinkUrl"> Заголовок <input type="text" class="userLinkUrlTitle">
+			</div>
+			<span id="addUserLink" class="linkStyled">Добавить ссылку</span>
+		</div>
+
 		<h1>О дополнении</h1>
 		<div style="text-align: center">
 			<a href="http://4pdainspector.coddism.com/chrome.html" target="_blank"><img src="/icons/icon_128.png" width="128" height="128" /></a>
