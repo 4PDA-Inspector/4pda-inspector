@@ -1,7 +1,7 @@
 var bg = chrome.extension.getBackgroundPage().inspector4pda;
 var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
 
-const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w \.-]*)*\/?$/;
+const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w \.-\?\=]*)*\/?$/;
 
 printValues();
 
