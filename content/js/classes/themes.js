@@ -1,6 +1,6 @@
 inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'http://4pda.ru/forum/index.php?autocom=favtopics',
+	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
 	request: function(callback) {
@@ -99,11 +99,11 @@ inspector4pda.themes = {
 		var limit = inspector4pda.vars.open_themes_limit;
 
 		var themesIds = this.getThemesIds();
-		for (var i = 0; i < themesIds.length; i++) {
-			if (limit && i >= limit) {
+		for (var i = 1; i <= themesIds.length; i++) {
+			if (limit && i > limit) {
 				break;
 			}
-			inspector4pda.themes.open(themesIds[i]);
+			inspector4pda.themes.open(themesIds[themesIds.length-i]);
 		};
 		inspector4pda.cScript.printCount();
 	},

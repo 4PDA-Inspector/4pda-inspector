@@ -12,7 +12,7 @@ inspector4pda.toolbar = {
 		themesList: null,
 		settingsLabel: null,
 		openAllLabel: null,
-		openAllLabelPin: null,
+		openAllPinLabel: null,
 		readAllLabel: null,
 		manualRefresh: null
 	},
