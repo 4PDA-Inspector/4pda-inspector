@@ -103,22 +103,31 @@ document.getElementById('addUserLink').addEventListener('click', function() {
 });
 
 function printUserLinks(links) {
-    for (var i = 0; i < links.length; i++) {
-        var div = document.getElementsByClassName('userLinkDiv')[i];
-        if (!div) {
-            div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
-            document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
+
+    if (links.length) {
+        for (var i = 0; i < links.length; i++) {
+            var div = document.getElementsByClassName('userLinkDiv')[i];
+            if (!div) {
+                div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
+                document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
+            }
+            var inputs = div.getElementsByTagName('input');
+            for (var j = 0; j < inputs.length; j++) {
+                inputs[j].addEventListener('change', function() {
+                    saveUserLinks();
+                });
+            }
+            inputs[0].value = links[i].url;
+            inputs[1].value = links[i].title;
         }
-        var inputs = div.getElementsByTagName('input');
-        for (var j = 0; j < inputs.length; j++) {
-            inputs[j].addEventListener('change', function() {
+    } else {
+        var userLinkInputs = document.querySelectorAll('.userLinkDiv input');
+        for (var i = 0; i < userLinkInputs.length; i++) {
+            userLinkInputs[i].addEventListener('change', function() {
                 saveUserLinks();
             });
         }
-        inputs[0].value = links[i].url;
-        inputs[1].value = links[i].title;
     }
-    var userLinkDiv = document.getElementsByClassName('userLinkDiv')[0].cloneNode();
 }
 
 function saveUserLinks() {

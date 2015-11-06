@@ -110,7 +110,7 @@ popup = {
 			this.elements.readAllLabel.classList.add('hidden');
 		}
 
-		if (popup.bg.vars.user_links) {
+		if (popup.bg.vars.user_links && popup.bg.vars.user_links.length) {
 			this.printUserLinks();
 		}
 
