@@ -213,7 +213,8 @@ popup = {
 			lastPostLabel.addEventListener("click", function () {
 				popup.bg.themes.openLast(theme.id);
 				popup.bg.cScript.printCount();
-				//popup.elements.favoritesLabel.innerHTML = popup.bg.themes.getCount();
+				popup.printCount();
+				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
 			}, false);
 
 			// BOXES
