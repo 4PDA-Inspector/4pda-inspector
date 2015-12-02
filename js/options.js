@@ -48,9 +48,9 @@ function setValue(name, value) {
     bg.vars.setValue(name, value);
 }
 
-document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
+document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
 document.getElementById('notification_sound_volume').addEventListener('input', function() {
-    document.getElementById('inspector4pda_notificationSoundVolumeLabel').innerHTML = parseInt(this.value * 100) + '%';
+    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value * 100) + '%';
 });
 
 document.getElementById('notification_popup_qms').addEventListener('change', function() {

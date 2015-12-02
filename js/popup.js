@@ -88,12 +88,12 @@ popup = {
 	},
 
 	refresh: function(withoutPrintThemes) {
-		this.elements.usernameLabel.innerHTML = this.bg.user.name;
+		this.elements.usernameLabel.textContent = this.bg.user.name;
 		
-		this.elements.favoritesLabel.innerHTML = this.bg.themes.getCount();
+		this.elements.favoritesLabel.textContent = this.bg.themes.getCount();
 		this.elements.favoritesBox.className = this.bg.themes.getCount() ? 'hasUnread': '';
 
-		this.elements.qmsLabel.innerHTML = this.bg.QMS.getCount();
+		this.elements.qmsLabel.textContent = this.bg.QMS.getCount();
 		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
 
 		if (popup.bg.vars.toolbar_simple_list) {
@@ -141,7 +141,7 @@ popup = {
 	},
 
 	clearThemesList: function() {
-		this.elements.themesList.innerHTML = "";
+		this.elements.themesList.textContent = "";
 	},
 
 	printThemesList: function() {
@@ -155,7 +155,7 @@ popup = {
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');
-			noThemesLabel.innerHTML = inspector4pda.browser.getString('No unread topics');
+			noThemesLabel.textContent = inspector4pda.browser.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}
@@ -168,7 +168,7 @@ popup = {
 	createThemeRow: function(theme)	{
 		
 		var themeCaptionLabel = document.createElement('span');
-		themeCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
+		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
 		if (theme.pin && popup.bg.vars.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
@@ -178,7 +178,7 @@ popup = {
 		themeCaptionLabel.addEventListener("click", function () {
 			popup.bg.themes.open(theme.id);
 			popup.bg.cScript.printCount();
-			popup.elements.favoritesLabel.innerHTML = popup.bg.themes.getCount();
+			popup.elements.favoritesLabel.textContent = popup.bg.themes.getCount();
 			this.classList.add("readed");
 			popup.checkOpenthemeHiding();
 		}, false);
@@ -203,11 +203,11 @@ popup = {
 		if (!popup.bg.vars.toolbar_simple_list) {
 		
 			var userCaptionLabel = document.createElement('span');
-			userCaptionLabel.innerHTML = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
+			userCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
 
 			var lastPostLabel = document.createElement('span');
-			lastPostLabel.innerHTML = new Date(theme.last_post_ts*1000).toLocaleString();
+			lastPostLabel.textContent = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
 			lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
 			lastPostLabel.addEventListener("click", function () {
@@ -254,7 +254,7 @@ popup = {
 	printUserLinks: function() {
 		var uLinks = document.getElementById('userLinks');
 		uLinks.style.display = 'block';
-		uLinks.innerHTML = '';
+		uLinks.textContent = '';
 		for (var i = 0; i < popup.bg.vars.user_links.length; i++) {
 			var item = popup.bg.vars.user_links[i];
 			var link = document.createElement('a');
