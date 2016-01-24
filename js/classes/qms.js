@@ -19,6 +19,16 @@ inspector4pda.QMS = {
         xmr.send(inspector4pda.QMS.rUrl);
     },
 
+    requestDialog: function(id, callback) {
+        var xmr = new inspector4pda.XHR();
+        xmr.callback.success = function(resp) {
+            if (callback) {
+                callback(resp.responseText);
+            }
+        };
+        xmr.send(inspector4pda.QMS.rUrl + '&t=' + id);
+    },
+
     parse: function(text) {
         inspector4pda.QMS.count.messages = 0;
         inspector4pda.QMS.count.dialogs = 0;

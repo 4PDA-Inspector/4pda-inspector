@@ -2,6 +2,13 @@ inspector4pda.user = {
     rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=id',
     id: 0,
     name: '',
+    appUrl: '',
+
+    getCookieId: function(callback) {
+        inspector4pda.browser.getCookie('member_id', function(uid){
+            callback(uid);
+        });
+    },
 
     request: function(successCallback, notSuccessCallback) {
         var xmr = new inspector4pda.XHR();
@@ -32,6 +39,7 @@ inspector4pda.user = {
                 if (res.length == 2) {
                     inspector4pda.user.id = parseInt(res[0]);
                     inspector4pda.user.name = res[1];
+                    inspector4pda.user.appUrl = 'http://app.4pda.ru/er/u' + inspector4pda.user.id + '/s0';
                 } else {
                     inspector4pda.cScript.printLogout();
                 }

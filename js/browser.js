@@ -191,6 +191,19 @@ inspector4pda.browser = {
 
     setVarToStorage: function(field, value) {
         localStorage[field] = value;
+    },
+
+    getCookie: function(cookieName, callback) {
+        chrome.cookies.get({
+            url: 'http://4pda.ru/forum',
+            name: cookieName
+        }, function(cookie) {
+            if (cookie) {
+                callback(cookie.value);
+            } else {
+                callback(false);
+            }
+        });
     }
 
 };

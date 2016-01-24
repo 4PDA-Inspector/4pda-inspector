@@ -25,6 +25,24 @@ inspector4pda.utils = {
 		return parsed;
 	},
 
+	appParse: function(str) {
+		if (!str) {
+			return [];
+		}
+		var parsed = str.split(',');
+		var pq;
+		var ret = {};
+		for (var i = 0; i < parsed.length; i++) {
+			if (pq = parsed[i].split(':')) {
+				//parsed[i] = pq;
+				if (typeof ret[pq[0]] == 'undefined' || ret[pq[0]][3] < pq[3]) {
+					ret[pq[0]] = pq;
+				}
+			}
+		}
+		return ret;
+	},
+
 	htmlspecialcharsdecode: function (string)
 	{
 		var codes = string.match(/&#(\d+);/g);

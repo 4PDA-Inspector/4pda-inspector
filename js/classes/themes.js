@@ -3,7 +3,7 @@ inspector4pda.themes = {
 	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
-	request: function(callback) {
+	request: function(callback, id) {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
 			inspector4pda.themes.parse(resp.responseText);
@@ -12,6 +12,16 @@ inspector4pda.themes = {
 			}
 		};
 		xmr.send(inspector4pda.themes.rUrl);
+	},
+
+	requestTheme: function(id, callback) {
+		var xmr = new inspector4pda.XHR();
+		xmr.callback.success = function(resp) {
+			if (callback) {
+				callback(resp.responseText);
+			}
+		};
+		xmr.send(inspector4pda.themes.rUrl + '&t=' + id);
 	},
 
 	getThemesIds: function(withRead) {
@@ -52,9 +62,9 @@ inspector4pda.themes = {
 			if (tText[i]) {
 				var theme = new themeObj();
 				if (theme.parse(tText[i])) {
-					if (inspector4pda.vars.toolbar_only_pin && !theme.pin) {
+					/*if (inspector4pda.vars.toolbar_only_pin && !theme.pin) {
 						continue;
-					}
+					}*/
 					inspector4pda.themes.list[theme.id] = theme;
 				}
 			}
@@ -156,6 +166,7 @@ var themeObj = function () {
 	this.parse = function(text) {
 		try {
 			var obj = inspector4pda.utils.parse(text);
+
 			this.id = obj[0];
 			this.title = obj[1];
 			this.posts_num = obj[2];

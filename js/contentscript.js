@@ -11,21 +11,57 @@ inspector4pda.cScript = {
 
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
+	lastEvent: 0,
 
 	init: function(el)
 	{
 		inspector4pda.browser.csInit();
-		inspector4pda.cScript.request();
+		inspector4pda.cScript.firstRequest();
+		//inspector4pda.cScript.request();
+	},
+
+	firstRequest: function() {
+		inspector4pda.vars.getPrefs();
+
+		clearTimeout(inspector4pda.cScript.updateTimer);
+
+		inspector4pda.user.getCookieId(function(uid){
+			if (uid) {
+				inspector4pda.user.request(function() {
+					inspector4pda.cScript.successLastRequest = true;
+					if (inspector4pda.user.id) {
+						inspector4pda.themes.request(function() {
+							inspector4pda.QMS.request(function() {
+								inspector4pda.cScript.printCount();
+							});
+						});
+					} else {
+						inspector4pda.cScript.requestsCount = 0;
+						inspector4pda.cScript.printCount();
+						inspector4pda.cScript.clearData();
+					}
+				}, function() {
+					inspector4pda.cScript.successLastRequest = false;
+					inspector4pda.cScript.clearData();
+				});
+			}
+		});
+
+		setTimeout(function() {
+			inspector4pda.cScript.request();
+		}, inspector4pda.vars.interval * 1000);
 	},
 
 	request: function(interval, callback)
 	{
-		inspector4pda.vars.getPrefs();
+		if (!inspector4pda.user.id) {
+			inspector4pda.cScript.firstRequest();
+			return false;
+		}
 
+		inspector4pda.vars.getPrefs();
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData(callback);
-
-		//console.log((new Date()).toLocaleString(), 'request', inspector4pda.vars.interval);
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
@@ -34,7 +70,16 @@ inspector4pda.cScript = {
 
 	getData: function(callback)
 	{
-		var finishCallback = function(){
+		inspector4pda.user.getCookieId(function(uid){
+			if (uid && uid == inspector4pda.user.id) {
+				inspector4pda.cScript.checkUpdates();
+			} else {
+				inspector4pda.cScript.clearData();
+				inspector4pda.cScript.firstRequest();
+			}
+		});
+
+		/*var finishCallback = function(){
 			inspector4pda.cScript.printCount();
 			if (inspector4pda.user.id && inspector4pda.cScript.requestsCount++) {
 				inspector4pda.cScript.checkNews();
@@ -58,22 +103,118 @@ inspector4pda.cScript = {
 				inspector4pda.cScript.clearData();
 			}
 		}, function() {
-			/*if (inspector4pda.cScript.successLastRequest) {
-				inspector4pda.cScript.siteUnavailableNotification();
-			}*/
 			inspector4pda.cScript.successLastRequest = false;
 			inspector4pda.cScript.clearData();
 			if (typeof callback == 'function') {
 				callback();
 			}
-		});
+		});*/
+	},
+
+	checkUpdates: function(callback) {
+		//todo callback
+		var xmr = new inspector4pda.XHR();
+		xmr.callback.success = function(resp) {
+			if (resp.responseText) {
+				var updates = inspector4pda.utils.appParse(resp.responseText);
+				for (var i in updates) {
+					var id =  parseInt(updates[i][0].substr(1));
+
+					var isAddAction = true;
+					if (updates[i][1] == 1) {
+						isAddAction = true;
+					} else if (updates[i][1] == 2) {
+						isAddAction = false;
+					} else {
+						continue;
+					}
+
+					switch (updates[i][0].substr(0,1)) {
+						case 't':
+							if (isAddAction) {
+
+								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts == updates[i][2]) {
+									// do nothing
+								} else {
+									inspector4pda.themes.requestTheme(id, function (themesResp) {
+										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+												inspector4pda.themes.list[theme.id] = theme;
+												inspector4pda.cScript.printCount();
+
+												// todo checkbox "Оповещении только при первом непрочитанном комментарии"
+												if (theme.last_user_id != inspector4pda.user.id) {
+													inspector4pda.cScript.addNotification(
+														theme.id,
+														'theme',
+														inspector4pda.utils.htmlspecialcharsdecode(theme.title),
+														inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
+													);
+													inspector4pda.cScript.playNotificationSound('theme');
+													inspector4pda.cScript.showNotifications();
+												}
+											}
+										}
+									});
+								}
+							} else {
+								delete inspector4pda.themes.list[id];
+								inspector4pda.cScript.printCount();
+							}
+							break;
+						case 'q':
+							if (isAddAction) {
+								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id == updates[i][2]) {
+									// do nothing
+								} else {
+									inspector4pda.QMS.requestDialog(id, function (resp) {
+										if (resp) {
+											var dialog = new qDialog();
+											if (dialog.parse(resp)) {
+												inspector4pda.QMS.list[dialog.id] = dialog;
+												inspector4pda.cScript.printCount();
+
+
+												inspector4pda.cScript.addNotification(
+													dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
+													'qms',
+													parseInt(dialog.opponent_id) ?
+														inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
+														this.systemNotificationTitle,
+													inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
+												);
+
+												inspector4pda.cScript.playNotificationSound('QMS');
+												inspector4pda.cScript.showNotifications();
+											}
+										}
+									});
+								}
+							} else {
+								delete inspector4pda.QMS.list[id];
+								inspector4pda.cScript.printCount();
+							}
+							break;
+						default:
+							continue;
+					}
+
+					if (updates[i][3] > inspector4pda.cScript.lastEvent) {
+						inspector4pda.cScript.lastEvent = updates[i][3];
+					}
+				}
+				inspector4pda.cScript.printCount();
+			}
+		};
+		xmr.send('http://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
 	},
 
 	printCount: function()
 	{
 		if (!inspector4pda.user.id) {
 			inspector4pda.cScript.printLogout();
-			return;
+			return false;
 		}
 		var qCount = inspector4pda.QMS.getCount();
 		var tCount = inspector4pda.themes.getCount();
@@ -89,69 +230,6 @@ inspector4pda.cScript = {
 		iBrowser.setBadgeBackgroundColor(iBrowser.logoutColor);
 		iBrowser.setButtonIcon(iBrowser.logoutIcon);
 		iBrowser.setTitle( iBrowser.getString( unavailable ? "4PDA_Site Unavailable" : "4PDA_offline" ) );
-	},
-
-	checkNews: function () {
-		var hasNewQMS = false;
-		if (inspector4pda.vars.notification_popup_qms || inspector4pda.vars.notification_sound_qms) {
-			for (var i in inspector4pda.QMS.list) {
-				var addNot = false;
-				if (typeof inspector4pda.cScript.prevData.QMS[i] == 'undefined') {
-					addNot = true;
-				} else {
-					if (inspector4pda.cScript.prevData.QMS[i].last_msg_ts < inspector4pda.QMS.list[i].last_msg_ts) {
-						addNot = true;
-					}
-				}
-
-				if (addNot) {
-					hasNewQMS = true;
-					if (inspector4pda.vars.notification_popup_qms) {
-						inspector4pda.cScript.addNotification(
-							inspector4pda.QMS.list[i].opponent_id + '_' + inspector4pda.QMS.list[i].id + '_' + inspector4pda.QMS.list[i].last_msg_ts,
-							'qms',
-							parseInt(inspector4pda.QMS.list[i].opponent_id) ?
-								inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].opponent_name) :
-								this.systemNotificationTitle,
-							inspector4pda.utils.htmlspecialcharsdecode(inspector4pda.QMS.list[i].title) + ' (' + inspector4pda.QMS.list[i].unread_msgs + ')'
-						);
-					}
-				}
-			}
-		}
-
-		var hasNewThemes = false;
-		if (inspector4pda.vars.notification_popup_themes || inspector4pda.vars.notification_sound_themes) {
-			var themesIds = inspector4pda.themes.getThemesIds(true);
-			themesIds.forEach(function(j) {
-				var prevTheme = inspector4pda.cScript.prevData.themes[j];
-				var newTheme = inspector4pda.themes.list[j];
-
-				if (
-					(typeof prevTheme == 'undefined' ||
-					(prevTheme.isRead() && (prevTheme.last_post_ts < newTheme.last_post_ts ) ))
-					&& (newTheme.last_user_id != inspector4pda.user.id)
-				) {
-					hasNewThemes = true;
-					if (inspector4pda.vars.notification_popup_themes) {
-						inspector4pda.cScript.addNotification(
-							j,
-							'theme',
-							inspector4pda.utils.htmlspecialcharsdecode(newTheme.title),
-							inspector4pda.utils.htmlspecialcharsdecode(newTheme.last_user_name)
-						);
-					}
-				}
-			});
-		}
-
-		if ((hasNewQMS && inspector4pda.vars.notification_sound_qms) || (hasNewThemes && inspector4pda.vars.notification_sound_themes)) {
-			inspector4pda.browser.playNotificationSound();
-		}
-
-		if ((hasNewQMS && inspector4pda.vars.notification_popup_qms) || (hasNewThemes && inspector4pda.vars.notification_popup_themes)) {
-			inspector4pda.cScript.showNotifications();
-		}
 	},
 
 	addNotification: function(id, type, title, message) {
@@ -183,6 +261,12 @@ inspector4pda.cScript = {
 			id: notificationId,
 			icon: icon
 		});
+	},
+
+	playNotificationSound: function (type) {
+		if ((type == 'QMS' && inspector4pda.vars.notification_sound_qms) || (type == 'theme' && inspector4pda.vars.notification_sound_themes)) {
+			inspector4pda.browser.playNotificationSound();
+		}
 	},
 
 	showNotifications: function() {

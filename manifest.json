@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
 	"name": "4PDA Инспектор",
-	"version": "3.1.2",
+	"version": "3.2",
 
 	"description": "Мониторинг изменений на форуме 4pda.ru",
     "homepage_url": "http://4pdainspector.coddism.com",
@@ -13,6 +13,7 @@
 
 	"permissions": [
 		"tabs",
+	    "cookies",
 		"http://4pda.ru/forum/*",
 		"notifications",
 		"storage"
