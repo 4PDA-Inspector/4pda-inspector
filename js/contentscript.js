@@ -205,15 +205,17 @@ inspector4pda.cScript = {
 										if (resp) {
 											var dialog = new qDialog();
 											if (dialog.parse(resp)) {
-												inspector4pda.QMS.list[dialog.id] = dialog;
-												inspector4pda.cScript.addNotification(
-													dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
-													'qms',
-													parseInt(dialog.opponent_id) ?
-														inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
-														this.systemNotificationTitle,
-													inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
-												);
+												if (dialog.unread_msgs > 0) {
+													inspector4pda.QMS.list[dialog.id] = dialog;
+													inspector4pda.cScript.addNotification(
+														dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
+														'qms',
+														parseInt(dialog.opponent_id) ?
+															inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
+															this.systemNotificationTitle,
+														inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
+													);
+												}
 											}
 										}
 										checkLastUpdate('QMS' + dialogId);
