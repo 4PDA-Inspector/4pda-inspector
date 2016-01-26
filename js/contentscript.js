@@ -37,8 +37,11 @@ inspector4pda.cScript = {
 					}
 				}, function() {
 					inspector4pda.cScript.clearData();
+					inspector4pda.cScript.printLogout(true);
 					inspector4pda.utils.callIfFunction(callback);
 				});
+			} else {
+				inspector4pda.cScript.printLogout();
 			}
 		});
 
