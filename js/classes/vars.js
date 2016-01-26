@@ -23,6 +23,8 @@ inspector4pda.vars = {
 	toolbar_simple_list: false,	
 	toolbar_openAllFavs_button: true,
 	toolbar_markAllAsRead_button: true,
+	toolbar_width_fixed: false,
+	toolbar_width: 400,
 
 	user_links: [],
 
@@ -65,6 +67,8 @@ inspector4pda.vars = {
 		this.getValue('toolbar_simple_list', false);
 		this.getValue('toolbar_openAllFavs_button', true);
 		this.getValue('toolbar_markAllAsRead_button', true);
+		this.getValue('toolbar_width_fixed', false);
+		this.getValue('toolbar_width', 400);
 	},
 
 	getValue: function(field, defaultValue, multiplier)
@@ -101,6 +105,9 @@ inspector4pda.vars = {
 		switch (field) {
 			case 'interval':
 				value = Math.max( value, 5);
+				break;
+			case 'toolbar_width':
+				value = Math.max( value, 400);
 				break;
 			case 'open_themes_limit':
 				value = Math.max( value, 0);

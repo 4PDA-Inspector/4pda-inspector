@@ -163,6 +163,11 @@ body {
 	color: #2196F3;
 }
 
+body.widthFixed #themesList .oneTheme_caption {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 #themesList .oneTheme_pin {
 	color: #43a047;
 }

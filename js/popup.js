@@ -30,6 +30,11 @@ popup = {
 			window.close();
 			return false;
 		}
+
+		if (this.bg.vars.toolbar_width_fixed) {
+			document.getElementsByTagName("body")[0].style.width = this.bg.vars.toolbar_width;
+			document.getElementsByTagName("body")[0].className = 'widthFixed';
+		}
 		
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
