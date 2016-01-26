@@ -4,7 +4,7 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.browser = {
 
-    currentBuild: '20151025-1711',
+    currentBuild: '20160127-0341',
 
     defaultIcon: '/icons/icon_19.png',
     hasQmsIcon: '/icons/icon_19_qms.png',
