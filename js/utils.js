@@ -64,6 +64,12 @@ inspector4pda.utils = {
 	openPage: function(page, setActive, callback) {
 		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
 		inspector4pda.browser.openPage(page, setActive, callback);
+	},
+
+	callIfFunction: function(callback) {
+		if (typeof callback == 'function') {
+			callback();
+		}
 	}
 };
 

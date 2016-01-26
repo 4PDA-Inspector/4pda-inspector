@@ -13,14 +13,15 @@ inspector4pda.cScript = {
 	systemNotificationErrorType: 'site_unavailable',
 	lastEvent: 0,
 
+	updatesTurn: {},
+
 	init: function(el)
 	{
 		inspector4pda.browser.csInit();
 		inspector4pda.cScript.firstRequest();
-		//inspector4pda.cScript.request();
 	},
 
-	firstRequest: function() {
+	firstRequest: function(callback) {
 		inspector4pda.vars.getPrefs();
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
@@ -33,26 +34,29 @@ inspector4pda.cScript = {
 						inspector4pda.themes.request(function() {
 							inspector4pda.QMS.request(function() {
 								inspector4pda.cScript.printCount();
+								inspector4pda.utils.callIfFunction(callback);
 							});
 						});
 					} else {
 						inspector4pda.cScript.requestsCount = 0;
 						inspector4pda.cScript.printCount();
 						inspector4pda.cScript.clearData();
+						inspector4pda.utils.callIfFunction(callback);
 					}
 				}, function() {
 					inspector4pda.cScript.successLastRequest = false;
 					inspector4pda.cScript.clearData();
+					inspector4pda.utils.callIfFunction(callback);
 				});
 			}
 		});
 
-		setTimeout(function() {
+		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
 		}, inspector4pda.vars.interval * 1000);
 	},
 
-	request: function(interval, callback)
+	request: function(callback)
 	{
 		if (!inspector4pda.user.id) {
 			inspector4pda.cScript.firstRequest();
@@ -65,55 +69,40 @@ inspector4pda.cScript = {
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
-		}, (interval || inspector4pda.vars.interval * 1000));
+		}, inspector4pda.vars.interval * 1000);
 	},
 
 	getData: function(callback)
 	{
 		inspector4pda.user.getCookieId(function(uid){
 			if (uid && uid == inspector4pda.user.id) {
-				inspector4pda.cScript.checkUpdates();
+				inspector4pda.cScript.checkUpdates(callback);
 			} else {
 				inspector4pda.cScript.clearData();
-				inspector4pda.cScript.firstRequest();
+				inspector4pda.cScript.firstRequest(callback);
 			}
 		});
-
-		/*var finishCallback = function(){
-			inspector4pda.cScript.printCount();
-			if (inspector4pda.user.id && inspector4pda.cScript.requestsCount++) {
-				inspector4pda.cScript.checkNews();
-			}
-			if (typeof callback == 'function') {
-				callback();
-			}
-		};
-
-		inspector4pda.cScript.prevData.themes = Object.create(inspector4pda.themes.list);
-		inspector4pda.cScript.prevData.QMS = Object.create(inspector4pda.QMS.list);
-		inspector4pda.user.request(function() {
-			inspector4pda.cScript.successLastRequest = true;
-			if (inspector4pda.user.id) {
-				inspector4pda.themes.request(function() {
-					inspector4pda.QMS.request(finishCallback);
-				});
-			} else {
-				inspector4pda.cScript.requestsCount = 0;
-				finishCallback();
-				inspector4pda.cScript.clearData();
-			}
-		}, function() {
-			inspector4pda.cScript.successLastRequest = false;
-			inspector4pda.cScript.clearData();
-			if (typeof callback == 'function') {
-				callback();
-			}
-		});*/
 	},
 
 	checkUpdates: function(callback) {
+
+		var finishCallback = function(){
+			inspector4pda.cScript.printCount();
+			inspector4pda.cScript.checkNotifications();
+			inspector4pda.utils.callIfFunction(callback);
+		};
+
 		//todo callback
 		var xmr = new inspector4pda.XHR();
+		xmr.callback.timeout = function() {
+			finishCallback();
+		};
+		xmr.callback.error = function() {
+			finishCallback();
+		};
+		xmr.callback.not200Success = function() {
+			finishCallback();
+		};
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
 				var updates = inspector4pda.utils.appParse(resp.responseText);
@@ -136,31 +125,18 @@ inspector4pda.cScript = {
 								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts == updates[i][2]) {
 									// do nothing
 								} else {
-									inspector4pda.themes.requestTheme(id, function (themesResp) {
-										if (themesResp) {
-											var theme = new themeObj();
-											if (theme.parse(themesResp)) {
-												inspector4pda.themes.list[theme.id] = theme;
-												inspector4pda.cScript.printCount();
-
-												// todo checkbox "Оповещении только при первом непрочитанном комментарии"
-												if (theme.last_user_id != inspector4pda.user.id) {
-													inspector4pda.cScript.addNotification(
-														theme.id,
-														'theme',
-														inspector4pda.utils.htmlspecialcharsdecode(theme.title),
-														inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
-													);
-													inspector4pda.cScript.playNotificationSound('theme');
-													inspector4pda.cScript.showNotifications();
-												}
-											}
-										}
-									});
+									inspector4pda.cScript.updatesTurn['theme' + id] = {
+										type: 'theme',
+										action: 'add',
+										id: id
+									};
 								}
 							} else {
-								delete inspector4pda.themes.list[id];
-								inspector4pda.cScript.printCount();
+								inspector4pda.cScript.updatesTurn['theme' + id] = {
+									type: 'theme',
+									action: 'delete',
+									id: id
+								};
 							}
 							break;
 						case 'q':
@@ -168,32 +144,18 @@ inspector4pda.cScript = {
 								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id == updates[i][2]) {
 									// do nothing
 								} else {
-									inspector4pda.QMS.requestDialog(id, function (resp) {
-										if (resp) {
-											var dialog = new qDialog();
-											if (dialog.parse(resp)) {
-												inspector4pda.QMS.list[dialog.id] = dialog;
-												inspector4pda.cScript.printCount();
-
-
-												inspector4pda.cScript.addNotification(
-													dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
-													'qms',
-													parseInt(dialog.opponent_id) ?
-														inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
-														this.systemNotificationTitle,
-													inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
-												);
-
-												inspector4pda.cScript.playNotificationSound('QMS');
-												inspector4pda.cScript.showNotifications();
-											}
-										}
-									});
+									inspector4pda.cScript.updatesTurn['QMS' + id] = {
+										type: 'QMS',
+										action: 'add',
+										id: id
+									};
 								}
 							} else {
-								delete inspector4pda.QMS.list[id];
-								inspector4pda.cScript.printCount();
+								inspector4pda.cScript.updatesTurn['QMS' + id] = {
+									type: 'QMS',
+									action: 'delete',
+									id: id
+								};
 							}
 							break;
 						default:
@@ -204,14 +166,86 @@ inspector4pda.cScript = {
 						inspector4pda.cScript.lastEvent = updates[i][3];
 					}
 				}
-				inspector4pda.cScript.printCount();
+
+				var checkLastUpdate = function(key) {
+					delete inspector4pda.cScript.updatesTurn[key];
+					if (!Object.keys(inspector4pda.cScript.updatesTurn).length) {
+						finishCallback();
+					}
+				};
+
+				var updateKeys = Object.keys(inspector4pda.cScript.updatesTurn);
+				if (updateKeys.length) {
+					for (var j = 0; j < updateKeys.length; j++) {
+						var updateElement = inspector4pda.cScript.updatesTurn[updateKeys[j]];
+						switch (updateElement.type) {
+							case 'theme':
+								if (updateElement.action == 'add') {
+									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
+										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+
+												if (!inspector4pda.themes.list[theme.id]) {
+													// todo checkbox "Оповещении только при первом непрочитанном комментарии"
+													if (theme.last_user_id != inspector4pda.user.id) {
+														inspector4pda.cScript.addNotification(
+															theme.id,
+															'theme',
+															inspector4pda.utils.htmlspecialcharsdecode(theme.title),
+															inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
+														);
+													}
+												}
+
+												inspector4pda.themes.list[theme.id] = theme;
+												inspector4pda.cScript.printCount();
+											}
+										}
+										checkLastUpdate('theme' + themeId);
+									});
+								} else {
+									delete inspector4pda.themes.list[updateElement.id];
+									checkLastUpdate(updateKeys[j]);
+								}
+								break;
+							case 'QMS':
+								if (updateElement.action == 'add') {
+									inspector4pda.QMS.requestDialog(updateElement.id, function (resp, dialogId) {
+										if (resp) {
+											var dialog = new qDialog();
+											if (dialog.parse(resp)) {
+												inspector4pda.QMS.list[dialog.id] = dialog;
+												inspector4pda.cScript.addNotification(
+													dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
+													'qms',
+													parseInt(dialog.opponent_id) ?
+														inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
+														this.systemNotificationTitle,
+													inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
+												);
+											}
+										}
+										checkLastUpdate('QMS' + dialogId);
+									});
+								} else {
+									delete inspector4pda.QMS.list[updateElement.id];
+									checkLastUpdate(updateKeys[j]);
+								}
+								break;
+						}
+					}
+				} else {
+					finishCallback();
+				}
+			} else {
+				finishCallback();
 			}
 		};
 		xmr.send('http://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
 	},
 
-	printCount: function()
-	{
+	printCount: function() {
 		if (!inspector4pda.user.id) {
 			inspector4pda.cScript.printLogout();
 			return false;
@@ -222,10 +256,8 @@ inspector4pda.cScript = {
 		inspector4pda.browser.printCount(qCount, tCount);
 	},
 
-	printLogout: function(unavailable)
-	{
+	printLogout: function(unavailable) {
 		var iBrowser = inspector4pda.browser;
-
 		iBrowser.setBadgeText(unavailable ? "N/A" : 'login');
 		iBrowser.setBadgeBackgroundColor(iBrowser.logoutColor);
 		iBrowser.setButtonIcon(iBrowser.logoutIcon);
@@ -263,10 +295,20 @@ inspector4pda.cScript = {
 		});
 	},
 
-	playNotificationSound: function (type) {
-		if ((type == 'QMS' && inspector4pda.vars.notification_sound_qms) || (type == 'theme' && inspector4pda.vars.notification_sound_themes)) {
+	checkNotifications: function() {
+		if (!inspector4pda.cScript.notifications.length) {
+			return false;
+		}
+		var hasQMS = false,
+			hasTheme = false;
+		for (var i = 0; i < inspector4pda.cScript.notifications.length; i++) {
+			hasTheme |= (inspector4pda.cScript.notifications[i].type == 'theme');
+		    hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
+		}
+		if ((hasQMS && inspector4pda.vars.notification_sound_qms) || (hasTheme && inspector4pda.vars.notification_sound_themes)) {
 			inspector4pda.browser.playNotificationSound();
 		}
+		inspector4pda.cScript.showNotifications();
 	},
 
 	showNotifications: function() {

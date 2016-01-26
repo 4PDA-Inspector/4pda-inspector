@@ -18,7 +18,7 @@ inspector4pda.themes = {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
 			if (callback) {
-				callback(resp.responseText);
+				callback(resp.responseText, id);
 			}
 		};
 		xmr.send(inspector4pda.themes.rUrl + '&t=' + id);
