@@ -18,6 +18,8 @@ inspector4pda.cScript = {
 	firstRequest: function(callback) {
 		inspector4pda.vars.getPrefs();
 
+		var interval = inspector4pda.vars.interval * 1000;
+
 		clearTimeout(inspector4pda.cScript.updateTimer);
 
 		inspector4pda.user.getCookieId(function(uid){
@@ -41,13 +43,14 @@ inspector4pda.cScript = {
 					inspector4pda.utils.callIfFunction(callback);
 				});
 			} else {
+				interval = 1000;
 				inspector4pda.cScript.printLogout();
 			}
-		});
 
-		inspector4pda.cScript.updateTimer = setTimeout(function() {
-			inspector4pda.cScript.request();
-		}, inspector4pda.vars.interval * 1000);
+			inspector4pda.cScript.updateTimer = setTimeout(function() {
+				inspector4pda.cScript.request();
+			}, interval);
+		});
 	},
 
 	request: function(callback)
