@@ -1,13 +1,7 @@
 inspector4pda.cScript = {
 
 	updateTimer: 0,
-	prevData: {
-		themes: {},
-		QMS: {}
-	},
-	requestsCount: 0,
 	notifications: [],
-	successLastRequest: true,
 
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
@@ -29,7 +23,6 @@ inspector4pda.cScript = {
 		inspector4pda.user.getCookieId(function(uid){
 			if (uid) {
 				inspector4pda.user.request(function() {
-					inspector4pda.cScript.successLastRequest = true;
 					if (inspector4pda.user.id) {
 						inspector4pda.themes.request(function() {
 							inspector4pda.QMS.request(function() {
@@ -38,13 +31,11 @@ inspector4pda.cScript = {
 							});
 						});
 					} else {
-						inspector4pda.cScript.requestsCount = 0;
 						inspector4pda.cScript.printCount();
 						inspector4pda.cScript.clearData();
 						inspector4pda.utils.callIfFunction(callback);
 					}
 				}, function() {
-					inspector4pda.cScript.successLastRequest = false;
 					inspector4pda.cScript.clearData();
 					inspector4pda.utils.callIfFunction(callback);
 				});
@@ -92,7 +83,6 @@ inspector4pda.cScript = {
 			inspector4pda.utils.callIfFunction(callback);
 		};
 
-		//todo callback
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.timeout = function() {
 			finishCallback();
