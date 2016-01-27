@@ -35,6 +35,9 @@ inspector4pda.utils = {
 		for (var i = 0; i < parsed.length; i++) {
 			if (pq = parsed[i].split(':')) {
 				//parsed[i] = pq;
+				pq[1] = parseInt(pq[1]);
+				pq[2] = parseInt(pq[2]);
+				pq[3] = parseInt(pq[3]);
 				if (typeof ret[pq[0]] == 'undefined' || ret[pq[0]][3] < pq[3]) {
 					ret[pq[0]] = pq;
 				}
