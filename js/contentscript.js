@@ -181,9 +181,12 @@ inspector4pda.cScript = {
 										if (themesResp) {
 											var theme = new themeObj();
 											if (theme.parse(themesResp)) {
+												var isNewTheme = (!inspector4pda.themes.list[theme.id]);
+												inspector4pda.themes.list[theme.id] = theme;
+												inspector4pda.cScript.printCount();
 
-												if (!inspector4pda.themes.list[theme.id]) {
-													// todo checkbox "Оповещении только при первом непрочитанном комментарии"
+												if (isNewTheme) {
+													// todo checkbox "Оповещения при каждом новом комментарии"
 													if (theme.last_user_id != inspector4pda.user.id) {
 														inspector4pda.cScript.addNotification(
 															theme.id,
@@ -193,9 +196,6 @@ inspector4pda.cScript = {
 														);
 													}
 												}
-
-												inspector4pda.themes.list[theme.id] = theme;
-												inspector4pda.cScript.printCount();
 											}
 										}
 										checkLastUpdate('theme' + themeId);
