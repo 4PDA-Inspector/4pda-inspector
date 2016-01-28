@@ -273,6 +273,9 @@ inspector4pda.cScript = {
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
+				if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
+					return false;
+				}
 				icon = inspector4pda.browser.notificationThemeIcon;
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;

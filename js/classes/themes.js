@@ -27,6 +27,10 @@ inspector4pda.themes = {
 	getThemesIds: function(withRead) {
 		var ids = [];
 		Object.keys(inspector4pda.themes.list).forEach(function(id){
+			if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
+				return false;
+			}
+
 			if (withRead || !inspector4pda.themes.list[id].isRead()) {
 				ids.push(id);
 			}
