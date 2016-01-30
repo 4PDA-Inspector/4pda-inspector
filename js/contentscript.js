@@ -118,7 +118,7 @@ inspector4pda.cScript = {
 						case 't':
 							if (isAddAction) {
 
-								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts == updates[i][2]) {
+								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts >= updates[i][2]) {
 									// do nothing
 								} else {
 									inspector4pda.cScript.updatesTurn['theme' + id] = {
@@ -137,7 +137,7 @@ inspector4pda.cScript = {
 							break;
 						case 'q':
 							if (isAddAction) {
-								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id == updates[i][2]) {
+								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id >= updates[i][2]) {
 									// do nothing
 								} else {
 									inspector4pda.cScript.updatesTurn['QMS' + id] = {
@@ -361,6 +361,7 @@ inspector4pda.cScript = {
 
 	clearData: function() {
 		inspector4pda.user.clearData();
+		inspector4pda.cScript.lastEvent = 0;
 	}
 };
 
