@@ -273,6 +273,9 @@ inspector4pda.cScript = {
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
+				if (!inspector4pda.vars.notification_popup_themes) {
+					return false;
+				}
 				if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 					return false;
 				}
@@ -280,6 +283,9 @@ inspector4pda.cScript = {
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
+				if (!inspector4pda.vars.notification_popup_qms) {
+					return false;
+				}
 				icon = inspector4pda.browser.notificationQMSIcon;
 				break;
 			default:
