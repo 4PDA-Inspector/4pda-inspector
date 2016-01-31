@@ -54,7 +54,7 @@ inspector4pda.browser = {
 
         var build = this.bgClass.vars.getValue('build', false);
         if (!build || build < this.currentBuild) {
-            this.openPage('chrome-extension://' + chrome.i18n.getMessage("@@extension_id") + '/html/whatsnew.html');
+            this.openPage(chrome.extension.getURL('html/whatsnew.html'));
             this.bgClass.vars.setValue('build', this.currentBuild);
         }
     },
