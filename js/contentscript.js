@@ -48,6 +48,7 @@ inspector4pda.cScript = {
 			}
 
 			inspector4pda.cScript.updateTimer = setTimeout(function() {
+				inspector4pda.cScript.lastEvent = 0;
 				inspector4pda.cScript.request();
 			}, interval);
 		});
@@ -101,8 +102,15 @@ inspector4pda.cScript = {
 		};
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
-				var updates = inspector4pda.utils.appParse(resp.responseText);
+				var parsed = inspector4pda.utils.appParse(resp.responseText);
+
+				if (parsed.lastEvent) {
+					inspector4pda.cScript.lastEvent = parsed.lastEvent;
+				}
+				var updates = parsed.events;
+
 				for (var i in updates) {
+
 					var id =  parseInt(updates[i][0].substr(1));
 
 					var isAddAction = true;
@@ -156,10 +164,6 @@ inspector4pda.cScript = {
 							break;
 						default:
 							continue;
-					}
-
-					if (updates[i][3] > inspector4pda.cScript.lastEvent) {
-						inspector4pda.cScript.lastEvent = updates[i][3];
 					}
 				}
 

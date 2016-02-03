@@ -32,18 +32,24 @@ inspector4pda.utils = {
 		var parsed = str.split(',');
 		var pq;
 		var ret = {};
-		for (var i = 0; i < parsed.length; i++) {
+		var lastEvent = false;
+		for (var i = parsed.length - 1; i >= 0; i--) {
 			if (pq = parsed[i].split(':')) {
-				//parsed[i] = pq;
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
-				if (typeof ret[pq[0]] == 'undefined' || ret[pq[0]][3] < pq[3]) {
+				if (typeof ret[pq[0]] == 'undefined') {
 					ret[pq[0]] = pq;
+				}
+				if (lastEvent === false) {
+					lastEvent = pq[3];
 				}
 			}
 		}
-		return ret;
+		return {
+			events: ret,
+			lastEvent: lastEvent
+		};
 	},
 
 	htmlspecialcharsdecode: function (string)

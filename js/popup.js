@@ -135,7 +135,7 @@ popup = {
 			popup.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
 		}, 30);
 
-		this.bg.cScript.request(function() {
+		this.bg.cScript.firstRequest(function() {
 			clearInterval(popup.refreshImgRotateInterval);
 			popup.refresh();
 		});
