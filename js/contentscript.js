@@ -6,6 +6,8 @@ inspector4pda.cScript = {
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
 	lastEvent: 0,
+    lastRequest: 0,
+    criticalBreak: 300000, //5 minutes
 
 	updatesTurn: {},
 
@@ -49,6 +51,7 @@ inspector4pda.cScript = {
 
 			inspector4pda.cScript.updateTimer = setTimeout(function() {
 				inspector4pda.cScript.lastEvent = 0;
+                inspector4pda.cScript.lastRequest = inspector4pda.utils.now();
 				inspector4pda.cScript.request();
 			}, interval);
 		});
@@ -56,10 +59,13 @@ inspector4pda.cScript = {
 
 	request: function(callback)
 	{
-		if (!inspector4pda.user.id) {
+        var now = inspector4pda.utils.now();
+        if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
+            console.warn('Do first request.', new Date());
 			inspector4pda.cScript.firstRequest();
 			return false;
 		}
+        inspector4pda.cScript.lastRequest = now;
 
 		inspector4pda.vars.getPrefs();
 		clearTimeout(inspector4pda.cScript.updateTimer);

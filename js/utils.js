@@ -87,6 +87,10 @@ inspector4pda.utils = {
 		if (typeof callback == 'function') {
 			callback();
 		}
+	},
+
+	now: function() {
+		return new Date().getTime()
 	}
 };
 
