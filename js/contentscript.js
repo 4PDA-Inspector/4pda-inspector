@@ -146,10 +146,6 @@ inspector4pda.cScript = {
 							};
 							break;
 						case 'f':
-                            /*
-                             * f640:2:1455314632:16172
-                             * read forum 640
-                             */
                             if (id === 0 && updates[i][1] == 3) {
                             	clearAllThemes = true;
                                 inspector4pda.themes.clear();
