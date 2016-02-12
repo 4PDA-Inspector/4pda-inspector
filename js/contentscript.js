@@ -266,9 +266,6 @@ inspector4pda.cScript = {
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
-				if (!inspector4pda.vars.notification_popup_themes) {
-					return false;
-				}
 				if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 					return false;
 				}
@@ -276,9 +273,6 @@ inspector4pda.cScript = {
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
-				if (!inspector4pda.vars.notification_popup_qms) {
-					return false;
-				}
 				icon = inspector4pda.browser.notificationQMSIcon;
 				break;
 			default:
@@ -316,7 +310,17 @@ inspector4pda.cScript = {
 			return false;
 		}
 
+        setTimeout(function() {
+            inspector4pda.cScript.showNotifications();
+        }, 50);
+
 		var currentNotification = inspector4pda.cScript.notifications.shift();
+        if (currentNotification.type == 'theme' && !inspector4pda.vars.notification_popup_themes) {
+            return false;
+        }
+        if (currentNotification.type == 'qms' && !inspector4pda.vars.notification_popup_qms) {
+            return false;
+        }
 
 		inspector4pda.browser.showNotification({
 			id: currentNotification.id,
@@ -324,10 +328,6 @@ inspector4pda.cScript = {
 			message: currentNotification.body,
 			iconUrl: currentNotification.icon
 		});
-
-		setTimeout(function() {
-			inspector4pda.cScript.showNotifications();
-		}, 50);
 	},
 
 	notificationClick: function(tag) {
