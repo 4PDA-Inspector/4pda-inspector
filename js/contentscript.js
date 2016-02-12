@@ -104,62 +104,49 @@ inspector4pda.cScript = {
 			if (resp.responseText) {
 				var parsed = inspector4pda.utils.appParse(resp.responseText);
 
+				//console.log(parsed);
+
 				if (parsed.lastEvent) {
 					inspector4pda.cScript.lastEvent = parsed.lastEvent;
 				}
-				var updates = parsed.events;
+				var updates = parsed.events,
+					clearAllThemes = false;
 
-				for (var i in updates) {
+				for (var i = 0; i < updates.length; i++) {
 
 					var id =  parseInt(updates[i][0].substr(1));
 
 					var isAddAction = true;
-					if (updates[i][1] == 1) {
-						isAddAction = true;
-					} else if (updates[i][1] == 2) {
+					if (updates[i][1] == 2) {
 						isAddAction = false;
-					} else {
-						continue;
 					}
 
 					switch (updates[i][0].substr(0,1)) {
 						case 't':
-							if (isAddAction) {
-
-								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts >= updates[i][2]) {
-									// do nothing
-								} else {
-									inspector4pda.cScript.updatesTurn['theme' + id] = {
-										type: 'theme',
-										action: 'add',
-										id: id
-									};
-								}
-							} else {
-								inspector4pda.cScript.updatesTurn['theme' + id] = {
-									type: 'theme',
-									action: 'delete',
-									id: id
-								};
+							if (clearAllThemes) {
+								continue;
 							}
+							inspector4pda.cScript.updatesTurn['theme' + id] = {
+								type: 'theme',
+								action: isAddAction ? 'add' : 'delete',
+								id: id
+							};
 							break;
 						case 'q':
-							if (isAddAction) {
-								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id >= updates[i][2]) {
-									// do nothing
-								} else {
-									inspector4pda.cScript.updatesTurn['QMS' + id] = {
-										type: 'QMS',
-										action: 'add',
-										id: id
-									};
-								}
-							} else {
-								inspector4pda.cScript.updatesTurn['QMS' + id] = {
-									type: 'QMS',
-									action: 'delete',
-									id: id
-								};
+							inspector4pda.cScript.updatesTurn['QMS' + id] = {
+								type: 'QMS',
+								action: isAddAction ? 'add' : 'delete',
+								id: id
+							};
+							break;
+						case 'f':
+                            /*
+                             * f640:2:1455314632:16172
+                             * read forum 640
+                             */
+                            if (id === 0 && updates[i][1] == 3) {
+                            	clearAllThemes = true;
+                                inspector4pda.themes.clear();
 							}
 							break;
 						default:
@@ -185,7 +172,7 @@ inspector4pda.cScript = {
 										if (themesResp) {
 											var theme = new themeObj();
 											if (theme.parse(themesResp)) {
-												var isNewTheme = (!inspector4pda.themes.list[theme.id]);
+												var isNewTheme = !inspector4pda.themes.list[theme.id];
 												inspector4pda.themes.list[theme.id] = theme;
 												inspector4pda.cScript.printCount();
 

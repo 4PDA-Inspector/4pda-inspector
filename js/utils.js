@@ -31,23 +31,31 @@ inspector4pda.utils = {
 		}
 		var parsed = str.split(',');
 		var pq;
-		var ret = {};
+		var eventsNums = {};
+		var events = {};
 		var lastEvent = false;
 		for (var i = parsed.length - 1; i >= 0; i--) {
 			if (pq = parsed[i].split(':')) {
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
-				if (typeof ret[pq[0]] == 'undefined') {
-					ret[pq[0]] = pq;
+				if (typeof events[pq[0]] == 'undefined') {
+					events[pq[0]] = pq;
+					eventsNums[parsed.length - i] = pq[0];
 				}
 				if (lastEvent === false) {
 					lastEvent = pq[3];
 				}
 			}
 		}
+
+		var returnArray = [];
+		for (i in eventsNums) {
+			returnArray.push(events[eventsNums[i]]);
+		}
+
 		return {
-			events: ret,
+			events: returnArray,
 			lastEvent: lastEvent
 		};
 	},
