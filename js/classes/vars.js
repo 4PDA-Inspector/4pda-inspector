@@ -103,8 +103,9 @@ inspector4pda.vars = {
 
 	setValue: function(field, value) {
 		switch (field) {
-			case 'interval':
+			case 'interval': // 5 sec < interval < 10 min
 				value = Math.max( value, 5);
+				value = Math.min( value, 600);
 				break;
 			case 'toolbar_width':
 				value = Math.max( value, 400);
