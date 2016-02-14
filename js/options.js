@@ -55,17 +55,17 @@ document.getElementById('notification_sound_volume').addEventListener('input', f
 
 document.getElementById('notification_popup_qms').addEventListener('change', function() {
     if (this.checked) {
-        inspector4pda.browser.showNotification({
+        bg.browser.showNotification({
             message: "Оповещения о QMS успешно включены",
-            iconUrl: inspector4pda.browser.notificationQMSIcon
+            iconUrl: bg.browser.notificationQMSIcon
         });
     }
 });
 document.getElementById('notification_popup_themes').addEventListener('change', function() {
     if (this.checked) {
-        inspector4pda.browser.showNotification({
+        bg.browser.showNotification({
             message: "Оповещения о темах успешно включены",
-            iconUrl: inspector4pda.browser.notificationThemeIcon
+            iconUrl: bg.browser.notificationThemeIcon
         });
     }
 });
