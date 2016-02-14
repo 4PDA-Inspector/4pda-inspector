@@ -6,6 +6,8 @@ inspector4pda.cScript = {
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
 	lastEvent: 0,
+    lastRequest: 0,
+    criticalBreak: 300000, //5 minutes
 
 	updatesTurn: {},
 
@@ -48,6 +50,8 @@ inspector4pda.cScript = {
 			}
 
 			inspector4pda.cScript.updateTimer = setTimeout(function() {
+				inspector4pda.cScript.lastEvent = 0;
+                inspector4pda.cScript.lastRequest = inspector4pda.utils.now();
 				inspector4pda.cScript.request();
 			}, interval);
 		});
@@ -55,10 +59,13 @@ inspector4pda.cScript = {
 
 	request: function(callback)
 	{
-		if (!inspector4pda.user.id) {
+        var now = inspector4pda.utils.now();
+        if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
+            console.warn('Do first request.', new Date());
 			inspector4pda.cScript.firstRequest();
 			return false;
 		}
+        inspector4pda.cScript.lastRequest = now;
 
 		inspector4pda.vars.getPrefs();
 		clearTimeout(inspector4pda.cScript.updateTimer);
@@ -101,65 +108,51 @@ inspector4pda.cScript = {
 		};
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
-				var updates = inspector4pda.utils.appParse(resp.responseText);
-				for (var i in updates) {
+				var parsed = inspector4pda.utils.appParse(resp.responseText);
+
+				//console.log(parsed);
+
+				if (parsed.lastEvent) {
+					inspector4pda.cScript.lastEvent = parsed.lastEvent;
+				}
+				var updates = parsed.events,
+					clearAllThemes = false;
+
+				for (var i = 0; i < updates.length; i++) {
+
 					var id =  parseInt(updates[i][0].substr(1));
 
 					var isAddAction = true;
-					if (updates[i][1] == 1) {
-						isAddAction = true;
-					} else if (updates[i][1] == 2) {
+					if (updates[i][1] == 2) {
 						isAddAction = false;
-					} else {
-						continue;
 					}
 
 					switch (updates[i][0].substr(0,1)) {
 						case 't':
-							if (isAddAction) {
-
-								if (inspector4pda.themes.list[id] && inspector4pda.themes.list[id].last_post_ts >= updates[i][2]) {
-									// do nothing
-								} else {
-									inspector4pda.cScript.updatesTurn['theme' + id] = {
-										type: 'theme',
-										action: 'add',
-										id: id
-									};
-								}
-							} else {
-								inspector4pda.cScript.updatesTurn['theme' + id] = {
-									type: 'theme',
-									action: 'delete',
-									id: id
-								};
+							if (clearAllThemes) {
+								continue;
 							}
+							inspector4pda.cScript.updatesTurn['theme' + id] = {
+								type: 'theme',
+								action: isAddAction ? 'add' : 'delete',
+								id: id
+							};
 							break;
 						case 'q':
-							if (isAddAction) {
-								if (inspector4pda.QMS.list[id] && inspector4pda.QMS.list[id].last_msg_id >= updates[i][2]) {
-									// do nothing
-								} else {
-									inspector4pda.cScript.updatesTurn['QMS' + id] = {
-										type: 'QMS',
-										action: 'add',
-										id: id
-									};
-								}
-							} else {
-								inspector4pda.cScript.updatesTurn['QMS' + id] = {
-									type: 'QMS',
-									action: 'delete',
-									id: id
-								};
+							inspector4pda.cScript.updatesTurn['QMS' + id] = {
+								type: 'QMS',
+								action: isAddAction ? 'add' : 'delete',
+								id: id
+							};
+							break;
+						case 'f':
+                            if (id === 0 && updates[i][1] == 3) {
+                            	clearAllThemes = true;
+                                inspector4pda.themes.clear();
 							}
 							break;
 						default:
 							continue;
-					}
-
-					if (updates[i][3] > inspector4pda.cScript.lastEvent) {
-						inspector4pda.cScript.lastEvent = updates[i][3];
 					}
 				}
 
@@ -181,7 +174,7 @@ inspector4pda.cScript = {
 										if (themesResp) {
 											var theme = new themeObj();
 											if (theme.parse(themesResp)) {
-												var isNewTheme = (!inspector4pda.themes.list[theme.id]);
+												var isNewTheme = !inspector4pda.themes.list[theme.id];
 												inspector4pda.themes.list[theme.id] = theme;
 												inspector4pda.cScript.printCount();
 
@@ -273,9 +266,6 @@ inspector4pda.cScript = {
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
-				if (!inspector4pda.vars.notification_popup_themes) {
-					return false;
-				}
 				if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 					return false;
 				}
@@ -283,9 +273,6 @@ inspector4pda.cScript = {
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
-				if (!inspector4pda.vars.notification_popup_qms) {
-					return false;
-				}
 				icon = inspector4pda.browser.notificationQMSIcon;
 				break;
 			default:
@@ -323,7 +310,17 @@ inspector4pda.cScript = {
 			return false;
 		}
 
+        setTimeout(function() {
+            inspector4pda.cScript.showNotifications();
+        }, 50);
+
 		var currentNotification = inspector4pda.cScript.notifications.shift();
+        if (currentNotification.type == 'theme' && !inspector4pda.vars.notification_popup_themes) {
+            return false;
+        }
+        if (currentNotification.type == 'qms' && !inspector4pda.vars.notification_popup_qms) {
+            return false;
+        }
 
 		inspector4pda.browser.showNotification({
 			id: currentNotification.id,
@@ -331,10 +328,6 @@ inspector4pda.cScript = {
 			message: currentNotification.body,
 			iconUrl: currentNotification.icon
 		});
-
-		setTimeout(function() {
-			inspector4pda.cScript.showNotifications();
-		}, 50);
 	},
 
 	notificationClick: function(tag) {

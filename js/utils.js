@@ -31,19 +31,33 @@ inspector4pda.utils = {
 		}
 		var parsed = str.split(',');
 		var pq;
-		var ret = {};
-		for (var i = 0; i < parsed.length; i++) {
+		var eventsNums = {};
+		var events = {};
+		var lastEvent = false;
+		for (var i = parsed.length - 1; i >= 0; i--) {
 			if (pq = parsed[i].split(':')) {
-				//parsed[i] = pq;
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
-				if (typeof ret[pq[0]] == 'undefined' || ret[pq[0]][3] < pq[3]) {
-					ret[pq[0]] = pq;
+				if (typeof events[pq[0]] == 'undefined') {
+					events[pq[0]] = pq;
+					eventsNums[parsed.length - i] = pq[0];
+				}
+				if (lastEvent === false) {
+					lastEvent = pq[3];
 				}
 			}
 		}
-		return ret;
+
+		var returnArray = [];
+		for (i in eventsNums) {
+			returnArray.push(events[eventsNums[i]]);
+		}
+
+		return {
+			events: returnArray,
+			lastEvent: lastEvent
+		};
 	},
 
 	htmlspecialcharsdecode: function (string)
@@ -73,6 +87,10 @@ inspector4pda.utils = {
 		if (typeof callback == 'function') {
 			callback();
 		}
+	},
+
+	now: function() {
+		return new Date().getTime()
 	}
 };
 

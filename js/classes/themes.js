@@ -3,6 +3,10 @@ inspector4pda.themes = {
 	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
+	clear: function() {
+		this.list = {};
+	},
+
 	request: function(callback, id) {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
