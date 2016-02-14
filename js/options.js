@@ -134,5 +134,5 @@ function saveUserLinks() {
             result.push(newUserLink);
         }
     }
-    bg.vars.setValue('user_links', JSON.stringify(result));
+    bg.vars.setValue('user_links', result);
 }
