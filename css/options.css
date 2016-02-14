@@ -70,3 +70,6 @@ label.text-link, label.text-link image {
 .userLinkUrl {
 	width: 300px;
 }
+.userLinkUrlTitle {
+	width: 180px;
+}
