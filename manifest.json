@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
-  "name": "4PDA Инспектор 3",
-  "version": "3.0.1",
+	"manifest_version": 2,
+	"name": "4PDA Инспектор",
+	"version": "3.2.0.6",
 
   "applications": {
     "gecko": {
@@ -9,30 +9,30 @@
     }
   },
 
-  "description": "Мониторинг изменений на форуме 4pda.ru",
-  "homepage_url": "http://4pdainspector.coddism.com",
-  "icons": {
-	"128":"icons/icon_128.png",
-	"48": "icons/icon_48.png",
-	"16": "icons/icon_16.png"
-  },
+	"description": "Мониторинг изменений на форуме 4pda.ru",
+	"homepage_url": "http://4pdainspector.coddism.com",
+	"icons": {
+		"128":"icons/icon_128.png",
+		"48": "icons/icon_48.png",
+		"16": "icons/icon_16.png"
+	},
 
-  "permissions": [
-	"tabs",
-	"cookies",
-	"http://4pda.ru/forum/*",
-	"notifications",
-	"storage"
-  ],
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+	"permissions": [
+		"tabs",
+		"cookies",
+		"http://4pda.ru/forum/*",
+		"notifications",
+		"storage"
+	],
+	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 
-  "browser_action": {
-	  "default_title": "4PDA Инспектор",
-	  "default_icon": "icons/icon_19.png",
-	  "default_popup": "html/popup.html"
-  },
-  "options_page": "html/options.html",
-  "background": {
-	  "page": "html/background.html"
-  }
+	"browser_action": {
+		"default_title": "4PDA Инспектор",
+		"default_icon": "icons/icon_19.png",
+		"default_popup": "html/popup.html"
+	},
+	"options_page": "html/options.html",
+	"background": {
+		"page": "html/background.html"
+	}
 }

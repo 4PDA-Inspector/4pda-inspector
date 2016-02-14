@@ -57,7 +57,7 @@ document.getElementById('notification_popup_qms').addEventListener('change', fun
     if (this.checked) {
         bg.browser.showNotification({
             message: "Оповещения о QMS успешно включены",
-            iconUrl: inspector4pda.browser.notificationQMSIcon
+            iconUrl: bg.browser.notificationQMSIcon
         });
     }
 });
@@ -65,7 +65,7 @@ document.getElementById('notification_popup_themes').addEventListener('change', 
     if (this.checked) {
         bg.browser.showNotification({
             message: "Оповещения о темах успешно включены",
-            iconUrl: inspector4pda.browser.notificationThemeIcon
+            iconUrl: bg.browser.notificationThemeIcon
         });
     }
 });
@@ -73,22 +73,6 @@ document.getElementById('notification_popup_themes').addEventListener('change', 
 document.getElementById('testNotifications').addEventListener('click', function() {
     bg.browser.playNotificationSound();
 });
-
-/* **** *** ** * */
-
-/*var userLinksArray = bg.vars.getValue('user_links', []);
-var userLinkDivs = document.getElementsByClassName('userLinkDiv');
-
-for (i = 0; i < userLinksArray.length; i++) {
-
-}*/
-
-/*var userLinkInputs = document.querySelectorAll('.userLinkDiv input');
-for (i = 0; i < userLinkInputs.length; i++) {
-    userLinkInputs[i].addEventListener('change', function() {
-        saveUserLinks();
-    });
-}*/
 
 document.getElementById('addUserLink').addEventListener('click', function() {
     var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
@@ -150,5 +134,5 @@ function saveUserLinks() {
             result.push(newUserLink);
         }
     }
-    bg.vars.setValue('user_links', JSON.stringify(result));
+    bg.vars.setValue('user_links', result);
 }
