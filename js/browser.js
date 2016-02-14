@@ -52,7 +52,7 @@ inspector4pda.browser = {
     csInit: function() {
         chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
 
-        var build = this.bgClass.vars.getValue('build', false);
+        var build = this.bgClass.vars.data.build;
         if (!build || build < this.currentBuild) {
             this.openPage(chrome.extension.getURL('html/whatsnew.html'));
             this.bgClass.vars.setValue('build', this.currentBuild);
@@ -135,7 +135,7 @@ inspector4pda.browser = {
 
     playNotificationSound: function() {
         var soundElement = document.getElementById("inspector4pda_sound");
-        soundElement.volume = this.bgClass.vars.notification_sound_volume;
+        soundElement.volume = this.bgClass.vars.data.notification_sound_volume;
         soundElement.play();
     },
 

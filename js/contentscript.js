@@ -20,7 +20,7 @@ inspector4pda.cScript = {
 	firstRequest: function(callback) {
 		inspector4pda.vars.getPrefs();
 
-		var interval = inspector4pda.vars.interval * 1000;
+		var interval = inspector4pda.vars.data.interval * 1000;
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
 
@@ -73,7 +73,7 @@ inspector4pda.cScript = {
 
 		inspector4pda.cScript.updateTimer = setTimeout(function() {
 			inspector4pda.cScript.request();
-		}, inspector4pda.vars.interval * 1000);
+		}, inspector4pda.vars.data.interval * 1000);
 	},
 
 	getData: function(callback)
@@ -266,7 +266,7 @@ inspector4pda.cScript = {
 				notificationId += '_' + (new Date().getTime());
 				break;
 			case "theme":
-				if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
+				if (inspector4pda.vars.data.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 					return false;
 				}
 				icon = inspector4pda.browser.notificationThemeIcon;
@@ -299,7 +299,7 @@ inspector4pda.cScript = {
 			hasTheme |= (inspector4pda.cScript.notifications[i].type == 'theme');
 		    hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
 		}
-		if ((hasQMS && inspector4pda.vars.notification_sound_qms) || (hasTheme && inspector4pda.vars.notification_sound_themes)) {
+		if ((hasQMS && inspector4pda.vars.data.notification_sound_qms) || (hasTheme && inspector4pda.vars.data.notification_sound_themes)) {
 			inspector4pda.browser.playNotificationSound();
 		}
 		inspector4pda.cScript.showNotifications();
@@ -315,10 +315,10 @@ inspector4pda.cScript = {
         }, 50);
 
 		var currentNotification = inspector4pda.cScript.notifications.shift();
-        if (currentNotification.type == 'theme' && !inspector4pda.vars.notification_popup_themes) {
+        if (currentNotification.type == 'theme' && !inspector4pda.vars.data.notification_popup_themes) {
             return false;
         }
-        if (currentNotification.type == 'qms' && !inspector4pda.vars.notification_popup_qms) {
+        if (currentNotification.type == 'qms' && !inspector4pda.vars.data.notification_popup_qms) {
             return false;
         }
 
@@ -358,4 +358,6 @@ inspector4pda.cScript = {
 	}
 };
 
-inspector4pda.cScript.init();
+inspector4pda.vars.init(function() {
+	inspector4pda.cScript.init();
+});

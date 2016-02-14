@@ -74,22 +74,6 @@ document.getElementById('testNotifications').addEventListener('click', function(
     bg.browser.playNotificationSound();
 });
 
-/* **** *** ** * */
-
-/*var userLinksArray = bg.vars.getValue('user_links', []);
-var userLinkDivs = document.getElementsByClassName('userLinkDiv');
-
-for (i = 0; i < userLinksArray.length; i++) {
-
-}*/
-
-/*var userLinkInputs = document.querySelectorAll('.userLinkDiv input');
-for (i = 0; i < userLinkInputs.length; i++) {
-    userLinkInputs[i].addEventListener('change', function() {
-        saveUserLinks();
-    });
-}*/
-
 document.getElementById('addUserLink').addEventListener('click', function() {
     var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
     var inputs = div.getElementsByTagName('input');

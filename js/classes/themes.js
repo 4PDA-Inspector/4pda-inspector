@@ -31,7 +31,7 @@ inspector4pda.themes = {
 	getThemesIds: function(withRead) {
 		var ids = [];
 		Object.keys(inspector4pda.themes.list).forEach(function(id){
-			if (inspector4pda.vars.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
+			if (inspector4pda.vars.data.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 				return false;
 			}
 
@@ -70,9 +70,6 @@ inspector4pda.themes = {
 			if (tText[i]) {
 				var theme = new themeObj();
 				if (theme.parse(tText[i])) {
-					/*if (inspector4pda.vars.toolbar_only_pin && !theme.pin) {
-						continue;
-					}*/
 					inspector4pda.themes.list[theme.id] = theme;
 				}
 			}
@@ -83,7 +80,7 @@ inspector4pda.themes = {
 		var list = inspector4pda.themes.list;
 		var sort = sort_by_acs ? -1 : 1;
 		var keysSorted = inspector4pda.themes.getThemesIds().sort(function(a,b){
-			if (inspector4pda.vars.toolbar_pin_up) {
+			if (inspector4pda.vars.data.toolbar_pin_up) {
 				var pinDef = list[b].pin - list[a].pin;
 				if (pinDef !== 0) {
 					return pinDef;
@@ -116,7 +113,7 @@ inspector4pda.themes = {
 	},
 
 	openAll: function() {
-		var limit = inspector4pda.vars.open_themes_limit;
+		var limit = inspector4pda.vars.data.open_themes_limit;
 		var themesIds = this.getSortedKeys(true);
 
 		for (var i = 0; i < themesIds.length; i++) {
@@ -129,7 +126,7 @@ inspector4pda.themes = {
 	},
 
 	openAllPin: function() {
-		var limit = inspector4pda.vars.open_themes_limit;
+		var limit = inspector4pda.vars.data.open_themes_limit;
 		var themesIds = this.getSortedKeys();
 
 		var openedPagesCount = 0;

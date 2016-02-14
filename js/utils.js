@@ -79,7 +79,7 @@ inspector4pda.utils = {
 	},
 
 	openPage: function(page, setActive, callback) {
-		setActive = setActive || Boolean(inspector4pda.vars.toolbar_opentheme_hide);
+		setActive = setActive || Boolean(inspector4pda.vars.data.toolbar_opentheme_hide);
 		inspector4pda.browser.openPage(page, setActive, callback);
 	},
 
@@ -93,9 +93,3 @@ inspector4pda.utils = {
 		return new Date().getTime()
 	}
 };
-
-if (typeof ulog == "undefined") {
-	function ulog(text, json) {
-		inspector4pda.utils.log(text, json);
-	}
-}
