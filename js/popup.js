@@ -262,10 +262,11 @@ popup = {
 		uLinks.textContent = '';
 		for (var i = 0; i < popup.bg.vars.data.user_links.length; i++) {
 			var item = popup.bg.vars.data.user_links[i];
-			var link = document.createElement('a');
-			link.href = item.url;
-			link.target = '_blank';
+			var link = document.createElement('span');
 			link.innerText = item.title;
+			link.addEventListener("click", function () {
+				popup.bg.utils.openPage(item.url, true);
+			}, false);
 			uLinks.appendChild(link);
 		}
 	}

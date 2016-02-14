@@ -18,8 +18,9 @@ body {
 	border-bottom: 1px dotted #3F51B5;
 	padding: 0;
 }
-.mainPanel a {
+.mainPanel span {
 	color: #3F51B5;
+	cursor: pointer;
 	font-size: 13px;
 	margin: 5px;
 	padding: 0;
@@ -27,8 +28,9 @@ body {
 	display: inline-block;
 	border-bottom: 1px dotted #3F51B5;
 }
-.mainPanel a:hover {
+.mainPanel span:hover {
 	color: #2196F3;
+	border-color: #2196F3;
 }
 
 #mainPanel {
