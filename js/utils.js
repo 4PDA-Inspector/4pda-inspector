@@ -4,18 +4,10 @@
 
 inspector4pda.utils = {
 	
-	parseStringRexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
-
-	log: function(msg, json) {
-		if (json) {
-			msg = JSON.stringify(msg);
-		}
-
-		inspector4pda.browser.log(msg);
-	},
+	parseStringRegexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
 	parse: function(str) {
-		var parsed = str.match(this.parseStringRexp);
+		var parsed = str.match(this.parseStringRegexp);
 		var pq = '';
 		for (var i = 0; i < parsed.length; i++) {
 			if (pq = parsed[i].match(/\"(.*)\"/)) {

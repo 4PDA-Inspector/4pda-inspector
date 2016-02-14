@@ -33,18 +33,8 @@ inspector4pda.vars = {
 		build: false
 	},
 
-	get: function(field) {
-		return this.data[field];
-	},
-
 	init: function(callback) {
 		this.resetStorage(callback);
-	},
-
-	getPrefs: function()
-	{
-		//this.init();
-		this.resetStorage();
 	},
 
 	resetStorage: function(callback)

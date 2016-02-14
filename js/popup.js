@@ -58,7 +58,7 @@ popup = {
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
 		this.elements.settingsLabel.addEventListener("click", function () {
-			popup.bg.utils.openPage(chrome.extension.getURL('/html/options.html', true));
+			popup.bg.utils.openPage(chrome.extension.getURL('/html/options.html'), true);
 		}, false);
 
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');

@@ -6,8 +6,8 @@ inspector4pda.cScript = {
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
 	lastEvent: 0,
-    lastRequest: 0,
-    criticalBreak: 300000, //5 minutes
+	lastRequest: 0,
+	criticalBreak: 300000, //5 minutes
 
 	updatesTurn: {},
 
@@ -18,8 +18,6 @@ inspector4pda.cScript = {
 	},
 
 	firstRequest: function(callback) {
-		inspector4pda.vars.getPrefs();
-
 		var interval = inspector4pda.vars.data.interval * 1000;
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
@@ -51,7 +49,7 @@ inspector4pda.cScript = {
 
 			inspector4pda.cScript.updateTimer = setTimeout(function() {
 				inspector4pda.cScript.lastEvent = 0;
-                inspector4pda.cScript.lastRequest = inspector4pda.utils.now();
+				inspector4pda.cScript.lastRequest = inspector4pda.utils.now();
 				inspector4pda.cScript.request();
 			}, interval);
 		});
@@ -59,15 +57,14 @@ inspector4pda.cScript = {
 
 	request: function(callback)
 	{
-        var now = inspector4pda.utils.now();
-        if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
-            console.warn('Do first request.', new Date());
+		var now = inspector4pda.utils.now();
+		if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
+			console.warn('Do first request.', new Date());
 			inspector4pda.cScript.firstRequest();
 			return false;
 		}
-        inspector4pda.cScript.lastRequest = now;
+		inspector4pda.cScript.lastRequest = now;
 
-		inspector4pda.vars.getPrefs();
 		clearTimeout(inspector4pda.cScript.updateTimer);
 		inspector4pda.cScript.getData(callback);
 
@@ -146,9 +143,9 @@ inspector4pda.cScript = {
 							};
 							break;
 						case 'f':
-                            if (id === 0 && updates[i][1] == 3) {
-                            	clearAllThemes = true;
-                                inspector4pda.themes.clear();
+							if (id === 0 && updates[i][1] == 3) {
+								clearAllThemes = true;
+								inspector4pda.themes.clear();
 							}
 							break;
 						default:
@@ -211,7 +208,7 @@ inspector4pda.cScript = {
 														'qms',
 														parseInt(dialog.opponent_id) ?
 															inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
-															this.systemNotificationTitle,
+															inspector4pda.cScript.systemNotificationTitle,
 														inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
 													);
 												}
@@ -297,7 +294,7 @@ inspector4pda.cScript = {
 			hasTheme = false;
 		for (var i = 0; i < inspector4pda.cScript.notifications.length; i++) {
 			hasTheme |= (inspector4pda.cScript.notifications[i].type == 'theme');
-		    hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
+			hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
 		}
 		if ((hasQMS && inspector4pda.vars.data.notification_sound_qms) || (hasTheme && inspector4pda.vars.data.notification_sound_themes)) {
 			inspector4pda.browser.playNotificationSound();
@@ -310,17 +307,17 @@ inspector4pda.cScript = {
 			return false;
 		}
 
-        setTimeout(function() {
-            inspector4pda.cScript.showNotifications();
-        }, 50);
+		setTimeout(function() {
+			inspector4pda.cScript.showNotifications();
+		}, 50);
 
 		var currentNotification = inspector4pda.cScript.notifications.shift();
-        if (currentNotification.type == 'theme' && !inspector4pda.vars.data.notification_popup_themes) {
-            return false;
-        }
-        if (currentNotification.type == 'qms' && !inspector4pda.vars.data.notification_popup_qms) {
-            return false;
-        }
+		if (currentNotification.type == 'theme' && !inspector4pda.vars.data.notification_popup_themes) {
+			return false;
+		}
+		if (currentNotification.type == 'qms' && !inspector4pda.vars.data.notification_popup_qms) {
+			return false;
+		}
 
 		inspector4pda.browser.showNotification({
 			id: currentNotification.id,
@@ -345,11 +342,6 @@ inspector4pda.cScript = {
 		inspector4pda.cScript.printCount();
 
 		inspector4pda.browser.clearNotification(tag);
-	},
-
-	settingsAccept: function() {
-		// Chrome - TODO
-		inspector4pda.cScript.request();
 	},
 
 	clearData: function() {

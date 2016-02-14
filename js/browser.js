@@ -139,10 +139,6 @@ inspector4pda.browser = {
         soundElement.play();
     },
 
-    log: function(msg) {
-        console.log(msg);
-    },
-
     openPage: function(page, setActive, callback) {
 
         chrome.tabs.query({
@@ -183,14 +179,6 @@ inspector4pda.browser = {
                 }, callback);
             }
         });
-    },
-
-    getVarsStorageObject: function() {
-        return localStorage;
-    },
-
-    setVarToStorage: function(field, value) {
-        localStorage[field] = value;
     },
 
     getCookie: function(cookieName, callback) {
