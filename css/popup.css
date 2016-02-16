@@ -137,6 +137,8 @@ body {
 
 #themesList {
 	white-space: nowrap;
+	max-height: 530px;
+	overflow-y: auto;
 }
 
 #themesList span:not(.oneTheme_user) {
@@ -158,6 +160,7 @@ body {
 	font-size: 13px;
 	margin: 0;
 	display: block;
+	overflow: hidden;
 }
 #themesList.simpleList .oneTheme_caption {
 	margin-right: 15px;
