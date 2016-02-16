@@ -43,7 +43,7 @@ inspector4pda.cScript = {
 					inspector4pda.utils.callIfFunction(callback);
 				});
 			} else {
-				interval = 1000;
+				interval = 2000;
 				inspector4pda.cScript.printLogout();
 			}
 
@@ -93,15 +93,21 @@ inspector4pda.cScript = {
 			inspector4pda.utils.callIfFunction(callback);
 		};
 
+		var unavailableFinishCallback = function() {
+			inspector4pda.cScript.clearData();
+			inspector4pda.cScript.printLogout(true);
+			inspector4pda.utils.callIfFunction(callback);
+		};
+
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.timeout = function() {
-			finishCallback();
+			unavailableFinishCallback();
 		};
 		xmr.callback.error = function() {
-			finishCallback();
+			unavailableFinishCallback();
 		};
 		xmr.callback.not200Success = function() {
-			finishCallback();
+			unavailableFinishCallback();
 		};
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
