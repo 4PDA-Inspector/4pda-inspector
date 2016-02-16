@@ -264,8 +264,10 @@ popup = {
 			var item = popup.bg.vars.data.user_links[i];
 			var link = document.createElement('span');
 			link.innerText = item.title;
+			link.setAttribute('data-url', item.url);
 			link.addEventListener("click", function () {
-				popup.bg.utils.openPage(item.url, true);
+				var url = this.getAttribute('data-url');
+				popup.bg.utils.openPage(url, true);
 			}, false);
 			uLinks.appendChild(link);
 		}

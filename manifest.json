@@ -1,13 +1,13 @@
 {
 	"manifest_version": 2,
 	"name": "4PDA Инспектор",
-	"version": "3.2.0.6",
+	"version": "3.2.0.7",
 
-  "applications": {
-    "gecko": {
-      "id": "4pda_inspector3@coddism.com"
-    }
-  },
+	"applications": {
+	  "gecko": {
+	  	"id": "4pda_inspector3@coddism.com"
+	  }
+	},
 
 	"description": "Мониторинг изменений на форуме 4pda.ru",
 	"homepage_url": "http://4pdainspector.coddism.com",
