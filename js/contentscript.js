@@ -13,6 +13,16 @@ inspector4pda.cScript = {
 
 	init: function(el)
 	{
+		// convert old settings
+		if (!inspector4pda.vars.data.build && localStorage.build) {
+			console.warn('Convert settings');
+			for (var i in inspector4pda.vars.data) {
+				if (typeof localStorage[i] != 'undefined') {
+					inspector4pda.vars.setValue(i, localStorage[i]);
+				}
+			}
+		}
+
 		inspector4pda.browser.csInit();
 		inspector4pda.cScript.firstRequest();
 	},
