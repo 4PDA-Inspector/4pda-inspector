@@ -6,8 +6,6 @@ inspector4pda.vars = {
 
 	data: {
 		interval: 10,
-		click_action: 1,
-		MMB_click_action: 3,
 		open_themes_limit: 0,
 
 		notification_sound_volume: 1,
@@ -29,8 +27,7 @@ inspector4pda.vars = {
 
 		user_links: [],
 
-		button_big: false,
-		build: false
+		build: '0'
 	},
 
 	init: function(callback) {
@@ -42,13 +39,32 @@ inspector4pda.vars = {
 		var self = this;
 		chrome.storage.local.get(null, function(items) {
 			for (var i in items) {
-				self.data[i] = items[i];
+				self.setValue(i, items[i]);
 			}
 			inspector4pda.utils.callIfFunction(callback);
 		});
 	},
 
 	setValue: function(field, value) {
+
+		switch (typeof this.data[field]) {
+			case 'boolean':
+				value = ((value === true) || (value === 'true') || (value === 1));
+				break;
+			case 'number':
+				value = Number(value);
+				if (isNaN(value)) {
+					value = 0;
+				}
+				break;
+			case 'string':
+				value = String(value);
+				break;
+			case 'undefined':
+				console.warn('Set value:', field, value);
+				return false;
+		}
+
 		switch (field) {
 			case 'interval': // 5 sec < interval < 5 min
 				value = Math.max( value, 5);
