@@ -18,7 +18,11 @@ inspector4pda.cScript = {
 			console.warn('Convert settings');
 			for (var i in inspector4pda.vars.data) {
 				if (typeof localStorage[i] != 'undefined') {
-					inspector4pda.vars.setValue(i, localStorage[i]);
+					if (i == 'user_links') {
+						inspector4pda.vars.setValue(i, JSON.parse(localStorage['user_links']));
+					} else {
+						inspector4pda.vars.setValue(i, localStorage[i]);
+					}
 				}
 			}
 		}
