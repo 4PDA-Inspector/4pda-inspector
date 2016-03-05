@@ -262,6 +262,9 @@ popup = {
 		uLinks.textContent = '';
 		for (var i = 0; i < popup.bg.vars.data.user_links.length; i++) {
 			var item = popup.bg.vars.data.user_links[i];
+			if (typeof item != 'object') {
+				continue;
+			}
 			var link = document.createElement('span');
 			link.innerText = item.title;
 			link.setAttribute('data-url', item.url);
