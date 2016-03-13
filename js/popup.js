@@ -27,7 +27,7 @@ popup = {
 
 		if (!this.bg.user.id) {
 			this.bg.utils.openPage(this.urls.login, true);
-			window.close();
+			this.closePopup();
 			return false;
 		}
 
@@ -252,7 +252,7 @@ popup = {
 	checkOpenthemeHiding: function()
 	{
 		if (this.bg.vars.data.toolbar_opentheme_hide) {
-			window.close();
+			this.closePopup();
 		}
 	},
 
@@ -274,6 +274,10 @@ popup = {
 			}, false);
 			uLinks.appendChild(link);
 		}
+	},
+
+	closePopup: function() {
+		window.close();
 	}
 };
 

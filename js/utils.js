@@ -10,7 +10,8 @@ inspector4pda.utils = {
 		var parsed = str.match(this.parseStringRegexp);
 		var pq = '';
 		for (var i = 0; i < parsed.length; i++) {
-			if (pq = parsed[i].match(/\"(.*)\"/)) {
+			pq = parsed[i].match(/\"(.*)\"/);
+			if (pq) {
 				parsed[i] = pq[1];
 			}
 		}
@@ -21,13 +22,14 @@ inspector4pda.utils = {
 		if (!str) {
 			return [];
 		}
-		var parsed = str.split(',');
-		var pq;
-		var eventsNums = {};
-		var events = {};
-		var lastEvent = false;
+		var parsed = str.split(','),
+			pq,
+			eventsNums = {},
+			events = {},
+			lastEvent = false;
 		for (var i = parsed.length - 1; i >= 0; i--) {
-			if (pq = parsed[i].split(':')) {
+			pq = parsed[i].split(':');
+			if (pq) {
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
