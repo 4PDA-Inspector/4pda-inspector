@@ -1,0 +1,216 @@
+body {
+	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
+	font-size: 13px;
+	color: #3F51B5;
+}
+
+.hidden {
+	display: none !important;
+}
+
+#userLinks {
+	display: none;
+}
+
+/***************** BUTTONS *****************/
+
+.mainPanel {
+	border-bottom: 1px dotted #3F51B5;
+	padding: 0;
+}
+.mainPanel span {
+	color: #3F51B5;
+	cursor: pointer;
+	font-size: 13px;
+	margin: 5px;
+	padding: 0;
+	text-decoration: none;
+	display: inline-block;
+	border-bottom: 1px dotted #3F51B5;
+}
+.mainPanel span:hover {
+	color: #2196F3;
+	border-color: #2196F3;
+}
+
+#mainPanel {
+	border-bottom: 1px dotted #3F51B5;
+	padding: 0 5px 5px;
+	display: flex;
+}
+
+#mainPanel > div {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+#mainPanel > div > span {
+	display: inline-block;
+	cursor: pointer;
+	margin: 0 10px 0 0;
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+#mainPanel .icon {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url(/img/icons1.png);
+	background-repeat: no-repeat;
+}
+
+#mainPanel > div > span:hover {
+	color: #2196F3;
+}
+
+#panelQMS .icon {
+	background-position: -16px -16px;
+}
+#panelQMS.hasUnread .icon {
+	background-position: 0 -16px;
+}
+#panelQMS:hover .icon {
+	background-position: -32px -16px;
+}
+
+#panelFavorites .icon {
+	background-position: -16px 0;
+}
+#panelFavorites.hasUnread .icon {
+	background-position: 0 0;
+}
+#panelFavorites:hover .icon {
+	background-position: -32px 0;
+}
+
+#panelSettings {
+	background-position: -64px 0;
+}
+#panelSettings:hover {
+	background-position: -64px -16px;
+}
+
+#massThemesActions {
+	flex: 1;
+	text-align: center;
+}
+#massThemesActions > span.icon {
+	margin: 3px 5px 0 0;
+	width: 22px;
+}
+#panelOpenAll {
+	background-position: -80px 0;
+}
+#panelOpenAll:hover {
+	background-position: -80px -16px;
+}
+#panelOpenAllPin {
+	background-position: -140px 0;
+}
+#panelOpenAllPin:hover {
+	background-position: -140px -16px;
+}
+#panelReadAll {
+	background-position: -102px 0;
+}
+#panelReadAll:hover {
+	background-position: -102px -16px;
+}
+
+#panelRefresh {
+	background-position: -48px 0;
+}
+#panelRefresh:hover {
+	background-position: -48px -16px;
+}
+
+#panelUsernameHBox {
+	margin-left: 10px;
+}
+
+#mainPanel > div > #panelUsername {
+	margin: -4px 5px 0 0;
+}
+
+/***************** THEMES LIST *****************/
+
+#themesList {
+	white-space: nowrap;
+	max-height: 530px;
+	overflow-y: auto;
+}
+
+#themesList span:not(.oneTheme_user) {
+	cursor: pointer;
+}
+#themesList > .oneTheme {
+	display: block;
+	border-bottom: 1px solid #D0E4EC;
+	color: #222;
+	padding: 2px 4px;
+	position: relative;
+}
+#themesList > .oneTheme:hover {
+	background-color: #D0E4EC;
+}
+
+#themesList .oneTheme_caption {
+	color: #3F51B5;
+	font-size: 13px;
+	margin: 0;
+	display: block;
+	overflow: hidden;
+}
+#themesList.simpleList .oneTheme_caption {
+	margin-right: 15px;
+}
+#themesList .oneTheme_caption:hover {
+	color: #2196F3;
+}
+
+body.widthFixed #themesList .oneTheme_caption {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#themesList .oneTheme_pin {
+	color: #43a047;
+}
+#themesList .oneTheme_pin:hover {
+	color: #8BC34A;
+}
+
+#themesList .oneTheme_caption.readed {
+	color: #9E9E9E;
+	text-decoration: line-through;
+}
+
+.oneThemeInfoHBox > span {
+	color: #9E9E9E;
+	font-size: 11px;
+	margin: 0 10px 0 0;
+}
+
+.oneThemeInfoHBox>.oneTheme_lastPost:hover {
+	color: #2196F3;
+}
+
+#themesList .oneTheme_markAsRead {
+	display: block;
+	margin: 0;
+	cursor: pointer;
+	background: -124px 0 url(/img/icons1.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+#themesList .oneTheme_markAsRead:hover {
+	background-position: -124px -16px;
+}
+
+#themesList .oneTheme_markAsRead.loading {
+	background: url("/img/ajax-loader.gif");
+}

@@ -1,0 +1,17 @@
+{
+  "title": "4PDA Inspector BETA",
+  "id": "4pda_inspector_beta@coddism.com",
+  "name": "4pdainspector_beta",
+  "version": "3.0.0",
+  "description": "Oh yes",
+  "main": "index.js",
+  "author": "coddism.com",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "icon": "data/icon-32.png",
+  "license": "GPL v2",
+  "keywords": [
+    "jetpack"
+  ]
+}
