@@ -12,6 +12,9 @@ inspector4pda.XHR = function () {
 	this.send = function(url) {
 
 		var self = this;
+		inspector4pda.browser.sendRequest(url, self.callback.success);
+
+		/*var self = this;
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
@@ -35,7 +38,7 @@ inspector4pda.XHR = function () {
 		}
 
 		req.open("GET", url, true);
-		req.send(null);
+		req.send(null);*/
 	};
 
 };

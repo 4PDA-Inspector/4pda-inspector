@@ -31,11 +31,11 @@ inspector4pda.user = {
                 notSuccessCallback();
             }
         };
-        xmr.callback.success = function(resp) {
+        xmr.callback.success = function(text) {
 
             inspector4pda.user.clearData();
-            if (resp.responseText) {                
-                var res = inspector4pda.utils.parse(resp.responseText);
+            if (text) {
+                var res = inspector4pda.utils.parse(text);
                 if (res.length == 2) {
                     inspector4pda.user.id = parseInt(res[0]);
                     inspector4pda.user.name = res[1];

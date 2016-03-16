@@ -4,9 +4,11 @@ if (typeof inspector4pda == "undefined") {
 
 var self = require("sdk/self");
 
-let { Cc, Ci } = require('chrome');
+let { Cc, Ci, Cu } = require('chrome');
 var instance = Cc["@mozilla.org/moz/jssubscript-loader;1"];
 var loader = instance.getService(Ci.mozIJSSubScriptLoader);
+
+var { setTimeout, clearTimeout } = require("sdk/timers");
 
 loader.loadSubScript(self.data.url("js/browser.js"));
 loader.loadSubScript(self.data.url("js/utils.js"));

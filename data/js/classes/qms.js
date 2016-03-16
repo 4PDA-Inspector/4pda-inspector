@@ -11,7 +11,7 @@ inspector4pda.QMS = {
     request: function(callback) {
         var xmr = new inspector4pda.XHR();
         xmr.callback.success = function(resp) {
-            inspector4pda.QMS.parse(resp.responseText);
+            inspector4pda.QMS.parse(resp);
             if (callback) {
                 callback();
             }
@@ -23,7 +23,7 @@ inspector4pda.QMS = {
         var xmr = new inspector4pda.XHR();
         xmr.callback.success = function(resp) {
             if (callback) {
-                callback(resp.responseText, id);
+                callback(resp, id);
             }
         };
         xmr.send(inspector4pda.QMS.rUrl + '&t=' + id);

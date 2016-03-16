@@ -6,18 +6,18 @@ inspector4pda.browser = {
 
 	currentBuild: '20160127-0341',
 
-	defaultIcon: '/icons/icon_19.png',
-	hasQmsIcon: '/icons/icon_19_qms.png',
-	logoutIcon: '/icons/icon_19_out.png',
+	defaultIcon: './icons/icon_19.png',
+	hasQmsIcon: './icons/icon_19_qms.png',
+	logoutIcon: './icons/icon_19_out.png',
 
 	notificationIcon: "/icons/icon_80.png",
 	notificationQMSIcon: "/icons/icon_80_message.png",
 	notificationThemeIcon: "/icons/icon_80_favorite.png",
 	notificationOutIcon: "/icons/icon_80_out.png",
 
-	defaultColor: [63, 81, 181, 255],
-	hasQmsColor: [76, 175, 80, 255],
-	logoutColor: [158, 158, 158, 255],
+	defaultColor: '#3F51B5', //[63, 81, 181, 255],
+	hasQmsColor: '#4CAF50',// [76, 175, 80, 255],
+	logoutColor: '#9E9E9E', //[158, 158, 158, 255],
 
 	bgClass: null, //chrome.extension.getBackgroundPage().inspector4pda,
 
@@ -41,7 +41,9 @@ inspector4pda.browser = {
 	},
 
 	sdk: {
-		storage: require("sdk/simple-storage").storage
+		storage: require("sdk/simple-storage").storage,
+		button: null,
+		cookies: null
 	},
 
 	getString: function(name) {
@@ -55,10 +57,12 @@ inspector4pda.browser = {
 
 	csInit: function() {
 
-		require("sdk/ui/button/action").ActionButton({
+		this.sdk.cookies = Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2);
+
+		this.sdk.button = require("sdk/ui/button/action").ActionButton({
 			id: "main",
 			label: "4PDA Inspector",
-			icon: "./icons/icon_19.png",
+			icon: this.defaultIcon,
 			onClick: function() {
 				/*ss.storage.value = 1;
 				console.log("Setting value");*/
@@ -115,19 +119,20 @@ inspector4pda.browser = {
 	},
 
 	setButtonIcon: function(icon) {
+		this.sdk.button.icon = icon;
 		//chrome.browserAction.setIcon({path: icon});
 	},
 
 	setBadgeBackgroundColor: function(color) {
-		//chrome.browserAction.setBadgeBackgroundColor({'color': color });
+		this.sdk.button.badgeColor = color;
 	},
 
 	setBadgeText: function(text) {
-		//chrome.browserAction.setBadgeText({'text': text.toString() });
+		this.sdk.button.badge = text.toString();
 	},
 
 	setTitle: function(text) {
-		//chrome.browserAction.setTitle({'title': text.toString()});
+		this.sdk.button.label = text.toString();
 	},
 
 	printCount: function(qCount, tCount) {
@@ -138,6 +143,8 @@ inspector4pda.browser = {
 			inspector4pda.browser.setButtonIcon(inspector4pda.browser.defaultIcon);
 			inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.browser.defaultColor);
 		}
+
+		console.log(qCount, tCount);
 
 		this.setBadgeText(tCount ? tCount : '');
 
@@ -197,20 +204,31 @@ inspector4pda.browser = {
 	},
 
 	getCookie: function(cookieName, callback) {
-		/*chrome.cookies.get({
-			url: 'http://4pda.ru/forum',
-			name: cookieName
-		}, function(cookie) {
-			if (cookie) {
-				callback(cookie.value);
-			} else {
-				callback(false);
+
+		var cooks = this.sdk.cookies.getCookiesFromHost("4pda.ru"),
+			result = false;
+		while (cooks.hasMoreElements()) {
+			var cookie = cooks.getNext().QueryInterface(Ci.nsICookie2);
+			if (cookie.name == cookieName) {
+				result = cookie.value;
 			}
-		});*/
+		}
+
+		callback(result);
 	},
 
 	getStorageVar: function(name) {
 		return this.sdk.storage[name];
+	},
+
+	sendRequest: function(url, success) {
+		var Request = require("sdk/request").Request;
+		Request({
+			url: url,
+			onComplete: function (response) {
+				success(response.text);
+			}
+		}).get();
 	}
 
 };

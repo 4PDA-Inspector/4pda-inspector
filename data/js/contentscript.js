@@ -13,26 +13,14 @@ inspector4pda.cScript = {
 
 	init: function(el)
 	{
-		// convert old settings
-		/*if (!inspector4pda.vars.data.build && localStorage.build) {
-			console.warn('Convert settings');
-			for (var i in inspector4pda.vars.data) {
-				if (typeof localStorage[i] != 'undefined') {
-					if (i == 'user_links') {
-						inspector4pda.vars.setValue(i, JSON.parse(localStorage['user_links']));
-					} else {
-						inspector4pda.vars.setValue(i, localStorage[i]);
-					}
-				}
-			}
-		}*/
-
 		inspector4pda.browser.csInit();
 		inspector4pda.cScript.firstRequest();
 	},
 
 	firstRequest: function(callback) {
 		var interval = inspector4pda.vars.data.interval * 1000;
+
+		console.log('First request.');
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
 
@@ -100,6 +88,8 @@ inspector4pda.cScript = {
 	},
 
 	checkUpdates: function(callback) {
+
+		console.log('Request.');
 
 		var finishCallback = function(){
 			inspector4pda.cScript.printCount();

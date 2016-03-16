@@ -10,7 +10,7 @@ inspector4pda.themes = {
 	request: function(callback, id) {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
-			inspector4pda.themes.parse(resp.responseText);
+			inspector4pda.themes.parse(resp);
 			if (callback) {
 				callback();
 			}
