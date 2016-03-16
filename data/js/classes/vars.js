@@ -36,13 +36,13 @@ inspector4pda.vars = {
 
 	resetStorage: function(callback)
 	{
-		var self = this;
-		chrome.storage.local.get(null, function(items) {
-			for (var i in items) {
-				self.setValue(i, items[i]);
+		for (var name in this.data) {
+			var value = inspector4pda.browser.getStorageVar(name);
+			if (value) {
+				this.data[name] = value;
 			}
-			inspector4pda.utils.callIfFunction(callback);
-		});
+		}
+		inspector4pda.utils.callIfFunction(callback);
 	},
 
 	setValue: function(field, value) {
