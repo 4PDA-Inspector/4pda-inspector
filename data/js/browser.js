@@ -43,7 +43,8 @@ inspector4pda.browser = {
 	sdk: {
 		storage: require("sdk/simple-storage").storage,
 		button: null,
-		cookies: null
+		cookies: null,
+		tabs: null
 	},
 
 	getString: function(name) {
@@ -59,6 +60,7 @@ inspector4pda.browser = {
 
 		var self = this;
 		this.sdk.cookies = Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2);
+		this.sdk.tabs = require("sdk/tabs");
 
 		var panels = require("sdk/panel");
 
@@ -86,6 +88,32 @@ inspector4pda.browser = {
 
 		panel.port.on('panel-resize', function(size) {
 			panel.resize(size.width, size.height);
+		});
+
+		panel.port.on('button-print-count', function() {
+			inspector4pda.cScript.printCount();
+		});
+
+		panel.port.on('open-themes-page', function() {
+			inspector4pda.themes.openPage();
+		});
+
+		panel.port.on('open-theme-page', function(id) {
+			inspector4pda.themes.open(id);
+		});
+
+		panel.port.on('open-theme-last-page', function(id) {
+			inspector4pda.themes.openLast(id);
+		});
+
+		panel.port.on('panel-hide', function(check) {
+			if (check) {
+				if (inspector4pda.vars.data.toolbar_opentheme_hide) {
+					panel.hide();
+				}
+			} else {
+				panel.hide();
+			}
 		});
 
 		// https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action
@@ -195,6 +223,8 @@ inspector4pda.browser = {
 	},
 
 	openPage: function(page, setActive, callback) {
+
+		this.sdk.tabs.open(page);
 
 		/*chrome.tabs.query({
 			url: page
