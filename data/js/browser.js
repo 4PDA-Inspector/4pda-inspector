@@ -1,5 +1,5 @@
 if (typeof inspector4pda == "undefined") {
-	var inspector4pda = {}
+	var inspector4pda = {};
 }
 
 inspector4pda.browser = {
@@ -64,13 +64,28 @@ inspector4pda.browser = {
 
 		var panel = panels.Panel({
 			contentURL: "./html/popup.html",
+			contentStyleFile: "./css/popup.css",
+			contentScriptFile: ['./js/popup.js'],
+			onShow: function() {
+				panel.port.emit('show-event', {
+					bg: inspector4pda,
+					themes: {
+						count: inspector4pda.themes.getCount(),
+						pinCount: inspector4pda.themes.getPinCount(),
+						sortedKeys: inspector4pda.themes.getSortedKeys()
+					},
+					qms: {
+						count: inspector4pda.QMS.getCount()
+					}
+				});
+			},
 			onHide: function() {
 				self.sdk.button.state('window', {checked: false});
 			}
 		});
 
-		panel.port.on("show", function () {
-			console.log('show popup');
+		panel.port.on('panel-resize', function(size) {
+			panel.resize(size.width, size.height);
 		});
 
 		// https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action

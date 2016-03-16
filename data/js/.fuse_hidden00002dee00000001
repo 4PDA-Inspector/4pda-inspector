@@ -1,15 +1,3 @@
-var data = {
-	bg: null,
-	themes: {
-		count: 0,
-		pinCount: 0,
-		sortedKeys: []
-	},
-	qms: {
-		count: 0
-	}
-};
-
 popup = {
 
 	refreshImgRotateInterval: 0,
@@ -34,7 +22,11 @@ popup = {
 
 	bg: null,
 
-	init: function(bg) {
+	init: function() {
+
+		console.log('popup init');
+
+		this.bg = inspector4pda;
 
 		if (!this.bg.user.id) {
 			this.bg.utils.openPage(this.urls.login, true);
@@ -105,12 +97,12 @@ popup = {
 
 	refresh: function(withoutPrintThemes) {
 		this.elements.usernameLabel.textContent = this.bg.user.name;
+		
+		this.elements.favoritesLabel.textContent = this.bg.themes.getCount();
+		this.elements.favoritesBox.className = this.bg.themes.getCount() ? 'hasUnread': '';
 
-		this.elements.favoritesLabel.textContent = data.themes.count;
-		this.elements.favoritesBox.className = data.themes.count ? 'hasUnread': '';
-
-		this.elements.qmsLabel.textContent = data.qms.count;
-		this.elements.qmsBox.className = data.qms.count ? 'hasUnread': '';
+		this.elements.qmsLabel.textContent = this.bg.QMS.getCount();
+		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
 
 		if (popup.bg.vars.data.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';
@@ -119,7 +111,7 @@ popup = {
 		if (!this.bg.vars.data.toolbar_openAllFavs_button) {
 			this.elements.openAllLabel.classList.add('hidden');
 		}
-		if (!this.bg.vars.data.toolbar_openAllFavs_button || (this.bg.vars.data.toolbar_only_pin ||  !data.themes.pinCount )) {
+		if (!this.bg.vars.data.toolbar_openAllFavs_button || (this.bg.vars.data.toolbar_only_pin ||  !this.bg.themes.getPinCount())) {
 			this.elements.openAllPinLabel.classList.add('hidden');
 		}
 		if (!this.bg.vars.data.toolbar_markAllAsRead_button) {
@@ -164,8 +156,8 @@ popup = {
 
 		this.clearThemesList();
 
-		if (data.themes.count) {
-			var themesKeys = data.themes.sortedKeys;
+		if (this.bg.themes.getCount()) {
+			var themesKeys = this.bg.themes.getSortedKeys();
 			for (var i = 0; i < themesKeys.length; i++) {
 				this.addThemeRow(this.bg.themes.list[themesKeys[i]]);
 			}
@@ -175,15 +167,6 @@ popup = {
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}
-
-		/*console.log( document.getElementById('content').offsetHeight );
-		console.log( document.getElementById('content').clientHeight );
-		console.log( window.innerWidth );*/
-
-		self.port.emit('panel-resize', {
-			width: 400,
-			height: document.getElementById('content').offsetHeight + 20
-		});
 	},
 
 	addThemeRow: function(theme) {
@@ -193,7 +176,7 @@ popup = {
 	createThemeRow: function(theme)	{
 		
 		var themeCaptionLabel = document.createElement('span');
-		themeCaptionLabel.textContent = theme.title;
+		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
 		if (theme.pin && popup.bg.vars.data.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
@@ -211,7 +194,7 @@ popup = {
 		var readImage = document.createElement('span');
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		//readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
+		readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
 		readImage.addEventListener("click", function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
@@ -228,13 +211,13 @@ popup = {
 		if (!popup.bg.vars.data.toolbar_simple_list) {
 		
 			var userCaptionLabel = document.createElement('span');
-			userCaptionLabel.textContent = theme.last_user_name;
+			userCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
 
 			var lastPostLabel = document.createElement('span');
 			lastPostLabel.textContent = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
-			//lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
+			lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
 			lastPostLabel.addEventListener("click", function () {
 				popup.bg.themes.openLast(theme.id);
 				popup.bg.cScript.printCount();
@@ -297,8 +280,4 @@ popup = {
 	}
 };
 
-self.port.on("show-event", function (dataP) {
-	popup.bg = dataP.bg;
-	data = dataP;
-	popup.init();
-});
+popup.init();

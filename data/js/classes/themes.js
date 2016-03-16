@@ -173,10 +173,10 @@ var themeObj = function () {
 			var obj = inspector4pda.utils.parse(text);
 
 			this.id = obj[0];
-			this.title = obj[1];
+			this.title = inspector4pda.utils.htmlspecialcharsdecode(obj[1]);
 			this.posts_num = obj[2];
 			this.last_user_id = parseInt(obj[3]);
-			this.last_user_name = obj[4];
+			this.last_user_name = inspector4pda.utils.htmlspecialcharsdecode(obj[4]);
 			this.last_post_ts = parseInt(obj[5]);
 			this.last_read_ts = parseInt(obj[6]);
 			this.pin = parseInt(obj[7]);
