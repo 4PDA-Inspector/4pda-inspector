@@ -114,8 +114,8 @@ inspector4pda.cScript = {
 			unavailableFinishCallback();
 		};
 		xmr.callback.success = function(resp) {
-			if (resp.responseText) {
-				var parsed = inspector4pda.utils.appParse(resp.responseText);
+			if (resp) {
+				var parsed = inspector4pda.utils.appParse(resp);
 
 				//console.log(parsed);
 
