@@ -88,7 +88,7 @@ var popup = {
 		
 		this.elements.readAllLabel = document.getElementById('panelReadAll');
 		this.elements.readAllLabel.addEventListener('click', function() {
-			popup.bg.themes.readAll();
+			popupPort.readAllThemes();
 			popup.checkOpenthemeHiding();
 			popup.refresh();
 		}, false);
@@ -171,7 +171,8 @@ var popup = {
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');
-			noThemesLabel.textContent = inspector4pda.browser.getString('No unread topics');
+			//noThemesLabel.textContent = inspector4pda.browser.getString('No unread topics');
+			noThemesLabel.textContent = 'No unread topics';
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}
@@ -203,26 +204,21 @@ var popup = {
 		themeCaptionLabel.onclick = function () {
 			popupPort.openThemePage(theme.id);
 			popupPort.buttonPrintCount();
-			popup.elements.favoritesLabel.textContent = popupPort.getThemesCount();
 			this.classList.add("readed");
 			popup.checkOpenthemeHiding();
 		};
 
 		var readImage = document.createElement('span');
+		readImage.id = 'oneTheme_markAsRead_' + theme.id;
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
 		//readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
+		readImage.setAttribute('tooltiptext', 'Mark As Read');
 		readImage.onclick = function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
 			current.classList.add('loading');
-
-			popup.bg.themes.read(dataTheme, function() {
-				current.classList.remove('loading');
-				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
-				popupPort.buttonPrintCount();
-				popup.printCount();
-			});
+			popupPort.readTheme(dataTheme);
 		};
 
 		if (!popup.bg.vars.data.toolbar_simple_list) {
@@ -235,10 +231,10 @@ var popup = {
 			lastPostLabel.textContent = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
 			//lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
+			lastPostLabel.setAttribute('tooltiptext', 'Open Last Post');
 			lastPostLabel.onclick = function () {
 				popupPort.openThemeLastPage(theme.id);
 				popupPort.buttonPrintCount();
-				popup.printCount();
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
 			};
 
@@ -267,6 +263,14 @@ var popup = {
 			mainHBox.appendChild(readImage);
 			return mainHBox;
 		}
+	},
+
+	themeReaded: function(id) {
+		var current = document.getElementById('oneTheme_markAsRead_' + id);
+		current.classList.remove('loading');
+		document.getElementById('oneThemeCaption_' + id).classList.add('readed');
+		popupPort.buttonPrintCount();
+		popup.printCount();
 	},
 
 	checkOpenthemeHiding: function() {
@@ -313,24 +317,43 @@ var popupPort = {
 
 	openThemePage: function(id) {
 		self.port.emit('open-theme-page', id);
+		popupPort.updateCounts();
 	},
 
 	openThemeLastPage: function(id) {
 		self.port.emit('open-theme-last-page', id);
-	},
-
-	getThemesCount: function(id) {
-		return data.themes.count;
-		//popup.bg.themes.getCount()
+		popupPort.updateCounts();
 	},
 
 	hidePanel: function(check) {
 		self.port.emit('panel-hide', check);
+	},
+
+	readTheme: function(id) {
+		self.port.emit('read-theme', id);
+	},
+
+	readAllThemes: function() {
+		//popup.bg.themes.readAll();
+	},
+
+	updateCounts: function() {
+		self.port.emit('counts-update');
 	}
+
 };
 
 self.port.on("show-event", function (dataP) {
 	popup.bg = dataP.bg;
 	data = dataP;
 	popup.init();
+});
+self.port.on("theme-readed", function (id) {
+	popup.themeReaded(id);
+	popupPort.updateCounts();
+});
+self.port.on("counts-updated", function (counts) {
+	data.themes.count = counts.themes;
+	data.qms.count = counts.qms;
+	popup.printCount();
 });

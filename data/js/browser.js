@@ -102,6 +102,19 @@ inspector4pda.browser = {
 			inspector4pda.themes.open(id);
 		});
 
+		panel.port.on('read-theme', function(id) {
+			inspector4pda.themes.read(id, function () {
+				panel.port.emit('theme-readed', id);
+			});
+		});
+
+		panel.port.on('counts-update', function(id) {
+			panel.port.emit('counts-updated', {
+				qms: inspector4pda.QMS.getCount(),
+				themes: inspector4pda.themes.getCount()
+			});
+		});
+
 		panel.port.on('open-theme-last-page', function(id) {
 			inspector4pda.themes.openLast(id);
 		});
