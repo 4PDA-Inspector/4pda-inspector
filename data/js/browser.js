@@ -57,15 +57,33 @@ inspector4pda.browser = {
 
 	csInit: function() {
 
+		var self = this;
 		this.sdk.cookies = Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2);
 
-		this.sdk.button = require("sdk/ui/button/action").ActionButton({
+		var panels = require("sdk/panel");
+
+		var panel = panels.Panel({
+			contentURL: "./html/popup.html",
+			onHide: function() {
+				self.sdk.button.state('window', {checked: false});
+			}
+		});
+
+		panel.port.on("show", function () {
+			console.log('show popup');
+		});
+
+		// https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action
+		self.sdk.button = require("sdk/ui/button/toggle").ToggleButton({
 			id: "main",
 			label: "4PDA Inspector",
 			icon: this.defaultIcon,
-			onClick: function() {
-				/*ss.storage.value = 1;
-				console.log("Setting value");*/
+			onChange: function(state) {
+				if (state.checked) {
+					panel.show({
+						position: self.sdk.button
+					});
+				}
 			}
 		});
 

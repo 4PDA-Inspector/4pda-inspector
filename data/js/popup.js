@@ -1,3 +1,5 @@
+self.port.emit("show");
+
 popup = {
 
 	refreshImgRotateInterval: 0,
@@ -23,7 +25,10 @@ popup = {
 	bg: null,
 
 	init: function() {
-		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
+
+		console.log('popup init');
+
+		this.bg = inspector4pda;
 
 		if (!this.bg.user.id) {
 			this.bg.utils.openPage(this.urls.login, true);
