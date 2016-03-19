@@ -18,3 +18,6 @@ loader.loadSubScript(sdkSelf.data.url("js/classes/user.js"));
 loader.loadSubScript(sdkSelf.data.url("js/classes/themes.js"));
 loader.loadSubScript(sdkSelf.data.url("js/classes/qms.js"));
 loader.loadSubScript(sdkSelf.data.url("js/contentscript.js"));
+
+// jpm run -b /usr/bin/firefox -p dev
+// jpm watchpost --post-url http://127.0.0.1:8888/

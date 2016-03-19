@@ -1,6 +1,5 @@
 inspector4pda.themes = {
 	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
 	clear: function() {
@@ -152,7 +151,7 @@ inspector4pda.themes = {
 	},
 
     openPage: function () {
-        inspector4pda.utils.openPage(inspector4pda.themes.vUrl, true);
+        inspector4pda.utils.openPage(inspector4pda.browser.urls.themes, true);
     }
 };
 

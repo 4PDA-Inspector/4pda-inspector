@@ -4,6 +4,13 @@ if (typeof inspector4pda == "undefined") {
 
 inspector4pda.browser = {
 
+	urls: {
+		login: 'http://4pda.ru/forum/index.php?act=login',
+		QMS: 'http://4pda.ru/forum/index.php?act=qms',
+		themes: 'http://4pda.ru/forum/index.php?act=fav',
+		settings: './html/options.html'
+	},
+
 	currentBuild: '20160127-0341',
 
 	defaultIcon: './icons/icon_19.png',
@@ -43,8 +50,8 @@ inspector4pda.browser = {
 	sdk: {
 		storage: require("sdk/simple-storage").storage,
 		button: null,
-		cookies: null,
-		tabs: null
+		cookies: Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2),
+		tabs: require("sdk/tabs")
 	},
 
 	getString: function(name) {
@@ -58,76 +65,8 @@ inspector4pda.browser = {
 
 	csInit: function() {
 
-		var self = this;
-		this.sdk.cookies = Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2);
-		this.sdk.tabs = require("sdk/tabs");
-
-		var panels = require("sdk/panel");
-
-		var panel = panels.Panel({
-			contentURL: "./html/popup.html",
-			contentStyleFile: "./css/popup.css",
-			contentScriptFile: ['./js/popup.js'],
-			onShow: function() {
-				panel.port.emit('show-event', {
-					bg: inspector4pda,
-					themes: {
-						count: inspector4pda.themes.getCount(),
-						pinCount: inspector4pda.themes.getPinCount(),
-						sortedKeys: inspector4pda.themes.getSortedKeys()
-					},
-					qms: {
-						count: inspector4pda.QMS.getCount()
-					}
-				});
-			},
-			onHide: function() {
-				self.sdk.button.state('window', {checked: false});
-			}
-		});
-
-		panel.port.on('panel-resize', function(size) {
-			panel.resize(size.width, size.height);
-		});
-
-		panel.port.on('button-print-count', function() {
-			inspector4pda.cScript.printCount();
-		});
-
-		panel.port.on('open-themes-page', function() {
-			inspector4pda.themes.openPage();
-		});
-
-		panel.port.on('open-theme-page', function(id) {
-			inspector4pda.themes.open(id);
-		});
-
-		panel.port.on('read-theme', function(id) {
-			inspector4pda.themes.read(id, function () {
-				panel.port.emit('theme-readed', id);
-			});
-		});
-
-		panel.port.on('counts-update', function(id) {
-			panel.port.emit('counts-updated', {
-				qms: inspector4pda.QMS.getCount(),
-				themes: inspector4pda.themes.getCount()
-			});
-		});
-
-		panel.port.on('open-theme-last-page', function(id) {
-			inspector4pda.themes.openLast(id);
-		});
-
-		panel.port.on('panel-hide', function(check) {
-			if (check) {
-				if (inspector4pda.vars.data.toolbar_opentheme_hide) {
-					panel.hide();
-				}
-			} else {
-				panel.hide();
-			}
-		});
+		var self = this,
+			panel = self.initPanel();
 
 		// https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action
 		self.sdk.button = require("sdk/ui/button/toggle").ToggleButton({
@@ -135,6 +74,13 @@ inspector4pda.browser = {
 			label: "4PDA Inspector",
 			icon: this.defaultIcon,
 			onChange: function(state) {
+
+				if (!inspector4pda.user.id) {
+					inspector4pda.utils.openPage(inspector4pda.browser.urls.login, true);
+					self.sdk.button.state('window', {checked: false});
+					return false;
+				}
+
 				if (state.checked) {
 					panel.show({
 						position: self.sdk.button
@@ -150,6 +96,98 @@ inspector4pda.browser = {
 			this.openPage(chrome.extension.getURL('html/whatsnew.html'));
 			this.bgClass.vars.setValue('build', this.currentBuild);
 		}*/
+	},
+
+	getPanelData: function() {
+		return {
+			bg: inspector4pda,
+			themes: {
+				count: inspector4pda.themes.getCount(),
+				pinCount: inspector4pda.themes.getPinCount(),
+				sortedKeys: inspector4pda.themes.getSortedKeys(),
+				list: inspector4pda.themes.list
+			},
+			qms: {
+				count: inspector4pda.QMS.getCount()
+			},
+			user: {
+				id: inspector4pda.user.id,
+				name: inspector4pda.user.name
+			},
+			vars: inspector4pda.vars.data,
+			translates: inspector4pda.browser.translates
+		};
+	},
+
+	initPanel: function() {
+		var panels = require("sdk/panel"),
+			self = this;
+
+		var panel = panels.Panel({
+			contentURL: "./html/popup.html",
+			contentStyleFile: "./css/popup.css",
+			contentScriptFile: ['./js/popup.js'],
+			onShow: function() {
+				panel.port.emit('show-event', self.getPanelData());
+			},
+			onHide: function() {
+				self.sdk.button.state('window', {checked: false});
+			}
+		});
+		panel.port.on('do-first-request', function() {
+			//panel.port.emit('show-event', self.getPanelData());
+			inspector4pda.cScript.firstRequest(function() {
+				panel.port.emit('show-event', self.getPanelData());
+			});
+
+		});
+		panel.port.on('update-data', function() {
+			panel.port.emit('updated-data', self.getPanelData());
+		});
+		panel.port.on('panel-resize', function(size) {
+			panel.resize(size.width, size.height);
+		});
+		panel.port.on('button-print-count', function() {
+			inspector4pda.cScript.printCount();
+		});
+		panel.port.on('open-page', function(page) {
+			if (typeof inspector4pda.browser.urls[page] == 'string') {
+				inspector4pda.utils.openPage(inspector4pda.browser.urls[page], true);
+			} else {
+				inspector4pda.utils.openPage(page, true);
+			}
+		});
+		panel.port.on('open-theme-page', function(id) {
+			inspector4pda.themes.open(id);
+		});
+		panel.port.on('open-user-page', function() {
+			inspector4pda.user.open();
+		});
+		panel.port.on('read-theme', function(id) {
+			inspector4pda.themes.read(id, function () {
+				panel.port.emit('theme-readed', id);
+			});
+		});
+		panel.port.on('counts-update', function(id) {
+			panel.port.emit('counts-updated', {
+				qms: inspector4pda.QMS.getCount(),
+				themes: inspector4pda.themes.getCount()
+			});
+		});
+		panel.port.on('open-theme-last-page', function(id) {
+			inspector4pda.themes.openLast(id);
+		});
+		panel.port.on('panel-hide', function(check) {
+			if (check) {
+				if (inspector4pda.vars.data.toolbar_opentheme_hide) {
+					panel.hide();
+				}
+			} else {
+				panel.hide();
+			}
+		});
+
+		return panel;
 	},
 
 	showNotification: function(params) {

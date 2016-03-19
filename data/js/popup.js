@@ -1,5 +1,4 @@
 var data = {
-	bg: null,
 	themes: {
 		count: 0,
 		pinCount: 0,
@@ -7,7 +6,13 @@ var data = {
 	},
 	qms: {
 		count: 0
-	}
+	},
+	user: {
+		id: 0,
+		name: ''
+	},
+	vars: {},
+	translates: {}
 };
 
 var popup = {
@@ -28,48 +33,43 @@ var popup = {
 		manualRefresh: null
 	},
 
-	urls: {
-		login: 'http://4pda.ru/forum/index.php?act=login'
-	},
+	init: function() {
 
-	bg: null,
-
-	init: function(bg) {
-
-		if (!this.bg.user.id) {
-			this.bg.utils.openPage(this.urls.login, true);
+		if (!data.user.id) {
+			popupPort.openPage('login');
 			popupPort.hidePanel();
 			return false;
 		}
 
-		if (this.bg.vars.data.toolbar_width_fixed) {
-			document.getElementsByTagName("body")[0].style.width = this.bg.vars.data.toolbar_width;
+		if (data.vars.toolbar_width_fixed) {
+			document.getElementsByTagName("body")[0].style.width = data.vars.toolbar_width;
 			document.getElementsByTagName("body")[0].className = 'widthFixed';
 		}
 		
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.onclick = function () {
-			popup.bg.user.open();
+			popupPort.openUserPage();
 			popup.checkOpenthemeHiding();
 		};
 		
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.onclick = function () {
-			popupPort.openThemesPage();
+			popupPort.openPage('themes');
 			popup.checkOpenthemeHiding();
 		};
 
 		this.elements.qmsLabel = document.getElementById('panelQMSCount');
 		this.elements.qmsBox = document.getElementById('panelQMS');
 		this.elements.qmsBox.onclick = function () {
-			popup.bg.QMS.openPage();
+			popupPort.openPage('QMS');
 			popup.checkOpenthemeHiding();
 		};
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
 		this.elements.settingsLabel.onclick = function () {
-			popup.bg.utils.openPage(chrome.extension.getURL('/html/options.html'), true);
+			popupPort.openPage('settings');
+			popup.checkOpenthemeHiding();
 		};
 
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
@@ -104,7 +104,10 @@ var popup = {
 	},
 
 	refresh: function(withoutPrintThemes) {
-		this.elements.usernameLabel.textContent = this.bg.user.name;
+
+		popupPort.updateData();
+
+		this.elements.usernameLabel.textContent = data.user.name;
 
 		this.elements.favoritesLabel.textContent = data.themes.count;
 		this.elements.favoritesBox.className = data.themes.count ? 'hasUnread': '';
@@ -112,21 +115,21 @@ var popup = {
 		this.elements.qmsLabel.textContent = data.qms.count;
 		this.elements.qmsBox.className = data.qms.count ? 'hasUnread': '';
 
-		if (popup.bg.vars.data.toolbar_simple_list) {
+		if (data.vars.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';
 		}
 
-		if (!this.bg.vars.data.toolbar_openAllFavs_button) {
+		if (!data.vars.toolbar_openAllFavs_button) {
 			this.elements.openAllLabel.classList.add('hidden');
 		}
-		if (!this.bg.vars.data.toolbar_openAllFavs_button || (this.bg.vars.data.toolbar_only_pin ||  !data.themes.pinCount )) {
+		if (!data.vars.toolbar_openAllFavs_button || (data.vars.toolbar_only_pin ||  !data.themes.pinCount )) {
 			this.elements.openAllPinLabel.classList.add('hidden');
 		}
-		if (!this.bg.vars.data.toolbar_markAllAsRead_button) {
+		if (!data.vars.toolbar_markAllAsRead_button) {
 			this.elements.readAllLabel.classList.add('hidden');
 		}
 
-		if (popup.bg.vars.data.user_links && popup.bg.vars.data.user_links.length) {
+		if (data.vars.user_links && data.vars.user_links.length) {
 			this.printUserLinks();
 		}
 
@@ -146,10 +149,7 @@ var popup = {
 			popup.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
 		}, 30);
 
-		this.bg.cScript.firstRequest(function() {
-			clearInterval(popup.refreshImgRotateInterval);
-			popup.refresh();
-		});
+		popupPort.firstRequest();
 	},
 
 	printCount: function() {
@@ -165,14 +165,12 @@ var popup = {
 		this.clearThemesList();
 
 		if (data.themes.count) {
-			var themesKeys = data.themes.sortedKeys;
-			for (var i = 0; i < themesKeys.length; i++) {
-				this.addThemeRow(this.bg.themes.list[themesKeys[i]]);
+			for (var i = 0; i < data.themes.sortedKeys.length; i++) {
+				this.addThemeRow(data.themes.list[data.themes.sortedKeys[i]]);
 			}
 		} else {
 			var noThemesLabel = document.createElement('div');
-			//noThemesLabel.textContent = inspector4pda.browser.getString('No unread topics');
-			noThemesLabel.textContent = 'No unread topics';
+			noThemesLabel.textContent = popupPort.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
 		}
@@ -196,7 +194,7 @@ var popup = {
 		var themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.textContent = theme.title;
 		themeCaptionLabel.className = 'oneTheme_caption';
-		if (theme.pin && popup.bg.vars.data.toolbar_pin_color) {
+		if (theme.pin && data.vars.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
 		}
 		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
@@ -212,8 +210,7 @@ var popup = {
 		readImage.id = 'oneTheme_markAsRead_' + theme.id;
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		//readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
-		readImage.setAttribute('tooltiptext', 'Mark As Read');
+		readImage.setAttribute('title', popupPort.getString('Mark As Read'));
 		readImage.onclick = function () {
 			var current = this;
 			var dataTheme = this.getAttribute('data-theme');
@@ -221,7 +218,7 @@ var popup = {
 			popupPort.readTheme(dataTheme);
 		};
 
-		if (!popup.bg.vars.data.toolbar_simple_list) {
+		if (!data.vars.toolbar_simple_list) {
 		
 			var userCaptionLabel = document.createElement('span');
 			userCaptionLabel.textContent = theme.last_user_name;
@@ -230,8 +227,7 @@ var popup = {
 			var lastPostLabel = document.createElement('span');
 			lastPostLabel.textContent = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
-			//lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
-			lastPostLabel.setAttribute('tooltiptext', 'Open Last Post');
+			lastPostLabel.setAttribute('title', popupPort.getString('Open Last Post'));
 			lastPostLabel.onclick = function () {
 				popupPort.openThemeLastPage(theme.id);
 				popupPort.buttonPrintCount();
@@ -247,18 +243,17 @@ var popup = {
 
 			infoHBox.appendChild(readImage);
 
-			var mainHBox = document.createElement('div');
-			mainHBox.appendChild(themeCaptionLabel);
+			var mainHDBox = document.createElement('div');
+			mainHDBox.appendChild(themeCaptionLabel);
 			
 			var themeVBox = document.createElement('div');
 			themeVBox.className = 'oneTheme';
-			themeVBox.appendChild(mainHBox);
+			themeVBox.appendChild(mainHDBox);
 			themeVBox.appendChild(infoHBox);
 			return themeVBox;
 		} else {
 			var mainHBox = document.createElement('div');
 			mainHBox.className = 'oneTheme';
-			//themeCaptionLabel.setAttribute('flex', '1');
 			mainHBox.appendChild(themeCaptionLabel);
 			mainHBox.appendChild(readImage);
 			return mainHBox;
@@ -281,8 +276,8 @@ var popup = {
 		var uLinks = document.getElementById('userLinks');
 		uLinks.style.display = 'block';
 		uLinks.textContent = '';
-		for (var i = 0; i < popup.bg.vars.data.user_links.length; i++) {
-			var item = popup.bg.vars.data.user_links[i];
+		for (var i = 0; i < data.vars.user_links.length; i++) {
+			var item = data.vars.user_links[i];
 			if (typeof item != 'object') {
 				continue;
 			}
@@ -291,7 +286,7 @@ var popup = {
 			link.setAttribute('data-url', item.url);
 			link.onclick = function () {
 				var url = this.getAttribute('data-url');
-				popup.bg.utils.openPage(url, true);
+				popupPort.openPage(url);
 			};
 			uLinks.appendChild(link);
 		}
@@ -299,12 +294,25 @@ var popup = {
 };
 
 var popupPort = {
+
+	getString: function(name) {
+		if (data.translates.hasOwnProperty(name)) {
+			return data.translates[name];
+		} else {
+			return name;
+		}
+	},
+
 	buttonPrintCount: function() {
 		self.port.emit('button-print-count');
 	},
 
-	openThemesPage: function() {
-		self.port.emit('open-themes-page');
+	openPage: function(url) {
+		self.port.emit('open-page', url);
+	},
+
+	openUserPage: function() {
+		self.port.emit('open-user-page');
 	},
 
 	openAllThemesPages: function() {
@@ -339,14 +347,24 @@ var popupPort = {
 
 	updateCounts: function() {
 		self.port.emit('counts-update');
+	},
+
+	updateData: function() {
+		self.port.emit('update-data');
+	},
+
+	firstRequest: function() {
+		self.port.emit('do-first-request');
 	}
 
 };
 
 self.port.on("show-event", function (dataP) {
-	popup.bg = dataP.bg;
 	data = dataP;
 	popup.init();
+});
+self.port.on("updated-data", function (dataP) {
+	data = dataP;
 });
 self.port.on("theme-readed", function (id) {
 	popup.themeReaded(id);
