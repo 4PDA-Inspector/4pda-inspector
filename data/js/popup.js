@@ -73,32 +73,32 @@ var popup = {
 		};
 
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
-		this.elements.openAllLabel.addEventListener('click', function() {
+		this.elements.openAllLabel.onclick = function() {
 			popupPort.openAllThemesPages();
 			popup.checkOpenthemeHiding();
 			popup.refresh();
-		}, false);
+		};
 		
 		this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
-		this.elements.openAllPinLabel.addEventListener('click', function() {
+		this.elements.openAllPinLabel.onclick = function() {
 			popupPort.openAllPinThemesPages();
 			popup.checkOpenthemeHiding();
 			popup.refresh();
-		}, false);
+		};
 		
 		this.elements.readAllLabel = document.getElementById('panelReadAll');
-		this.elements.readAllLabel.addEventListener('click', function() {
+		this.elements.readAllLabel.onclick = function() {
 			popupPort.readAllThemes();
 			popup.checkOpenthemeHiding();
 			popup.refresh();
-		}, false);
+		};
 
 		this.elements.themesList = document.getElementById('themesList');
 
 		this.elements.manualRefresh = document.getElementById('panelRefresh');
-		this.elements.manualRefresh.addEventListener('click', function() {
+		this.elements.manualRefresh.onclick = function() {
 			popup.manualRefresh(true);
-		}, false);
+		};
 
 		this.refresh();
 	},
@@ -316,11 +316,11 @@ var popupPort = {
 	},
 
 	openAllThemesPages: function() {
-		//popup.bg.themes.openAll();
+		self.port.emit('open-all-themes');
 	},
 
 	openAllPinThemesPages: function() {
-		//popup.bg.themes.openAllPin();
+		self.port.emit('open-all-pin-themes');
 	},
 
 	openThemePage: function(id) {
@@ -342,7 +342,7 @@ var popupPort = {
 	},
 
 	readAllThemes: function() {
-		//popup.bg.themes.readAll();
+		self.port.emit('read-all-themes');
 	},
 
 	updateCounts: function() {

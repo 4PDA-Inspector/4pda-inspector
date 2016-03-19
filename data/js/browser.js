@@ -135,11 +135,9 @@ inspector4pda.browser = {
 			}
 		});
 		panel.port.on('do-first-request', function() {
-			//panel.port.emit('show-event', self.getPanelData());
 			inspector4pda.cScript.firstRequest(function() {
 				panel.port.emit('show-event', self.getPanelData());
 			});
-
 		});
 		panel.port.on('update-data', function() {
 			panel.port.emit('updated-data', self.getPanelData());
@@ -159,6 +157,18 @@ inspector4pda.browser = {
 		});
 		panel.port.on('open-theme-page', function(id) {
 			inspector4pda.themes.open(id);
+		});
+		panel.port.on('open-all-themes', function() {
+			inspector4pda.themes.openAll();
+			panel.port.emit('show-event', self.getPanelData());
+		});
+		panel.port.on('read-all-themes', function() {
+			inspector4pda.themes.readAll();
+			panel.port.emit('show-event', self.getPanelData());
+		});
+		panel.port.on('open-all-pin-themes', function() {
+			inspector4pda.themes.openAllPin();
+			panel.port.emit('show-event', self.getPanelData());
 		});
 		panel.port.on('open-user-page', function() {
 			inspector4pda.user.open();
