@@ -17,10 +17,10 @@ inspector4pda.browser = {
 	hasQmsIcon: './icons/icon_19_qms.png',
 	logoutIcon: './icons/icon_19_out.png',
 
-	notificationIcon: "/icons/icon_80.png",
-	notificationQMSIcon: "/icons/icon_80_message.png",
-	notificationThemeIcon: "/icons/icon_80_favorite.png",
-	notificationOutIcon: "/icons/icon_80_out.png",
+	notificationIcon: "./icons/icon_80.png",
+	notificationQMSIcon: "./icons/icon_80_message.png",
+	notificationThemeIcon: "./icons/icon_80_favorite.png",
+	notificationOutIcon: "./icons/icon_80_out.png",
 
 	defaultColor: '#3F51B5', //[63, 81, 181, 255],
 	hasQmsColor: '#4CAF50',// [76, 175, 80, 255],
@@ -51,7 +51,8 @@ inspector4pda.browser = {
 		storage: require("sdk/simple-storage").storage,
 		button: null,
 		cookies: Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2),
-		tabs: require("sdk/tabs")
+		tabs: require("sdk/tabs"),
+		notifications: require("sdk/notifications")
 	},
 
 	getString: function(name) {
@@ -64,7 +65,6 @@ inspector4pda.browser = {
 	},
 
 	csInit: function() {
-
 		var self = this,
 			panel = self.initPanel();
 
@@ -89,8 +89,7 @@ inspector4pda.browser = {
 			}
 		});
 
-		/*chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
-
+		/*
 		var build = this.bgClass.vars.data.build;
 		if (!build || build < this.currentBuild) {
 			this.openPage(chrome.extension.getURL('html/whatsnew.html'));
@@ -201,27 +200,24 @@ inspector4pda.browser = {
 	},
 
 	showNotification: function(params) {
-
-		/*var defaultParams = {
+		var defaultParams = {
 			id: '4pdainspector_test_' + (new Date().getTime()),
 			title: this.getString("4PDA Inspector"),
 			message: 'Оповещения успешно включены',
-			iconUrl: "/icons/icon_80.png"
+			iconUrl: this.notificationIcon
 		};
 
 		params = this.mergeObjects(defaultParams, params);
 
-		chrome.notifications.create(params.id, {
-			type: "basic",
+		this.sdk.notifications.notify({
 			title: params.title,
-			message: params.message,
-			iconUrl: chrome.extension.getURL(params.iconUrl),
-			isClickable: true
+			text: params.message,
+			data: params.id,
+			iconURL: params.iconUrl,
+			onClick: function(data) {
+				inspector4pda.cScript.notificationClick(data);
+			}
 		});
-
-		setTimeout(function() {
-			inspector4pda.browser.clearNotification(params.id);
-		}, 30000);*/
 	},
 
 	clearNotification: function(id) {
@@ -242,7 +238,6 @@ inspector4pda.browser = {
 
 	setButtonIcon: function(icon) {
 		this.sdk.button.icon = icon;
-		//chrome.browserAction.setIcon({path: icon});
 	},
 
 	setBadgeBackgroundColor: function(color) {
@@ -266,8 +261,6 @@ inspector4pda.browser = {
 			inspector4pda.browser.setBadgeBackgroundColor(inspector4pda.browser.defaultColor);
 		}
 
-		console.log(qCount, tCount);
-
 		this.setBadgeText(tCount ? tCount : '');
 
 		this.setTitle(
@@ -278,9 +271,11 @@ inspector4pda.browser = {
 	},
 
 	playNotificationSound: function() {
-		/*var soundElement = document.getElementById("inspector4pda_sound");
-		soundElement.volume = this.bgClass.vars.data.notification_sound_volume;
-		soundElement.play();*/
+
+		require("sdk/page-worker").Page({
+			contentScript: "var audio = new Audio('../sound/sound3.ogg'); audio.volume = " + inspector4pda.vars.data.notification_sound_volume + "; audio.play();",
+			contentURL: sdkSelf.data.url("html/blank.html")
+		});
 	},
 
 	openPage: function(page, setActive, callback) {

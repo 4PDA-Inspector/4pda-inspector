@@ -56,7 +56,7 @@ body {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
-	background-image: url(/img/icons1.png);
+	background-image: url("../img/icons1.png");
 	background-repeat: no-repeat;
 }
 
@@ -200,7 +200,7 @@ body.widthFixed #themesList .oneTheme_caption {
 	display: block;
 	margin: 0;
 	cursor: pointer;
-	background: -124px 0 url(/img/icons1.png) no-repeat;
+	background: -124px 0 url("../img/icons1.png") no-repeat;
 	height: 16px;
 	width: 16px;
 	position: absolute;
@@ -212,5 +212,5 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 
 #themesList .oneTheme_markAsRead.loading {
-	background: url("/img/ajax-loader.gif");
+	background: url("../img/ajax-loader.gif");
 }
