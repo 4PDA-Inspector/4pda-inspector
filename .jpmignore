@@ -1,3 +1,5 @@
 /.idea/
 *.xpi
 .fuse_*
+.gitignore
+.git

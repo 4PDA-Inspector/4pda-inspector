@@ -69,6 +69,12 @@ inspector4pda.browser = {
 		var self = this,
 			panel = self.initPanel();
 
+		for (let tab of self.sdk.tabs) {
+			if (tab.url == 'resource://4pda_inspector_beta-at-coddism-dot-com/data/html/options.html') {
+				tab.close();
+			}
+		}
+
 		// https://developer.mozilla.org/en-US/Add-ons/SDK/Low-Level_APIs/ui_button_action
 		self.sdk.button = require("sdk/ui/button/toggle").ToggleButton({
 			id: "main",
@@ -183,34 +189,7 @@ inspector4pda.browser = {
 			inspector4pda.user.open();
 		});
 		panel.port.on('open-settings-page', function() {
-
-			self.sdk.tabs.open({
-				url: self.urls.settings,
-				onReady: function onOpen(tab) {
-					var worker = tab.attach({
-						contentScriptFile: './js/options.js'
-					});
-					worker.port.emit('start', inspector4pda.vars.getAll());
-					worker.port.on("setValue", function(name, value) {
-						inspector4pda.vars.setValue(name, value);
-					});
-					worker.port.on("showQMSNotification", function() {
-						self.showNotification({
-							message: "Оповещения о QMS успешно включены",
-							iconUrl: self.notificationQMSIcon
-						});
-					});
-					worker.port.on("showThemesNotification", function() {
-						self.showNotification({
-							message: "Оповещения о темах успешно включены",
-							iconUrl: bg.browser.notificationThemeIcon
-						});
-					});
-					worker.port.on("playNotificationSound", function() {
-						self.playNotificationSound();
-					});
-				}
-			});
+			self.openSettingsPage();
 		});
 		panel.port.on('read-theme', function(id) {
 			inspector4pda.themes.read(id, function () {
@@ -237,6 +216,37 @@ inspector4pda.browser = {
 		});
 
 		return panel;
+	},
+
+	openSettingsPage: function() {
+		var self = this;
+		self.sdk.tabs.open({
+			url: self.urls.settings,
+			onReady: function onOpen(tab) {
+				var worker = tab.attach({
+					contentScriptFile: './js/options.js'
+				});
+				worker.port.emit('start', inspector4pda.vars.getAll());
+				worker.port.on("setValue", function(name, value) {
+					inspector4pda.vars.setValue(name, value);
+				});
+				worker.port.on("showQMSNotification", function() {
+					self.showNotification({
+						message: "Оповещения о QMS успешно включены",
+						iconUrl: self.notificationQMSIcon
+					});
+				});
+				worker.port.on("showThemesNotification", function() {
+					self.showNotification({
+						message: "Оповещения о темах успешно включены",
+						iconUrl: bg.browser.notificationThemeIcon
+					});
+				});
+				worker.port.on("playNotificationSound", function() {
+					self.playNotificationSound();
+				});
+			}
+		});
 	},
 
 	showNotification: function(params) {
