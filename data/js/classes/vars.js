@@ -39,6 +39,14 @@ inspector4pda.vars = {
 		for (var name in this.data) {
 			var value = inspector4pda.browser.getStorageVar(name);
 			if (value) {
+				if (name == 'notification_sound_volume') {
+					value /= 100;
+				}
+				if (name == 'user_links') {
+					if (value) {
+						value = JSON.parse(value);
+					}
+				}
 				this.data[name] = value;
 			}
 		}
@@ -47,9 +55,7 @@ inspector4pda.vars = {
 
 	setValue: function(field, value) {
 
-		return false;
-
-		/*switch (typeof this.data[field]) {
+		switch (typeof this.data[field]) {
 			case 'boolean':
 				value = ((value === true) || (value === 'true') || (value === 1));
 				break;
@@ -78,17 +84,18 @@ inspector4pda.vars = {
 			case 'open_themes_limit':
 				value = Math.max( value, 0);
 				break;
+			case 'notification_sound_volume':
+				value = parseInt(value * 100);
+				break;
 		}
 
 		this.data[field] = value;
 
-		var stored = {};
-		stored[field] = value;
-		chrome.storage.local.set(stored);
+		inspector4pda.browser.setStorageVar(field, value);
 
 		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
 			inspector4pda.cScript.request();
-		}*/
+		}
 	},
 
 	getAll: function() {

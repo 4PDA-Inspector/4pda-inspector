@@ -178,14 +178,31 @@ inspector4pda.browser = {
 			inspector4pda.user.open();
 		});
 		panel.port.on('open-settings-page', function() {
+
 			self.sdk.tabs.open({
-				url: 'about:addons',
-				onReady: function(tab) {
-					tab.attach({
-						contentScriptWhen: 'end',
-						contentScript: 'AddonManager.getAddonByID("' + sdkSelf.id + '", function(aAddon) {\n' +
-						'unsafeWindow.gViewController.commands.cmd_showItemDetails.doCommand(aAddon, true);\n' +
-						'});\n'
+				url: self.urls.settings,
+				onReady: function onOpen(tab) {
+					var worker = tab.attach({
+						contentScriptFile: './js/options.js'
+					});
+					worker.port.emit('start', inspector4pda.vars.getAll());
+					worker.port.on("setValue", function(name, value) {
+						inspector4pda.vars.setValue(name, value);
+					});
+					worker.port.on("showQMSNotification", function() {
+						self.showNotification({
+							message: "Оповещения о QMS успешно включены",
+							iconUrl: self.notificationQMSIcon
+						});
+					});
+					worker.port.on("showThemesNotification", function() {
+						self.showNotification({
+							message: "Оповещения о темах успешно включены",
+							iconUrl: bg.browser.notificationThemeIcon
+						});
+					});
+					worker.port.on("playNotificationSound", function() {
+						self.playNotificationSound();
 					});
 				}
 			});
@@ -356,6 +373,10 @@ inspector4pda.browser = {
 
 	getStorageVar: function(name) {
 		return this.sdk.prefs[name];
+	},
+
+	setStorageVar: function(name, value) {
+		return this.sdk.prefs[name] = value;
 	},
 
 	sendRequest: function(url, success) {

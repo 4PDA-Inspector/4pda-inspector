@@ -1,40 +1,56 @@
-//var bg = chrome.extension.getBackgroundPage().inspector4pda;
-/*var bg = null;
 var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
+const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;
 
-const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;*/
+self.port.on('start', function(data) {
 
+    ready();
+    printValues(data);
 
-console.warn('options 8');
-self.port.on('test', function(text) {
-    console.warn(text);
+    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
+    document.getElementById('notification_sound_volume').addEventListener('input', function() {
+        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value * 100) + '%';
+    });
 });
 
-/*
-printValues();
-
-for (var i = 0; i < inputs.length; i++) {
-    if (inputs[i].name) {
-        inputs[i].addEventListener('change', function() {
-            var name = this.name;
-            switch (this.type) {
-                case "checkbox":
-                    setValue(name, this.checked);
-                    break;
-                case "text":
-                case "number":
-                case "range":
-                    setValue(name, this.value);
-                    break;
-            }
-        });
+function ready() {
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].name) {
+            inputs[i].addEventListener('change', function() {
+                var name = this.name;
+                switch (this.type) {
+                    case "checkbox":
+                        setValue(name, this.checked);
+                        break;
+                    case "text":
+                    case "number":
+                    case "range":
+                        setValue(name, this.value);
+                        break;
+                }
+            });
+        }
     }
+
+    document.getElementById('notification_popup_qms').addEventListener('change', function() {
+        if (this.checked) {
+            self.port.emit('showQMSNotification');
+        }
+    });
+
+    document.getElementById('notification_popup_themes').addEventListener('change', function() {
+        if (this.checked) {
+            self.port.emit('showThemesNotification');
+        }
+    });
+
+    document.getElementById('testNotifications').addEventListener('click', function() {
+        self.port.emit('playNotificationSound');
+    });
 }
 
-
-function printValues() {
-    var vars = bg.vars.getAll();
+function printValues(vars) {
     for (var i in vars) {
+
         if (i == 'user_links') {
             printUserLinks(vars[i]);
         } else {
@@ -54,46 +70,8 @@ function printValues() {
 }
 
 function setValue(name, value) {
-    bg.vars.setValue(name, value);
+    self.port.emit('setValue', name, value);
 }
-
-document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
-document.getElementById('notification_sound_volume').addEventListener('input', function() {
-    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value * 100) + '%';
-});
-
-document.getElementById('notification_popup_qms').addEventListener('change', function() {
-    if (this.checked) {
-        bg.browser.showNotification({
-            message: "Оповещения о QMS успешно включены",
-            iconUrl: bg.browser.notificationQMSIcon
-        });
-    }
-});
-document.getElementById('notification_popup_themes').addEventListener('change', function() {
-    if (this.checked) {
-        bg.browser.showNotification({
-            message: "Оповещения о темах успешно включены",
-            iconUrl: bg.browser.notificationThemeIcon
-        });
-    }
-});
-
-document.getElementById('testNotifications').addEventListener('click', function() {
-    bg.browser.playNotificationSound();
-});
-
-document.getElementById('addUserLink').addEventListener('click', function() {
-    var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
-    var inputs = div.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].value = '';
-        inputs[i].addEventListener('change', function() {
-            saveUserLinks();
-        });
-    }
-    document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
-});
 
 function printUserLinks(links) {
 
@@ -123,6 +101,19 @@ function printUserLinks(links) {
     }
 }
 
+document.getElementById('addUserLink').addEventListener('click', function() {
+    var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
+    var inputs = div.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+        inputs[i].addEventListener('change', function() {
+            saveUserLinks();
+        });
+    }
+    document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
+});
+
+
 function saveUserLinks() {
     var result = [];
     var userLinkDivs = document.getElementsByClassName('userLinkDiv');
@@ -143,5 +134,5 @@ function saveUserLinks() {
             result.push(newUserLink);
         }
     }
-    bg.vars.setValue('user_links', result);
-}*/
+    setValue('user_links', JSON.stringify(result));
+}

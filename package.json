@@ -17,13 +17,6 @@
   "homepage": "http://4pdainspector.coddism.com/",
 
   "preferences": [{
-      "name": "interval",
-      "title": "Интервал обновления",
-      "description": "",
-      "type": "integer",
-      "value": 5,
-      "hidden": true
-    }, {
       "name": "notification_sound_qms",
       "title": "QMS - Звуковые оповещения",
       "description": "",
