@@ -90,6 +90,10 @@ inspector4pda.browser = {
 			}
 		});
 
+		require("sdk/simple-prefs").on("", function(prefName) {
+			inspector4pda.vars.data[prefName] = inspector4pda.browser.getStorageVar(prefName);
+		});
+
 		/*
 		var build = this.bgClass.vars.data.build;
 		if (!build || build < this.currentBuild) {

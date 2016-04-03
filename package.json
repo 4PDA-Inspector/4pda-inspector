@@ -47,5 +47,11 @@
       "description": "",
       "type": "bool",
       "value": true
+    }, {
+      "name": "toolbar_opentheme_hide",
+      "title": "Закрывать при открытии новой страницы",
+      "description": "",
+      "type": "bool",
+      "value": false
     }]
 }

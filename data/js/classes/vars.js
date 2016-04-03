@@ -42,7 +42,6 @@ inspector4pda.vars = {
 				this.data[name] = value;
 			}
 		}
-		console.log( this.data );
 		inspector4pda.utils.callIfFunction(callback);
 	},
 
