@@ -73,6 +73,11 @@ inspector4pda.browser = {
 		self.sdk.button = require("sdk/ui/button/toggle").ToggleButton({
 			id: "main",
 			label: "4PDA Inspector",
+			/*icon: {
+				"16": "./icon-16.png",
+				"32": "./icon-32.png",
+				"64": "./icon-64.png"
+			},*/
 			icon: this.defaultIcon,
 			onChange: function(state) {
 
