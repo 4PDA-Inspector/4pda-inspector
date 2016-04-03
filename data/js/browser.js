@@ -320,7 +320,21 @@ inspector4pda.browser = {
 
 	openPage: function(page, setActive, callback) {
 
-		return this.sdk.tabs.open(page);
+		var actualTab = null;
+
+		for (let tab of this.sdk.tabs) {
+			if (tab.url == page) {
+				actualTab = tab;
+				break;
+			}
+		}
+		if (actualTab) {
+			actualTab.activate();
+			actualTab.reload();
+			return actualTab;
+		} else {
+			return this.sdk.tabs.open(page);
+		}
 
 		/*chrome.tabs.query({
 			url: page
