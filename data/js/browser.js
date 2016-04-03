@@ -320,9 +320,10 @@ inspector4pda.browser = {
 
 	openPage: function(page, setActive, callback) {
 
-		var actualTab = null;
+		var actualTab = null,
+			browserWindows = require("sdk/windows").browserWindows;
 
-		for (let tab of this.sdk.tabs) {
+		for (let tab of browserWindows.activeWindow.tabs) {
 			if (tab.url == page) {
 				actualTab = tab;
 				break;
@@ -335,45 +336,6 @@ inspector4pda.browser = {
 		} else {
 			return this.sdk.tabs.open(page);
 		}
-
-		/*chrome.tabs.query({
-			url: page
-		}, function (tab) {
-			if (tab && tab.length) {
-
-				var currentTab = tab[0];
-				var tabId = parseInt(currentTab.id);
-				var tabWindowId = parseInt(currentTab.windowId);
-
-				chrome.windows.getCurrent( {populate:false}, function(window) {
-
-					var moveProperties = {
-						index: -1
-					};
-					if (window.id == tabWindowId || currentTab.pinned) {
-						moveProperties.index = currentTab.index;
-					} else {
-						moveProperties.windowId = window.id;
-						tabWindowId = window.id;
-					}
-
-					chrome.tabs.move(tabId, moveProperties, function(tab) {
-						if (setActive) {
-							chrome.tabs.highlight({
-								tabs: tab.index,
-								windowId: tabWindowId
-							});
-						}
-						chrome.tabs.reload(tab.id, {}, callback);
-					});
-				});
-			} else {
-				chrome.tabs.create({
-					url: page,
-					active: setActive
-				}, callback);
-			}
-		});*/
 	},
 
 	getCookie: function(cookieName, callback) {
