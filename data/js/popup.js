@@ -68,7 +68,7 @@ var popup = {
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
 		this.elements.settingsLabel.onclick = function () {
-			popupPort.openPage('settings');
+			popupPort.openSettingsPage();
 			popup.checkOpenthemeHiding();
 		};
 
@@ -313,6 +313,10 @@ var popupPort = {
 
 	openUserPage: function() {
 		self.port.emit('open-user-page');
+	},
+
+	openSettingsPage: function() {
+		self.port.emit('open-settings-page');
 	},
 
 	openAllThemesPages: function() {

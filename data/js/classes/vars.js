@@ -5,7 +5,7 @@ if (typeof inspector4pda == "undefined") {
 inspector4pda.vars = {
 
 	data: {
-		interval: 10,
+		interval: 5,
 		open_themes_limit: 0,
 
 		notification_sound_volume: 1,
@@ -42,12 +42,15 @@ inspector4pda.vars = {
 				this.data[name] = value;
 			}
 		}
+		console.log( this.data );
 		inspector4pda.utils.callIfFunction(callback);
 	},
 
 	setValue: function(field, value) {
 
-		switch (typeof this.data[field]) {
+		return false;
+
+		/*switch (typeof this.data[field]) {
 			case 'boolean':
 				value = ((value === true) || (value === 'true') || (value === 1));
 				break;
@@ -86,7 +89,7 @@ inspector4pda.vars = {
 
 		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
 			inspector4pda.cScript.request();
-		}
+		}*/
 	},
 
 	getAll: function() {

@@ -52,8 +52,7 @@ inspector4pda.utils = {
 		};
 	},
 
-	htmlspecialcharsdecode: function (string)
-	{
+	htmlspecialcharsdecode: function (string) {
 		var codes = string.match(/&#(\d+);/g);
 
 		if (codes) {
@@ -72,7 +71,7 @@ inspector4pda.utils = {
 
 	openPage: function(page, setActive, callback) {
 		setActive = setActive || Boolean(inspector4pda.vars.data.toolbar_opentheme_hide);
-		inspector4pda.browser.openPage(page, setActive, callback);
+		return inspector4pda.browser.openPage(page, setActive, callback);
 	},
 
 	callIfFunction: function(callback) {

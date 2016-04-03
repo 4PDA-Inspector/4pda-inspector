@@ -1,8 +1,16 @@
-var bg = chrome.extension.getBackgroundPage().inspector4pda;
+//var bg = chrome.extension.getBackgroundPage().inspector4pda;
+/*var bg = null;
 var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
 
-const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;
+const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;*/
 
+
+console.warn('options 8');
+self.port.on('test', function(text) {
+    console.warn(text);
+});
+
+/*
 printValues();
 
 for (var i = 0; i < inputs.length; i++) {
@@ -22,6 +30,7 @@ for (var i = 0; i < inputs.length; i++) {
         });
     }
 }
+
 
 function printValues() {
     var vars = bg.vars.getAll();
@@ -135,4 +144,4 @@ function saveUserLinks() {
         }
     }
     bg.vars.setValue('user_links', result);
-}
+}*/

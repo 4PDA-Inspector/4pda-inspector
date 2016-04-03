@@ -49,6 +49,7 @@ inspector4pda.browser = {
 
 	sdk: {
 		storage: require("sdk/simple-storage").storage,
+		prefs: require("sdk/simple-prefs").prefs,
 		button: null,
 		cookies: Cc["@mozilla.org/cookiemanager;1"].getService(Ci.nsICookieManager2),
 		tabs: require("sdk/tabs"),
@@ -172,6 +173,19 @@ inspector4pda.browser = {
 		panel.port.on('open-user-page', function() {
 			inspector4pda.user.open();
 		});
+		panel.port.on('open-settings-page', function() {
+			self.sdk.tabs.open({
+				url: 'about:addons',
+				onReady: function(tab) {
+					tab.attach({
+						contentScriptWhen: 'end',
+						contentScript: 'AddonManager.getAddonByID("' + sdkSelf.id + '", function(aAddon) {\n' +
+						'unsafeWindow.gViewController.commands.cmd_showItemDetails.doCommand(aAddon, true);\n' +
+						'});\n'
+					});
+				}
+			});
+		});
 		panel.port.on('read-theme', function(id) {
 			inspector4pda.themes.read(id, function () {
 				panel.port.emit('theme-readed', id);
@@ -280,7 +294,7 @@ inspector4pda.browser = {
 
 	openPage: function(page, setActive, callback) {
 
-		this.sdk.tabs.open(page);
+		return this.sdk.tabs.open(page);
 
 		/*chrome.tabs.query({
 			url: page
@@ -337,7 +351,7 @@ inspector4pda.browser = {
 	},
 
 	getStorageVar: function(name) {
-		return this.sdk.storage[name];
+		return this.sdk.prefs[name];
 	},
 
 	sendRequest: function(url, success) {

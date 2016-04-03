@@ -2,16 +2,50 @@
   "title": "4PDA Inspector BETA",
   "id": "4pda_inspector_beta@coddism.com",
   "name": "4pdainspector_beta",
+  "fullName": "4pda Inspector Beta",
   "version": "3.0.0",
-  "description": "Oh yes",
+  "description": "Мониторинг изменений на форуме 4pda.ru",
   "main": "index.js",
   "author": "coddism.com",
   "engines": {
     "firefox": ">=38.0a1"
   },
-  "icon": "data/icon-32.png",
   "license": "GPL v2",
   "keywords": [
     "jetpack"
-  ]
+  ],
+  "homepage": "http://4pdainspector.coddism.com/",
+
+  "preferences": [{
+      "name": "interval",
+      "title": "Интервал обновления",
+      "description": "",
+      "type": "integer",
+      "value": 5,
+      "hidden": true
+    }, {
+      "name": "notification_sound_qms",
+      "title": "QMS - Звуковые оповещения",
+      "description": "",
+      "type": "bool",
+      "value": true
+    }, {
+      "name": "notification_popup_qms",
+      "title": "QMS - Всплывающие оповещения",
+      "description": "",
+      "type": "bool",
+      "value": true
+    }, {
+      "name": "notification_sound_themes",
+      "title": "Themes - Звуковые оповещения",
+      "description": "",
+      "type": "bool",
+      "value": true
+    }, {
+      "name": "notification_popup_themes",
+      "title": "Themes - Всплывающие оповещения",
+      "description": "",
+      "type": "bool",
+      "value": true
+    }]
 }
