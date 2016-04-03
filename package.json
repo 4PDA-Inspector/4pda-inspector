@@ -14,37 +14,5 @@
   "keywords": [
     "jetpack"
   ],
-  "homepage": "http://4pdainspector.coddism.com/",
-
-  "preferences": [{
-      "name": "notification_sound_qms",
-      "title": "QMS - Звуковые оповещения",
-      "description": "",
-      "type": "bool",
-      "value": true
-    }, {
-      "name": "notification_popup_qms",
-      "title": "QMS - Всплывающие оповещения",
-      "description": "",
-      "type": "bool",
-      "value": true
-    }, {
-      "name": "notification_sound_themes",
-      "title": "Themes - Звуковые оповещения",
-      "description": "",
-      "type": "bool",
-      "value": true
-    }, {
-      "name": "notification_popup_themes",
-      "title": "Themes - Всплывающие оповещения",
-      "description": "",
-      "type": "bool",
-      "value": true
-    }, {
-      "name": "toolbar_opentheme_hide",
-      "title": "Закрывать при открытии новой страницы",
-      "description": "",
-      "type": "bool",
-      "value": false
-    }]
+  "homepage": "http://4pdainspector.coddism.com/"
 }

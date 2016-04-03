@@ -308,7 +308,7 @@ inspector4pda.browser = {
 	playNotificationSound: function() {
 
 		require("sdk/page-worker").Page({
-			contentScript: "var audio = new Audio('../sound/sound3.ogg'); audio.volume = " + inspector4pda.vars.data.notification_sound_volume + "; audio.play();",
+			contentScript: "var audio = new Audio('../sound/sound3.ogg'); audio.volume = " + (inspector4pda.vars.data.notification_sound_volume / 100) + "; audio.play();",
 			contentURL: sdkSelf.data.url("html/blank.html")
 		});
 	},

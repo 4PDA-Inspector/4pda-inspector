@@ -6,9 +6,9 @@ self.port.on('start', function(data) {
     ready();
     printValues(data);
 
-    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
+    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value) + '%';
     document.getElementById('notification_sound_volume').addEventListener('input', function() {
-        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value * 100) + '%';
+        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value) + '%';
     });
 });
 

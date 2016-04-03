@@ -8,7 +8,7 @@ inspector4pda.vars = {
 		interval: 5,
 		open_themes_limit: 0,
 
-		notification_sound_volume: 1,
+		notification_sound_volume: 100,
 
 		notification_sound_themes: true,
 		notification_popup_themes: true,
@@ -39,9 +39,6 @@ inspector4pda.vars = {
 		for (var name in this.data) {
 			var value = inspector4pda.browser.getStorageVar(name);
 			if (value) {
-				if (name == 'notification_sound_volume') {
-					value /= 100;
-				}
 				if (name == 'user_links') {
 					if (value) {
 						value = JSON.parse(value);
@@ -83,9 +80,6 @@ inspector4pda.vars = {
 				break;
 			case 'open_themes_limit':
 				value = Math.max( value, 0);
-				break;
-			case 'notification_sound_volume':
-				value = parseInt(value * 100);
 				break;
 		}
 
