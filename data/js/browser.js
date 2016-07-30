@@ -28,7 +28,7 @@ inspector4pda.browser = {
 
 	bgClass: null, //chrome.extension.getBackgroundPage().inspector4pda,
 
-	translates: {
+	/*translates: {
 		"4PDA Inspector":   "4PDA Инспектор",
 		"No unread topics": "Непрочитанных тем нет",
 		"Mark As Read":     "Пометить как прочитанное",
@@ -45,6 +45,25 @@ inspector4pda.browser = {
 		"Remove From Favorites": "Удалить из избранного",
 		"Add To Favorites": "Добавить в избранное",
 		"4PDA Messages":    "Сообщения 4PDA"
+	},*/
+
+	translates: {
+		"4PDA Inspector": "4PDA \u0418\u043D\u0441\u043F\u0435\u043A\u0442\u043E\u0440",
+		"No unread topics": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0442\u0435\u043C \u043D\u0435\u0442",
+		"Mark As Read": "\u041F\u043E\u043C\u0435\u0442\u0438\u0442\u044C \u043A\u0430\u043A \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u043E\u0435",
+		"New Message": "\u041D\u043E\u0432\u043E\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435",
+		"New Comment": "\u041D\u043E\u0432\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439",
+		"Unread Topics": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0442\u0435\u043C",
+		"Unread Dialogs": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432",
+		"New Messages": "\u041D\u043E\u0432\u044B\u0445 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439",
+		"4PDA_online": "4PDA - \u0412 \u0441\u0435\u0442\u0438",
+		"Open Last Post": "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435",
+		"4PDA_offline": "4PDA - \u041D\u0435 \u0432 \u0441\u0435\u0442\u0438",
+		"4PDA_Site Unavailable": "4PDA - \u0421\u0430\u0439\u0442 \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D",
+		"You Are Not Authorized": "\u0412\u044B \u043D\u0435 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u043D\u044B",
+		"Remove From Favorites": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E",
+		"Add To Favorites": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435",
+		"4PDA Messages": "\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F 4PDA"
 	},
 
 	sdk: {
