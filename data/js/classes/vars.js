@@ -71,9 +71,9 @@ inspector4pda.vars = {
 		}
 
 		switch (field) {
-			case 'interval': // 5 sec < interval < 5 min
+			case 'interval': // 5 sec < interval
 				value = Math.max( value, 5);
-				value = Math.min( value, 300);
+				//value = Math.min( value, 300);  < 5 min
 				break;
 			case 'toolbar_width':
 				value = Math.max( value, 400);
