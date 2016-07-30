@@ -2,4 +2,5 @@
 *.xpi
 .fuse_*
 .gitignore
+.jpmignore
 .git

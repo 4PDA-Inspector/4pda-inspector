@@ -89,7 +89,7 @@ inspector4pda.cScript = {
 
 	checkUpdates: function(callback) {
 
-		console.log('Request.');
+		console.log('Request.', new Date());
 
 		var finishCallback = function(){
 			inspector4pda.cScript.printCount();
