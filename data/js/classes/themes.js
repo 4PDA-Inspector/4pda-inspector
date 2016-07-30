@@ -21,7 +21,7 @@ inspector4pda.themes = {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
 			if (callback) {
-				callback(resp.responseText, id);
+				callback(resp, id);
 			}
 		};
 		xmr.send(inspector4pda.themes.rUrl + '&t=' + id);
@@ -180,6 +180,7 @@ var themeObj = function () {
 			this.last_read_ts = parseInt(obj[6]);
 			this.pin = parseInt(obj[7]);
 		} catch(e) {
+			console.error(e.message);
 			return false;
 		}
 		return this;
