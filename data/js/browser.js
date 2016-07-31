@@ -98,6 +98,7 @@ inspector4pda.browser = {
 					panel.show({
 						position: self.sdk.button
 					});
+					require('sdk/view/core').getActiveView(panel).setAttribute('tooltip', 'aHTMLTooltip');
 				}
 			}
 		});
