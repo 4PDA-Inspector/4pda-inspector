@@ -89,7 +89,7 @@ inspector4pda.browser = {
 			panel = self.initPanel();
 
 		for (let tab of self.sdk.tabs) {
-			if (tab.url == 'resource://4pda_inspector_beta-at-coddism-dot-com/data/html/options.html') {
+			if (tab.url == 'resource://4pda_inspector-at-coddism-dot-com/data/html/options.html') {
 				tab.close();
 			}
 		}
