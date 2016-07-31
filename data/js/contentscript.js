@@ -20,7 +20,7 @@ inspector4pda.cScript = {
 	firstRequest: function(callback) {
 		var interval = inspector4pda.vars.data.interval * 1000;
 
-		console.log('First request.');
+		//console.log('First request.');
 
 		clearTimeout(inspector4pda.cScript.updateTimer);
 
@@ -61,7 +61,7 @@ inspector4pda.cScript = {
 	{
 		var now = inspector4pda.utils.now();
 		if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
-			console.warn('Do first request.', new Date());
+			//console.warn('Do first request.', new Date());
 			inspector4pda.cScript.firstRequest();
 			return false;
 		}
@@ -89,7 +89,7 @@ inspector4pda.cScript = {
 
 	checkUpdates: function(callback) {
 
-		console.log('Request.', new Date());
+		//console.log('Request.', new Date());
 
 		var finishCallback = function(){
 			inspector4pda.cScript.printCount();
