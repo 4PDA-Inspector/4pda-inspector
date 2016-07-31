@@ -82,5 +82,20 @@ inspector4pda.utils = {
 
 	now: function() {
 		return new Date().getTime()
+	},
+
+	parseJSON: function(json) {
+
+		if (typeof json == 'object') {
+			return json;
+		}
+
+		try {
+			value = JSON.parse(json);
+		} catch(e) {
+			value = [];
+		}
+
+		return value;
 	}
 };

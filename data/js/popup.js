@@ -132,9 +132,7 @@ var popup = {
 			this.elements.readAllLabel.classList.add('hidden');
 		}
 
-		if (data.vars.user_links && data.vars.user_links.length) {
-			this.printUserLinks();
-		}
+		this.printUserLinks();
 
 		if (!withoutPrintThemes) {
 			this.printThemesList();

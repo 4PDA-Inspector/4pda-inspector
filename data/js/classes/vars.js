@@ -40,9 +40,7 @@ inspector4pda.vars = {
 			var value = inspector4pda.browser.getStorageVar(name);
 			if (value) {
 				if (name == 'user_links') {
-					if (value) {
-						value = JSON.parse(value);
-					}
+					value = inspector4pda.utils.parseJSON(value);
 				}
 				this.data[name] = value;
 			}
@@ -83,9 +81,13 @@ inspector4pda.vars = {
 				break;
 		}
 
-		this.data[field] = value;
-
 		inspector4pda.browser.setStorageVar(field, value);
+
+		if (field == 'user_links') {
+			value = inspector4pda.utils.parseJSON(value);
+		}
+
+		this.data[field] = value;
 
 		if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
 			inspector4pda.cScript.request();

@@ -1,5 +1,5 @@
 var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
-const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;
+const urlRegexp = /^(https?:\/\/)4pda\.ru(.*)?$/;
 
 self.port.on('start', function(data) {
 
@@ -74,6 +74,10 @@ function setValue(name, value) {
 }
 
 function printUserLinks(links) {
+
+    if (typeof links == 'string') {
+        links = JSON.parse(links);
+    }
 
     if (links.length) {
         for (var i = 0; i < links.length; i++) {
