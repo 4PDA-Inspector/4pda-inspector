@@ -1,6 +1,7 @@
 if (typeof inspector4pda == "undefined") {
 	var inspector4pda = {};
 }
+var _ = require("sdk/l10n").get;
 
 inspector4pda.browser = {
 
@@ -28,42 +29,23 @@ inspector4pda.browser = {
 
 	bgClass: null, //chrome.extension.getBackgroundPage().inspector4pda,
 
-	/*translates: {
-		"4PDA Inspector":   "4PDA Инспектор",
-		"No unread topics": "Непрочитанных тем нет",
-		"Mark As Read":     "Пометить как прочитанное",
-		"New Message":      "Новое сообщение",
-		"New Comment":      "Новый комментарий",
-		"Unread Topics":    "Непрочитанных тем",
-		"Unread Dialogs":   "Непрочитанных диалогов",
-		"New Messages":     "Новых сообщений",
-		"4PDA_online":      "4PDA - В сети",
-		"Open Last Post":   "Открыть последнее сообщение",
-		"4PDA_offline":     "4PDA - Не в сети",
-		"4PDA_Site Unavailable": "4PDA - Сайт недоступен",
-		"You Are Not Authorized": "Вы не авторизованы",
-		"Remove From Favorites": "Удалить из избранного",
-		"Add To Favorites": "Добавить в избранное",
-		"4PDA Messages":    "Сообщения 4PDA"
-	},*/
-
 	translates: {
-		"4PDA Inspector": "4PDA \u0418\u043D\u0441\u043F\u0435\u043A\u0442\u043E\u0440",
-		"No unread topics": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0442\u0435\u043C \u043D\u0435\u0442",
-		"Mark As Read": "\u041F\u043E\u043C\u0435\u0442\u0438\u0442\u044C \u043A\u0430\u043A \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u043E\u0435",
-		"New Message": "\u041D\u043E\u0432\u043E\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435",
-		"New Comment": "\u041D\u043E\u0432\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439",
-		"Unread Topics": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0442\u0435\u043C",
-		"Unread Dialogs": "\u041D\u0435\u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043D\u043D\u044B\u0445 \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432",
-		"New Messages": "\u041D\u043E\u0432\u044B\u0445 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439",
-		"4PDA_online": "4PDA - \u0412 \u0441\u0435\u0442\u0438",
-		"Open Last Post": "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435",
-		"4PDA_offline": "4PDA - \u041D\u0435 \u0432 \u0441\u0435\u0442\u0438",
-		"4PDA_Site Unavailable": "4PDA - \u0421\u0430\u0439\u0442 \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D",
-		"You Are Not Authorized": "\u0412\u044B \u043D\u0435 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u043E\u0432\u0430\u043D\u044B",
-		"Remove From Favorites": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E",
-		"Add To Favorites": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435",
-		"4PDA Messages": "\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F 4PDA"
+		"4PDA Inspector":_("4PDA Inspector"),
+		"No unread topics":_("No unread topics"),
+		"Mark As Read":_("Mark As Read"),
+		"New Message":_("New Message"),
+		"New Comment":_("New Comment"),
+		"Unread Topics":_("Unread Topics"),
+		"Unread Dialogs":_("Unread Dialogs"),
+		"New Messages":_("New Messages"),
+		"4PDA_online":_("4PDA_online"),
+		"Open Last Post":_("Open Last Post"),
+		"4PDA_offline":_("4PDA_offline"),
+		"4PDA_Site Unavailable":_("4PDA_Site Unavailable"),
+		"You Are Not Authorized":_("You Are Not Authorized"),
+		"Remove From Favorites":_("Remove From Favorites"),
+		"Add To Favorites":_("Add To Favorites"),
+		"4PDA Messages":_("4PDA Messages")
 	},
 
 	sdk: {

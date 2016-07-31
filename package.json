@@ -9,5 +9,15 @@
     "firefox": ">=38.0a1"
   },
   "license": "GPL v2",
-  "homepage": "http://4pdainspector.coddism.com/"
+  "homepage": "http://4pdainspector.coddism.com/",
+  "locales": {
+    "en": {
+      "title": "4PDA Inspector",
+      "description": "Monitoring of changes on the 4pda.ru forum"
+    },
+    "uk": {
+      "title": "4PDA Інспектор",
+      "description": "Моніторинг змін на форумі 4pda.ru"
+    }
+  }
 }
