@@ -38,7 +38,7 @@ inspector4pda.vars = {
 	{
 		for (var name in this.data) {
 			var value = inspector4pda.browser.getStorageVar(name);
-			if (value) {
+			if (typeof value != 'undefined') {
 				if (name == 'user_links') {
 					value = inspector4pda.utils.parseJSON(value);
 				}
