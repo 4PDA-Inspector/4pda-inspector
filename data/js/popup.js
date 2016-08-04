@@ -267,21 +267,26 @@ var popup = {
 
 	printUserLinks: function() {
 		var uLinks = document.getElementById('userLinks');
-		uLinks.style.display = 'block';
 		uLinks.textContent = '';
-		for (var i = 0; i < data.vars.user_links.length; i++) {
-			var item = data.vars.user_links[i];
-			if (typeof item != 'object') {
-				continue;
+
+		if (data.vars.user_links.length) {
+			uLinks.style.display = 'block';
+			for (var i = 0; i < data.vars.user_links.length; i++) {
+				var item = data.vars.user_links[i];
+				if (typeof item != 'object') {
+					continue;
+				}
+				var link = document.createElement('span');
+				link.innerText = item.title;
+				link.setAttribute('data-url', item.url);
+				link.onclick = function () {
+					var url = this.getAttribute('data-url');
+					popupPort.openPage(url);
+				};
+				uLinks.appendChild(link);
 			}
-			var link = document.createElement('span');
-			link.innerText = item.title;
-			link.setAttribute('data-url', item.url);
-			link.onclick = function () {
-				var url = this.getAttribute('data-url');
-				popupPort.openPage(url);
-			};
-			uLinks.appendChild(link);
+		} else {
+			uLinks.style.display = 'none';
 		}
 	}
 };
