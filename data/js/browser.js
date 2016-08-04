@@ -45,7 +45,10 @@ inspector4pda.browser = {
 		"You Are Not Authorized":_("You Are Not Authorized"),
 		"Remove From Favorites":_("Remove From Favorites"),
 		"Add To Favorites":_("Add To Favorites"),
-		"4PDA Messages":_("4PDA Messages")
+		"4PDA Messages":_("4PDA Messages"),
+		"Notifications are enabled": _("Notifications are enabled"),
+		"Notifications about themes enabled": _("Notifications about themes enabled"),
+		"Notifications about QMS enabled": _("Notifications about QMS enabled")
 	},
 
 	sdk: {
@@ -234,14 +237,14 @@ inspector4pda.browser = {
 				});
 				worker.port.on("showQMSNotification", function() {
 					self.showNotification({
-						message: "Оповещения о QMS успешно включены",
+						message: self.getString('Notifications about QMS enabled'),
 						iconUrl: self.notificationQMSIcon
 					});
 				});
 				worker.port.on("showThemesNotification", function() {
 					self.showNotification({
-						message: "Оповещения о темах успешно включены",
-						iconUrl: bg.browser.notificationThemeIcon
+						message: self.getString('Notifications about themes enabled'),
+						iconUrl: self.notificationThemeIcon
 					});
 				});
 				worker.port.on("playNotificationSound", function() {
@@ -255,7 +258,7 @@ inspector4pda.browser = {
 		var defaultParams = {
 			id: '4pdainspector_test_' + (new Date().getTime()),
 			title: this.getString("4PDA Inspector"),
-			message: 'Оповещения успешно включены',
+			message: this.getString('Notifications are enabled'),
 			iconUrl: this.notificationIcon
 		};
 
