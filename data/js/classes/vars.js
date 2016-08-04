@@ -22,7 +22,6 @@ inspector4pda.vars = {
 		toolbar_simple_list: false,
 		toolbar_openAllFavs_button: true,
 		toolbar_markAllAsRead_button: true,
-		toolbar_width_fixed: false,
 		toolbar_width: 400,
 
 		user_links: [],

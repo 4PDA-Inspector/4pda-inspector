@@ -162,17 +162,13 @@ body {
 	margin: 0;
 	display: block;
 	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #themesList.simpleList .oneTheme_caption {
 	margin-right: 15px;
 }
 #themesList .oneTheme_caption:hover {
 	color: #2196F3;
-}
-
-body.widthFixed #themesList .oneTheme_caption {
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #themesList .oneTheme_pin {

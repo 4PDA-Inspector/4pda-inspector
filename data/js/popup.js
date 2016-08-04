@@ -41,14 +41,6 @@ var popup = {
 			return false;
 		}
 
-		if (data.vars.toolbar_width_fixed) {
-			document.getElementsByTagName("body")[0].style.width = data.vars.toolbar_width;
-			document.getElementsByTagName("body")[0].className = 'widthFixed';
-		} else {
-			document.getElementsByTagName("body")[0].style.width = 'auto';
-			document.getElementsByTagName("body")[0].className = '';
-		}
-		
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.onclick = function () {
 			popupPort.openUserPage();
