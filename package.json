@@ -2,7 +2,7 @@
   "title": "4PDA Инспектор",
   "id": "4pda_inspector@coddism.com",
   "name": "4pdainspector",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Мониторинг изменений на форуме 4pda.ru",
   "author": "coddism.com",
   "engines": {
