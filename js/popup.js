@@ -6,6 +6,8 @@ popup = {
 		usernameLabel: null,
 		favoritesBox: null,
 		favoritesLabel: null,
+		mentionsBox: null,
+		mentionsLabel: null,
 		qmsBox: null,
 		qmsLabel: null,
 		themesList: null,
@@ -42,6 +44,13 @@ popup = {
 			popup.checkOpenthemeHiding();
 		}, false);
 		
+		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
+		this.elements.mentionsBox = document.getElementById('panelMentions');
+		this.elements.mentionsBox.addEventListener("click", function () {
+			popup.bg.mentions.openPage();
+			popup.checkOpenthemeHiding();
+		}, false);
+
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.addEventListener("click", function () {

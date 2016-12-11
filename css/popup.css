@@ -64,6 +64,10 @@ body {
 	color: #2196F3;
 }
 
+#panelMentions .icon {
+	background-image: url(/img/mentions.png);
+}
+
 #panelQMS .icon {
 	background-position: -16px -16px;
 }

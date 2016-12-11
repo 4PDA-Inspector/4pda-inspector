@@ -42,10 +42,12 @@ inspector4pda.cScript = {
 					if (inspector4pda.user.id) {
 						inspector4pda.themes.request(function() {
 							inspector4pda.QMS.request(function() {
-								inspector4pda.cScript.printCount();
-								inspector4pda.utils.callIfFunction(callback);
-							});
-						});
+								inspector4pda.mentions.request(function() {
+									inspector4pda.cScript.printCount();
+									inspector4pda.utils.callIfFunction(callback);
+								})
+							})
+						})
 					} else {
 						inspector4pda.cScript.printCount();
 						inspector4pda.cScript.clearData();
