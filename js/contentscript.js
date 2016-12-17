@@ -5,6 +5,11 @@ inspector4pda.cScript = {
 
 	systemNotificationTitle: inspector4pda.browser.getString("4PDA Messages"),
 	systemNotificationErrorType: 'site_unavailable',
+
+    eventTheme: 'theme',
+    eventQMS: 'QMS',
+    eventMention: 'mention',
+
 	lastEvent: 0,
 	lastRequest: 0,
 	criticalBreak: 300000, //5 minutes
@@ -42,10 +47,9 @@ inspector4pda.cScript = {
 					if (inspector4pda.user.id) {
 						inspector4pda.themes.request(function() {
 							inspector4pda.QMS.request(function() {
-								inspector4pda.mentions.request(function() {
-									inspector4pda.cScript.printCount();
-									inspector4pda.utils.callIfFunction(callback);
-								})
+								inspector4pda.cScript.printCount();
+								inspector4pda.utils.callIfFunction(callback);
+								//inspector4pda.mentions.request(function() {})
 							})
 						})
 					} else {
@@ -139,39 +143,44 @@ inspector4pda.cScript = {
 
 				for (var i = 0; i < updates.length; i++) {
 
-					var id =  parseInt(updates[i][0].substr(1));
+					var currentUpdate = updates[i],
+                        id =  parseInt(currentUpdate[0].substr(1));
 
-					var isAddAction = true;
-					if (updates[i][1] == 2) {
-						isAddAction = false;
+
+					var action = 'add';
+					switch (currentUpdate[1]) {
+						case 2:
+							action = 'delete';
+							break;
+						case 3:
+							action = 'mention';
+							break;
 					}
 
-					switch (updates[i][0].substr(0,1)) {
+					switch (currentUpdate[0].substr(0,1)) {
 						case 't':
 							if (clearAllThemes) {
 								continue;
 							}
 							inspector4pda.cScript.updatesTurn['theme' + id] = {
 								type: 'theme',
-								action: isAddAction ? 'add' : 'delete',
+								action: action,
 								id: id
 							};
 							break;
 						case 'q':
 							inspector4pda.cScript.updatesTurn['QMS' + id] = {
 								type: 'QMS',
-								action: isAddAction ? 'add' : 'delete',
+								action: action,
 								id: id
 							};
 							break;
 						case 'f':
-							if (id === 0 && updates[i][1] == 3) {
+							if (id === 0 && currentUpdate[1] == 3) {
 								clearAllThemes = true;
 								inspector4pda.themes.clear();
 							}
 							break;
-						default:
-							continue;
 					}
 				}
 
@@ -187,7 +196,7 @@ inspector4pda.cScript = {
 					for (var j = 0; j < updateKeys.length; j++) {
 						var updateElement = inspector4pda.cScript.updatesTurn[updateKeys[j]];
 						switch (updateElement.type) {
-							case 'theme':
+							case inspector4pda.cScript.eventTheme:
 								if (updateElement.action == 'add') {
 									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
 										if (themesResp) {
@@ -205,13 +214,28 @@ inspector4pda.cScript = {
 														if (theme.last_user_id != inspector4pda.user.id) {
 															inspector4pda.cScript.addNotification(
 																theme.id,
-																'theme',
+																inspector4pda.cScript.eventTheme,
 																inspector4pda.utils.htmlspecialcharsdecode(theme.title),
 																inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
 															);
 														}
 													}
 												}
+											}
+										}
+										checkLastUpdate('theme' + themeId);
+									});
+								} else if (updateElement.action == inspector4pda.cScript.eventMention) {
+									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
+										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+												inspector4pda.cScript.addNotification(
+													theme.id,
+													inspector4pda.cScript.eventMention,
+													inspector4pda.utils.htmlspecialcharsdecode(theme.title),
+													inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
+												);
 											}
 										}
 										checkLastUpdate('theme' + themeId);
@@ -290,10 +314,14 @@ inspector4pda.cScript = {
 				icon = inspector4pda.browser.notificationOutIcon;
 				notificationId += '_' + (new Date().getTime());
 				break;
-			case "theme":
+			case this.eventTheme:
 				if (inspector4pda.vars.data.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 					return false;
 				}
+				icon = inspector4pda.browser.notificationThemeIcon;
+				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
+				break;
+			case this.eventMention:
 				icon = inspector4pda.browser.notificationThemeIcon;
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;

@@ -44,12 +44,12 @@ popup = {
 			popup.checkOpenthemeHiding();
 		}, false);
 		
-		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
+		/*this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
 		this.elements.mentionsBox = document.getElementById('panelMentions');
 		this.elements.mentionsBox.addEventListener("click", function () {
 			popup.bg.mentions.openPage();
 			popup.checkOpenthemeHiding();
-		}, false);
+		}, false);*/
 
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');

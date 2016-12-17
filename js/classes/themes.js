@@ -103,7 +103,7 @@ inspector4pda.themes = {
 				callback();
 			}
 		};
-		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id);
+		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
 		inspector4pda.themes.list[id].setRead();
 	},
 
