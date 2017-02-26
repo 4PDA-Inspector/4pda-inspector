@@ -110,8 +110,10 @@ popup = {
 		this.elements.qmsLabel.textContent = this.bg.QMS.getCount();
 		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
 
-		this.elements.mentionsLabel.textContent = this.bg.mentions.getCount();
-		this.elements.mentionsBox.className = this.bg.mentions.getCount() ? 'hasUnread': '';
+        this.bg.mentions.request(function(mCount){
+            popup.elements.mentionsLabel.textContent = mCount;
+            popup.elements.mentionsBox.className = mCount ? 'hasUnread': '';
+        });
 
 		if (popup.bg.vars.data.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';

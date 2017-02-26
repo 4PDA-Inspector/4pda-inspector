@@ -235,6 +235,14 @@ inspector4pda.cScript = {
 													inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
 												);
 											}
+										} else {
+											// theme not in favs
+											inspector4pda.cScript.addNotification(
+												themeId,
+												inspector4pda.cScript.eventMention,
+												inspector4pda.utils.htmlspecialcharsdecode("Какая-то тема"),
+												inspector4pda.utils.htmlspecialcharsdecode('Кто-то упомянул вас')
+											);
 										}
 										checkLastUpdate('theme' + themeId);
 									});
@@ -321,7 +329,7 @@ inspector4pda.cScript = {
 				break;
 			case this.eventMention:
 				icon = inspector4pda.browser.notificationThemeIcon;
-				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
+				//notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
 				icon = inspector4pda.browser.notificationQMSIcon;
@@ -390,7 +398,7 @@ inspector4pda.cScript = {
 
 		if (tagData[1] == 'qms'){
 			inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])), true);
-		} else if (tagData[1] == 'theme') {
+		} else if (tagData[1] == 'theme' || tagData[1] == 'mention') {
 			inspector4pda.themes.open(parseInt(tagData[2]), true);
 		}
 		inspector4pda.cScript.printCount();

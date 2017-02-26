@@ -93,7 +93,9 @@ inspector4pda.themes = {
 
 	open: function(id, setActive) {
 		inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
-		inspector4pda.themes.list[id].setRead();
+        if (typeof inspector4pda.themes.list[id] == 'object') {
+            inspector4pda.themes.list[id].setRead();
+        }
 	},
 
 	read: function(id, callback) {

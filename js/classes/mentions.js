@@ -8,7 +8,7 @@ inspector4pda.mentions = {
         xmr.callback.success = function(resp) {
             inspector4pda.mentions.parse(resp.responseText);
             if (callback) {
-                callback();
+				callback(inspector4pda.mentions.count);
             }
         };
         xmr.send(inspector4pda.mentions.rUrl);
