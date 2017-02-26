@@ -44,12 +44,12 @@ popup = {
 			popup.checkOpenthemeHiding();
 		}, false);
 		
-		/*this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
+		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
 		this.elements.mentionsBox = document.getElementById('panelMentions');
 		this.elements.mentionsBox.addEventListener("click", function () {
 			popup.bg.mentions.openPage();
 			popup.checkOpenthemeHiding();
-		}, false);*/
+		}, false);
 
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
@@ -109,6 +109,9 @@ popup = {
 
 		this.elements.qmsLabel.textContent = this.bg.QMS.getCount();
 		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
+
+		this.elements.mentionsLabel.textContent = this.bg.mentions.getCount();
+		this.elements.mentionsBox.className = this.bg.mentions.getCount() ? 'hasUnread': '';
 
 		if (popup.bg.vars.data.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';

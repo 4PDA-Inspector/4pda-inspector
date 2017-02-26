@@ -49,7 +49,7 @@ inspector4pda.cScript = {
 							inspector4pda.QMS.request(function() {
 								inspector4pda.cScript.printCount();
 								inspector4pda.utils.callIfFunction(callback);
-								//inspector4pda.mentions.request(function() {})
+								inspector4pda.mentions.request(function() {})
 							})
 						})
 					} else {
@@ -132,7 +132,6 @@ inspector4pda.cScript = {
 		xmr.callback.success = function(resp) {
 			if (resp.responseText) {
 				var parsed = inspector4pda.utils.appParse(resp.responseText);
-
 				//console.log(parsed);
 
 				if (parsed.lastEvent) {
@@ -144,8 +143,7 @@ inspector4pda.cScript = {
 				for (var i = 0; i < updates.length; i++) {
 
 					var currentUpdate = updates[i],
-                        id =  parseInt(currentUpdate[0].substr(1));
-
+                        id = parseInt(currentUpdate[0].substr(1));
 
 					var action = 'add';
 					switch (currentUpdate[1]) {
