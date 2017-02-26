@@ -1,7 +1,7 @@
 inspector4pda.mentions = {
     count: 0,
-    rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=mentions',
-    vUrl: 'http://4pda.ru/forum/index.php?act=mentions',
+    rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=mentions',
+    vUrl: 'https://4pda.ru/forum/index.php?act=mentions',
 
     request: function(callback) {
         var xmr = new inspector4pda.XHR();

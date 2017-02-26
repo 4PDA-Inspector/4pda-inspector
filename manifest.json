@@ -14,8 +14,8 @@
 	"permissions": [
 		"tabs",
 		"cookies",
-		"http://4pda.ru/*",
-		"http://app.4pda.ru/*",
+		"https://4pda.ru/*",
+		"https://app.4pda.ru/*",
 		"notifications",
 		"storage"
 	],

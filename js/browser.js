@@ -183,7 +183,7 @@ inspector4pda.browser = {
 
     getCookie: function(cookieName, callback) {
         chrome.cookies.get({
-            url: 'http://4pda.ru/forum',
+            url: 'https://4pda.ru/forum',
             name: cookieName
         }, function(cookie) {
             if (cookie) {

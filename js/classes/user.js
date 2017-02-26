@@ -1,5 +1,5 @@
 inspector4pda.user = {
-    rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=id',
+    rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=id',
     id: 0,
     name: '',
     appUrl: '',
@@ -39,7 +39,7 @@ inspector4pda.user = {
                 if (res.length == 2) {
                     inspector4pda.user.id = parseInt(res[0]);
                     inspector4pda.user.name = res[1];
-                    inspector4pda.user.appUrl = 'http://app.4pda.ru/er/u' + inspector4pda.user.id + '/s0';
+                    inspector4pda.user.appUrl = 'https://app.4pda.ru/er/u' + inspector4pda.user.id + '/s0';
                 } else {
                     inspector4pda.cScript.printLogout();
                 }
@@ -64,6 +64,6 @@ inspector4pda.user = {
 
     open: function(id) {
         id = id || inspector4pda.user.id;
-        inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showuser=' + id, true);
+        inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showuser=' + id, true);
     }
 };

@@ -19,7 +19,7 @@ popup = {
 	},
 
 	urls: {
-		login: 'http://4pda.ru/forum/index.php?act=login'
+		login: 'https://4pda.ru/forum/index.php?act=login'
 	},
 
 	bg: null,

@@ -1,6 +1,6 @@
 inspector4pda.themes = {
-	rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'http://4pda.ru/forum/index.php?act=fav',
+	rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=fav',
+	vUrl: 'https://4pda.ru/forum/index.php?act=fav',
 	list: {},
 
 	clear: function() {
@@ -92,7 +92,7 @@ inspector4pda.themes = {
 	},
 
 	open: function(id, setActive) {
-		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
+		inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
 		inspector4pda.themes.list[id].setRead();
 	},
 
@@ -103,12 +103,12 @@ inspector4pda.themes = {
 				callback();
 			}
 		};
-		xmr.send('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		xmr.send('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
 		inspector4pda.themes.list[id].setRead();
 	},
 
 	openLast: function(id) {
-		inspector4pda.utils.openPage('http://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
 		inspector4pda.themes.list[id].setRead();
 	},
 

@@ -4,8 +4,8 @@ inspector4pda.QMS = {
         messages: 0,
         dialogs: 0
     },
-    rUrl: 'http://4pda.ru/forum/index.php?act=inspector&CODE=qms',
-    vUrl: 'http://4pda.ru/forum/index.php?act=qms',
+    rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=qms',
+    vUrl: 'https://4pda.ru/forum/index.php?act=qms',
     list: {},
 
     request: function(callback) {
@@ -50,7 +50,7 @@ inspector4pda.QMS = {
 
     openChat: function(dialogID, themeID, setActive) {
         inspector4pda.utils.openPage(
-            'http://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''),
+            'https://4pda.ru/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''),
             setActive,
             function() {
                 if (themeID) {

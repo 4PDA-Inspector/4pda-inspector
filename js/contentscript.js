@@ -282,7 +282,7 @@ inspector4pda.cScript = {
 				finishCallback();
 			}
 		};
-		xmr.send('http://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
+		xmr.send('https://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
 	},
 
 	printCount: function() {
