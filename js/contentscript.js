@@ -150,9 +150,9 @@ inspector4pda.cScript = {
 						case 2:
 							action = 'delete';
 							break;
-						case 3:
+						/*case 3:
 							action = 'mention';
-							break;
+							break;*/
 					}
 
 					switch (currentUpdate[0].substr(0,1)) {
@@ -165,6 +165,21 @@ inspector4pda.cScript = {
 								action: action,
 								id: id
 							};
+
+							if (currentUpdate[1] == 3) {
+								inspector4pda.cScript.updatesTurn['mention' + id] = {
+									type: 'mention',
+									action: action,
+									id: id
+								};
+							} else if (currentUpdate[1] == 2) {
+								inspector4pda.cScript.updatesTurn['mention' + id] = {
+									type: 'mention',
+									action: action,
+									id: id
+								};
+							}
+
 							break;
 						case 'q':
 							inspector4pda.cScript.updatesTurn['QMS' + id] = {
@@ -175,6 +190,7 @@ inspector4pda.cScript = {
 							break;
 						case 'f':
 							if (id === 0 && currentUpdate[1] == 3) {
+								// отметка всего форума прочитанным
 								clearAllThemes = true;
 								inspector4pda.themes.clear();
 							}
@@ -223,29 +239,6 @@ inspector4pda.cScript = {
 										}
 										checkLastUpdate('theme' + themeId);
 									});
-								} else if (updateElement.action == inspector4pda.cScript.eventMention) {
-									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
-										if (themesResp) {
-											var theme = new themeObj();
-											if (theme.parse(themesResp)) {
-												inspector4pda.cScript.addNotification(
-													theme.id,
-													inspector4pda.cScript.eventMention,
-													inspector4pda.utils.htmlspecialcharsdecode(theme.title),
-													inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
-												);
-											}
-										} else {
-											// theme not in favs
-											inspector4pda.cScript.addNotification(
-												themeId,
-												inspector4pda.cScript.eventMention,
-												inspector4pda.utils.htmlspecialcharsdecode("Какая-то тема"),
-												inspector4pda.utils.htmlspecialcharsdecode('Кто-то упомянул вас')
-											);
-										}
-										checkLastUpdate('theme' + themeId);
-									});
 								} else {
 									delete inspector4pda.themes.list[updateElement.id];
 									checkLastUpdate(updateKeys[j]);
@@ -277,6 +270,32 @@ inspector4pda.cScript = {
 								} else {
 									delete inspector4pda.QMS.list[updateElement.id];
 									checkLastUpdate(updateKeys[j]);
+								}
+								break;
+							case inspector4pda.cScript.eventMention:
+								if (updateElement.action == 'add') {
+									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
+										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+												inspector4pda.cScript.addNotification(
+													theme.id,
+													inspector4pda.cScript.eventMention,
+													inspector4pda.utils.htmlspecialcharsdecode(theme.title),
+													inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
+												);
+											}
+										} else {
+											// theme not in favs
+											inspector4pda.cScript.addNotification(
+												themeId,
+												inspector4pda.cScript.eventMention,
+												inspector4pda.utils.htmlspecialcharsdecode("Какая-то тема"),
+												inspector4pda.utils.htmlspecialcharsdecode('Кто-то упомянул вас')
+											);
+										}
+										checkLastUpdate('mention' + themeId);
+									});
 								}
 								break;
 						}
