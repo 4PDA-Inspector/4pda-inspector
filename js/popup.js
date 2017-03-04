@@ -102,7 +102,7 @@ popup = {
 	},
 
 	refresh: function(withoutPrintThemes) {
-		this.elements.usernameLabel.textContent = this.bg.user.name;
+		this.elements.usernameLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(this.bg.user.name);
 		
 		this.elements.favoritesLabel.textContent = this.bg.themes.getCount();
 		this.elements.favoritesBox.className = this.bg.themes.getCount() ? 'hasUnread': '';
