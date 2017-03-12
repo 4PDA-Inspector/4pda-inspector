@@ -7,7 +7,7 @@ inspector4pda.themes = {
 		this.list = {};
 	},
 
-	request: function(callback, id) {
+	request: function(callback) {
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.success = function(resp) {
 			inspector4pda.themes.parse(resp.responseText);
@@ -77,16 +77,17 @@ inspector4pda.themes = {
 	},
 
 	getSortedKeys: function(sort_by_acs) {
-		var list = inspector4pda.themes.list;
-		var sort = sort_by_acs ? -1 : 1;
-		var keysSorted = inspector4pda.themes.getThemesIds().sort(function(a,b){
+		var list = inspector4pda.themes.list,
+			sort = sort_by_acs ? -1 : 1,
+			keysSorted;
+		keysSorted = inspector4pda.themes.getThemesIds().sort(function (a, b) {
 			if (inspector4pda.vars.data.toolbar_pin_up) {
 				var pinDef = list[b].pin - list[a].pin;
 				if (pinDef !== 0) {
 					return pinDef;
 				}
 			}
-			return  (list[b].last_post_ts - list[a].last_post_ts)*sort;
+			return (list[b].last_post_ts - list[a].last_post_ts) * sort;
 		});
 		return keysSorted;
 	},
