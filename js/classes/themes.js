@@ -18,11 +18,12 @@ inspector4pda.themes = {
 		xmr.send(inspector4pda.themes.rUrl);
 	},
 
-	requestTheme: function(id, callback) {
-		var xmr = new inspector4pda.XHR();
+	requestTheme: function(theme, callback) {
+		var xmr = new inspector4pda.XHR(),
+			id = theme.id;
 		xmr.callback.success = function(resp) {
 			if (callback) {
-				callback(resp.responseText, id);
+				callback(resp.responseText, id, theme);
 			}
 		};
 		xmr.send(inspector4pda.themes.rUrl + '&t=' + id);
@@ -92,8 +93,16 @@ inspector4pda.themes = {
 		return keysSorted;
 	},
 
-	open: function(id, setActive) {
-		inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getnewpost', setActive);
+	open: function(id, setActive, commentId) {
+
+		var url = 'https://4pda.ru/forum/index.php?showtopic='+id;
+		if (commentId) {
+			url += '&view=findpost&p=' + commentId;
+		} else {
+			url += '&view=getnewpost';
+		}
+
+		inspector4pda.utils.openPage(url, setActive);
         if (typeof inspector4pda.themes.list[id] == 'object') {
             inspector4pda.themes.list[id].setRead();
         }

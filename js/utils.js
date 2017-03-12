@@ -31,9 +31,16 @@ inspector4pda.utils = {
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
-				if (typeof events[pq[0]] == 'undefined') {
-					events[pq[0]] = pq;
-					eventsNums[parsed.length - i] = pq[0];
+
+				var key = pq[0];
+				if (pq[1] == 3 ) {
+					// mention
+					key = 'm_' + pq[0] + '_' + pq[3];
+				}
+
+				if (typeof events[key] == 'undefined') {
+					events[key] = pq;
+					eventsNums[parsed.length - i] = key;
 				}
 				if (lastEvent === false) {
 					lastEvent = pq[3];
@@ -54,6 +61,10 @@ inspector4pda.utils = {
 
 	htmlspecialcharsdecode: function (string)
 	{
+		if (typeof string != "string") {
+			string = '' + string;
+		}
+
 		var codes = string.match(/&#(\d+);/g);
 
 		if (codes) {

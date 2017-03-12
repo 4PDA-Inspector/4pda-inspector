@@ -160,21 +160,17 @@ inspector4pda.cScript = {
 							if (clearAllThemes) {
 								continue;
 							}
-							inspector4pda.cScript.updatesTurn['theme' + id] = {
-								type: 'theme',
-								action: action,
-								id: id
-							};
 
 							if (currentUpdate[1] == 3) {
-								inspector4pda.cScript.updatesTurn['mention' + id] = {
+								inspector4pda.cScript.updatesTurn['mention' + currentUpdate[2]] = {
 									type: 'mention',
-									action: action,
-									id: id
+									action: 'add',
+									id: id,
+									commentId: currentUpdate[2]
 								};
-							} else if (currentUpdate[1] == 2) {
-								inspector4pda.cScript.updatesTurn['mention' + id] = {
-									type: 'mention',
+							} else {
+								inspector4pda.cScript.updatesTurn['theme' + id] = {
+									type: 'theme',
 									action: action,
 									id: id
 								};
@@ -212,7 +208,7 @@ inspector4pda.cScript = {
 						switch (updateElement.type) {
 							case inspector4pda.cScript.eventTheme:
 								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
+									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
 										if (themesResp) {
 											var theme = new themeObj();
 											if (theme.parse(themesResp)) {
@@ -274,8 +270,25 @@ inspector4pda.cScript = {
 								break;
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestTheme(updateElement.id, function (themesResp, themeId) {
+									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
+
+										var themeTitle = "Какая-то тема";
+
 										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+												themeTitle = theme.title;
+											}
+										}
+
+										inspector4pda.cScript.addNotification(
+											themeId + '_' + rawData.commentId,
+											inspector4pda.cScript.eventMention,
+											inspector4pda.utils.htmlspecialcharsdecode(themeTitle),
+											'#' + rawData.commentId
+										);
+
+										/*if (themesResp) {
 											var theme = new themeObj();
 											if (theme.parse(themesResp)) {
 												inspector4pda.cScript.addNotification(
@@ -293,8 +306,9 @@ inspector4pda.cScript = {
 												inspector4pda.utils.htmlspecialcharsdecode("Какая-то тема"),
 												inspector4pda.utils.htmlspecialcharsdecode('Кто-то упомянул вас')
 											);
-										}
-										checkLastUpdate('mention' + themeId);
+										}*/
+
+										checkLastUpdate('mention' + rawData.commentId);
 									});
 								}
 								break;
@@ -348,7 +362,7 @@ inspector4pda.cScript = {
 				break;
 			case this.eventMention:
 				icon = inspector4pda.browser.notificationMentionIcon;
-				//notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
+				//notificationId += '_' + (new Date().getTime());
 				break;
 			case "qms":
 				icon = inspector4pda.browser.notificationQMSIcon;
@@ -426,8 +440,10 @@ inspector4pda.cScript = {
 
 		if (tagData[1] == 'qms'){
 			inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])), true);
-		} else if (tagData[1] == 'theme' || tagData[1] == 'mention') {
+		} else if (tagData[1] == 'theme') {
 			inspector4pda.themes.open(parseInt(tagData[2]), true);
+		} else if (tagData[1] == 'mention') {
+			inspector4pda.themes.open(parseInt(tagData[2]), true, tagData[3]);
 		}
 		inspector4pda.cScript.printCount();
 
