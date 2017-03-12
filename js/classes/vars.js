@@ -14,6 +14,8 @@ inspector4pda.vars = {
 		notification_popup_themes: true,
 		notification_sound_qms: true,
 		notification_popup_qms: true,
+		notification_sound_mentions: true,
+		notification_popup_mentions: true,
 
 		toolbar_pin_color: true,
 		toolbar_pin_up: false,

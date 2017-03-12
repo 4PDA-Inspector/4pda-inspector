@@ -69,6 +69,14 @@ document.getElementById('notification_popup_themes').addEventListener('change', 
         });
     }
 });
+document.getElementById('notification_popup_mentions').addEventListener('change', function() {
+    if (this.checked) {
+        bg.browser.showNotification({
+            message: "Оповещения об упоминаниях успешно включены",
+            iconUrl: bg.browser.notificationMentionIcon
+        });
+    }
+});
 
 document.getElementById('testNotifications').addEventListener('click', function() {
     bg.browser.playNotificationSound();

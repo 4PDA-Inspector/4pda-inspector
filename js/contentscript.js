@@ -372,12 +372,18 @@ inspector4pda.cScript = {
 			return false;
 		}
 		var hasQMS = false,
-			hasTheme = false;
+			hasTheme = false,
+			hasMention = false;
 		for (var i = 0; i < inspector4pda.cScript.notifications.length; i++) {
 			hasTheme |= (inspector4pda.cScript.notifications[i].type == 'theme');
 			hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
+			hasMention |= (inspector4pda.cScript.notifications[i].type == inspector4pda.cScript.eventMention);
 		}
-		if ((hasQMS && inspector4pda.vars.data.notification_sound_qms) || (hasTheme && inspector4pda.vars.data.notification_sound_themes)) {
+		if (
+			(hasQMS && inspector4pda.vars.data.notification_sound_qms) ||
+			(hasTheme && inspector4pda.vars.data.notification_sound_themes) ||
+			(hasMention && inspector4pda.vars.data.notification_sound_mentions)
+		) {
 			inspector4pda.browser.playNotificationSound();
 		}
 		inspector4pda.cScript.showNotifications();
@@ -397,6 +403,9 @@ inspector4pda.cScript = {
 			return false;
 		}
 		if (currentNotification.type == 'qms' && !inspector4pda.vars.data.notification_popup_qms) {
+			return false;
+		}
+		if (currentNotification.type == inspector4pda.cScript.eventMention && !inspector4pda.vars.data.notification_popup_mentions) {
 			return false;
 		}
 
