@@ -13,6 +13,7 @@ inspector4pda.browser = {
     notificationIcon: "/icons/icon_80.png",
     notificationQMSIcon: "/icons/icon_80_message.png",
     notificationThemeIcon: "/icons/icon_80_favorite.png",
+    notificationMentionIcon: "/icons/icon_80_mention.png",
     notificationOutIcon: "/icons/icon_80_out.png",
 
     defaultColor: [63, 81, 181, 255],

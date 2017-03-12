@@ -56,16 +56,12 @@ body {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
-	background-image: url(/img/icons1.png);
+	background-image: url(/img/icons2.png);
 	background-repeat: no-repeat;
 }
 
 #mainPanel > div > span:hover {
 	color: #2196F3;
-}
-
-#panelMentions .icon {
-	background-image: url(/img/mentions.png);
 }
 
 #panelQMS .icon {
@@ -86,6 +82,16 @@ body {
 }
 #panelFavorites:hover .icon {
 	background-position: -32px 0;
+}
+
+#panelMentions .icon {
+	background-position: -178px 0;
+}
+#panelMentions.hasUnread .icon {
+	background-position: -162px 0;
+}
+#panelMentions:hover .icon {
+	background-position: -194px 0;
 }
 
 #panelSettings {
@@ -204,7 +210,7 @@ body.widthFixed #themesList .oneTheme_caption {
 	display: block;
 	margin: 0;
 	cursor: pointer;
-	background: -124px 0 url(/img/icons1.png) no-repeat;
+	background: -124px 0 url(/img/icons2.png) no-repeat;
 	height: 16px;
 	width: 16px;
 	position: absolute;

@@ -347,7 +347,7 @@ inspector4pda.cScript = {
 				notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case this.eventMention:
-				icon = inspector4pda.browser.notificationThemeIcon;
+				icon = inspector4pda.browser.notificationMentionIcon;
 				//notificationId += '_' + inspector4pda.themes.list[id].last_read_ts;
 				break;
 			case "qms":
