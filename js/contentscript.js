@@ -270,7 +270,18 @@ inspector4pda.cScript = {
 								break;
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
+
+									inspector4pda.themes.requestUnknownThemeTitle(updateElement, function (themeTitle, themeId, rawData) {
+										inspector4pda.cScript.addNotification(
+											themeId + '_' + rawData.commentId,
+											inspector4pda.cScript.eventMention,
+											inspector4pda.utils.htmlspecialcharsdecode(themeTitle),
+											'#' + rawData.commentId
+										);
+										checkLastUpdate('mention' + rawData.commentId);
+									});
+
+									/*inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
 
 										var themeTitle = "Какая-то тема";
 
@@ -288,28 +299,8 @@ inspector4pda.cScript = {
 											'#' + rawData.commentId
 										);
 
-										/*if (themesResp) {
-											var theme = new themeObj();
-											if (theme.parse(themesResp)) {
-												inspector4pda.cScript.addNotification(
-													theme.id,
-													inspector4pda.cScript.eventMention,
-													inspector4pda.utils.htmlspecialcharsdecode(theme.title),
-													inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
-												);
-											}
-										} else {
-											// theme not in favs
-											inspector4pda.cScript.addNotification(
-												themeId,
-												inspector4pda.cScript.eventMention,
-												inspector4pda.utils.htmlspecialcharsdecode("Какая-то тема"),
-												inspector4pda.utils.htmlspecialcharsdecode('Кто-то упомянул вас')
-											);
-										}*/
-
 										checkLastUpdate('mention' + rawData.commentId);
-									});
+									});*/
 								}
 								break;
 						}

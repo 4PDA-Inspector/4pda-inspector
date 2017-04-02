@@ -29,6 +29,24 @@ inspector4pda.themes = {
 		xmr.send(inspector4pda.themes.rUrl + '&t=' + id);
 	},
 
+	requestUnknownThemeTitle: function(theme, callback) {
+		var xmr = new inspector4pda.XHR(),
+			id = theme.id;
+		xmr.callback.success = function(resp) {
+
+			var matches = resp.responseText.match(/<title>(.*?)<\/title>/),
+				title = false;
+			if (matches[1]) {
+				title = matches[1].replace(/ - 4PDA$/, '');
+			}
+
+			if (callback) {
+				callback(title, id, theme);
+			}
+		};
+		xmr.send('https://4pda.ru/forum/lofiversion/index.php?t' + id + '-0.html');
+	},
+
 	getThemesIds: function(withRead) {
 		var ids = [];
 		Object.keys(inspector4pda.themes.list).forEach(function(id){
