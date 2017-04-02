@@ -28,6 +28,11 @@ inspector4pda.utils = {
 		var lastEvent = false;
 		for (var i = parsed.length - 1; i >= 0; i--) {
 			if (pq = parsed[i].split(':')) {
+
+				if (pq.length < 4) {
+					continue;
+				}
+
 				pq[1] = parseInt(pq[1]);
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
