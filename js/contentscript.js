@@ -270,14 +270,40 @@ inspector4pda.cScript = {
 								break;
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestUnknownThemeTitle(updateElement, function (themeTitle, themeId, rawData) {
-										inspector4pda.cScript.addNotification(
-											themeId + '_' + rawData.commentId,
-											inspector4pda.cScript.eventMention,
-											inspector4pda.utils.htmlspecialcharsdecode(themeTitle),
-											'#' + rawData.commentId
-										);
-										checkLastUpdate('mention' + rawData.commentId);
+
+									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
+
+										var themeTitle = false;
+
+										if (themesResp) {
+											var theme = new themeObj();
+											if (theme.parse(themesResp)) {
+												themeTitle = theme.title;
+
+												inspector4pda.cScript.addNotification(
+													themeId + '_' + rawData.commentId,
+													inspector4pda.cScript.eventMention,
+													inspector4pda.utils.htmlspecialcharsdecode(themeTitle),
+													'#' + rawData.commentId
+												);
+
+												checkLastUpdate('mention' + rawData.commentId);
+											}
+										}
+
+										if (!themeTitle) {
+											// костыль
+											inspector4pda.themes.requestUnknownThemeTitle(rawData, function (themeTitle, themeId, rawData) {
+												inspector4pda.cScript.addNotification(
+													themeId + '_' + rawData.commentId,
+													inspector4pda.cScript.eventMention,
+													inspector4pda.utils.htmlspecialcharsdecode(themeTitle),
+													'#' + rawData.commentId
+												);
+												checkLastUpdate('mention' + rawData.commentId);
+											});
+										}
+
 									});
 								}
 								break;
