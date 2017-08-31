@@ -130,8 +130,9 @@ inspector4pda.cScript = {
 			unavailableFinishCallback();
 		};
 		xmr.callback.success = function(resp) {
-			if (resp.responseText) {
-				var parsed = inspector4pda.utils.appParse(resp.responseText);
+			var responseText = resp.responseText;
+			if (responseText) {
+				var parsed = inspector4pda.utils.appParse(responseText);
 				//console.log(parsed);
 
 				if (parsed.lastEvent) {
@@ -270,6 +271,12 @@ inspector4pda.cScript = {
 								break;
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
+
+									var isNew = inspector4pda.mentions.add(updateElement.id, updateElement.commentId);
+									if (!isNew) {
+										checkLastUpdate('mention' + updateElement.commentId);
+										continue;
+									}
 
 									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
 
