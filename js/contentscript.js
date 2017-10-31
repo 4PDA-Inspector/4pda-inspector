@@ -16,8 +16,7 @@ inspector4pda.cScript = {
 
 	updatesTurn: {},
 
-	init: function(el)
-	{
+	init: function(el) {
 		// convert old settings
 		if (!inspector4pda.vars.data.build && localStorage.build) {
 			console.warn('Convert settings');
@@ -121,12 +120,15 @@ inspector4pda.cScript = {
 
 		var xmr = new inspector4pda.XHR();
 		xmr.callback.timeout = function() {
+			console.warn('XHR Timeout');
 			unavailableFinishCallback();
 		};
 		xmr.callback.error = function() {
+			console.warn('XHR Error');
 			unavailableFinishCallback();
 		};
 		xmr.callback.not200Success = function() {
+			console.warn('XHR Not success');
 			unavailableFinishCallback();
 		};
 		xmr.callback.success = function(resp) {

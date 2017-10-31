@@ -27,6 +27,7 @@ inspector4pda.vars = {
 		toolbar_width_fixed: false,
 		toolbar_width: 400,
 
+		open_in_current_tab: false,
 		user_links: [],
 
 		build: '0'

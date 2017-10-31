@@ -141,6 +141,7 @@ inspector4pda.browser = {
     },
 
     openPage: function(page, setActive, callback) {
+        var self = this;
 
         chrome.tabs.query({
             url: page
@@ -174,10 +175,22 @@ inspector4pda.browser = {
                     });
                 });
             } else {
-                chrome.tabs.create({
-                    url: page,
-                    active: setActive
-                }, callback);
+                if (self.bgClass.vars.data.open_in_current_tab) {
+                    chrome.windows.getCurrent(
+                        function(win) {
+                            chrome.tabs.query({'windowId': win.id, 'active': true},
+                                function(tabArray) {
+                                    chrome.tabs.update(tabArray[0].id, {url: page}, callback);
+                                }
+                            );
+                        }
+                    );
+                } else {
+                    chrome.tabs.create({
+                        url: page,
+                        active: setActive
+                    }, callback);
+                }
             }
         });
     },
