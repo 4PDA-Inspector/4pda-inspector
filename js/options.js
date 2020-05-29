@@ -1,22 +1,20 @@
-var bg = chrome.extension.getBackgroundPage().inspector4pda;
-var inputs = document.getElementById('mainDiv').getElementsByTagName('input');
-
+var bg = chrome.extension.getBackgroundPage().inspector4pda,
+    inputs = document.getElementById('mainDiv').getElementsByTagName('input');
 const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;
 
 printValues();
 
-for (var i = 0; i < inputs.length; i++) {
+for (let i = 0; i < inputs.length; i++) {
     if (inputs[i].name) {
         inputs[i].addEventListener('change', function() {
-            var name = this.name;
             switch (this.type) {
                 case "checkbox":
-                    setValue(name, this.checked);
+                    setValue(this.name, this.checked);
                     break;
                 case "text":
                 case "number":
                 case "range":
-                    setValue(name, this.value);
+                    setValue(this.name, this.value);
                     break;
             }
         });
@@ -25,32 +23,38 @@ for (var i = 0; i < inputs.length; i++) {
 
 function printValues() {
     var vars = bg.vars.getAll();
-    for (var i in vars) {
+    for (let i in vars) {
         if (i == 'user_links') {
             printUserLinks(vars[i]);
         } else {
-            var input = document.getElementsByName(i);
+            let input = document.getElementsByName(i);
             if (input.length) {
                 input = input[0];
-                switch (typeof vars[i]) {
-                    case 'boolean':
+                switch (input.type) {
+                    case "checkbox":
                         input.checked = vars[i];
                         break;
                     default:
                         input.value = vars[i];
+                }
+                if (i == 'notification_sound_volume') {
+                    printNotificationSoundVolume(vars[i]);
                 }
             }
         }
     }
 }
 
+function printNotificationSoundVolume(value) {
+    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(value * 100) + '%';
+}
+
 function setValue(name, value) {
     bg.vars.setValue(name, value);
 }
 
-document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(document.getElementById('notification_sound_volume').value * 100) + '%';
 document.getElementById('notification_sound_volume').addEventListener('input', function() {
-    document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(this.value * 100) + '%';
+    printNotificationSoundVolume(this.value);
 });
 
 document.getElementById('notification_popup_qms').addEventListener('change', function() {
@@ -83,9 +87,9 @@ document.getElementById('testNotifications').addEventListener('click', function(
 });
 
 document.getElementById('addUserLink').addEventListener('click', function() {
-    var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
-    var inputs = div.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
+    var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true),
+        inputs = div.getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = '';
         inputs[i].addEventListener('change', function() {
             saveUserLinks();
@@ -95,16 +99,15 @@ document.getElementById('addUserLink').addEventListener('click', function() {
 });
 
 function printUserLinks(links) {
-
     if (links.length) {
-        for (var i = 0; i < links.length; i++) {
-            var div = document.getElementsByClassName('userLinkDiv')[i];
+        for (let i = 0; i < links.length; i++) {
+            let div = document.getElementsByClassName('userLinkDiv')[i];
             if (!div) {
                 div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
                 document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
             }
-            var inputs = div.getElementsByTagName('input');
-            for (var j = 0; j < inputs.length; j++) {
+            let inputs = div.getElementsByTagName('input');
+            for (let j = 0; j < inputs.length; j++) {
                 inputs[j].addEventListener('change', function() {
                     saveUserLinks();
                 });
@@ -113,8 +116,8 @@ function printUserLinks(links) {
             inputs[1].value = links[i].title;
         }
     } else {
-        var userLinkInputs = document.querySelectorAll('.userLinkDiv input');
-        for (var i = 0; i < userLinkInputs.length; i++) {
+        let userLinkInputs = document.querySelectorAll('.userLinkDiv input');
+        for (let i = 0; i < userLinkInputs.length; i++) {
             userLinkInputs[i].addEventListener('change', function() {
                 saveUserLinks();
             });
@@ -123,23 +126,21 @@ function printUserLinks(links) {
 }
 
 function saveUserLinks() {
-    var result = [];
-    var userLinkDivs = document.getElementsByClassName('userLinkDiv');
-    for (var i = 0; i < userLinkDivs.length; i++) {
-        var inputs = userLinkDivs[i].getElementsByTagName('input');
-        var newUserLink = {};
-        for (var j = 0; j < inputs.length; j++) {
-            if (inputs[j].className == 'userLinkUrl') {
-                if (urlRegexp.test(inputs[j].value)) {
-                    newUserLink.url = inputs[j].value;
-                }
-            } else if (inputs[j].className == 'userLinkUrlTitle') {
-                newUserLink.title = inputs[j].value;
-            }
-        }
+    var result = [],
+        userLinkDivs = document.getElementsByClassName('userLinkDiv');
+    for (let i = 0; i < userLinkDivs.length; i++) {
 
-        if (newUserLink.url && newUserLink.title) {
-            result.push(newUserLink);
+        if (
+            (userLinkDivs[i].getElementsByClassName('userLinkUrl').length)
+            && (userLinkDivs[i].getElementsByClassName('userLinkUrlTitle').length)
+        ) {
+            let newUserLink = {
+                url  : userLinkDivs[i].getElementsByClassName('userLinkUrl')[0].value,
+                title: userLinkDivs[i].getElementsByClassName('userLinkUrlTitle')[0].value
+            };
+            if (urlRegexp.test(newUserLink.url) && newUserLink.title) {
+                result.push(newUserLink);
+            }
         }
     }
     bg.vars.setValue('user_links', result);

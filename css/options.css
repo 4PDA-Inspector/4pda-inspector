@@ -62,6 +62,9 @@ span.header {
 	display: block;
 	font-weight: bold;
 }
+input.numbered {
+	width: 60px;
+}
 
 .infoLabel {
 	color: #9E9E9E;
