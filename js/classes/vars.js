@@ -20,7 +20,7 @@ inspector4pda.vars = {
 		toolbar_pin_color: true,
 		toolbar_pin_up: false,
 		toolbar_only_pin: false,
-		toolbar_opentheme_hide: false,
+		toolbar_opentheme_hide: true,
 		toolbar_simple_list: false,
 		toolbar_openAllFavs_button: true,
 		toolbar_markAllAsRead_button: true,

@@ -20,9 +20,9 @@ inspector4pda.cScript = {
 		// convert old settings
 		if (!inspector4pda.vars.data.build && localStorage.build) {
 			console.warn('Convert settings');
-			for (var i in inspector4pda.vars.data) {
+			for (let i in inspector4pda.vars.data) {
 				if (typeof localStorage[i] != 'undefined') {
-					if (i == 'user_links') {
+					if (i === 'user_links') {
 						inspector4pda.vars.setValue(i, JSON.parse(localStorage['user_links']));
 					} else {
 						inspector4pda.vars.setValue(i, localStorage[i]);
@@ -134,21 +134,20 @@ inspector4pda.cScript = {
 		xmr.callback.success = function(resp) {
 			var responseText = resp.responseText;
 			if (responseText) {
-				var parsed = inspector4pda.utils.appParse(responseText);
+				let parsed = inspector4pda.utils.appParse(responseText);
 				//console.log(parsed);
 
 				if (parsed.lastEvent) {
 					inspector4pda.cScript.lastEvent = parsed.lastEvent;
 				}
-				var updates = parsed.events,
+				let updates = parsed.events,
 					clearAllThemes = false;
 
-				for (var i = 0; i < updates.length; i++) {
+				for (let i = 0; i < updates.length; i++) {
 
-					var currentUpdate = updates[i],
-                        id = parseInt(currentUpdate[0].substr(1));
-
-					var action = 'add';
+					let currentUpdate = updates[i],
+						id = parseInt(currentUpdate[0].substr(1)),
+						action = 'add';
 					switch (currentUpdate[1]) {
 						case 2:
 							action = 'delete';
@@ -178,7 +177,6 @@ inspector4pda.cScript = {
 									id: id
 								};
 							}
-
 							break;
 						case 'q':
 							inspector4pda.cScript.updatesTurn['QMS' + id] = {
@@ -206,14 +204,14 @@ inspector4pda.cScript = {
 
 				var updateKeys = Object.keys(inspector4pda.cScript.updatesTurn);
 				if (updateKeys.length) {
-					for (var j = 0; j < updateKeys.length; j++) {
-						var updateElement = inspector4pda.cScript.updatesTurn[updateKeys[j]];
+					for (let j = 0; j < updateKeys.length; j++) {
+						let updateElement = inspector4pda.cScript.updatesTurn[updateKeys[j]];
 						switch (updateElement.type) {
 							case inspector4pda.cScript.eventTheme:
 								if (updateElement.action == 'add') {
 									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
 										if (themesResp) {
-											var theme = new themeObj();
+											let theme = new themeObj();
 											if (theme.parse(themesResp)) {
 
 												if (theme.last_post_ts <= theme.last_read_ts) {

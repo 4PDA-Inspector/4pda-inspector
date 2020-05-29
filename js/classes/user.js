@@ -5,7 +5,7 @@ inspector4pda.user = {
     appUrl: '',
 
     getCookieId: function(callback) {
-        inspector4pda.browser.getCookie('member_id', function(uid){
+        inspector4pda.browser.getCookie('member_id', function(uid) {
             callback(uid);
         });
     },
@@ -34,8 +34,8 @@ inspector4pda.user = {
         xmr.callback.success = function(resp) {
 
             inspector4pda.user.clearData();
-            if (resp.responseText) {                
-                var res = inspector4pda.utils.parse(resp.responseText);
+            if (resp.responseText) {
+                let res = inspector4pda.utils.parse(resp.responseText);
                 if (res.length == 2) {
                     inspector4pda.user.id = parseInt(res[0]);
                     inspector4pda.user.name = res[1];
