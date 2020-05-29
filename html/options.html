@@ -9,26 +9,25 @@
 		
 		<h1>Общие настройки</h1>
 		<p>
-			Интервал обновления: <input type="number" min="5" name="interval" style="width: 40px;"> секунд <span class="infoLabel">(5—300)</span>
+			<label>Интервал обновления: <input type="number" min="5" name="interval" style="width: 40px;"> секунд <span class="infoLabel">(5—300)</span></label>
 		</p>
 		<p>
-			<label><input type="checkbox" name="toolbar_only_pin">Показывать только закреплённые темы</label> <br>
+			<label><input type="checkbox" name="toolbar_only_pin">Показывать только закреплённые темы</label>
 			<label><input type="checkbox" name="open_in_current_tab">Открывать новые страницы в текущей вкладке</label>
 		</p>
 
 		<h2>Оповещения</h2>
 		<p>
 			Громкость звукового уведомления: <span id="inspector4pda_notificationSoundVolumeLabel"></span> &nbsp;<span id="testNotifications" class="linkStyled">ТЕСТ</span> <br>
-			<input type="range" name="notification_sound_volume" id="notification_sound_volume" min="0" max="1" step="0.05" />
-			<br>
-			<b>QMS</b>:<br>
-			<label><input type="checkbox" name="notification_sound_qms">Звуковые оповещения</label><br>
-			<label><input type="checkbox" name="notification_popup_qms" id="notification_popup_qms">Всплывающие оповещения</label><br>
-			<b>Темы</b>:<br>
-			<label><input type="checkbox" name="notification_sound_themes">Звуковые оповещения</label><br>
-			<label><input type="checkbox" name="notification_popup_themes" id="notification_popup_themes">Всплывающие оповещения</label><br>
-			<b>Упоминания</b>:<br>
-			<label><input type="checkbox" name="notification_sound_mentions">Звуковые оповещения</label><br>
+			<input type="range" name="notification_sound_volume" id="notification_sound_volume" min="0" max="1" step="0.05" /><br>
+			<span class="header">QMS</span>
+			<label><input type="checkbox" name="notification_sound_qms">Звуковые оповещения</label>
+			<label><input type="checkbox" name="notification_popup_qms" id="notification_popup_qms">Всплывающие оповещения</label>
+			<span class="header">Темы</span>
+			<label><input type="checkbox" name="notification_sound_themes">Звуковые оповещения</label>
+			<label><input type="checkbox" name="notification_popup_themes" id="notification_popup_themes">Всплывающие оповещения</label>
+			<span class="header">Упоминания</span>
+			<label><input type="checkbox" name="notification_sound_mentions">Звуковые оповещения</label>
 			<label><input type="checkbox" name="notification_popup_mentions" id="notification_popup_mentions">Всплывающие оповещения</label>
 		</p>
 
@@ -38,31 +37,35 @@
 		</p>
 		<h2>Закреплённые темы</h2>
 		<p>
-			<label><input type="checkbox" name="toolbar_pin_color">Выделять цветом</label><br>
+			<label><input type="checkbox" name="toolbar_pin_color">Выделять цветом</label>
 			<label><input type="checkbox" name="toolbar_pin_up">Выводить сверху</label>
 		</p>
 		<h2>Оформление</h2>
 		<p>
-			<label><input type="checkbox" name="toolbar_simple_list">Простой список</label> <br>
-			<label><input type="checkbox" name="toolbar_width_fixed">Зафиксировать ширину списка:</label> <input type="number" min="400" name="toolbar_width"> px <span class="infoLabel">(≥ 400)</span>
+			<label><input type="checkbox" name="toolbar_simple_list">Простой список</label>
+			<span>
+				<label><input type="checkbox" name="toolbar_width_fixed">Зафиксировать ширину списка:</label>
+				<label><input type="number" min="400" name="toolbar_width"> px <span class="infoLabel">(≥ 400)</span></label>
+			</span>
 		</p>
 		<h2>Управляющие кнопки</h2>
 		<p>
-			<label><input type="checkbox" name="toolbar_openAllFavs_button">"Открыть все непрочитанные темы в новых вкладках"</label><br>
-			Открывать порциями по: <input type="number" min="0" name="open_themes_limit"> <span class="infoLabel">0 - без ограничений</span><br>
+			<label><input type="checkbox" name="toolbar_openAllFavs_button">"Открыть все непрочитанные темы в новых вкладках"</label>
+			<label>Открывать порциями по: <input type="number" min="0" name="open_themes_limit"> <span class="infoLabel">0 - без ограничений</span></label>
 			<label><input type="checkbox" name="toolbar_markAllAsRead_button">"Пометить все темы прочитанными"</label>
 		</p>
 		<h2>Пользовательские ссылки</h2>
 		<div id="userLinksDiv">
 			<div class="userLinkDiv">
-				URL <input type="text" class="userLinkUrl"> Заголовок <input type="text" class="userLinkUrlTitle">
+				<label>URL <input type="text" class="userLinkUrl"></label>
+				<label>Заголовок <input type="text" class="userLinkUrlTitle"></label>
 			</div>
 			<span id="addUserLink" class="linkStyled">Добавить ссылку</span>
 		</div>
 
 		<h1>О дополнении</h1>
 		<div style="text-align: center">
-			<a href="http://4pdainspector.coddism.com" target="_blank"><img src="/icons/icon_128.png" width="128" height="128" /></a>
+			<a href="http://4pdainspector.coddism.com" target="_blank"><img src="/icons/icon_128.png" width="128" height="128" alt="logo"/></a>
 			<div class="caption">4PDA Инспектор</div>
 			<a href="http://4pdainspector.coddism.com/#donate" target="_blank" class="text-link donateLink">Помочь проекту</a>
 		</div>

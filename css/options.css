@@ -10,6 +10,10 @@ body {
 	color: #3F51B5;
 }
 
+h4 {
+	margin: 0;
+}
+
 #mainDiv {
 	margin: 10px auto;
 	width: 600px;
@@ -24,7 +28,6 @@ body {
 .linkStyled:hover {
 	color: #43a047;
 }
-
 
 .caption {
 	font-weight: bold;
@@ -51,6 +54,14 @@ body {
 label.text-link, label.text-link image {
 	outline: none;
 }
+p > label {
+	display: block;
+	width: fit-content;
+}
+span.header {
+	display: block;
+	font-weight: bold;
+}
 
 .infoLabel {
 	color: #9E9E9E;
@@ -62,14 +73,13 @@ label.text-link, label.text-link image {
 	position: absolute;
 	left: calc(50% - 300px);
 }
-
 .whatsnew p {
 	font-size: 15px;
 }
 
-.userLinkUrl {
+#userLinksDiv .userLinkUrl {
 	width: 300px;
 }
-.userLinkUrlTitle {
+#userLinksDiv .userLinkUrlTitle {
 	width: 180px;
 }
