@@ -167,16 +167,15 @@ popup = {
 	},
 
 	printThemesList: function() {
-
 		this.clearThemesList();
 
 		if (this.bg.themes.getCount()) {
-			var themesKeys = this.bg.themes.getSortedKeys();
-			for (var i = 0; i < themesKeys.length; i++) {
+			let themesKeys = this.bg.themes.getSortedKeys();
+			for (let i = 0; i < themesKeys.length; i++) {
 				this.addThemeRow(this.bg.themes.list[themesKeys[i]]);
 			}
 		} else {
-			var noThemesLabel = document.createElement('div');
+			let noThemesLabel = document.createElement('div');
 			noThemesLabel.textContent = inspector4pda.browser.getString('No unread topics');
 			noThemesLabel.className = 'oneTheme';
 			this.elements.themesList.appendChild(noThemesLabel);
@@ -188,7 +187,6 @@ popup = {
 	},
 
 	createThemeRow: function(theme)	{
-		
 		var themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
@@ -205,15 +203,14 @@ popup = {
 			popup.checkOpenthemeHiding();
 		}, false);
 
-		var readImage = document.createElement('span');
+		let readImage = document.createElement('span');
 		readImage.className = 'oneTheme_markAsRead';
 		readImage.setAttribute('data-theme', theme.id);
-		readImage.setAttribute('tooltiptext', inspector4pda.browser.getString('Mark As Read'));
+		readImage.setAttribute('title', inspector4pda.browser.getString('Mark As Read'));
 		readImage.addEventListener("click", function () {
-			var current = this;
-			var dataTheme = this.getAttribute('data-theme');
+			var current = this,
+				dataTheme = this.getAttribute('data-theme');
 			current.classList.add('loading');
-
 			popup.bg.themes.read(dataTheme, function() {
 				current.classList.remove('loading');
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
@@ -222,16 +219,23 @@ popup = {
 			});
 		});
 
-		if (!popup.bg.vars.data.toolbar_simple_list) {
-		
-			var userCaptionLabel = document.createElement('span');
+		if (popup.bg.vars.data.toolbar_simple_list) {
+			let mainHBox = document.createElement('div');
+			mainHBox.className = 'oneTheme';
+			//themeCaptionLabel.setAttribute('flex', '1');
+			mainHBox.appendChild(themeCaptionLabel);
+			mainHBox.appendChild(readImage);
+			return mainHBox;
+		} else {
+
+			let userCaptionLabel = document.createElement('span');
 			userCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name);
 			userCaptionLabel.className = 'oneTheme_user';
 
-			var lastPostLabel = document.createElement('span');
+			let lastPostLabel = document.createElement('span');
 			lastPostLabel.textContent = new Date(theme.last_post_ts*1000).toLocaleString();
 			lastPostLabel.className = 'oneTheme_lastPost';
-			lastPostLabel.setAttribute('tooltiptext', inspector4pda.browser.getString('Open Last Post'));
+			lastPostLabel.setAttribute('title', inspector4pda.browser.getString('Open Last Post'));
 			lastPostLabel.addEventListener("click", function () {
 				popup.bg.themes.openLast(theme.id);
 				popup.bg.cScript.printCount();
@@ -241,28 +245,21 @@ popup = {
 
 			// BOXES
 
-			var infoHBox = document.createElement('div');
+			let infoHBox = document.createElement('div');
 			infoHBox.className = 'oneThemeInfoHBox';
 			infoHBox.appendChild(userCaptionLabel);
 			infoHBox.appendChild(lastPostLabel);
 
 			infoHBox.appendChild(readImage);
 
-			var mainHBox = document.createElement('div');
+			let mainHBox = document.createElement('div');
 			mainHBox.appendChild(themeCaptionLabel);
-			
-			var themeVBox = document.createElement('div');
+
+			let themeVBox = document.createElement('div');
 			themeVBox.className = 'oneTheme';
 			themeVBox.appendChild(mainHBox);
 			themeVBox.appendChild(infoHBox);
 			return themeVBox;
-		} else {
-			var mainHBox = document.createElement('div');
-			mainHBox.className = 'oneTheme';
-			//themeCaptionLabel.setAttribute('flex', '1');
-			mainHBox.appendChild(themeCaptionLabel);
-			mainHBox.appendChild(readImage);
-			return mainHBox;
 		}
 	},
 
