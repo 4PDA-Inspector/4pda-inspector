@@ -34,7 +34,7 @@ popup = {
 		}
 
 		if (this.bg.vars.data.toolbar_width_fixed) {
-			document.getElementsByTagName("body")[0].style.width = this.bg.vars.data.toolbar_width;
+			document.getElementsByTagName("body")[0].style.width = Math.min(this.bg.vars.data.toolbar_width, 790);
 			document.getElementsByTagName("body")[0].className = 'widthFixed';
 		}
 		
