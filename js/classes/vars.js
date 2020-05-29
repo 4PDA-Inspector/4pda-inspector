@@ -64,7 +64,7 @@ inspector4pda.vars = {
 				value = String(value);
 				break;
 			case 'undefined':
-				console.warn('Set value:', field, value);
+				console.error('Set value:', field, value);
 				return false;
 		}
 
@@ -75,6 +75,7 @@ inspector4pda.vars = {
 				break;
 			case 'toolbar_width':
 				value = Math.max( value, 400);
+				value = Math.min( value, 800);
 				break;
 			case 'open_themes_limit':
 				value = Math.max( value, 0);

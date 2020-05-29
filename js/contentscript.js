@@ -78,7 +78,7 @@ inspector4pda.cScript = {
 	{
 		var now = inspector4pda.utils.now();
 		if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
-			console.warn('Do first request.', new Date());
+			console.info('Do first request.', new Date());
 			inspector4pda.cScript.firstRequest();
 			return false;
 		}
