@@ -83,6 +83,13 @@ input.numbered {
 #userLinksDiv .userLinkUrl {
 	width: 300px;
 }
+#userLinksDiv input.error{
+	border-color: #f44336;
+}
 #userLinksDiv .userLinkUrlTitle {
-	width: 180px;
+	width: 170px;
+}
+
+#userLinkDivTemplate {
+	display: none;
 }

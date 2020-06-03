@@ -13,7 +13,6 @@ options = {
 
     addEventListeners: function () {
         var self = this;
-
         for (let i = 0; i < this.inputs.length; i++) {
             if (this.inputs[i].name) {
                 this.inputs[i].addEventListener('change', function() {
@@ -63,16 +62,31 @@ options = {
             self.bg.browser.playNotificationSound();
         });
         document.getElementById('addUserLink').addEventListener('click', function() {
-            var div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true),
-                inputs = div.getElementsByTagName('input');
-            for (let i = 0; i < inputs.length; i++) {
-                inputs[i].value = '';
-                inputs[i].addEventListener('change', function() {
-                    self.saveUserLinks();
-                });
-            }
-            document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
+            self.addUserLinkRow();
         });
+    },
+
+    addUserLinkRow: function(values) {
+        var self = this,
+            div = document.getElementById('userLinkDivTemplate').cloneNode(true),
+            inputs = div.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+            inputs[i].addEventListener('change', function() {
+                self.saveUserLinks();
+            });
+        }
+        if (values) {
+            inputs[0].value = values.url;
+            inputs[1].value = values.title;
+        }
+        div.getElementsByClassName('deleteRow')[0].addEventListener('click', function () {
+            this.parentElement.remove();
+            self.saveUserLinks();
+        });
+        div.removeAttribute('id');
+        div.classList.add('userLinkDiv');
+        document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
     },
 
     printValues: function() {
@@ -111,27 +125,10 @@ options = {
         var self = this;
         if (links.length) {
             for (let i = 0; i < links.length; i++) {
-                let div = document.getElementsByClassName('userLinkDiv')[i];
-                if (!div) {
-                    div = document.getElementsByClassName('userLinkDiv')[0].cloneNode(true);
-                    document.getElementById('userLinksDiv').insertBefore(div, document.getElementById('addUserLink'));
-                }
-                let inputs = div.getElementsByTagName('input');
-                for (let j = 0; j < inputs.length; j++) {
-                    inputs[j].addEventListener('change', function() {
-                        self.saveUserLinks();
-                    });
-                }
-                inputs[0].value = links[i].url;
-                inputs[1].value = links[i].title;
+                self.addUserLinkRow(links[i]);
             }
         } else {
-            let userLinkInputs = document.querySelectorAll('.userLinkDiv input');
-            for (let i = 0; i < userLinkInputs.length; i++) {
-                userLinkInputs[i].addEventListener('change', function() {
-                    self.saveUserLinks();
-                });
-            }
+            self.addUserLinkRow();
         }
     },
 
@@ -139,16 +136,31 @@ options = {
         var result = [],
             userLinkDivs = document.getElementsByClassName('userLinkDiv');
         for (let i = 0; i < userLinkDivs.length; i++) {
-
             if (
                 (userLinkDivs[i].getElementsByClassName('userLinkUrl').length)
                 && (userLinkDivs[i].getElementsByClassName('userLinkUrlTitle').length)
             ) {
-                let newUserLink = {
-                    url  : userLinkDivs[i].getElementsByClassName('userLinkUrl')[0].value,
-                    title: userLinkDivs[i].getElementsByClassName('userLinkUrlTitle')[0].value
-                };
-                if (urlRegexp.test(newUserLink.url) && newUserLink.title) {
+                let $urlInput = userLinkDivs[i].getElementsByClassName('userLinkUrl')[0],
+                    $titleInput = userLinkDivs[i].getElementsByClassName('userLinkUrlTitle')[0],
+                    newUserLink = {
+                        url  : $urlInput.value,
+                        title: $titleInput.value
+                    },
+                    hasErrors = false;
+                if (newUserLink.url && urlRegexp.test(newUserLink.url)) {
+                    $urlInput.classList.remove('error');
+                } else {
+                    $urlInput.classList.add('error');
+                    hasErrors = true;
+                }
+
+                if (newUserLink.title) {
+                    $titleInput.classList.remove('error');
+                } else {
+                    $titleInput.classList.add('error');
+                    hasErrors = true;
+                }
+                if (!hasErrors) {
                     result.push(newUserLink);
                 }
             }
