@@ -10,9 +10,8 @@ inspector4pda.XHR = function () {
 	this.timeoutTime = 10000;
 	
 	this.send = function(url) {
-
-		var self = this;
-		var req = new XMLHttpRequest();
+		var self = this,
+			req = new XMLHttpRequest();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4) {
 				if (req.status == 200) {

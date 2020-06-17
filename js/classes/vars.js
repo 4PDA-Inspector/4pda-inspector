@@ -37,11 +37,10 @@ inspector4pda.vars = {
 		this.resetStorage(callback);
 	},
 
-	resetStorage: function(callback)
-	{
+	resetStorage: function(callback) {
 		var self = this;
 		chrome.storage.local.get(null, function(items) {
-			for (var i in items) {
+			for (let i in items) {
 				self.setValue(i, items[i]);
 			}
 			inspector4pda.utils.callIfFunction(callback);
@@ -84,7 +83,7 @@ inspector4pda.vars = {
 
 		this.data[field] = value;
 
-		var stored = {};
+		let stored = {};
 		stored[field] = value;
 		chrome.storage.local.set(stored);
 

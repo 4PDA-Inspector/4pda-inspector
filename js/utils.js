@@ -3,14 +3,13 @@
 }
 
 inspector4pda.utils = {
-	
 	parseStringRegexp: /([^\s"']+|"([^"]*)"|'([^']*)')/g,
 
 	parse: function(str) {
 		var parsed = str.match(this.parseStringRegexp);
-		var pq = '';
-		for (var i = 0; i < parsed.length; i++) {
-			if (pq = parsed[i].match(/\"(.*)\"/)) {
+		for (let i = 0; i < parsed.length; i++) {
+			let pq = parsed[i].match(/"(.*)"/);
+			if (pq) {
 				parsed[i] = pq[1];
 			}
 		}
@@ -21,14 +20,13 @@ inspector4pda.utils = {
 		if (!str) {
 			return [];
 		}
-		var parsed = str.split(',');
-		var pq;
-		var eventsNums = {};
-		var events = {};
-		var lastEvent = false;
-		for (var i = parsed.length - 1; i >= 0; i--) {
-			if (pq = parsed[i].split(':')) {
-
+		var parsed = str.split(','),
+			eventsNums = {},
+			events = {},
+			lastEvent = false;
+		for (let i = parsed.length - 1; i >= 0; i--) {
+			let pq = parsed[i].split(':');
+			if (pq) {
 				if (pq.length < 4) {
 					continue;
 				}
@@ -37,7 +35,7 @@ inspector4pda.utils = {
 				pq[2] = parseInt(pq[2]);
 				pq[3] = parseInt(pq[3]);
 
-				var key = pq[0];
+				let key = pq[0];
 				if (pq[1] == 3 ) {
 					// mention
 					key = 'm_' + pq[0] + '_' + pq[3];
@@ -53,8 +51,8 @@ inspector4pda.utils = {
 			}
 		}
 
-		var returnArray = [];
-		for (i in eventsNums) {
+		let returnArray = [];
+		for (let i in eventsNums) {
 			returnArray.push(events[eventsNums[i]]);
 		}
 
@@ -71,10 +69,9 @@ inspector4pda.utils = {
 		}
 
 		var codes = string.match(/&#(\d+);/g);
-
 		if (codes) {
-			for (var i = 0; i < codes.length; i++) {
-				var code = codes[i].match(/\d+/g);
+			for (let i = 0; i < codes.length; i++) {
+				let code = codes[i].match(/\d+/g);
 				string = string.replace(new RegExp(codes[i], 'g'), String.fromCharCode(code));
 			}
 		}

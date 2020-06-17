@@ -74,8 +74,7 @@ inspector4pda.cScript = {
 		});
 	},
 
-	request: function(callback)
-	{
+	request: function(callback)	{
 		var now = inspector4pda.utils.now();
 		if ( (!inspector4pda.user.id) || (now - inspector4pda.cScript.lastRequest > inspector4pda.cScript.criticalBreak) ) {
 			console.info('Do first request.', new Date());
@@ -92,8 +91,7 @@ inspector4pda.cScript = {
 		}, inspector4pda.vars.data.interval * 1000);
 	},
 
-	getData: function(callback)
-	{
+	getData: function(callback) {
 		inspector4pda.user.getCookieId(function(uid){
 			if (uid && uid == inspector4pda.user.id) {
 				inspector4pda.cScript.checkUpdates(callback);
@@ -272,7 +270,7 @@ inspector4pda.cScript = {
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
 
-									var isNew = inspector4pda.mentions.add(updateElement.id, updateElement.commentId);
+									let isNew = inspector4pda.mentions.add(updateElement.id, updateElement.commentId);
 									if (!isNew) {
 										checkLastUpdate('mention' + updateElement.commentId);
 										continue;
@@ -281,9 +279,8 @@ inspector4pda.cScript = {
 									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
 
 										var themeTitle = false;
-
 										if (themesResp) {
-											var theme = new themeObj();
+											let theme = new themeObj();
 											if (theme.parse(themesResp)) {
 												themeTitle = theme.title;
 
@@ -331,8 +328,8 @@ inspector4pda.cScript = {
 			inspector4pda.cScript.printLogout();
 			return false;
 		}
-		var qCount = inspector4pda.QMS.getCount();
-		var tCount = inspector4pda.themes.getCount();
+		var qCount = inspector4pda.QMS.getCount(),
+			tCount = inspector4pda.themes.getCount();
 
 		inspector4pda.browser.printCount(qCount, tCount);
 	},
@@ -347,8 +344,8 @@ inspector4pda.cScript = {
 
 	addNotification: function(id, type, title, message) {
 
-		var icon;
-		var notificationId = "4pdainspector_" + type + '_' + id;
+		var icon,
+			notificationId = "4pdainspector_" + type + '_' + id;
 
 		switch (type) {
 			case this.systemNotificationErrorType:
@@ -390,7 +387,7 @@ inspector4pda.cScript = {
 		var hasQMS = false,
 			hasTheme = false,
 			hasMention = false;
-		for (var i = 0; i < inspector4pda.cScript.notifications.length; i++) {
+		for (let i = 0; i < inspector4pda.cScript.notifications.length; i++) {
 			hasTheme |= (inspector4pda.cScript.notifications[i].type == 'theme');
 			hasQMS |= (inspector4pda.cScript.notifications[i].type == 'qms');
 			hasMention |= (inspector4pda.cScript.notifications[i].type == inspector4pda.cScript.eventMention);

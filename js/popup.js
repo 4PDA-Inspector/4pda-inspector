@@ -133,7 +133,7 @@ popup = {
 			let self = this;
 			setTimeout(function () {
 				self.printUserLinks();
-			}, 20);
+			}, 50);
 		}
 
 		if (!withoutPrintThemes) {

@@ -91,7 +91,7 @@ inspector4pda.browser = {
     mergeObjects: function(ar1, ar2) {
         if (typeof Object.assign != 'function') {
             Object.prototype.assign = function(ar1, ar2) {
-                for (var i in ar2) {
+                for (let i in ar2) {
                     ar1[i] = ar2[i];
                 }
                 return ar1;
@@ -148,9 +148,9 @@ inspector4pda.browser = {
         }, function (tab) {
             if (tab && tab.length) {
 
-                var currentTab = tab[0];
-                var tabId = parseInt(currentTab.id);
-                var tabWindowId = parseInt(currentTab.windowId);
+                var currentTab = tab[0],
+                    tabId = parseInt(currentTab.id),
+                    tabWindowId = parseInt(currentTab.windowId);
 
                 chrome.windows.getCurrent( {populate:false}, function(window) {
 

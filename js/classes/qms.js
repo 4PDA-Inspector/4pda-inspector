@@ -34,10 +34,12 @@ inspector4pda.QMS = {
         inspector4pda.QMS.count.dialogs = 0;
         inspector4pda.QMS.unreadCount = 0;
         inspector4pda.QMS.list = {};
-        var tText = text ? text.replace('\r','').split('\n') : [];
-        for (var i = 0; i < tText.length; i++) {
+        var tText = text
+            ? text.replace('\r','').split('\n')
+            : [];
+        for (let i = 0; i < tText.length; i++) {
             if (tText[i]) {
-                var dialog = new qDialog();
+                let dialog = new qDialog();
                 if (dialog.parse(tText[i])) {
                     inspector4pda.QMS.list[dialog.id] = dialog;
                     inspector4pda.QMS.count.messages += dialog.unread_msgs;

@@ -33,7 +33,6 @@ inspector4pda.themes = {
 		var xmr = new inspector4pda.XHR(),
 			id = theme.id;
 		xmr.callback.success = function(resp) {
-
 			var matches = resp.responseText.match(/<title>(.*?)<\/title>/),
 				title = false;
 			if (matches[1]) {
@@ -49,7 +48,7 @@ inspector4pda.themes = {
 
 	getThemesIds: function(withRead) {
 		var ids = [];
-		Object.keys(inspector4pda.themes.list).forEach(function(id){
+		Object.keys(inspector4pda.themes.list).forEach(function(id) {
 			if (inspector4pda.vars.data.toolbar_only_pin && !inspector4pda.themes.list[id].pin) {
 				return false;
 			}
@@ -66,11 +65,11 @@ inspector4pda.themes = {
 	},
 
 	getPinCount: function() {
-		var themesIds = this.getThemesIds();
-		var count = 0;
+		var themesIds = this.getThemesIds(),
+			count = 0;
 		
-		for (var i = 0; i < themesIds.length; i++) {
-			var themeId = themesIds[i];
+		for (let i = 0; i < themesIds.length; i++) {
+			let themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isRead()) {
 				continue;
 			}
@@ -85,9 +84,9 @@ inspector4pda.themes = {
 		inspector4pda.themes.list = {};
 		var tText = text.replace('\r','').split('\n');
 
-		for (var i = 0; i < tText.length; i++) {
+		for (let i = 0; i < tText.length; i++) {
 			if (tText[i]) {
-				var theme = new themeObj();
+				let theme = new themeObj();
 				if (theme.parse(tText[i])) {
 					inspector4pda.themes.list[theme.id] = theme;
 				}
@@ -101,7 +100,7 @@ inspector4pda.themes = {
 			keysSorted;
 		keysSorted = inspector4pda.themes.getThemesIds().sort(function (a, b) {
 			if (inspector4pda.vars.data.toolbar_pin_up) {
-				var pinDef = list[b].pin - list[a].pin;
+				let pinDef = list[b].pin - list[a].pin;
 				if (pinDef !== 0) {
 					return pinDef;
 				}
@@ -112,7 +111,6 @@ inspector4pda.themes = {
 	},
 
 	open: function(id, setActive, commentId) {
-
 		var url = 'https://4pda.ru/forum/index.php?showtopic='+id;
 		if (commentId) {
 			url += '&view=findpost&p=' + commentId;
@@ -143,10 +141,10 @@ inspector4pda.themes = {
 	},
 
 	openAll: function() {
-		var limit = inspector4pda.vars.data.open_themes_limit;
-		var themesIds = this.getSortedKeys(true);
+		var limit = inspector4pda.vars.data.open_themes_limit,
+			themesIds = this.getSortedKeys(true);
 
-		for (var i = 0; i < themesIds.length; i++) {
+		for (let i = 0; i < themesIds.length; i++) {
 			if (limit && i >= limit) {
 				break;
 			}
@@ -156,15 +154,14 @@ inspector4pda.themes = {
 	},
 
 	openAllPin: function() {
-		var limit = inspector4pda.vars.data.open_themes_limit;
-		var themesIds = this.getSortedKeys();
-
-		var openedPagesCount = 0;
-		for (var i = 0; i < themesIds.length; i++) {
+		var limit = inspector4pda.vars.data.open_themes_limit,
+			themesIds = this.getSortedKeys(),
+			openedPagesCount = 0;
+		for (let i = 0; i < themesIds.length; i++) {
 			if (limit && openedPagesCount >= limit) {
 				break;
 			}
-			var themeId = themesIds[i];
+			let themeId = themesIds[i];
 			if (inspector4pda.themes.list[themeId].isPin()) {
 				inspector4pda.themes.open(themeId);
 				openedPagesCount++;
@@ -175,7 +172,7 @@ inspector4pda.themes = {
 
 	readAll: function() {
 		var themesIds = this.getSortedKeys();
-		for (var i = 0; i < themesIds.length; i++) {
+		for (let i = 0; i < themesIds.length; i++) {
 			inspector4pda.themes.read(themesIds[i]);
 		}
 		inspector4pda.cScript.printCount();
