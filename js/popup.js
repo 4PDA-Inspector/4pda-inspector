@@ -15,7 +15,8 @@ popup = {
 		openAllLabel: null,
 		openAllPinLabel: null,
 		readAllLabel: null,
-		manualRefresh: null
+		manualRefresh: null,
+		header: null
 	},
 
 	urls: {
@@ -37,7 +38,7 @@ popup = {
 			document.getElementsByTagName("body")[0].style.width = Math.min(this.bg.vars.data.toolbar_width, 790);
 			document.getElementsByTagName("body")[0].className = 'widthFixed';
 		}
-		
+
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
 			popup.bg.user.open();
@@ -98,6 +99,8 @@ popup = {
 			popup.manualRefresh(true);
 		}, false);
 
+		this.elements.header = document.getElementById('header');
+
 		this.refresh();
 	},
 
@@ -129,19 +132,25 @@ popup = {
 			this.elements.readAllLabel.classList.add('hidden');
 		}
 
-		if (popup.bg.vars.data.user_links && popup.bg.vars.data.user_links.length) {
-			let self = this;
-			setTimeout(function () {
-				self.printUserLinks();
-			}, 50);
-		}
-
+		this.fixHeight();
 		if (!withoutPrintThemes) {
 			this.printThemesList();
 		}
 
+		if (popup.bg.vars.data.user_links && popup.bg.vars.data.user_links.length) {
+			let self = this;
+			window.onload = function() {
+				console.log('window.onload');
+				self.printUserLinks();
+			};
+		}
+
 		clearInterval(this.refreshImgRotateInterval);
 		this.elements.manualRefresh.style.transform = "rotate(0deg)";
+	},
+
+	fixHeight: function() {
+		this.elements.themesList.style.marginTop = this.elements.header.offsetHeight;
 	},
 
 	manualRefresh: function() {
@@ -288,6 +297,7 @@ popup = {
 			uLinks.appendChild(link);
 		}
 		uLinks.style.display = 'block';
+		this.fixHeight();
 	}
 };
 

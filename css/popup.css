@@ -3,14 +3,11 @@ body {
 	font-size: 13px;
 	color: #3F51B5;
 	margin: 8px 5px;
+	background: #FFFFFF;
 }
 
 .hidden {
 	display: none !important;
-}
-
-#userLinks {
-	display: none;
 }
 
 /***************** BUTTONS *****************/
@@ -147,10 +144,24 @@ body {
 
 /***************** THEMES LIST *****************/
 
+#header {
+	width: 100%;
+	padding-top: 8px; /*body margin-top*/
+	top: 0;
+	background: #FFFFFF;
+	position: fixed;
+	z-index: 1;
+}
+
+#userLinks {
+	display: none;
+	width: 100%;
+}
+
 #themesList {
+	margin-top: 36px; /* 28 #mainPanel height +8 #mainPanel padding-top*/
+	z-index: 0;
 	white-space: nowrap;
-	max-height: 530px;
-	overflow-y: auto;
 }
 
 #themesList span:not(.oneTheme_user) {
