@@ -6,30 +6,25 @@ body {
 	background: #FFFFFF;
 }
 
+/***************** GLOBAL *****************/
+
 .hidden {
 	display: none !important;
 }
 
-/***************** BUTTONS *****************/
+/***************** HEADER *****************/
 
-.mainPanel {
-	border-bottom: 1px dotted #3F51B5;
-	padding: 0;
+#header { }
+#header.fixed {
+	position: fixed;
+	z-index: 1;
+	background: #FFFFFF;
+	top: 0;
+	left: 5px;
+	right: 5px;
 }
-.mainPanel span {
-	color: #3F51B5;
-	cursor: pointer;
-	font-size: 13px;
-	margin: 5px;
-	padding: 0;
-	text-decoration: none;
-	display: inline-block;
-	border-bottom: 1px dotted #3F51B5;
-}
-.mainPanel span:hover {
-	color: #2196F3;
-	border-color: #2196F3;
-}
+
+/************* #mainPanel *************/
 
 #mainPanel {
 	width: 100%;
@@ -66,6 +61,8 @@ body {
 #mainPanel > div > span:hover {
 	color: #2196F3;
 }
+
+/********* BUTTONS *********/
 
 #panelQMS .icon {
 	background-position: -16px -16px;
@@ -147,22 +144,30 @@ body {
 	margin: -4px 5px 0 0;
 }
 
-/***************** THEMES LIST *****************/
-
-#header { }
-#header.fixed {
-	position: fixed;
-	z-index: 1;
-	background: #FFFFFF;
-	top: 0;
-	left: 5px;
-	right: 5px;
-}
+/************* #userLinks *************/
 
 #userLinks {
-	display: none;
+	/*display: none;*/
 	width: 100%;
+	border-bottom: 1px dotted #3F51B5;
+	padding: 0;
 }
+#userLinks span {
+	color: #3F51B5;
+	cursor: pointer;
+	font-size: 13px;
+	margin: 5px;
+	padding: 0;
+	text-decoration: none;
+	display: inline-block;
+	border-bottom: 1px dotted #3F51B5;
+}
+#userLinks span:hover {
+	color: #2196F3;
+	border-color: #2196F3;
+}
+
+/***************** THEMES LIST *****************/
 
 #themesList {
 	z-index: 0;
