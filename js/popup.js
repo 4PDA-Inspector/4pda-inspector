@@ -16,7 +16,8 @@ popup = {
 		openAllPinLabel: null,
 		readAllLabel: null,
 		manualRefresh: null,
-		header: null
+		header: null,
+		body: null
 	},
 
 	urls: {
@@ -34,9 +35,10 @@ popup = {
 			return false;
 		}
 
+		this.elements.body = document.getElementsByTagName("body")[0];
 		if (this.bg.vars.data.toolbar_width_fixed) {
-			document.getElementsByTagName("body")[0].style.width = Math.min(this.bg.vars.data.toolbar_width, 790);
-			document.getElementsByTagName("body")[0].className = 'widthFixed';
+			this.elements.body.style.width = Math.min(this.bg.vars.data.toolbar_width, 790);
+			this.elements.body.className = 'widthFixed';
 		}
 
 		this.elements.usernameLabel = document.getElementById('panelUsername');
@@ -105,7 +107,7 @@ popup = {
 
 		let self = this;
 		window.onload = function() {
-			self.fixHeight();
+			self.fixMainPanel();
 		};
 	},
 
@@ -149,8 +151,9 @@ popup = {
 		this.elements.manualRefresh.style.transform = "rotate(0deg)";
 	},
 
-	fixHeight: function() {
+	fixMainPanel: function() {
 		this.elements.themesList.style.marginTop = this.elements.header.offsetHeight;
+		this.elements.header.className = 'fixed';
 	},
 
 	manualRefresh: function() {

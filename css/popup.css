@@ -2,7 +2,7 @@ body {
 	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
 	font-size: 13px;
 	color: #3F51B5;
-	margin: 8px 5px;
+	margin: 0 5px;
 	background: #FFFFFF;
 }
 
@@ -99,7 +99,7 @@ body {
 
 #panelSettings {
 	background-position: -64px 0;
-	margin: 0 10px;
+	margin: 0 10px !important;
 }
 #panelSettings:hover {
 	background-position: -64px -16px;
@@ -149,13 +149,14 @@ body {
 
 /***************** THEMES LIST *****************/
 
-#header {
+#header { }
+#header.fixed {
+	position: fixed;
+	z-index: 1;
+	background: #FFFFFF;
 	top: 0;
 	left: 5px;
 	right: 5px;
-	background: #FFFFFF;
-	position: fixed;
-	z-index: 1;
 }
 
 #userLinks {
@@ -164,7 +165,6 @@ body {
 }
 
 #themesList {
-	margin-top: 36px; /* 28 #mainPanel height +8 #mainPanel padding-top*/
 	z-index: 0;
 	white-space: nowrap;
 }
