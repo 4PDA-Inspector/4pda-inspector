@@ -26,7 +26,11 @@
 		"default_icon": "icons/icon_19.png",
 		"default_popup": "html/popup.html"
 	},
-	"options_page": "html/options.html",
+	"options_ui": {
+		"chrome_style": true,
+		"open_in_tab": false,
+		"page": "html/options.html"
+	},
 	"background": {
 		"page": "html/background.html"
 	}
