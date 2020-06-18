@@ -1,0 +1,45 @@
+@color_base: #3F51B5;
+@color_base_medium: #5E6FC7;
+@color_base_light: #7A99D0;
+@color_base_hover: #2196F3;
+
+@color_disabled: #9E9E9E;
+
+@color_white: #FFFFFF;
+@color_red: #F44336;
+
+.mask(@size: contain) {
+            mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+            mask-position: 50% 50%;
+    -webkit-mask-position: 50% 50%;
+    mask-size: @size;
+    -webkit-mask-size: @size;
+}
+.mask-image(@source) {
+            mask-image: @source;
+    -webkit-mask-image: @source;
+}
+
+.square(@side) {
+    height: @side;
+    width: @side;
+}
+
+body {
+    font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
+    font-size: 13px;
+    background: @color_base;
+    background: linear-gradient(to bottom, @color_base 0%, @color_base_medium 100%);
+}
+
+.svg_icon {
+    background: @color_base;
+    .mask();
+    &:hover {
+        background: @color_base_hover;
+    }
+    &:disabled {
+        background: @color_disabled;
+    }
+}

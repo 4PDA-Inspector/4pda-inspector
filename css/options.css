@@ -1,121 +1,119 @@
-html, body {
-	min-height: 100%;
-}
-
+html,
 body {
-	font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
-	font-size: 13px;
-	background: #3f51b5;
-	background: linear-gradient(to bottom, #3f51b5 0%,#5e6fc7 100%);
+  min-height: 100%;
 }
-
-h4 {
-	margin: 0;
+body {
+  font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  background: #3f51b5;
+  background: linear-gradient(to bottom, #3f51b5 0%, #5e6fc7 100%);
 }
-
+.svg_icon {
+  background: #3f51b5;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: 50% 50%;
+  -webkit-mask-position: 50% 50%;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+.svg_icon:hover {
+  background: #2196f3;
+}
+.svg_icon:disabled {
+  background: #9e9e9e;
+}
 #mainDiv {
-	margin: 10px auto;
-	width: 600px;
-	background: #FFF;
-	padding: 8px 15px;
-	border-radius: 10px;
-	color: #3F51B5;
+  margin: 10px auto;
+  width: 600px;
+  background: #FFF;
+  padding: 8px 15px;
+  border-radius: 10px;
+  color: #3f51b5;
 }
-
+#mainDiv.whatsnew {
+  margin-top: 50px;
+}
+#mainDiv.whatsnew p {
+  font-size: 15px;
+}
 .linkStyled {
-	cursor: pointer;
+  cursor: pointer;
 }
 .linkStyled:hover {
-	color: #2196F3;
+  color: #2196f3;
 }
-
-.caption {
-	font-weight: bold;
-	font-size: 16px;
-	color: #3F51B5;
-	margin: 0 0 10px 0;
-}
-
-.donateLink {
-	border-radius: 10px;
-	color: #FFF;
-	padding: 5px;
-	text-decoration: none;
-	background: #7a99d0;
-	background: linear-gradient(to bottom,  #7a99d0 0,#3F51B5 100%);
-	display: inline-block;
-}
-
-.donateLink:hover {
-	background: #3F51B5;
-	text-decoration: none;
-}
-
-label.text-link, label.text-link image {
-	outline: none;
+a {
+  color: #3f51b5;
 }
 p > label {
-	display: block;
-	width: fit-content;
+  display: block;
+  width: fit-content;
 }
 span.header {
-	display: block;
-	font-weight: bold;
+  display: block;
+  font-weight: bold;
 }
 input.numbered {
-	width: 60px;
+  width: 60px;
 }
-
 .infoLabel {
-	color: #9E9E9E;
+  color: #9e9e9e;
 }
-
-
-.whatsnew {
-	top: 50px;
-	position: absolute;
-	left: calc(50% - 300px);
-}
-.whatsnew p {
-	font-size: 15px;
-}
-
 #userLinksDiv {
-	width: 100%;
+  width: 100%;
 }
-
 #userLinksDiv .userLinkDiv {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 #userLinksDiv .userLinkDiv .deleteRow {
-	background: #3F51B5;
-			mask: url("/img/delete.svg") no-repeat 50% 50%;
-	-webkit-mask: url("/img/delete.svg") no-repeat 50% 50%;
-			mask-size: contain;
-	-webkit-mask-size: contain;
-	height: 20px;
-	width: 20px;
-	cursor: pointer;
+  mask-image: url("/img/delete.svg");
+  -webkit-mask-image: url("/img/delete.svg");
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }
-#userLinksDiv .userLinkDiv .deleteRow:hover {
-	background: #2196F3;
+#userLinksDiv .userLinkDiv .userLinkUrl {
+  flex-grow: 4;
 }
-
-#userLinksDiv .userLinkUrl {
-	flex-grow: 4;
+#userLinksDiv .userLinkDiv .userLinkUrlTitle {
+  flex-grow: 1;
+  margin: 2px;
 }
-#userLinksDiv .userLinkUrlTitle {
-	flex-grow: 1;
-	margin: 2px;
+#userLinksDiv .userLinkDiv input.error {
+  border-color: #f44336;
 }
-#userLinksDiv input.error{
-	border-color: #f44336;
-}
-
 #userLinkDivTemplate {
-	display: none;
+  display: none;
+}
+#footer .info {
+  text-align: center;
+}
+#footer .info .logo {
+  height: 128px;
+  width: 128px;
+}
+#footer .info .caption {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0 0 10px 0;
+}
+#footer .info .farewell {
+  text-align: right;
+}
+#footer .info .donateLink {
+  border-radius: 10px;
+  color: #FFF;
+  padding: 7px 10px;
+  text-decoration: none;
+  background: #7a99d0;
+  background: linear-gradient(to bottom, #7a99d0 0, #3f51b5 100%);
+  display: inline-block;
+}
+#footer .info .donateLink:hover {
+  background: #3f51b5;
 }
