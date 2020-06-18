@@ -1,0 +1,118 @@
+html, body {
+	min-height: 100%;
+}
+
+@import "global.less";
+
+#mainDiv {
+	margin: 10px auto;
+	width: 600px;
+	background: #FFF;
+	padding: 8px 15px;
+	border-radius: 10px;
+	color: @color_base;
+
+	&.whatsnew {
+		margin-top: 50px;
+		p {
+			font-size: 15px;
+		}
+	}
+}
+
+// GLOBAL
+
+.linkStyled {
+	cursor: pointer;
+	&:hover {
+		color: @color_base_hover;
+	}
+}
+a {
+	color: @color_base;
+}
+
+p > label {
+	display: block;
+	width: fit-content;
+}
+span.header {
+	display: block;
+	font-weight: bold;
+}
+input.numbered {
+	width: 60px;
+}
+.infoLabel {
+	color: @color_disabled;
+}
+
+#userLinksDiv {
+	width: 100%;
+
+	.userLinkDiv {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		.deleteRow {
+			.mask-image(url("/img/delete.svg"));
+			.square(20px);
+			cursor: pointer;
+		}
+
+		.userLinkUrl {
+			flex-grow: 4;
+		}
+		.userLinkUrlTitle {
+			flex-grow: 1;
+			margin: 2px;
+		}
+
+		input.error{
+			border-color: @color_red;
+		}
+	}
+}
+
+#userLinkDivTemplate {
+	display: none;
+}
+
+// FOOTER
+
+#footer {
+	.info {
+		text-align: center;
+		.logo {
+			.square(128px);
+		}
+
+		.caption {
+			font-weight: bold;
+			font-size: 16px;
+			margin: 0 0 10px 0;
+		}
+
+		.farewell {
+			text-align: right;
+		}
+
+		.donateLink {
+			border-radius: 10px;
+			color: #FFF;
+			padding: 7px 10px;
+			text-decoration: none;
+			background: @color_base_light;
+			background: linear-gradient(to bottom, @color_base_light 0, @color_base 100%);
+			display: inline-block;
+			&:hover {
+				background: @color_base;
+			}
+		}
+	}
+
+}
+
