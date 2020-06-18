@@ -69,14 +69,25 @@ body {
 	vertical-align: middle;
 }
 
-#mainPanel .icon {
+#mainPanel .icon_png {
+	background-image: url(/img/icons2.png);
+	background-repeat: no-repeat;
 	display: inline-block;
 	height: 16px;
 	width: 16px;
 }
-#mainPanel .icon_png {
-	background-image: url(/img/icons2.png);
-	background-repeat: no-repeat;
+
+#mainPanel .icon_svg {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+
+	background: #3F51B5;
+	mask-size: contain;
+	-webkit-mask-size: contain;
+}
+#mainPanel .icon_svg:hover {
+	background: #2196F3;
 }
 
 #mainPanel > div > span:hover {
@@ -151,14 +162,8 @@ body {
 }
 
 #panelRefresh {
-	background: #3F51B5;
 			mask: url("/img/refresh.svg") no-repeat 50% 50%;
 	-webkit-mask: url("/img/refresh.svg") no-repeat 50% 50%;
-			mask-size: contain;
-	-webkit-mask-size: contain;
-}
-#panelRefresh:hover {
-	background: #2196F3;
 }
 
 #panelUsernameHBox {
