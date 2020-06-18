@@ -12,6 +12,25 @@ body {
 	display: none !important;
 }
 
+.loading {
+	-webkit-animation-name: rotate;
+	-webkit-animation-duration:2s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:linear;
+	-moz-animation-name: rotate;
+	-moz-animation-duration:1s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-timing-function:linear;
+}
+@-webkit-keyframes rotate {
+	from {-webkit-transform:rotate(0deg);}
+	to {  -webkit-transform:rotate(360deg);}
+}
+@-moz-keyframes rotate {
+	from {-moz-transform:rotate(0deg);}
+	to {  -moz-transform:rotate(360deg);}
+}
+
 /***************** HEADER *****************/
 
 #header { }
@@ -54,6 +73,8 @@ body {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
+}
+#mainPanel .icon_png {
 	background-image: url(/img/icons2.png);
 	background-repeat: no-repeat;
 }
@@ -130,10 +151,14 @@ body {
 }
 
 #panelRefresh {
-	background-position: -48px 0;
+	background: #3F51B5;
+			mask: url("/img/refresh.svg") no-repeat 50% 50%;
+	-webkit-mask: url("/img/refresh.svg") no-repeat 50% 50%;
+			mask-size: contain;
+	-webkit-mask-size: contain;
 }
 #panelRefresh:hover {
-	background-position: -48px -16px;
+	background: #2196F3;
 }
 
 #panelUsernameHBox {
@@ -245,5 +270,9 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 
 #themesList .oneTheme_markAsRead.loading {
-	background: url("/img/ajax-loader.gif");
+	background: #3F51B5;
+			mask: url("/img/refresh.svg") no-repeat 50% 50%;
+	-webkit-mask: url("/img/refresh.svg") no-repeat 50% 50%;
+			mask-size: 12px;
+	-webkit-mask-size: 12px;
 }

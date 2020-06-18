@@ -1,7 +1,5 @@
 popup = {
 
-	refreshImgRotateInterval: 0,
-
 	elements: {
 		usernameLabel: null,
 		favoritesBox: null,
@@ -45,28 +43,28 @@ popup = {
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
 			self.bg.user.open();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 		}, false);
 		
 		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
 		this.elements.mentionsBox = document.getElementById('panelMentions');
 		this.elements.mentionsBox.addEventListener("click", function () {
 			self.bg.mentions.openPage();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 		}, false);
 
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.addEventListener("click", function () {
 			self.bg.themes.openPage();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 		}, false);
 
 		this.elements.qmsLabel = document.getElementById('panelQMSCount');
 		this.elements.qmsBox = document.getElementById('panelQMS');
 		this.elements.qmsBox.addEventListener("click", function () {
 			self.bg.QMS.openPage();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 		}, false);
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
@@ -77,21 +75,21 @@ popup = {
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
 		this.elements.openAllLabel.addEventListener('click', function() {
 			self.bg.themes.openAll();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 			self.refresh();
 		}, false);
 		
 		this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
 		this.elements.openAllPinLabel.addEventListener('click', function() {
 			self.bg.themes.openAllPin();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 			self.refresh();
 		}, false);
 		
 		this.elements.readAllLabel = document.getElementById('panelReadAll');
 		this.elements.readAllLabel.addEventListener('click', function() {
 			self.bg.themes.readAll();
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 			self.refresh();
 		}, false);
 
@@ -147,8 +145,6 @@ popup = {
 			this.printThemesList();
 		}
 
-		clearInterval(this.refreshImgRotateInterval);
-		this.elements.manualRefresh.style.transform = "rotate(0deg)";
 	},
 
 	fixMainPanel: function() {
@@ -160,16 +156,11 @@ popup = {
 	},
 
 	manualRefresh: function() {
-		clearInterval(this.refreshImgRotateInterval);
-		var self = this,
-			refreshImgRotate = 0;
-		this.refreshImgRotateInterval = setInterval(function() {
-			refreshImgRotate += 10;
-			self.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
-		}, 30);
+		var self = this;
+		this.elements.manualRefresh.classList.add('loading');
 
 		this.bg.cScript.firstRequest(function() {
-			clearInterval(self.refreshImgRotateInterval);
+			self.elements.manualRefresh.classList.remove('loading');
 			self.refresh();
 		});
 	},
@@ -217,7 +208,7 @@ popup = {
 			self.bg.cScript.printCount();
 			self.elements.favoritesLabel.textContent = self.bg.themes.getCount();
 			this.classList.add("readed");
-			self.checkOpenthemeHiding();
+			self.checkOpenThemeHiding();
 		}, false);
 
 		let readImage = document.createElement('span');
@@ -230,7 +221,7 @@ popup = {
 			current.classList.add('loading');
 			self.bg.themes.read(dataTheme, function() {
 				current.classList.remove('loading');
-				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
+				themeCaptionLabel.classList.add('readed');
 				self.bg.cScript.printCount();
 				self.printCount();
 			});
@@ -257,7 +248,7 @@ popup = {
 				self.bg.themes.openLast(theme.id);
 				self.bg.cScript.printCount();
 				self.printCount();
-				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
+				themeCaptionLabel.classList.add('readed');
 			}, false);
 
 			// BOXES
@@ -280,7 +271,7 @@ popup = {
 		}
 	},
 
-	checkOpenthemeHiding: function() {
+	checkOpenThemeHiding: function() {
 		if (this.bg.vars.data.toolbar_opentheme_hide) {
 			window.close();
 		}
