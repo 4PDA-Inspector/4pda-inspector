@@ -32,20 +32,25 @@ body {
 }
 
 #mainPanel {
+	width: 100%;
 	border-bottom: 1px dotted #3F51B5;
-	padding: 0 5px 5px;
+	padding: 5px 0;
 	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 
 #mainPanel > div {
 	display: inline-block;
 	white-space: nowrap;
+	flex-grow: 0;
 }
 
 #mainPanel > div > span {
 	display: inline-block;
 	cursor: pointer;
-	margin: 0 10px 0 0;
+	margin: 0 5px;
 	font-size: 18px;
 	vertical-align: middle;
 }
@@ -94,7 +99,7 @@ body {
 
 #panelSettings {
 	background-position: -64px 0;
-	margin: 0 20px 0 10px !important;
+	margin: 0 10px;
 }
 #panelSettings:hover {
 	background-position: -64px -16px;
@@ -105,7 +110,7 @@ body {
 	text-align: center;
 }
 #massThemesActions > span.icon {
-	margin: 3px 5px 0 0;
+	margin: 0 2px;
 	width: 22px;
 }
 #panelOpenAll {
@@ -145,9 +150,9 @@ body {
 /***************** THEMES LIST *****************/
 
 #header {
-	width: 100%;
-	padding-top: 8px; /*body margin-top*/
 	top: 0;
+	left: 5px;
+	right: 5px;
 	background: #FFFFFF;
 	position: fixed;
 	z-index: 1;
