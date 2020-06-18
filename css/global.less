@@ -1,19 +1,28 @@
 @color_base: #3F51B5;
 @color_base_medium: #5E6FC7;
 @color_base_light: #7A99D0;
+@color_base_lightest: #D0E4EC;
 @color_base_hover: #2196F3;
+
+@color_highlight: #43a047;
+@color_highlight_hover: #8BC34A;
 
 @color_disabled: #9E9E9E;
 
 @color_white: #FFFFFF;
 @color_red: #F44336;
 
+.font-default() {
+    font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
+    font-size: 13px;
+}
+
 .mask(@size: contain) {
             mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
             mask-position: 50% 50%;
     -webkit-mask-position: 50% 50%;
-    mask-size: @size;
+            mask-size: @size;
     -webkit-mask-size: @size;
 }
 .mask-image(@source) {
@@ -26,14 +35,7 @@
     width: @side;
 }
 
-body {
-    font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
-    font-size: 13px;
-    background: @color_base;
-    background: linear-gradient(to bottom, @color_base 0%, @color_base_medium 100%);
-}
-
-.svg_icon {
+.icon_svg {
     background: @color_base;
     .mask();
     &:hover {

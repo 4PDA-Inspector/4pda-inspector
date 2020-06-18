@@ -1,0 +1,271 @@
+@import "global.less";
+
+body {
+	.font-default();
+	margin: 0 6px 5px;
+	color: @color_base;
+	background: #FFFFFF;
+}
+
+/***************** GLOBAL *****************/
+
+.hidden {
+	display: none !important;
+}
+
+.loading {
+	-webkit-animation-name: rotate;
+	-webkit-animation-duration:2s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:linear;
+	-moz-animation-name: rotate;
+	-moz-animation-duration:1s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-timing-function:linear;
+}
+@-webkit-keyframes rotate {
+	from {-webkit-transform:rotate(0deg);}
+	to {  -webkit-transform:rotate(360deg);}
+}
+@-moz-keyframes rotate {
+	from {-moz-transform:rotate(0deg);}
+	to {  -moz-transform:rotate(360deg);}
+}
+
+/*********************************************/
+
+#header {
+	&.fixed {
+		position: fixed;
+		z-index: 1;
+		background: #FFFFFF;
+		top: 0;
+		left: 5px;
+		right: 5px;
+	}
+}
+
+#mainPanel {
+	width: 100%;
+	border-bottom: 1px dotted @color_base;
+	padding: 5px 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	> div {
+		display: inline-block;
+		white-space: nowrap;
+		flex-grow: 0;
+
+		> span {
+			display: inline-block;
+			cursor: pointer;
+			margin: 0 5px;
+			font-size: 18px;
+			vertical-align: middle;
+
+			&:hover {
+				color: @color_base_hover;
+			}
+		}
+	}
+
+	.icon_png {
+		background-image: url(/img/icons2.png);
+		background-repeat: no-repeat;
+		display: inline-block;
+		height: 16px;
+		width: 16px;
+	}
+	.icon_svg {
+		.square(16px);
+	}
+
+	#panelQMS {
+		.icon_png {
+			background-position: -16px -16px;
+		}
+		&.hasUnread .icon_png {
+			background-position: 0 -16px;
+		}
+		&:hover .icon_png {
+			background-position: -32px -16px;
+		}
+	}
+
+	#panelFavorites {
+		.icon_png {
+			background-position: -16px 0;
+		}
+		&.hasUnread .icon_png {
+			background-position: 0 0;
+		}
+		&:hover .icon_png {
+			background-position: -32px 0;
+		}
+	}
+
+	#panelMentions {
+		.icon_png {
+			background-position: -178px 0;
+		}
+		&.hasUnread .icon_png {
+			background-position: -162px 0;
+		}
+		&:hover .icon_png {
+			background-position: -194px 0;
+		}
+	}
+
+	#panelSettings {
+		background-position: -64px 0;
+		margin: 0 10px !important;
+		&:hover {
+			background-position: -64px -16px;
+		}
+	}
+
+	#massThemesActions {
+		flex: 1;
+		text-align: center;
+		> span.icon_png {
+			margin: 0 2px;
+			width: 22px;
+			background-position-y: 0;
+			&:hover {
+				background-position-y: -16px;
+			}
+		}
+
+		#panelOpenAll {
+			background-position-x: -80px;
+		}
+		#panelOpenAllPin {
+			background-position-x: -140px;
+		}
+		#panelReadAll {
+			background-position-x: -102px;
+		}
+	}
+
+	#panelUsernameHBox {
+		margin-left: 10px;
+
+		#panelRefresh {
+			.mask-image(url("/img/refresh.svg"));
+		}
+
+		#panelUsername {
+			margin: -4px 5px 0 0;
+		}
+	}
+}
+
+#userLinks {
+	/*display: none;*/
+	width: 100%;
+	border-bottom: 1px dotted @color_base;
+	padding: 0;
+
+	span {
+		color: @color_base;
+		cursor: pointer;
+		font-size: 13px;
+		margin: 5px;
+		padding: 0;
+		text-decoration: none;
+		display: inline-block;
+		border-bottom: 1px dotted @color_base;
+
+		&:hover {
+			color: @color_base_hover;
+			border-color: @color_base_hover;
+		}
+	}
+}
+
+body.widthFixed #themesList .oneTheme_caption {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#themesList {
+	z-index: 0;
+	white-space: nowrap;
+
+	span {
+		cursor: pointer;
+	}
+
+	> .oneTheme {
+		display: block;
+		border-bottom: 1px solid @color_base_lightest;
+		padding: 2px 4px;
+		position: relative;
+		&:hover {
+			background-color: @color_base_lightest;
+		}
+
+		.oneTheme_caption {
+			color: @color_base;
+			font-size: 13px;
+			margin: 0;
+			display: block;
+			overflow: hidden;
+			&:hover {
+				color: @color_base_hover;
+			}
+
+			&.oneTheme_pin {
+				color: @color_highlight;
+				&:hover {
+					color: @color_highlight_hover;
+				}
+			}
+
+			&.readed {
+				color: @color_disabled;
+				text-decoration: line-through;
+			}
+		}
+	}
+
+	&.simpleList {
+		.oneTheme_caption {
+			margin-right: 15px;
+		}
+	}
+
+	.oneThemeInfoHBox {
+		color: @color_disabled;
+		font-size: 11px;
+		> span:not(:last-child) {
+			margin: 0 10px 0 0;
+		}
+		>.oneTheme_user {
+			cursor: default;
+		}
+		>.oneTheme_lastPost:hover {
+			color: @color_base_hover;
+		}
+	}
+	.oneTheme_markAsRead {
+		display: block;
+		margin: 0;
+		background: -124px 0 url(/img/icons2.png) no-repeat;
+		height: 16px;
+		width: 16px;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		&:hover {
+			background-position-y: -16px;
+		}
+		&.loading {
+			background: @color_base;
+			.mask(12px);
+			.mask-image(url("/img/refresh.svg"));
+		}
+	}
+}

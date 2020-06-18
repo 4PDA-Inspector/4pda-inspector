@@ -1,5 +1,12 @@
-html, body {
+html {
 	min-height: 100%;
+}
+
+body {
+	min-height: 100%;
+	.font-default();
+	background: @color_base;
+	background: linear-gradient(to bottom, @color_base 0%, @color_base_medium 100%);
 }
 
 @import "global.less";

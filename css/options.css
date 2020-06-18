@@ -1,8 +1,8 @@
-html,
-body {
+html {
   min-height: 100%;
 }
 body {
+  min-height: 100%;
   font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
   font-size: 13px;
   background: #3f51b5;

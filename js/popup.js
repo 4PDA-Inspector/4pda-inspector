@@ -194,8 +194,8 @@ popup = {
 	},
 
 	createThemeRow: function(theme)	{
-		var self = this,
-			themeCaptionLabel = document.createElement('span');
+		var self = this;
+		let themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
 		if (theme.pin && this.bg.vars.data.toolbar_pin_color) {
