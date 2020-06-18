@@ -8,7 +8,7 @@ body {
   background: #3f51b5;
   background: linear-gradient(to bottom, #3f51b5 0%, #5e6fc7 100%);
 }
-.svg_icon {
+.icon_svg {
   background: #3f51b5;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
@@ -17,10 +17,10 @@ body {
   mask-size: contain;
   -webkit-mask-size: contain;
 }
-.svg_icon:hover {
+.icon_svg:hover {
   background: #2196f3;
 }
-.svg_icon:disabled {
+.icon_svg:disabled {
   background: #9e9e9e;
 }
 #mainDiv {
@@ -117,3 +117,4 @@ input.numbered {
 #footer .info .donateLink:hover {
   background: #3f51b5;
 }
+/*# sourceMappingURL=options.css.map */

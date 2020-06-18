@@ -3,11 +3,8 @@ popup = {
 	elements: {
 		usernameLabel: null,
 		favoritesBox: null,
-		favoritesLabel: null,
 		mentionsBox: null,
-		mentionsLabel: null,
 		qmsBox: null,
-		qmsLabel: null,
 		themesList: null,
 		settingsLabel: null,
 		openAllLabel: null,
@@ -45,22 +42,19 @@ popup = {
 			self.bg.user.open();
 			self.checkOpenThemeHiding();
 		}, false);
-		
-		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
+
 		this.elements.mentionsBox = document.getElementById('panelMentions');
 		this.elements.mentionsBox.addEventListener("click", function () {
 			self.bg.mentions.openPage();
 			self.checkOpenThemeHiding();
 		}, false);
 
-		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.addEventListener("click", function () {
 			self.bg.themes.openPage();
 			self.checkOpenThemeHiding();
 		}, false);
 
-		this.elements.qmsLabel = document.getElementById('panelQMSCount');
 		this.elements.qmsBox = document.getElementById('panelQMS');
 		this.elements.qmsBox.addEventListener("click", function () {
 			self.bg.QMS.openPage();
@@ -114,17 +108,37 @@ popup = {
 
 	refresh: function(withoutPrintThemes) {
 		var self = this;
+		const classHasUnread = 'hasUnread';
 		this.elements.usernameLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(this.bg.user.name);
-		
-		this.elements.favoritesLabel.textContent = this.bg.themes.getCount();
-		this.elements.favoritesBox.className = this.bg.themes.getCount() ? 'hasUnread': '';
 
-		this.elements.qmsLabel.textContent = this.bg.QMS.getCount();
-		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
+		let countBlocks = [
+			[
+				this.elements.qmsBox,
+				this.bg.QMS.getCount()
+			], [
+				this.elements.favoritesBox,
+				this.bg.themes.getCount()
+			]
+		];
+
+		for (let i in countBlocks) {
+			let block = countBlocks[i][0],
+				count = countBlocks[i][1];
+			block.textContent = count;
+			if (count) {
+				block.classList.add(classHasUnread);
+			} else {
+				block.classList.remove(classHasUnread);
+			}
+		}
 
         this.bg.mentions.request(function(mCount){
-            self.elements.mentionsLabel.textContent = mCount;
-            self.elements.mentionsBox.className = mCount ? 'hasUnread': '';
+            self.elements.mentionsBox.textContent = mCount;
+			if (mCount) {
+				self.elements.mentionsBox.classList.add(classHasUnread);
+			} else {
+				self.elements.mentionsBox.classList.remove(classHasUnread);
+			}
         });
 
 		if (self.bg.vars.data.toolbar_simple_list) {
@@ -206,7 +220,7 @@ popup = {
 		themeCaptionLabel.addEventListener("click", function () {
 			self.bg.themes.open(theme.id);
 			self.bg.cScript.printCount();
-			self.elements.favoritesLabel.textContent = self.bg.themes.getCount();
+			self.elements.favoritesBox.textContent = self.bg.themes.getCount();
 			this.classList.add("readed");
 			self.checkOpenThemeHiding();
 		}, false);

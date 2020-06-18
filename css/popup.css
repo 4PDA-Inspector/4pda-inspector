@@ -67,6 +67,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 0;
 }
 #mainPanel > div {
   display: inline-block;
@@ -83,6 +84,12 @@ body {
 #mainPanel > div > span:hover {
   color: #2196f3;
 }
+#mainPanel > div > span:first-child {
+  margin-left: 0;
+}
+#mainPanel > div > span:last-child {
+  margin-right: 0;
+}
 #mainPanel .icon_png {
   background-image: url(/img/icons2.png);
   background-repeat: no-repeat;
@@ -94,32 +101,46 @@ body {
   height: 16px;
   width: 16px;
 }
-#mainPanel #panelQMS .icon_png {
-  background-position: -16px -16px;
+#mainPanel #mainPanelButtonsBox .icoAndCount {
+  display: inline-flex;
+  align-items: center;
 }
-#mainPanel #panelQMS.hasUnread .icon_png {
-  background-position: 0 -16px;
+#mainPanel #mainPanelButtonsBox .icoAndCount::before {
+  content: '';
+  background-image: url(/img/icons2.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  margin-right: 2px;
 }
-#mainPanel #panelQMS:hover .icon_png {
-  background-position: -32px -16px;
+#mainPanel #mainPanelButtonsBox #panelQMS:before {
+  background-position-y: -16px;
 }
-#mainPanel #panelFavorites .icon_png {
-  background-position: -16px 0;
+#mainPanel #mainPanelButtonsBox #panelFavorites:before {
+  background-position-y: 0;
 }
-#mainPanel #panelFavorites.hasUnread .icon_png {
-  background-position: 0 0;
+#mainPanel #mainPanelButtonsBox #panelQMS:before,
+#mainPanel #mainPanelButtonsBox #panelFavorites:before {
+  background-position-x: -16px;
 }
-#mainPanel #panelFavorites:hover .icon_png {
-  background-position: -32px 0;
+#mainPanel #mainPanelButtonsBox #panelQMS.hasUnread::before,
+#mainPanel #mainPanelButtonsBox #panelFavorites.hasUnread::before {
+  background-position-x: 0;
 }
-#mainPanel #panelMentions .icon_png {
-  background-position: -178px 0;
+#mainPanel #mainPanelButtonsBox #panelQMS:hover::before,
+#mainPanel #mainPanelButtonsBox #panelFavorites:hover::before {
+  background-position-x: -32px;
 }
-#mainPanel #panelMentions.hasUnread .icon_png {
-  background-position: -162px 0;
+#mainPanel #mainPanelButtonsBox #panelMentions:before {
+  background-position-y: 0;
+  background-position-x: -178px;
 }
-#mainPanel #panelMentions:hover .icon_png {
-  background-position: -194px 0;
+#mainPanel #mainPanelButtonsBox #panelMentions.hasUnread::before {
+  background-position-x: -162px;
+}
+#mainPanel #mainPanelButtonsBox #panelMentions:hover::before {
+  background-position-x: -194px;
 }
 #mainPanel #panelSettings {
   background-position: -64px 0;

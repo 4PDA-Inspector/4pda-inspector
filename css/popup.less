@@ -53,6 +53,7 @@ body {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	font-size: 0;
 
 	> div {
 		display: inline-block;
@@ -69,6 +70,12 @@ body {
 			&:hover {
 				color: @color_base_hover;
 			}
+			&:first-child {
+				margin-left: 0;
+			}
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 	}
 
@@ -83,39 +90,54 @@ body {
 		.square(16px);
 	}
 
-	#panelQMS {
-		.icon_png {
-			background-position: -16px -16px;
+	#mainPanelButtonsBox {
+		.icoAndCount {
+			display: inline-flex;
+			align-items: center;
+			&::before {
+				content: '';
+				background-image: url(/img/icons2.png);
+				background-repeat: no-repeat;
+				display: inline-block;
+				.square(16px);
+				margin-right: 2px;
+			}
 		}
-		&.hasUnread .icon_png {
-			background-position: 0 -16px;
-		}
-		&:hover .icon_png {
-			background-position: -32px -16px;
-		}
-	}
 
-	#panelFavorites {
-		.icon_png {
-			background-position: -16px 0;
+		#panelQMS {
+			&:before {
+				background-position-y: -16px;
+			}
 		}
-		&.hasUnread .icon_png {
-			background-position: 0 0;
+		#panelFavorites {
+			&:before {
+				background-position-y: 0;
+			}
 		}
-		&:hover .icon_png {
-			background-position: -32px 0;
-		}
-	}
 
-	#panelMentions {
-		.icon_png {
-			background-position: -178px 0;
+		#panelQMS, #panelFavorites {
+			&:before {
+				background-position-x: -16px;
+			}
+			&.hasUnread::before {
+				background-position-x: 0;
+			}
+			&:hover::before {
+				background-position-x: -32px;
+			}
 		}
-		&.hasUnread .icon_png {
-			background-position: -162px 0;
-		}
-		&:hover .icon_png {
-			background-position: -194px 0;
+
+		#panelMentions {
+			&:before {
+				background-position-y: 0;
+				background-position-x: -178px;
+			}
+			&.hasUnread::before {
+				background-position-x: -162px;
+			}
+			&:hover::before {
+				background-position-x: -194px;
+			}
 		}
 	}
 
