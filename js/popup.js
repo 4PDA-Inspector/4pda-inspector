@@ -27,6 +27,7 @@ popup = {
 	bg: null,
 
 	init: function() {
+		var self = this;
 		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
 
 		if (!this.bg.user.id) {
@@ -35,7 +36,7 @@ popup = {
 			return false;
 		}
 
-		this.elements.body = document.getElementsByTagName("body")[0];
+		this.elements.body = document.body;
 		if (this.bg.vars.data.toolbar_width_fixed) {
 			this.elements.body.style.width = Math.min(this.bg.vars.data.toolbar_width, 790);
 			this.elements.body.className = 'widthFixed';
@@ -43,75 +44,78 @@ popup = {
 
 		this.elements.usernameLabel = document.getElementById('panelUsername');
 		this.elements.usernameLabel.addEventListener("click", function () {
-			popup.bg.user.open();
-			popup.checkOpenthemeHiding();
+			self.bg.user.open();
+			self.checkOpenthemeHiding();
 		}, false);
 		
 		this.elements.mentionsLabel = document.getElementById('panelMentionsCount');
 		this.elements.mentionsBox = document.getElementById('panelMentions');
 		this.elements.mentionsBox.addEventListener("click", function () {
-			popup.bg.mentions.openPage();
-			popup.checkOpenthemeHiding();
+			self.bg.mentions.openPage();
+			self.checkOpenthemeHiding();
 		}, false);
 
 		this.elements.favoritesLabel = document.getElementById('panelFavoritesCount');
 		this.elements.favoritesBox = document.getElementById('panelFavorites');
 		this.elements.favoritesBox.addEventListener("click", function () {
-			popup.bg.themes.openPage();
-			popup.checkOpenthemeHiding();
+			self.bg.themes.openPage();
+			self.checkOpenthemeHiding();
 		}, false);
 
 		this.elements.qmsLabel = document.getElementById('panelQMSCount');
 		this.elements.qmsBox = document.getElementById('panelQMS');
 		this.elements.qmsBox.addEventListener("click", function () {
-			popup.bg.QMS.openPage();
-			popup.checkOpenthemeHiding();
+			self.bg.QMS.openPage();
+			self.checkOpenthemeHiding();
 		}, false);
 
 		this.elements.settingsLabel = document.getElementById('panelSettings');
 		this.elements.settingsLabel.addEventListener("click", function () {
-			popup.bg.utils.openPage(chrome.extension.getURL('/html/options.html'), true);
+			self.bg.utils.openPage(chrome.extension.getURL('/html/options.html'), true);
 		}, false);
 
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
 		this.elements.openAllLabel.addEventListener('click', function() {
-			popup.bg.themes.openAll();
-			popup.checkOpenthemeHiding();
-			popup.refresh();
+			self.bg.themes.openAll();
+			self.checkOpenthemeHiding();
+			self.refresh();
 		}, false);
 		
 		this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
 		this.elements.openAllPinLabel.addEventListener('click', function() {
-			popup.bg.themes.openAllPin();
-			popup.checkOpenthemeHiding();
-			popup.refresh();
+			self.bg.themes.openAllPin();
+			self.checkOpenthemeHiding();
+			self.refresh();
 		}, false);
 		
 		this.elements.readAllLabel = document.getElementById('panelReadAll');
 		this.elements.readAllLabel.addEventListener('click', function() {
-			popup.bg.themes.readAll();
-			popup.checkOpenthemeHiding();
-			popup.refresh();
+			self.bg.themes.readAll();
+			self.checkOpenthemeHiding();
+			self.refresh();
 		}, false);
 
 		this.elements.themesList = document.getElementById('themesList');
 
 		this.elements.manualRefresh = document.getElementById('panelRefresh');
 		this.elements.manualRefresh.addEventListener('click', function() {
-			popup.manualRefresh(true);
+			self.manualRefresh(true);
 		}, false);
 
 		this.elements.header = document.getElementById('header');
 
 		this.refresh();
 
-		let self = this;
 		window.onload = function() {
-			self.fixMainPanel();
+			setTimeout(function () {
+				self.printUserLinks();
+				self.fixMainPanel();
+			}, 1);
 		};
 	},
 
 	refresh: function(withoutPrintThemes) {
+		var self = this;
 		this.elements.usernameLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(this.bg.user.name);
 		
 		this.elements.favoritesLabel.textContent = this.bg.themes.getCount();
@@ -121,11 +125,11 @@ popup = {
 		this.elements.qmsBox.className = this.bg.QMS.getCount() ? 'hasUnread': '';
 
         this.bg.mentions.request(function(mCount){
-            popup.elements.mentionsLabel.textContent = mCount;
-            popup.elements.mentionsBox.className = mCount ? 'hasUnread': '';
+            self.elements.mentionsLabel.textContent = mCount;
+            self.elements.mentionsBox.className = mCount ? 'hasUnread': '';
         });
 
-		if (popup.bg.vars.data.toolbar_simple_list) {
+		if (self.bg.vars.data.toolbar_simple_list) {
 			this.elements.themesList.className = 'simpleList';
 		}
 
@@ -143,30 +147,30 @@ popup = {
 			this.printThemesList();
 		}
 
-		if (popup.bg.vars.data.user_links && popup.bg.vars.data.user_links.length) {
-			this.printUserLinks();
-		}
-
 		clearInterval(this.refreshImgRotateInterval);
 		this.elements.manualRefresh.style.transform = "rotate(0deg)";
 	},
 
 	fixMainPanel: function() {
-		this.elements.themesList.style.marginTop = this.elements.header.offsetHeight;
-		this.elements.header.className = 'fixed';
+		if (this.elements.body.scrollHeight > this.elements.body.clientHeight) { //has scroll
+			this.elements.body.style.minWidth = this.elements.body.offsetWidth;
+			this.elements.themesList.style.marginTop = this.elements.header.offsetHeight;
+			this.elements.header.className = 'fixed';
+		}
 	},
 
 	manualRefresh: function() {
 		clearInterval(this.refreshImgRotateInterval);
-		var refreshImgRotate = 0;
-		popup.refreshImgRotateInterval = setInterval(function() {
+		var self = this,
+			refreshImgRotate = 0;
+		this.refreshImgRotateInterval = setInterval(function() {
 			refreshImgRotate += 10;
-			popup.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
+			self.elements.manualRefresh.style.transform = "rotate("+refreshImgRotate+"deg)";
 		}, 30);
 
 		this.bg.cScript.firstRequest(function() {
-			clearInterval(popup.refreshImgRotateInterval);
-			popup.refresh();
+			clearInterval(self.refreshImgRotateInterval);
+			self.refresh();
 		});
 	},
 
@@ -199,20 +203,21 @@ popup = {
 	},
 
 	createThemeRow: function(theme)	{
-		var themeCaptionLabel = document.createElement('span');
+		var self = this,
+			themeCaptionLabel = document.createElement('span');
 		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
-		if (theme.pin && popup.bg.vars.data.toolbar_pin_color) {
+		if (theme.pin && this.bg.vars.data.toolbar_pin_color) {
 			themeCaptionLabel.className += ' oneTheme_pin';
 		}
 		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
 		themeCaptionLabel.dataId = theme.id;
 		themeCaptionLabel.addEventListener("click", function () {
-			popup.bg.themes.open(theme.id);
-			popup.bg.cScript.printCount();
-			popup.elements.favoritesLabel.textContent = popup.bg.themes.getCount();
+			self.bg.themes.open(theme.id);
+			self.bg.cScript.printCount();
+			self.elements.favoritesLabel.textContent = self.bg.themes.getCount();
 			this.classList.add("readed");
-			popup.checkOpenthemeHiding();
+			self.checkOpenthemeHiding();
 		}, false);
 
 		let readImage = document.createElement('span');
@@ -223,15 +228,15 @@ popup = {
 			var current = this,
 				dataTheme = this.getAttribute('data-theme');
 			current.classList.add('loading');
-			popup.bg.themes.read(dataTheme, function() {
+			self.bg.themes.read(dataTheme, function() {
 				current.classList.remove('loading');
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
-				popup.bg.cScript.printCount();
-				popup.printCount();
+				self.bg.cScript.printCount();
+				self.printCount();
 			});
 		});
 
-		if (popup.bg.vars.data.toolbar_simple_list) {
+		if (self.bg.vars.data.toolbar_simple_list) {
 			let mainHBox = document.createElement('div');
 			mainHBox.className = 'oneTheme';
 			//themeCaptionLabel.setAttribute('flex', '1');
@@ -249,9 +254,9 @@ popup = {
 			lastPostLabel.className = 'oneTheme_lastPost';
 			lastPostLabel.setAttribute('title', inspector4pda.browser.getString('Open Last Post'));
 			lastPostLabel.addEventListener("click", function () {
-				popup.bg.themes.openLast(theme.id);
-				popup.bg.cScript.printCount();
-				popup.printCount();
+				self.bg.themes.openLast(theme.id);
+				self.bg.cScript.printCount();
+				self.printCount();
 				document.getElementById('oneThemeCaption_' + theme.id).classList.add('readed');
 			}, false);
 
@@ -283,22 +288,24 @@ popup = {
 
 	printUserLinks: function() {
 		var uLinks = document.getElementById('userLinks');
-		uLinks.textContent = '';
-		for (let i = 0; i < popup.bg.vars.data.user_links.length; i++) {
-			let item = popup.bg.vars.data.user_links[i];
-			if (typeof item != 'object') {
-				continue;
+		if (this.bg.vars.data.user_links && this.bg.vars.data.user_links.length) {
+			uLinks.textContent = '';
+			let self = this;
+			for (let i = 0; i < this.bg.vars.data.user_links.length; i++) {
+				let item = this.bg.vars.data.user_links[i];
+				if (typeof item != 'object') {
+					continue;
+				}
+				let link = document.createElement('span');
+				link.innerText = item.title;
+				link.addEventListener("click", function () {
+					self.bg.utils.openPage(item.url, true);
+				}, false);
+				uLinks.appendChild(link);
 			}
-			let link = document.createElement('span');
-			link.innerText = item.title;
-			link.setAttribute('data-url', item.url);
-			link.addEventListener("click", function () {
-				var url = this.getAttribute('data-url');
-				popup.bg.utils.openPage(url, true);
-			}, false);
-			uLinks.appendChild(link);
+		} else {
+			uLinks.className = 'hidden';
 		}
-		uLinks.style.display = 'block';
 	}
 };
 
