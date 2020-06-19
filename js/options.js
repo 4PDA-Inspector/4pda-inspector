@@ -123,11 +123,15 @@ options = {
 
     printUserLinks: function (links) {
         var self = this;
-        if (links.length) {
-            for (let i = 0; i < links.length; i++) {
-                self.addUserLinkRow(links[i]);
+        try {
+            if (Array.isArray(links) && links.length) {
+                for (let i = 0; i < links.length; i++) {
+                    self.addUserLinkRow(links[i]);
+                }
+            } else {
+                self.addUserLinkRow();
             }
-        } else {
+        } catch (e) {
             self.addUserLinkRow();
         }
     },

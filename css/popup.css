@@ -143,7 +143,7 @@ body {
   background-position-x: -194px;
 }
 #mainPanel #additionalButtonsBox {
-  flex-grow: 1;
+  flex-grow: 0;
   text-align: center;
 }
 #mainPanel #additionalButtonsBox #panelSettings {
@@ -154,7 +154,7 @@ body {
   background-position: -64px -16px;
 }
 #mainPanel #massThemesActions {
-  flex-grow: 1;
+  flex-grow: 0;
   text-align: center;
 }
 #mainPanel #massThemesActions > span.icon_png {

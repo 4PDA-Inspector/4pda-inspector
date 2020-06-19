@@ -7,6 +7,7 @@ popup = {
 		qmsBox: null,
 		themesList: null,
 		settingsLabel: null,
+		massThemesActionsBox: null,
 		openAllLabel: null,
 		openAllPinLabel: null,
 		readAllLabel: null,
@@ -66,6 +67,7 @@ popup = {
 			self.bg.utils.openPage(chrome.extension.getURL('/html/options.html'), true);
 		}, false);
 
+		this.elements.massThemesActionsBox = document.getElementById('massThemesActions');
 		this.elements.openAllLabel = document.getElementById('panelOpenAll');
 		this.elements.openAllLabel.addEventListener('click', function() {
 			self.bg.themes.openAll();
@@ -153,6 +155,9 @@ popup = {
 		}
 		if (!this.bg.vars.data.toolbar_markAllAsRead_button) {
 			this.elements.readAllLabel.classList.add('hidden');
+		}
+		if (this.elements.massThemesActionsBox.querySelectorAll(':not(.hidden)').length === 0) {
+			this.elements.massThemesActionsBox.classList.add('hidden');
 		}
 
 		if (!withoutPrintThemes) {
