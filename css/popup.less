@@ -249,10 +249,34 @@ body.widthFixed #themesList .oneTheme_caption {
 					color: @color_highlight_hover;
 				}
 			}
+		}
 
-			&.readed {
+		.oneTheme_markAsRead {
+			display: block;
+			margin: 0;
+			background: -124px 0 url(/img/icons2.png) no-repeat;
+			height: 16px;
+			width: 16px;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			&:hover {
+				background-position-y: -16px;
+			}
+			&.loading {
+				background: @color_base;
+				.mask(12px);
+				.mask-image(url("/img/refresh.svg"));
+			}
+		}
+
+		&.used {
+			.oneTheme_caption {
 				color: @color_disabled;
 				text-decoration: line-through;
+			}
+			.oneTheme_markAsRead {
+				opacity: 0.2;
 			}
 		}
 	}
@@ -274,24 +298,6 @@ body.widthFixed #themesList .oneTheme_caption {
 		}
 		>.oneTheme_lastPost:hover {
 			color: @color_base_hover;
-		}
-	}
-	.oneTheme_markAsRead {
-		display: block;
-		margin: 0;
-		background: -124px 0 url(/img/icons2.png) no-repeat;
-		height: 16px;
-		width: 16px;
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		&:hover {
-			background-position-y: -16px;
-		}
-		&.loading {
-			background: @color_base;
-			.mask(12px);
-			.mask-image(url("/img/refresh.svg"));
 		}
 	}
 }

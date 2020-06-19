@@ -218,29 +218,25 @@ popup = {
 		themeCaptionLabel.textContent = inspector4pda.utils.htmlspecialcharsdecode(theme.title);
 		themeCaptionLabel.className = 'oneTheme_caption';
 		if (theme.pin && this.bg.vars.data.toolbar_pin_color) {
-			themeCaptionLabel.className += ' oneTheme_pin';
+			themeCaptionLabel.classList.add('oneTheme_pin');
 		}
-		themeCaptionLabel.id = 'oneThemeCaption_' + theme.id;
-		themeCaptionLabel.dataId = theme.id;
 		themeCaptionLabel.addEventListener("click", function () {
 			self.bg.themes.open(theme.id);
 			self.bg.cScript.printCount();
 			self.elements.favoritesBox.textContent = self.bg.themes.getCount();
-			this.classList.add("readed");
+			this.closest('.oneTheme').classList.add('used');
 			self.checkOpenThemeHiding();
 		}, false);
 
 		let readImage = document.createElement('span');
 		readImage.className = 'oneTheme_markAsRead';
-		readImage.setAttribute('data-theme', theme.id);
 		readImage.setAttribute('title', inspector4pda.browser.getString('Mark As Read'));
 		readImage.addEventListener("click", function () {
-			var current = this,
-				dataTheme = this.getAttribute('data-theme');
+			var current = this;
 			current.classList.add('loading');
-			self.bg.themes.read(dataTheme, function() {
+			self.bg.themes.read(theme.id, function() {
 				current.classList.remove('loading');
-				themeCaptionLabel.classList.add('readed');
+				current.closest('.oneTheme').classList.add('used');
 				self.bg.cScript.printCount();
 				self.printCount();
 			});
@@ -267,7 +263,7 @@ popup = {
 				self.bg.themes.openLast(theme.id);
 				self.bg.cScript.printCount();
 				self.printCount();
-				themeCaptionLabel.classList.add('readed');
+				this.closest('.oneTheme').classList.add('used');
 			}, false);
 
 			// BOXES
@@ -276,7 +272,6 @@ popup = {
 			infoHBox.className = 'oneThemeInfoHBox';
 			infoHBox.appendChild(userCaptionLabel);
 			infoHBox.appendChild(lastPostLabel);
-
 			infoHBox.appendChild(readImage);
 
 			let mainHBox = document.createElement('div');
