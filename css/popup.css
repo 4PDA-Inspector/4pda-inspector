@@ -142,15 +142,19 @@ body {
 #mainPanel #mainPanelButtonsBox #panelMentions:hover::before {
   background-position-x: -194px;
 }
-#mainPanel #panelSettings {
+#mainPanel #additionalButtonsBox {
+  flex-grow: 1;
+  text-align: center;
+}
+#mainPanel #additionalButtonsBox #panelSettings {
   background-position: -64px 0;
   margin: 0 10px !important;
 }
-#mainPanel #panelSettings:hover {
+#mainPanel #additionalButtonsBox #panelSettings:hover {
   background-position: -64px -16px;
 }
 #mainPanel #massThemesActions {
-  flex: 1;
+  flex-grow: 1;
   text-align: center;
 }
 #mainPanel #massThemesActions > span.icon_png {
