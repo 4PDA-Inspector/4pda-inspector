@@ -21,21 +21,6 @@
   mask-image: url(/img/icons.png);
   -webkit-mask-image: url(/img/icons.png);
 }
-.icon_svg {
-  background: #3f51b5;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 50% 50%;
-  -webkit-mask-position: 50% 50%;
-  mask-size: contain;
-  -webkit-mask-size: contain;
-}
-.icon_svg:hover {
-  background: #2196f3;
-}
-.icon_svg:disabled {
-  background: #9e9e9e;
-}
 * {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
@@ -123,6 +108,7 @@ body {
 #mainPanel #mainPanelButtonsBox .icoAndCount {
   display: inline-flex;
   align-items: center;
+  color: #9e9e9e;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount::before {
   content: '';
@@ -139,8 +125,14 @@ body {
   margin-right: 2px;
   transition: background-color 0.3s;
 }
+#mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread {
+  color: #3f51b5;
+}
 #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread::before {
   background: #3f51b5;
+}
+#mainPanel #mainPanelButtonsBox .icoAndCount:hover {
+  color: #2196f3;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount:hover::before {
   background: #2196f3;
@@ -230,18 +222,17 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 #themesList > .oneTheme {
   display: block;
-  border-bottom: 1px solid #d0e4ec;
+  border-bottom: 1px solid #e3f2fd;
   padding: 2px 4px;
   position: relative;
 }
 #themesList > .oneTheme:hover {
-  background-color: #d0e4ec;
+  background-color: #e3f2fd;
 }
 #themesList > .oneTheme .oneTheme_caption {
   color: #3f51b5;
   font-size: 13px;
   margin: 0;
-  display: block;
   overflow: hidden;
 }
 #themesList > .oneTheme .oneTheme_caption:hover {

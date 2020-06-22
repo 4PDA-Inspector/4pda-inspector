@@ -87,6 +87,7 @@ body {
 		.icoAndCount {
 			display: inline-flex;
 			align-items: center;
+			color: @color_disabled;
 			&::before {
 				content: '';
 						mask-size: initial;
@@ -101,11 +102,17 @@ body {
 				.background-transition();
 			}
 
-			&.hasUnread::before {
-				background: @color_base;
+			&.hasUnread {
+				color: @color_base;
+				&::before {
+					background: @color_base;
+				}
 			}
-			&:hover::before {
-				background: @color_base_hover;
+			&:hover {
+				color: @color_base_hover;
+				&::before {
+					background: @color_base_hover;
+				}
 			}
 		}
 
@@ -216,7 +223,6 @@ body.widthFixed #themesList .oneTheme_caption {
 			color: @color_base;
 			font-size: 13px;
 			margin: 0;
-			display: block;
 			overflow: hidden;
 			&:hover {
 				color: @color_base_hover;
