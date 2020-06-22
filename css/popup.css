@@ -154,8 +154,8 @@ body {
   text-align: center;
 }
 #mainPanel #additionalButtonsBox #panelSettings {
-  mask-position: -64px 0;
-  -webkit-mask-position: -64px 0;
+  mask-image: url("/img/settings.svg");
+  -webkit-mask-image: url("/img/settings.svg");
   margin: 0 10px !important;
 }
 #mainPanel #massThemesActions {
@@ -222,12 +222,12 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 #themesList > .oneTheme {
   display: block;
-  border-bottom: 1px solid #e3f2fd;
+  border-bottom: 1px solid #d0e4ec;
   padding: 2px 4px;
   position: relative;
 }
 #themesList > .oneTheme:hover {
-  background-color: #e3f2fd;
+  background-color: #d0e4ec;
 }
 #themesList > .oneTheme .oneTheme_caption {
   color: #3f51b5;
@@ -239,10 +239,10 @@ body.widthFixed #themesList .oneTheme_caption {
   color: #2196f3;
 }
 #themesList > .oneTheme .oneTheme_caption.oneTheme_pin {
-  color: #43a047;
+  color: #1d967f;
 }
 #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
-  color: #8bc34a;
+  color: #43baa3;
 }
 #themesList > .oneTheme .oneTheme_markAsRead {
   height: 16px;
