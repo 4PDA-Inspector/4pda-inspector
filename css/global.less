@@ -12,9 +12,14 @@
 @color_white: #FFFFFF;
 @color_red: #F44336;
 
+@transition-duration: 0.3s;
+
 .font-default() {
     font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
     font-size: 13px;
+}
+.background-transition() {
+    transition: background-color @transition-duration;
 }
 
 .mask(@size: contain) {
@@ -29,19 +34,43 @@
             mask-image: @source;
     -webkit-mask-image: @source;
 }
+.mask-position(@posX) {
+            mask-position: @posX 0;
+    -webkit-mask-position: @posX 0;
+}
 
 .square(@side) {
     height: @side;
     width: @side;
 }
 
-.icon_svg {
+.icon_mask {
     background: @color_base;
-    .mask();
+            mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
     &:hover {
         background: @color_base_hover;
     }
     &:disabled {
         background: @color_disabled;
     }
+
+    &.svg {
+                mask-position: 50% 50%;
+        -webkit-mask-position: 50% 50%;
+                mask-size: contain;
+        -webkit-mask-size: contain;
+    }
+
+    &.png {
+                mask-size: initial;
+        -webkit-mask-size: initial;
+        .mask-image(url(/img/icons.png));
+    }
+}
+
+* {
+    transition: background-color @transition-duration,
+        color @transition-duration,
+        border-color @transition-duration;
 }

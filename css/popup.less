@@ -15,7 +15,7 @@ body {
 
 .loading {
 	-webkit-animation-name: rotate;
-	-webkit-animation-duration:2s;
+	-webkit-animation-duration:1s;
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-timing-function:linear;
 	-moz-animation-name: rotate;
@@ -79,14 +79,7 @@ body {
 		}
 	}
 
-	.icon_png {
-		background-image: url(/img/icons2.png);
-		background-repeat: no-repeat;
-		display: inline-block;
-		height: 16px;
-		width: 16px;
-	}
-	.icon_svg {
+	.icon_mask {
 		.square(16px);
 	}
 
@@ -96,47 +89,39 @@ body {
 			align-items: center;
 			&::before {
 				content: '';
-				background-image: url(/img/icons2.png);
-				background-repeat: no-repeat;
+						mask-size: initial;
+				-webkit-mask-size: initial;
+						mask-repeat: no-repeat;
+				-webkit-mask-repeat: no-repeat;
+				background: @color_disabled;
+				.mask-image(url(/img/icons.png));
 				display: inline-block;
 				.square(16px);
 				margin-right: 2px;
+				.background-transition();
+			}
+
+			&.hasUnread::before {
+				background: @color_base;
+			}
+			&:hover::before {
+				background: @color_base_hover;
 			}
 		}
 
 		#panelQMS {
-			&:before {
-				background-position-y: -16px;
+			&::before {
+				.mask-position(-16px);
 			}
 		}
 		#panelFavorites {
-			&:before {
-				background-position-y: 0;
+			&::before {
+				.mask-position(0);
 			}
 		}
-
-		#panelQMS, #panelFavorites {
-			&:before {
-				background-position-x: -16px;
-			}
-			&.hasUnread::before {
-				background-position-x: 0;
-			}
-			&:hover::before {
-				background-position-x: -32px;
-			}
-		}
-
 		#panelMentions {
-			&:before {
-				background-position-y: 0;
-				background-position-x: -178px;
-			}
-			&.hasUnread::before {
-				background-position-x: -162px;
-			}
-			&:hover::before {
-				background-position-x: -194px;
+			&::before {
+				.mask-position(-32px);
 			}
 		}
 	}
@@ -145,34 +130,28 @@ body {
 		flex-grow: 0;
 		text-align: center;
 		#panelSettings {
-			background-position: -64px 0;
+			.mask-position(-64px);
 			margin: 0 10px !important;
-			&:hover {
-				background-position: -64px -16px;
-			}
 		}
 	}
 
 	#massThemesActions {
 		flex-grow: 0;
 		text-align: center;
-		> span.icon_png {
+		> span.icon_mask {
 			margin: 0 2px;
 			width: 22px;
-			background-position-y: 0;
-			&:hover {
-				background-position-y: -16px;
-			}
-		}
+			height: 16px;
 
+		}
 		#panelOpenAll {
-			background-position-x: -80px;
+			.mask-position(-80px);
 		}
 		#panelOpenAllPin {
-			background-position-x: -140px;
+			.mask-position(-124px);
 		}
 		#panelReadAll {
-			background-position-x: -102px;
+			.mask-position(-102px);
 		}
 	}
 
@@ -252,16 +231,16 @@ body.widthFixed #themesList .oneTheme_caption {
 		}
 
 		.oneTheme_markAsRead {
+			.square(16px);
 			display: block;
 			margin: 0;
-			background: -124px 0 url(/img/icons2.png) no-repeat;
-			height: 16px;
-			width: 16px;
+			.mask-position(-146px);
+			background: @color_disabled;
 			position: absolute;
 			right: 0;
 			bottom: 0;
 			&:hover {
-				background-position-y: -16px;
+				background: @color_base_hover;
 			}
 			&.loading {
 				background: @color_base;

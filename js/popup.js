@@ -229,7 +229,7 @@ popup = {
 		}, false);
 
 		let readImage = document.createElement('span');
-		readImage.className = 'oneTheme_markAsRead';
+		readImage.className = 'icon_mask png oneTheme_markAsRead';
 		readImage.setAttribute('title', inspector4pda.browser.getString('Mark As Read'));
 		readImage.addEventListener("click", function () {
 			var current = this;

@@ -112,11 +112,17 @@ input.numbered {
 			color: #FFF;
 			padding: 7px 10px;
 			text-decoration: none;
-			background: @color_base_light;
-			background: linear-gradient(to bottom, @color_base_light 0, @color_base 100%);
+			background-color: @color_base_light;
+			background-image: linear-gradient(to bottom, @color_base_light 0, @color_base 100%);
+			background-repeat: no-repeat;
 			display: inline-block;
+			transition: background-position 1s,
+					background-color 1s 1s;
 			&:hover {
-				background: @color_base;
+				background-color: @color_base;
+				background-position-y: -40px;
+				transition: background-position 1s,
+						background-color 0s;
 			}
 		}
 	}
