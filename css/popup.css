@@ -27,7 +27,7 @@
 body {
   font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
   font-size: 13px;
-  margin: 0 6px 5px;
+  margin: 0 0 5px;
   color: #3F51B5;
   background: #FFFFFF;
 }
@@ -62,23 +62,27 @@ body {
   }
 }
 /*********************************************/
+#header {
+  padding: 0;
+}
 #header.fixed {
   position: fixed;
   z-index: 1;
   background: #FFFFFF;
   top: 0;
-  left: 5px;
-  right: 5px;
+  left: 0;
+  right: 0;
 }
 #mainPanel {
   width: 100%;
   border-bottom: 1px dotted #3F51B5;
-  padding: 5px 0;
+  padding: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   font-size: 0;
+  box-sizing: border-box;
 }
 #mainPanel > div {
   display: inline-block;
@@ -223,11 +227,11 @@ body.widthFixed #themesList .oneTheme_caption {
 #themesList > .oneTheme {
   display: block;
   border-bottom: 1px solid #EEEEFF;
-  padding: 2px 4px;
+  padding: 2px 5px;
   position: relative;
 }
 #themesList > .oneTheme:hover {
-  background: linear-gradient(to right, #FFFFFF, #EEEEFF 5%, #EEEEFF 95%, #FFFFFF 100%);
+  background: linear-gradient(to right, #EEEEFF 0, #EEEEFF 95%, #FFFFFF 100%);
 }
 #themesList > .oneTheme .oneTheme_caption {
   color: #3F51B5;
@@ -258,9 +262,6 @@ body.widthFixed #themesList .oneTheme_caption {
   mask-size: 14px 14px;
   -webkit-mask-size: 14px 14px;
   background: #9E9E9E;
-  position: absolute;
-  right: 0;
-  bottom: 0;
 }
 #themesList > .oneTheme .oneTheme_markAsRead:hover {
   background: #2196F3;
@@ -277,18 +278,32 @@ body.widthFixed #themesList .oneTheme_caption {
 #themesList > .oneTheme.used .oneTheme_markAsRead {
   opacity: 0.2;
 }
-#themesList.simpleList .oneTheme_caption {
+#themesList.simpleList .oneTheme {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#themesList.simpleList .oneTheme .oneTheme_caption {
   margin-right: 15px;
 }
 #themesList .oneThemeInfoHBox {
   color: #9E9E9E;
+  position: relative;
   font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 #themesList .oneThemeInfoHBox > span:not(:last-child) {
   margin: 0 10px 0 0;
 }
 #themesList .oneThemeInfoHBox > .oneTheme_user {
   cursor: default;
+}
+#themesList .oneThemeInfoHBox > .space {
+  flex-grow: 1;
 }
 #themesList .oneThemeInfoHBox > .oneTheme_lastPost:hover {
   color: #2196F3;

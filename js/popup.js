@@ -266,12 +266,16 @@ popup = {
 				this.closest('.oneTheme').classList.add('used');
 			}, false);
 
+			let spaceBlock = document.createElement('span');
+			spaceBlock.className = 'space';
+
 			// BOXES
 
 			let infoHBox = document.createElement('div');
 			infoHBox.className = 'oneThemeInfoHBox';
 			infoHBox.appendChild(userCaptionLabel);
 			infoHBox.appendChild(lastPostLabel);
+			infoHBox.appendChild(spaceBlock);
 			infoHBox.appendChild(readImage);
 
 			let mainHBox = document.createElement('div');

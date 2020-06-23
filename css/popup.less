@@ -2,7 +2,7 @@
 
 body {
 	.font-default();
-	margin: 0 6px 5px;
+	margin: 0 0 5px;
 	color: @color_base;
 	background: #FFFFFF;
 }
@@ -35,25 +35,24 @@ body {
 /*********************************************/
 
 #header {
+	padding: 0;
 	&.fixed {
 		position: fixed;
 		z-index: 1;
 		background: #FFFFFF;
 		top: 0;
-		left: 5px;
-		right: 5px;
+		left: 0;
+		right: 0;
 	}
 }
 
 #mainPanel {
 	width: 100%;
 	border-bottom: 1px dotted @color_base;
-	padding: 5px 0;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+	padding: 5px;
+	.flex-row();
 	font-size: 0;
+	box-sizing: border-box;
 
 	> div {
 		display: inline-block;
@@ -215,10 +214,10 @@ body.widthFixed #themesList .oneTheme_caption {
 	> .oneTheme {
 		display: block;
 		border-bottom: 1px solid @color_base_lightest;
-		padding: 2px 4px;
+		padding: 2px 5px;
 		position: relative;
 		&:hover {
-			background: linear-gradient(to right, @color_white, @color_base_lightest 5%, @color_base_lightest 95%, @color_white 100%);
+			background: linear-gradient(to right, @color_base_lightest 0, @color_base_lightest 95%, @color_white 100%);
 		}
 
 		.oneTheme_caption {
@@ -245,9 +244,6 @@ body.widthFixed #themesList .oneTheme_caption {
 			.mask-image(url("/img/eye.svg"));
 			.mask(14px 14px);
 			background: @color_disabled;
-			position: absolute;
-			right: 0;
-			bottom: 0;
 			&:hover {
 				background: @color_base_hover;
 			}
@@ -269,19 +265,28 @@ body.widthFixed #themesList .oneTheme_caption {
 	}
 
 	&.simpleList {
-		.oneTheme_caption {
-			margin-right: 15px;
+		.oneTheme {
+			.flex-row();
+			.oneTheme_caption {
+				margin-right: 15px;
+			}
 		}
 	}
 
 	.oneThemeInfoHBox {
 		color: @color_disabled;
+		position: relative;
 		font-size: 11px;
+		.flex-row();
+
 		> span:not(:last-child) {
 			margin: 0 10px 0 0;
 		}
 		>.oneTheme_user {
 			cursor: default;
+		}
+		>.space {
+			flex-grow: 1;
 		}
 		>.oneTheme_lastPost:hover {
 			color: @color_base_hover;
