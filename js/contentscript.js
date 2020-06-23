@@ -432,19 +432,26 @@ inspector4pda.cScript = {
 
 	notificationClick: function(tag) {
 		var tagData = tag.split('_');
-
 		if (typeof tagData[1] == 'undefined' || typeof tagData[2] == 'undefined') {
 			return false;
 		}
 
-		if (tagData[1] == 'qms'){
-			inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])), true);
-		} else if (tagData[1] == 'theme') {
-			inspector4pda.themes.open(parseInt(tagData[2]), true);
-		} else if (tagData[1] == 'mention') {
-			inspector4pda.themes.open(parseInt(tagData[2]), true, tagData[3]);
+		if (['qms', 'theme', 'mention'].indexOf(tagData[1]) >= 0) {
+			inspector4pda.browser.focusWindow(function () {
+				switch (tagData[1]) {
+					case "qms":
+						inspector4pda.QMS.openChat(parseInt(tagData[2]), (typeof tagData[3] == 'undefined' ? false : parseInt(tagData[3])), true);
+						break;
+					case "theme":
+						inspector4pda.themes.open(parseInt(tagData[2]), true);
+						break;
+					case "mention":
+						inspector4pda.themes.open(parseInt(tagData[2]), true, tagData[3]);
+						break;
+				}
+				inspector4pda.cScript.printCount();
+			});
 		}
-		inspector4pda.cScript.printCount();
 
 		inspector4pda.browser.clearNotification(tag);
 	},

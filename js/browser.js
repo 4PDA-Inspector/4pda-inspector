@@ -53,7 +53,7 @@ inspector4pda.browser = {
     csInit: function() {
         chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
 
-        var build = this.bgClass.vars.data.build;
+        let build = this.bgClass.vars.data.build;
         if (!build || build < this.currentBuild) {
             this.openPage(chrome.extension.getURL('html/whatsnew.html'));
             this.bgClass.vars.setValue('build', this.currentBuild);
@@ -61,7 +61,6 @@ inspector4pda.browser = {
     },
 
     showNotification: function(params) {
-
         var defaultParams = {
             id: '4pdainspector_test_' + (new Date().getTime()),
             title: this.getString("4PDA Inspector"),
@@ -75,13 +74,8 @@ inspector4pda.browser = {
             type: "basic",
             title: params.title,
             message: params.message,
-            iconUrl: chrome.extension.getURL(params.iconUrl),
-            isClickable: true
+            iconUrl: chrome.extension.getURL(params.iconUrl)
         });
-
-        setTimeout(function() {
-            inspector4pda.browser.clearNotification(params.id);
-        }, 30000);
     },
 
     clearNotification: function(id) {
@@ -140,6 +134,22 @@ inspector4pda.browser = {
         soundElement.play();
     },
 
+    focusWindow: function(callback) {
+        chrome.windows.getCurrent(
+            function(win) {
+                let upd = {
+                    focused: true
+                };
+                if (win.state == "minimized") {
+                    upd.state = "normal";
+                }
+                chrome.windows.update(win.id, upd, function() {
+                    callback();
+                })
+            }
+        );
+    },
+
     openPage: function(page, setActive, callback) {
         var self = this;
 
@@ -147,13 +157,11 @@ inspector4pda.browser = {
             url: page
         }, function (tab) {
             if (tab && tab.length) {
-
-                var currentTab = tab[0],
-                    tabId = parseInt(currentTab.id),
-                    tabWindowId = parseInt(currentTab.windowId);
+                let currentTab = tab[0],
+                    tabId = currentTab.id,
+                    tabWindowId = currentTab.windowId;
 
                 chrome.windows.getCurrent( {populate:false}, function(window) {
-
                     var moveProperties = {
                         index: -1
                     };
@@ -178,11 +186,12 @@ inspector4pda.browser = {
                 if (self.bgClass.vars.data.open_in_current_tab) {
                     chrome.windows.getCurrent(
                         function(win) {
-                            chrome.tabs.query({'windowId': win.id, 'active': true},
-                                function(tabArray) {
-                                    chrome.tabs.update(tabArray[0].id, {url: page}, callback);
-                                }
-                            );
+                            chrome.tabs.query({
+                                windowId: win.id,
+                                active: true
+                            },function(tabArray) {
+                                chrome.tabs.update(tabArray[0].id, {url: page}, callback);
+                            });
                         }
                     );
                 } else {
