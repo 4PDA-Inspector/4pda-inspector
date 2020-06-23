@@ -245,12 +245,18 @@ body.widthFixed #themesList .oneTheme_caption {
   color: #43BAA3;
 }
 #themesList > .oneTheme .oneTheme_markAsRead {
-  height: 16px;
-  width: 16px;
+  height: 14px;
+  width: 14px;
   display: block;
   margin: 0;
-  mask-position: -146px 0;
-  -webkit-mask-position: -146px 0;
+  mask-image: url("/img/eye.svg");
+  -webkit-mask-image: url("/img/eye.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: 50% 50%;
+  -webkit-mask-position: 50% 50%;
+  mask-size: 14px 14px;
+  -webkit-mask-size: 14px 14px;
   background: #9E9E9E;
   position: absolute;
   right: 0;
@@ -261,12 +267,6 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 #themesList > .oneTheme .oneTheme_markAsRead.loading {
   background: #3F51B5;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 50% 50%;
-  -webkit-mask-position: 50% 50%;
-  mask-size: 12px;
-  -webkit-mask-size: 12px;
   mask-image: url("/img/refresh.svg");
   -webkit-mask-image: url("/img/refresh.svg");
 }

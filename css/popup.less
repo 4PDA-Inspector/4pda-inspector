@@ -239,10 +239,11 @@ body.widthFixed #themesList .oneTheme_caption {
 		}
 
 		.oneTheme_markAsRead {
-			.square(16px);
+			.square(14px);
 			display: block;
 			margin: 0;
-			.mask-position(-146px);
+			.mask-image(url("/img/eye.svg"));
+			.mask(14px 14px);
 			background: @color_disabled;
 			position: absolute;
 			right: 0;
@@ -252,7 +253,6 @@ body.widthFixed #themesList .oneTheme_caption {
 			}
 			&.loading {
 				background: @color_base;
-				.mask(12px);
 				.mask-image(url("/img/refresh.svg"));
 			}
 		}
