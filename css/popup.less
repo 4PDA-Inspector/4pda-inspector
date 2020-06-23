@@ -90,12 +90,13 @@ body {
 			color: @color_disabled;
 			&::before {
 				content: '';
-						mask-size: initial;
-				-webkit-mask-size: initial;
+						mask-position: 50% 50%;
+				-webkit-mask-position: 50% 50%;
+						mask-size: contain;
+				-webkit-mask-size: contain;
 						mask-repeat: no-repeat;
 				-webkit-mask-repeat: no-repeat;
 				background: @color_disabled;
-				.mask-image(url(/img/icons.png));
 				display: inline-block;
 				.square(16px);
 				margin-right: 2px;
@@ -118,17 +119,17 @@ body {
 
 		#panelQMS {
 			&::before {
-				.mask-position(-16px);
+				.mask-image(url("/img/message.svg"));
 			}
 		}
 		#panelFavorites {
 			&::before {
-				.mask-position(0);
+				.mask-image(url("/img/star.svg"));
 			}
 		}
 		#panelMentions {
 			&::before {
-				.mask-position(-32px);
+				.mask-image(url("/img/mention.svg"));
 			}
 		}
 	}
