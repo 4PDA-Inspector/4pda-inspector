@@ -222,12 +222,12 @@ body.widthFixed #themesList .oneTheme_caption {
 }
 #themesList > .oneTheme {
   display: block;
-  border-bottom: 1px solid #D0E4EC;
+  border-bottom: 1px solid #EEEEFF;
   padding: 2px 4px;
   position: relative;
 }
 #themesList > .oneTheme:hover {
-  background-color: #D0E4EC;
+  background: linear-gradient(to right, #FFFFFF, #EEEEFF 5%, #EEEEFF 95%, #FFFFFF 100%);
 }
 #themesList > .oneTheme .oneTheme_caption {
   color: #3F51B5;
