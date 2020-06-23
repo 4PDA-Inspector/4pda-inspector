@@ -114,7 +114,7 @@ options = {
     },
 
     printNotificationSoundVolume: function(value) {
-        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = parseInt(value * 100) + '%';
+        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = (value * 100) + '%';
     },
 
     setValue: function(name, value) {

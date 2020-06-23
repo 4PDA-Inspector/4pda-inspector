@@ -16,7 +16,7 @@ inspector4pda.cScript = {
 
 	updatesTurn: {},
 
-	init: function(el) {
+	init: function() {
 		// convert old settings
 		if (!inspector4pda.vars.data.build && localStorage.build) {
 			console.warn('Convert settings');
@@ -207,7 +207,7 @@ inspector4pda.cScript = {
 						switch (updateElement.type) {
 							case inspector4pda.cScript.eventTheme:
 								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId, rawData) {
+									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId) {
 										if (themesResp) {
 											let theme = new themeObj();
 											if (theme.parse(themesResp)) {

@@ -72,7 +72,7 @@ inspector4pda.utils = {
 		if (codes) {
 			for (let i = 0; i < codes.length; i++) {
 				let code = codes[i].match(/\d+/g);
-				string = string.replace(new RegExp(codes[i], 'g'), String.fromCharCode(code));
+				string = string.replace(new RegExp(codes[i], 'g'), String.fromCharCode(parseInt(code[0])));
 			}
 		}
 

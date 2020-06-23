@@ -244,6 +244,7 @@ body.widthFixed #themesList .oneTheme_caption {
 			.mask-image(url("/img/eye.svg"));
 			.mask(14px 14px);
 			background: @color_disabled;
+			flex-shrink: 0;
 			&:hover {
 				background: @color_base_hover;
 			}
@@ -267,9 +268,6 @@ body.widthFixed #themesList .oneTheme_caption {
 	&.simpleList {
 		.oneTheme {
 			.flex-row();
-			.oneTheme_caption {
-				margin-right: 15px;
-			}
 		}
 	}
 
