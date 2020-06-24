@@ -262,6 +262,7 @@ body.widthFixed #themesList .oneTheme_caption {
   mask-size: 14px 14px;
   -webkit-mask-size: 14px 14px;
   background: #9E9E9E;
+  flex-shrink: 0;
 }
 #themesList > .oneTheme .oneTheme_markAsRead:hover {
   background: #2196F3;
@@ -283,9 +284,6 @@ body.widthFixed #themesList .oneTheme_caption {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-#themesList.simpleList .oneTheme .oneTheme_caption {
-  margin-right: 15px;
 }
 #themesList .oneThemeInfoHBox {
   color: #9E9E9E;
