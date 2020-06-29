@@ -97,13 +97,11 @@ popup = {
 		}, false);
 
 		this.elements.header = document.getElementById('header');
-
 		this.refresh();
 
 		window.onload = function() {
 			setTimeout(function () {
 				self.printUserLinks();
-				self.fixMainPanel();
 			}, 1);
 		};
 	},
@@ -162,15 +160,6 @@ popup = {
 
 		if (!withoutPrintThemes) {
 			this.printThemesList();
-		}
-
-	},
-
-	fixMainPanel: function() {
-		if (this.elements.body.scrollHeight > this.elements.body.clientHeight) { //has scroll
-			this.elements.body.style.minWidth = this.elements.body.offsetWidth;
-			this.elements.themesList.style.marginTop = this.elements.header.offsetHeight;
-			this.elements.header.className = 'fixed';
 		}
 	},
 

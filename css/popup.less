@@ -36,14 +36,10 @@ body {
 
 #header {
 	padding: 0;
-	&.fixed {
-		position: fixed;
-		z-index: 1;
-		background: #FFFFFF;
-		top: 0;
-		left: 0;
-		right: 0;
-	}
+	position: sticky;
+	top: 0;
+	background: @color_white;
+	z-index: 1;
 }
 
 #mainPanel {
