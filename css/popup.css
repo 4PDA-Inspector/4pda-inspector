@@ -168,80 +168,34 @@ body {
   height: 16px;
 }
 #mainPanel #massThemesActions #panelOpenAll {
-  mask-position: 0 0;
-  -webkit-mask-position: 0 0;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: 0 50%;
+  -webkit-mask-position: 0 50%;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-image: url("/img/icons_mass.svg");
+  -webkit-mask-image: url("/img/icons_mass.svg");
 }
 #mainPanel #massThemesActions #panelOpenAllPin {
-  mask-position: -44px 0;
-  -webkit-mask-position: -44px 0;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: -44px 50%;
+  -webkit-mask-position: -44px 50%;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-image: url("/img/icons_mass.svg");
+  -webkit-mask-image: url("/img/icons_mass.svg");
 }
 #mainPanel #massThemesActions #panelReadAll {
-  mask-position: -22px 0;
-  -webkit-mask-position: -22px 0;
-}
-#mainPanel #massThemesActions > span.icon_mask2 {
-  position: relative;
-  background: none;
-}
-#mainPanel #massThemesActions > span.icon_mask2::before {
-  content: '';
-  background: #3F51B5;
-  width: 22px;
-  height: 16px;
-  display: block;
-}
-#mainPanel #massThemesActions > span.icon_mask2::after {
-  content: '';
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
-  mask-position: 100% 50%;
-  -webkit-mask-position: 100% 50%;
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-image: url("/img/check2.svg");
-  -webkit-mask-image: url("/img/check2.svg");
-  background: #3F51B5;
-  width: 10px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-#mainPanel #massThemesActions > span.icon_mask2:hover::before {
-  background: #2196F3;
-}
-#mainPanel #massThemesActions > span.icon_mask2:hover::after {
-  background: #2196F3;
-}
-#mainPanel #massThemesActions #panelOpenAll2::before {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0 50%;
-  -webkit-mask-position: 0 50%;
-  mask-size: 13px;
-  -webkit-mask-size: 13px;
-  mask-image: url("/img/tab.svg");
-  -webkit-mask-image: url("/img/tab.svg");
-}
-#mainPanel #massThemesActions #panelOpenAllPin2::before {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0 50%;
-  -webkit-mask-position: 0 50%;
-  mask-size: 13px;
-  -webkit-mask-size: 13px;
-  mask-image: url("/img/push-pin.svg");
-  -webkit-mask-image: url("/img/push-pin.svg");
-}
-#mainPanel #massThemesActions #panelReadAll2::before {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0 50%;
-  -webkit-mask-position: 0 50%;
-  mask-size: 15px;
-  -webkit-mask-size: 15px;
-  mask-image: url("/img/eye.svg");
-  -webkit-mask-image: url("/img/eye.svg");
+  mask-position: -22px 50%;
+  -webkit-mask-position: -22px 50%;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-image: url("/img/icons_mass.svg");
+  -webkit-mask-image: url("/img/icons_mass.svg");
 }
 #mainPanel #panelUsernameHBox {
   margin-left: 10px;

@@ -149,63 +149,16 @@ body {
 
 		}
 		#panelOpenAll {
-			.mask-position(0);
+			.mask(cover, 0);
+			.mask-image(url("/img/icons_mass.svg"));
 		}
 		#panelOpenAllPin {
-			.mask-position(-44px);
+			.mask(cover, -44px);
+			.mask-image(url("/img/icons_mass.svg"));
 		}
 		#panelReadAll {
-			.mask-position(-22px);
-		}
-
-		> span.icon_mask2 {
-			position: relative;
-			background: none;
-
-			&::before {
-				content: '';
-				background: @color_base;
-				width: 22px;
-				height: 16px;
-				display: block;
-			}
-			&::after {
-				content: '';
-				.mask(contain, 100%);
-				.mask-image(url("/img/check2.svg"));
-				background: @color_base;
-				width: 10px;
-				position: absolute;
-				right: 0;
-				top: 0;
-				bottom: 0;
-			}
-			&:hover {
-				&::before {
-					background: @color_base_hover;
-				}
-				&::after {
-					background: @color_base_hover;
-				}
-			}
-		}
-		#panelOpenAll2 {
-			&::before {
-				.mask(13px, 0);
-				.mask-image(url("/img/tab.svg"));
-			}
-		}
-		#panelOpenAllPin2 {
-			&::before {
-				.mask(13px, 0);
-				.mask-image(url("/img/push-pin.svg"));
-			}
-		}
-		#panelReadAll2 {
-			&::before {
-				.mask(15px, 0);
-				.mask-image(url("/img/eye.svg"));
-			}
+			.mask(cover, -22px);
+			.mask-image(url("/img/icons_mass.svg"));
 		}
 	}
 
