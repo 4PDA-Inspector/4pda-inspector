@@ -24,11 +24,11 @@
     transition: background-color @transition-duration;
 }
 
-.mask(@size: contain) {
+.mask(@size: contain, @posX: 50%) {
             mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
-            mask-position: 50% 50%;
-    -webkit-mask-position: 50% 50%;
+            mask-position: @posX 50%;
+    -webkit-mask-position: @posX 50%;
             mask-size: @size;
     -webkit-mask-size: @size;
 }

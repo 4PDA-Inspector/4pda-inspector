@@ -1,0 +1,10 @@
+<svg viewBox="0 0 25 60" width="25px" height="60px" xmlns="http://www.w3.org/2000/svg" stroke="black">
+<style>
+    path {fill:none; stroke-width:4;stroke-linejoin:round;}
+</style>
+<g>
+    <path d="M5,15l5,10l10,-20"/>
+    <path d="M5,30l5,10l10,-20"/>
+    <path d="M5,45l5,10l10,-20"/>
+</g>
+</svg>
