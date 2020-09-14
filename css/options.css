@@ -25,12 +25,6 @@ body {
   mask-size: contain;
   -webkit-mask-size: contain;
 }
-.icon_mask.png {
-  mask-size: initial;
-  -webkit-mask-size: initial;
-  mask-image: url(/img/icons2.png);
-  -webkit-mask-image: url(/img/icons2.png);
-}
 * {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
