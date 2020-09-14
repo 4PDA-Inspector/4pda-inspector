@@ -168,34 +168,16 @@ body {
   height: 16px;
 }
 #mainPanel #massThemesActions #panelOpenAll {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0 50%;
-  -webkit-mask-position: 0 50%;
-  mask-size: cover;
-  -webkit-mask-size: cover;
-  mask-image: url("/img/icons_mass.svg");
-  -webkit-mask-image: url("/img/icons_mass.svg");
+  mask-image: url("/img/mass/open_all.svg");
+  -webkit-mask-image: url("/img/mass/open_all.svg");
 }
 #mainPanel #massThemesActions #panelOpenAllPin {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: -44px 50%;
-  -webkit-mask-position: -44px 50%;
-  mask-size: cover;
-  -webkit-mask-size: cover;
-  mask-image: url("/img/icons_mass.svg");
-  -webkit-mask-image: url("/img/icons_mass.svg");
+  mask-image: url("/img/mass/open_pin.svg");
+  -webkit-mask-image: url("/img/mass/open_pin.svg");
 }
 #mainPanel #massThemesActions #panelReadAll {
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: -22px 50%;
-  -webkit-mask-position: -22px 50%;
-  mask-size: cover;
-  -webkit-mask-size: cover;
-  mask-image: url("/img/icons_mass.svg");
-  -webkit-mask-image: url("/img/icons_mass.svg");
+  mask-image: url("/img/mass/read_all.svg");
+  -webkit-mask-image: url("/img/mass/read_all.svg");
 }
 #mainPanel #panelUsernameHBox {
   margin-left: 10px;
