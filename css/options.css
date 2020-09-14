@@ -65,6 +65,9 @@ input.numbered {
 .infoLabel {
   color: #9E9E9E;
 }
+input[type=checkbox] {
+  margin-right: 5px;
+}
 #userLinksDiv {
   width: 100%;
 }
