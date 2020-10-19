@@ -195,10 +195,6 @@ body {
 	}
 }
 
-body.widthFixed #themesList .oneTheme_caption {
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
 #themesList {
 	z-index: 0;
 	white-space: nowrap;
@@ -221,6 +217,9 @@ body.widthFixed #themesList .oneTheme_caption {
 			font-size: 13px;
 			margin: 0;
 			overflow: hidden;
+			display: inline-block;
+			max-width: 100%;
+			text-overflow: ellipsis;
 			&:hover {
 				color: @color_base_hover;
 			}

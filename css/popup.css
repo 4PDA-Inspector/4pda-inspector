@@ -203,10 +203,6 @@ body {
   color: #2196F3;
   border-color: #2196F3;
 }
-body.widthFixed #themesList .oneTheme_caption {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 #themesList {
   z-index: 0;
   white-space: nowrap;
@@ -228,6 +224,9 @@ body.widthFixed #themesList .oneTheme_caption {
   font-size: 13px;
   margin: 0;
   overflow: hidden;
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
 }
 #themesList > .oneTheme .oneTheme_caption:hover {
   color: #2196F3;
