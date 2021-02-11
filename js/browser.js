@@ -140,7 +140,7 @@ inspector4pda.browser = {
                 let upd = {
                     focused: true
                 };
-                if (win.state == "minimized") {
+                if (win.state === "minimized") {
                     upd.state = "normal";
                 }
                 chrome.windows.update(win.id, upd, function() {
@@ -165,7 +165,7 @@ inspector4pda.browser = {
                     var moveProperties = {
                         index: -1
                     };
-                    if (window.id == tabWindowId || currentTab.pinned) {
+                    if (window.id === tabWindowId || currentTab.pinned) {
                         moveProperties.index = currentTab.index;
                     } else {
                         moveProperties.windowId = window.id;

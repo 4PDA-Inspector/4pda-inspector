@@ -197,7 +197,6 @@ body {
 
 #themesList {
 	z-index: 0;
-	white-space: nowrap;
 
 	span {
 		cursor: pointer;
@@ -208,6 +207,7 @@ body {
 		border-bottom: 1px solid @color_base_lightest;
 		padding: 2px 5px;
 		position: relative;
+		white-space: nowrap;
 		&:hover {
 			background: linear-gradient(to right, @color_base_lightest 0, @color_base_lightest 95%, @color_white 100%);
 		}
@@ -277,6 +277,8 @@ body {
 		}
 		>.oneTheme_user {
 			cursor: default;
+			overflow-x: hidden;
+			text-overflow: ellipsis;
 		}
 		>.space {
 			flex-grow: 1;

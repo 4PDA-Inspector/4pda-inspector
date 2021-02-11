@@ -205,7 +205,6 @@ body {
 }
 #themesList {
   z-index: 0;
-  white-space: nowrap;
 }
 #themesList span {
   cursor: pointer;
@@ -215,6 +214,7 @@ body {
   border-bottom: 1px solid #EEEEFF;
   padding: 2px 5px;
   position: relative;
+  white-space: nowrap;
 }
 #themesList > .oneTheme:hover {
   background: linear-gradient(to right, #EEEEFF 0, #EEEEFF 95%, #FFFFFF 100%);
@@ -288,6 +288,8 @@ body {
 }
 #themesList .oneThemeInfoHBox > .oneTheme_user {
   cursor: default;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 #themesList .oneThemeInfoHBox > .space {
   flex-grow: 1;
