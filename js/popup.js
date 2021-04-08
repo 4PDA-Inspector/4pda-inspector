@@ -253,6 +253,7 @@ popup = {
 				self.bg.cScript.printCount();
 				self.printCount();
 				this.closest('.oneTheme').classList.add('used');
+				self.checkOpenThemeHiding();
 			}, false);
 
 			let spaceBlock = document.createElement('span');
