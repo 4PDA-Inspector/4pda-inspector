@@ -1,6 +1,6 @@
 inspector4pda.themes = {
-	rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=fav',
-	vUrl: 'https://4pda.ru/forum/index.php?act=fav',
+	rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=fav',
+	vUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=fav',
 	list: {},
 
 	clear: function() {
@@ -43,7 +43,7 @@ inspector4pda.themes = {
 				callback(title, id, theme);
 			}
 		};
-		xmr.send('https://4pda.ru/forum/lofiversion/index.php?t' + id + '-0.html');
+		xmr.send(inspector4pda.vars.BASE_URL + '/forum/lofiversion/index.php?t' + id + '-0.html');
 	},
 
 	getThemesIds: function(withRead) {
@@ -111,7 +111,7 @@ inspector4pda.themes = {
 	},
 
 	open: function(id, setActive, commentId) {
-		var url = 'https://4pda.ru/forum/index.php?showtopic='+id;
+		var url = inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id;
 		if (commentId) {
 			url += '&view=findpost&p=' + commentId;
 		} else {
@@ -131,12 +131,12 @@ inspector4pda.themes = {
 				callback();
 			}
 		};
-		xmr.send('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		xmr.send(inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id+'&view=getlastpost');
 		inspector4pda.themes.list[id].setRead();
 	},
 
 	openLast: function(id) {
-		inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showtopic='+id+'&view=getlastpost');
+		inspector4pda.utils.openPage(inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id+'&view=getlastpost');
 		inspector4pda.themes.list[id].setRead();
 	},
 

@@ -33,6 +33,8 @@ inspector4pda.vars = {
 		build: '0'
 	},
 
+	BASE_URL: 'https://4pda.to',
+
 	init: function(callback) {
 		this.resetStorage(callback);
 	},
@@ -94,5 +96,9 @@ inspector4pda.vars = {
 
 	getAll: function() {
 		return this.data;
+	},
+
+	doURL: function(path) {
+		return inspector4pda.vars.BASE_URL + (path ? '/' + path : '');
 	}
 };

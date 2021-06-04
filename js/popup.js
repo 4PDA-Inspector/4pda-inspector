@@ -17,7 +17,7 @@ popup = {
 	},
 
 	urls: {
-		login: 'https://4pda.ru/forum/index.php?act=login'
+		login: inspector4pda.vars.BASE_URL + '/forum/index.php?act=login'
 	},
 
 	bg: null,

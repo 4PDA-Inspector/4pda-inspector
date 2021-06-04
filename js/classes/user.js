@@ -1,5 +1,5 @@
 inspector4pda.user = {
-    rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=id',
+    rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=id',
     id: 0,
     name: '',
     appUrl: '',
@@ -64,6 +64,6 @@ inspector4pda.user = {
 
     open: function(id) {
         id = id || inspector4pda.user.id;
-        inspector4pda.utils.openPage('https://4pda.ru/forum/index.php?showuser=' + id, true);
+        inspector4pda.utils.openPage(inspector4pda.vars.BASE_URL + '/forum/index.php?showuser=' + id, true);
     }
 };

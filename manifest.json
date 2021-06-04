@@ -3,7 +3,7 @@
 	"name": "4PDA Инспектор",
 	"version": "3.3.2.1",
 
-	"description": "Мониторинг изменений на форуме 4pda.ru",
+	"description": "Мониторинг изменений на форуме 4pda",
 	"homepage_url": "http://4pdainspector.coddism.com",
 	"icons": {
 		"128":"icons/icon_128.png",
@@ -14,7 +14,7 @@
 	"permissions": [
 		"tabs",
 		"cookies",
-		"https://4pda.ru/*",
+		"https://4pda.to/*",
 		"https://app.4pda.ru/*",
 		"notifications",
 		"storage"

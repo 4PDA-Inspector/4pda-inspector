@@ -1,7 +1,7 @@
 inspector4pda.mentions = {
     count: 0,
-    rUrl: 'https://4pda.ru/forum/index.php?act=inspector&CODE=mentions',
-    vUrl: 'https://4pda.ru/forum/index.php?act=mentions',
+    rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=mentions',
+    vUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=mentions',
     list: {},
 
     request: function(callback) {
