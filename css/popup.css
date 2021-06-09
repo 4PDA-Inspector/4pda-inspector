@@ -1,13 +1,13 @@
 .icon_mask {
-  background: #3F51B5;
+  background: #3f51b5;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
 }
 .icon_mask:hover {
-  background: #2196F3;
+  background: #2196f3;
 }
 .icon_mask:disabled {
-  background: #9E9E9E;
+  background: #9e9e9e;
 }
 .icon_mask.svg {
   mask-position: 50% 50%;
@@ -22,7 +22,7 @@ body {
   font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
   font-size: 13px;
   margin: 0 0 5px;
-  color: #3F51B5;
+  color: #3f51b5;
   background: #FFFFFF;
 }
 /***************** GLOBAL *****************/
@@ -60,12 +60,12 @@ body {
   padding: 0;
   position: sticky;
   top: 0;
-  background: #FFFFFF;
+  background: #ffffff;
   z-index: 1;
 }
 #mainPanel {
   width: 100%;
-  border-bottom: 1px dotted #3F51B5;
+  border-bottom: 1px dotted #3f51b5;
   padding: 5px;
   display: flex;
   flex-direction: row;
@@ -87,7 +87,7 @@ body {
   vertical-align: middle;
 }
 #mainPanel > div > span:hover {
-  color: #2196F3;
+  color: #2196f3;
 }
 #mainPanel > div > span:first-child {
   margin-left: 0;
@@ -102,7 +102,7 @@ body {
 #mainPanel #mainPanelButtonsBox .icoAndCount {
   display: inline-flex;
   align-items: center;
-  color: #9E9E9E;
+  color: #9e9e9e;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount::before {
   content: '';
@@ -112,7 +112,7 @@ body {
   -webkit-mask-size: contain;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
-  background: #9E9E9E;
+  background: #9e9e9e;
   display: inline-block;
   height: 16px;
   width: 16px;
@@ -120,16 +120,16 @@ body {
   transition: background-color 0.3s;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread {
-  color: #3F51B5;
+  color: #3f51b5;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread::before {
-  background: #3F51B5;
+  background: #3f51b5;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount:hover {
-  color: #2196F3;
+  color: #2196f3;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount:hover::before {
-  background: #2196F3;
+  background: #2196f3;
 }
 #mainPanel #mainPanelButtonsBox #panelQMS::before {
   mask-image: url("/img/message.svg");
@@ -186,22 +186,22 @@ body {
 #userLinks {
   /*display: none;*/
   width: 100%;
-  border-bottom: 1px dotted #3F51B5;
+  border-bottom: 1px dotted #3f51b5;
   padding: 0;
 }
 #userLinks span {
-  color: #3F51B5;
+  color: #3f51b5;
   cursor: pointer;
   font-size: 13px;
   margin: 5px;
   padding: 0;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px dotted #3F51B5;
+  border-bottom: 1px dotted #3f51b5;
 }
 #userLinks span:hover {
-  color: #2196F3;
-  border-color: #2196F3;
+  color: #2196f3;
+  border-color: #2196f3;
 }
 #themesList {
   z-index: 0;
@@ -211,16 +211,16 @@ body {
 }
 #themesList > .oneTheme {
   display: block;
-  border-bottom: 1px solid #EEEEFF;
+  border-bottom: 1px solid #eeeeff;
   padding: 2px 5px;
   position: relative;
   white-space: nowrap;
 }
 #themesList > .oneTheme:hover {
-  background: linear-gradient(to right, #EEEEFF 0, #EEEEFF 95%, #FFFFFF 100%);
+  background: linear-gradient(to right, #eeeeff 0, #eeeeff 95%, #ffffff 100%);
 }
 #themesList > .oneTheme .oneTheme_caption {
-  color: #3F51B5;
+  color: #3f51b5;
   font-size: 13px;
   margin: 0;
   overflow: hidden;
@@ -229,13 +229,13 @@ body {
   text-overflow: ellipsis;
 }
 #themesList > .oneTheme .oneTheme_caption:hover {
-  color: #2196F3;
+  color: #2196f3;
 }
 #themesList > .oneTheme .oneTheme_caption.oneTheme_pin {
   color: #1d967f;
 }
 #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
-  color: #43BAA3;
+  color: #43baa3;
 }
 #themesList > .oneTheme .oneTheme_markAsRead {
   height: 14px;
@@ -250,19 +250,19 @@ body {
   -webkit-mask-position: 50% 50%;
   mask-size: 14px 14px;
   -webkit-mask-size: 14px 14px;
-  background: #9E9E9E;
+  background: #9e9e9e;
   flex-shrink: 0;
 }
 #themesList > .oneTheme .oneTheme_markAsRead:hover {
-  background: #2196F3;
+  background: #2196f3;
 }
 #themesList > .oneTheme .oneTheme_markAsRead.loading {
-  background: #3F51B5;
+  background: #3f51b5;
   mask-image: url("/img/refresh.svg");
   -webkit-mask-image: url("/img/refresh.svg");
 }
 #themesList > .oneTheme.used .oneTheme_caption {
-  color: #9E9E9E;
+  color: #9e9e9e;
   text-decoration: line-through;
 }
 #themesList > .oneTheme.used .oneTheme_markAsRead {
@@ -275,7 +275,7 @@ body {
   align-items: center;
 }
 #themesList .oneThemeInfoHBox {
-  color: #9E9E9E;
+  color: #9e9e9e;
   position: relative;
   font-size: 11px;
   display: flex;
@@ -295,6 +295,6 @@ body {
   flex-grow: 1;
 }
 #themesList .oneThemeInfoHBox > .oneTheme_lastPost:hover {
-  color: #2196F3;
+  color: #2196f3;
 }
 /*# sourceMappingURL=popup.css.map */
