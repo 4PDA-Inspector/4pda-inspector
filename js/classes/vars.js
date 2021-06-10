@@ -36,10 +36,10 @@ inspector4pda.vars = {
 	_base_url: undefined,
 	CHECK_URLS: ['https://4pda.to', 'https://4pda.ru'],
 
-	init: function(callback) {
+	init: function() {
 		let self = this;
 		this.checkUrls([...this.CHECK_URLS], function () {
-			self.resetStorage(callback);
+			self.resetStorage(inspector4pda.cScript.init);
 		});
 	},
 

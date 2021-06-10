@@ -462,6 +462,4 @@ inspector4pda.cScript = {
 	}
 };
 
-inspector4pda.vars.init(function() {
-	inspector4pda.cScript.init();
-});
+inspector4pda.vars.init();
