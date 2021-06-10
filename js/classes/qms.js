@@ -4,8 +4,12 @@ inspector4pda.QMS = {
         messages: 0,
         dialogs: 0
     },
-    rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=qms',
-    vUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=qms',
+    get rUrl() {
+        return inspector4pda.vars.doForumURL('act=inspector&CODE=qms')
+    },
+    get vUrl() {
+        return inspector4pda.vars.doForumURL('act=qms')
+    },
     list: {},
 
     request: function(callback) {
@@ -52,7 +56,7 @@ inspector4pda.QMS = {
 
     openChat: function(dialogID, themeID, setActive) {
         inspector4pda.utils.openPage(
-            inspector4pda.vars.BASE_URL + '/forum/index.php?act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : ''),
+            inspector4pda.vars.doForumURL('act=qms&mid=' + dialogID + (themeID ? '&t=' + themeID : '')),
             setActive,
             function() {
                 if (themeID) {

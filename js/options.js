@@ -1,3 +1,4 @@
+//todo regexp by base_url
 const urlRegexp = /^(https?:\/\/)4pda\.to([\/\w\.-\?\=\&\#]*)*\/?$/;
 options = {
     bg: null,

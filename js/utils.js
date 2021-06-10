@@ -68,7 +68,7 @@ inspector4pda.utils = {
 			string = '' + string;
 		}
 
-		var codes = string.match(/&#(\d+);/g);
+		let codes = string.match(/&#(\d+);/g);
 		if (codes) {
 			for (let i = 0; i < codes.length; i++) {
 				let code = codes[i].match(/\d+/g);

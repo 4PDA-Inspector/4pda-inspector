@@ -16,18 +16,18 @@ popup = {
 		body: null
 	},
 
-	urls: {
-		login: inspector4pda.vars.BASE_URL + '/forum/index.php?act=login'
+	get url_login() {
+		return this.bg.vars.doForumURL('act=login');
 	},
 
 	bg: null,
 
 	init: function() {
-		var self = this;
+		let self = this;
 		this.bg = chrome.extension.getBackgroundPage().inspector4pda;
 
 		if (!this.bg.user.id) {
-			this.bg.utils.openPage(this.urls.login, true);
+			this.bg.utils.openPage(this.url_login, true);
 			window.close();
 			return false;
 		}

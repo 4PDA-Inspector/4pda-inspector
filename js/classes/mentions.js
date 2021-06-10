@@ -1,7 +1,11 @@
 inspector4pda.mentions = {
     count: 0,
-    rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=mentions',
-    vUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=mentions',
+    get rUrl() {
+        return inspector4pda.vars.doForumURL('act=inspector&CODE=mentions')
+    },
+    get vUrl() {
+        return inspector4pda.vars.doForumURL('act=mentions')
+    },
     list: {},
 
     request: function(callback) {
@@ -17,10 +21,6 @@ inspector4pda.mentions = {
 
     parse: function(text) {
         inspector4pda.mentions.count = parseInt(text);
-    },
-
-    getCount: function() {
-        return this.count;
     },
 
     openPage: function () {

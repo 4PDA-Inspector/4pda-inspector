@@ -206,7 +206,7 @@ inspector4pda.browser = {
 
     getCookie: function(cookieName, callback) {
         chrome.cookies.get({
-            url: inspector4pda.vars.BASE_URL + '/forum',
+            url: inspector4pda.vars.doForumURL(),
             name: cookieName
         }, function(cookie) {
             if (cookie) {

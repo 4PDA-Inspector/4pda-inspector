@@ -1,8 +1,11 @@
 inspector4pda.user = {
-    rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=id',
     id: 0,
     name: '',
     appUrl: '',
+
+    get rUrl() {
+        return inspector4pda.vars.doForumURL('act=inspector&CODE=id')
+    },
 
     getCookieId: function(callback) {
         inspector4pda.browser.getCookie('member_id', function(uid) {
@@ -64,6 +67,6 @@ inspector4pda.user = {
 
     open: function(id) {
         id = id || inspector4pda.user.id;
-        inspector4pda.utils.openPage(inspector4pda.vars.BASE_URL + '/forum/index.php?showuser=' + id, true);
+        inspector4pda.utils.openPage(inspector4pda.vars.doForumURL('showuser=' + id), true);
     }
 };

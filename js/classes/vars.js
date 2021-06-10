@@ -33,14 +33,52 @@ inspector4pda.vars = {
 		build: '0'
 	},
 
-	BASE_URL: 'https://4pda.to',
+	_base_url: undefined,
+	CHECK_URLS: ['https://4pda.to', 'https://4pda.ru'],
 
 	init: function(callback) {
-		this.resetStorage(callback);
+		let self = this;
+		this.checkUrls([...this.CHECK_URLS], function () {
+			self.resetStorage(callback);
+		});
+	},
+
+	get BASE_URL() {
+		if (this._base_url == undefined) {
+			throw 'Empty BASE_URL'
+		}
+		return this._base_url
+	},
+
+	checkUrls: function (list, callback) {
+		let self = this,
+			url = list.shift()
+		if (url) {
+			let req = new XMLHttpRequest();
+			req.timeout = 1000;
+			console.log('Check URL:', url);
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					if (req.status == 200) {
+						console.log(url, 'Success!')
+						self._base_url = url
+						inspector4pda.utils.callIfFunction(callback)
+					} else {
+						console.warn(url, req.status, 'not success')
+						self.checkUrls(list, callback)
+					}
+				}
+			}
+			req.open("GET", url, true);
+			req.send();
+		} else {
+			console.error('URLS: nothing available')
+			inspector4pda.cScript.printLogout(true)
+		}
 	},
 
 	resetStorage: function(callback) {
-		var self = this;
+		let self = this;
 		chrome.storage.local.get(null, function(items) {
 			for (let i in items) {
 				self.setValue(i, items[i]);
@@ -98,7 +136,7 @@ inspector4pda.vars = {
 		return this.data;
 	},
 
-	doURL: function(path) {
-		return inspector4pda.vars.BASE_URL + (path ? '/' + path : '');
+	doForumURL: function(params, loFi = false) {
+		return this.BASE_URL + (loFi ? '/forum/lofiversion/index.php' : '/forum/index.php') + (params ? '?' + params : '');
 	}
 };

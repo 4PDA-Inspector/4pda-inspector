@@ -1,6 +1,11 @@
 inspector4pda.themes = {
-	rUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=inspector&CODE=fav',
-	vUrl: inspector4pda.vars.BASE_URL + '/forum/index.php?act=fav',
+
+	get rUrl() {
+		return inspector4pda.vars.doForumURL('act=inspector&CODE=fav')
+	},
+	get vUrl() {
+		return inspector4pda.vars.doForumURL('act=fav')
+	},
 	list: {},
 
 	clear: function() {
@@ -43,7 +48,7 @@ inspector4pda.themes = {
 				callback(title, id, theme);
 			}
 		};
-		xmr.send(inspector4pda.vars.BASE_URL + '/forum/lofiversion/index.php?t' + id + '-0.html');
+		xmr.send(inspector4pda.vars.doForumURL('t' + id + '-0.html', true));
 	},
 
 	getThemesIds: function(withRead) {
@@ -111,7 +116,7 @@ inspector4pda.themes = {
 	},
 
 	open: function(id, setActive, commentId) {
-		var url = inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id;
+		var url = inspector4pda.vars.doForumURL('showtopic='+id);
 		if (commentId) {
 			url += '&view=findpost&p=' + commentId;
 		} else {
@@ -131,12 +136,12 @@ inspector4pda.themes = {
 				callback();
 			}
 		};
-		xmr.send(inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id+'&view=getlastpost');
+		xmr.send(inspector4pda.vars.doForumURL('showtopic='+id+'&view=getlastpost'));
 		inspector4pda.themes.list[id].setRead();
 	},
 
 	openLast: function(id) {
-		inspector4pda.utils.openPage(inspector4pda.vars.BASE_URL + '/forum/index.php?showtopic='+id+'&view=getlastpost');
+		inspector4pda.utils.openPage(inspector4pda.vars.doForumURL('showtopic='+id+'&view=getlastpost'));
 		inspector4pda.themes.list[id].setRead();
 	},
 
