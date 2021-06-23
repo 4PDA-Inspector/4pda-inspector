@@ -1,4 +1,5 @@
-const urlRegexp = /^(https?:\/\/)4pda\.ru([\/\w\.-\?\=\&\#]*)*\/?$/;
+//todo regexp by base_url
+const urlRegexp = /^(https?:\/\/)4pda\.to([\/\w\.-\?\=\&\#]*)*\/?$/;
 options = {
     bg: null,
     inputs: null,
@@ -114,7 +115,7 @@ options = {
     },
 
     printNotificationSoundVolume: function(value) {
-        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = (value * 100) + '%';
+        document.getElementById('inspector4pda_notificationSoundVolumeLabel').textContent = Math.round(value * 100) + '%';
     },
 
     setValue: function(name, value) {
