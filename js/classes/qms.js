@@ -34,13 +34,14 @@ inspector4pda.QMS = {
     },
 
     parse: function(text) {
+        console.debug('parse_qms')
+        let old_list = inspector4pda.QMS.list;
+
         inspector4pda.QMS.count.messages = 0;
         inspector4pda.QMS.count.dialogs = 0;
         inspector4pda.QMS.unreadCount = 0;
         inspector4pda.QMS.list = {};
-        var tText = text
-            ? text.replace('\r','').split('\n')
-            : [];
+        let tText = text ? text.replace('\r', '').split('\n') : [];
         for (let i = 0; i < tText.length; i++) {
             if (tText[i]) {
                 let dialog = new qDialog();
@@ -48,6 +49,21 @@ inspector4pda.QMS = {
                     inspector4pda.QMS.list[dialog.id] = dialog;
                     inspector4pda.QMS.count.messages += dialog.unread_msgs;
                     inspector4pda.QMS.count.dialogs++;
+
+                    if (
+                        (!(dialog.id in old_list))
+                        || (old_list[dialog.id]['last_msg_ts'] < dialog.last_msg_ts)
+                    ) {
+                        console.debug('new_dialog', dialog)
+                        inspector4pda.cScript.addNotification(
+                            dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
+                            'qms',
+                            parseInt(dialog.opponent_id) ?
+                                inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
+                                inspector4pda.cScript.systemNotificationTitle,
+                            inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
+                        );
+                    }
                 }
             }
         }
