@@ -22,7 +22,7 @@ inspector4pda.mentions = {
     parse: function(text) {
         console.debug('parse_mentions')
         let new_count = parseInt(text);
-        if (new_count != this.count) {
+        if (new_count > this.count) {
             inspector4pda.cScript.addNotification(
                 'mentions_notification',
                 inspector4pda.cScript.eventMention,
