@@ -20,7 +20,17 @@ inspector4pda.mentions = {
     },
 
     parse: function(text) {
-        inspector4pda.mentions.count = parseInt(text);
+        console.debug('parse_mentions')
+        let new_count = parseInt(text);
+        if (new_count != this.count) {
+            inspector4pda.cScript.addNotification(
+                'mentions_notification',
+                inspector4pda.cScript.eventMention,
+                'Новые упоминания',
+                ''
+            );
+        }
+        inspector4pda.mentions.count = new_count;
     },
 
     openPage: function () {

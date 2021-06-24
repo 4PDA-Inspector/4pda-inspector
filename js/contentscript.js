@@ -68,8 +68,9 @@ inspector4pda.cScript = {
 					inspector4pda.QMS.request(function() {
 						self.was_first_request = true
 						inspector4pda.cScript.printCount();
-						inspector4pda.utils.callIfFunction(callback);
-						inspector4pda.mentions.request(function() {})
+						inspector4pda.mentions.request(() => {
+							inspector4pda.utils.callIfFunction(callback);
+						});
 					})
 				})
 			} else {
@@ -414,7 +415,8 @@ inspector4pda.cScript = {
 						inspector4pda.themes.open(parseInt(tagData[2]), true);
 						break;
 					case "mention":
-						inspector4pda.themes.open(parseInt(tagData[2]), true, tagData[3]);
+						//inspector4pda.themes.open(parseInt(tagData[2]), true, tagData[3]);
+						inspector4pda.utils.openPage(inspector4pda.vars.doForumURL('act=mentions'), true);
 						break;
 				}
 				inspector4pda.cScript.printCount();
