@@ -154,82 +154,11 @@ inspector4pda.cScript = {
 					self.lastEvent = lastEvent;
 					self.updateData(finishCallback)
 				}
-
-				return;
-				var checkLastUpdate = function(key) {
-					delete inspector4pda.cScript.updatesTurn[key];
-					if (!Object.keys(inspector4pda.cScript.updatesTurn).length) {
-						finishCallback();
-					}
-				};
-
-				var updateKeys = Object.keys(inspector4pda.cScript.updatesTurn);
+				/*var updateKeys = Object.keys(inspector4pda.cScript.updatesTurn);
 				if (updateKeys.length) {
 					for (let j = 0; j < updateKeys.length; j++) {
 						let updateElement = inspector4pda.cScript.updatesTurn[updateKeys[j]];
 						switch (updateElement.type) {
-							case inspector4pda.cScript.eventTheme:
-								if (updateElement.action == 'add') {
-									inspector4pda.themes.requestTheme(updateElement, function (themesResp, themeId) {
-										if (themesResp) {
-											let theme = new themeObj();
-											if (theme.parse(themesResp)) {
-
-												if (theme.last_post_ts <= theme.last_read_ts) {
-													delete inspector4pda.themes.list[theme.id];
-												} else {
-													var isNewTheme = (!inspector4pda.themes.list[theme.id]);
-													inspector4pda.themes.list[theme.id] = theme;
-
-													if (isNewTheme) {
-														// todo checkbox "Оповещения при каждом новом комментарии"
-														if (theme.last_user_id != inspector4pda.user.id) {
-															inspector4pda.cScript.addNotification(
-																theme.id,
-																inspector4pda.cScript.eventTheme,
-																inspector4pda.utils.htmlspecialcharsdecode(theme.title),
-																inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
-															);
-														}
-													}
-												}
-											}
-										}
-										checkLastUpdate('theme' + themeId);
-									});
-								} else {
-									delete inspector4pda.themes.list[updateElement.id];
-									checkLastUpdate(updateKeys[j]);
-								}
-								break;
-							case 'QMS':
-								if (updateElement.action == 'add') {
-									inspector4pda.QMS.requestDialog(updateElement.id, function (resp, dialogId) {
-										if (resp) {
-											var dialog = new qDialog();
-											if (dialog.parse(resp)) {
-												if (dialog.unread_msgs > 0) {
-													inspector4pda.QMS.list[dialog.id] = dialog;
-													inspector4pda.cScript.addNotification(
-														dialog.opponent_id + '_' + dialog.id + '_' + dialog.last_msg_ts,
-														'qms',
-														parseInt(dialog.opponent_id) ?
-															inspector4pda.utils.htmlspecialcharsdecode(dialog.opponent_name) :
-															inspector4pda.cScript.systemNotificationTitle,
-														inspector4pda.utils.htmlspecialcharsdecode(dialog.title) + ' (' + dialog.unread_msgs + ')'
-													);
-												} else {
-													delete inspector4pda.QMS.list[dialog.id];
-												}
-											}
-										}
-										checkLastUpdate('QMS' + dialogId);
-									});
-								} else {
-									delete inspector4pda.QMS.list[updateElement.id];
-									checkLastUpdate(updateKeys[j]);
-								}
-								break;
 							case inspector4pda.cScript.eventMention:
 								if (updateElement.action == 'add') {
 
@@ -276,9 +205,7 @@ inspector4pda.cScript = {
 								break;
 						}
 					}
-				} else {
-					finishCallback();
-				}
+				}*/
 			} else {
 				finishCallback();
 			}
