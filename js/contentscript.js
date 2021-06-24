@@ -145,12 +145,9 @@ inspector4pda.cScript = {
 			var responseText = resp.responseText;
 			if (responseText) {
 				let lastEvent = inspector4pda.utils.appParseLastEvent(responseText);
-				console.log('---');
-				console.log(lastEvent);
-				console.log(self.lastEvent)
 
 				if (lastEvent && (inspector4pda.cScript.lastEvent != lastEvent)) {
-					console.log('has_updates')
+					console.debug('has_updates')
 					self.lastEvent = lastEvent;
 					self.updateData(finishCallback)
 				}
