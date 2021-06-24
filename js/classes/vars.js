@@ -35,6 +35,7 @@ inspector4pda.vars = {
 
 	_base_url: undefined,
 	CHECK_URLS: ['https://4pda.to', 'https://4pda.ru'],
+	CHECK_URLS2: ['https://appbk.4pda.to', 'https://app.4pda.ru'],
 
 	init: function() {
 		let self = this;

@@ -86,14 +86,30 @@ inspector4pda.themes = {
 	},
 
 	parse: function(text) {
-		inspector4pda.themes.list = {};
-		var tText = text.replace('\r','').split('\n');
+		console.debug('parse_themes')
+		let tText = text.replace('\r', '').split('\n'),
+			old_list = inspector4pda.themes.list;
+		inspector4pda.themes.list = {}
 
 		for (let i = 0; i < tText.length; i++) {
 			if (tText[i]) {
 				let theme = new themeObj();
 				if (theme.parse(tText[i])) {
 					inspector4pda.themes.list[theme.id] = theme;
+					if (
+						(!(theme.id in old_list))
+						|| (old_list[theme.id]['last_post_ts'] < theme.last_post_ts)
+					) {
+						console.debug('new_theme', theme)
+						if (theme.last_user_id != inspector4pda.user.id) {
+							inspector4pda.cScript.addNotification(
+								theme.id,
+								inspector4pda.cScript.eventTheme,
+								inspector4pda.utils.htmlspecialcharsdecode(theme.title),
+								inspector4pda.utils.htmlspecialcharsdecode(theme.last_user_name)
+							);
+						}
+					}
 				}
 			}
 		}

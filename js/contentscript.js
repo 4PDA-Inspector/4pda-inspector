@@ -14,6 +14,7 @@ inspector4pda.cScript = {
 	lastRequest: 0,
 	criticalBreak: 300000, //5 minutes
 
+	was_first_request: false,
 	updatesTurn: {},
 
 	init: function() {
@@ -36,31 +37,15 @@ inspector4pda.cScript = {
 	},
 
 	firstRequest: function(callback) {
-		var interval = inspector4pda.vars.data.interval * 1000;
+		var interval = inspector4pda.vars.data.interval * 1000,
+			self = this;
 
+		self.was_first_request = false
 		clearTimeout(inspector4pda.cScript.updateTimer);
 
-		inspector4pda.user.getCookieId(function(uid){
+		inspector4pda.user.getCookieId(function(uid) {
 			if (uid) {
-				inspector4pda.user.request(function() {
-					if (inspector4pda.user.id) {
-						inspector4pda.themes.request(function() {
-							inspector4pda.QMS.request(function() {
-								inspector4pda.cScript.printCount();
-								inspector4pda.utils.callIfFunction(callback);
-								inspector4pda.mentions.request(function() {})
-							})
-						})
-					} else {
-						inspector4pda.cScript.printCount();
-						inspector4pda.cScript.clearData();
-						inspector4pda.utils.callIfFunction(callback);
-					}
-				}, function() {
-					inspector4pda.cScript.clearData();
-					inspector4pda.cScript.printLogout(true);
-					inspector4pda.utils.callIfFunction(callback);
-				});
+				self.updateData(callback)
 			} else {
 				interval = 2000;
 				inspector4pda.cScript.printLogout();
@@ -71,6 +56,31 @@ inspector4pda.cScript = {
 				inspector4pda.cScript.lastRequest = inspector4pda.utils.now();
 				inspector4pda.cScript.request();
 			}, interval);
+		});
+	},
+
+	updateData: function (callback) {
+		let self = this;
+		console.debug('update_data')
+		inspector4pda.user.request(function() {
+			if (inspector4pda.user.id) {
+				inspector4pda.themes.request(function() {
+					inspector4pda.QMS.request(function() {
+						self.was_first_request = true
+						inspector4pda.cScript.printCount();
+						inspector4pda.utils.callIfFunction(callback);
+						inspector4pda.mentions.request(function() {})
+					})
+				})
+			} else {
+				inspector4pda.cScript.printCount();
+				inspector4pda.cScript.clearData();
+				inspector4pda.utils.callIfFunction(callback);
+			}
+		}, function() {
+			inspector4pda.cScript.clearData();
+			inspector4pda.cScript.printLogout(true);
+			inspector4pda.utils.callIfFunction(callback);
 		});
 	},
 
@@ -103,20 +113,21 @@ inspector4pda.cScript = {
 	},
 
 	checkUpdates: function(callback) {
+		console.debug('check_updates', new Date())
 
-		var finishCallback = function(){
-			inspector4pda.cScript.printCount();
-			inspector4pda.cScript.checkNotifications();
-			inspector4pda.utils.callIfFunction(callback);
-		};
+		let self = this,
+			xmr = new inspector4pda.XHR(),
+			finishCallback = function() {
+				inspector4pda.cScript.printCount();
+				inspector4pda.cScript.checkNotifications();
+				inspector4pda.utils.callIfFunction(callback);
+			},
+			unavailableFinishCallback = function() {
+				inspector4pda.cScript.clearData();
+				inspector4pda.cScript.printLogout(true);
+				inspector4pda.utils.callIfFunction(callback);
+			};
 
-		var unavailableFinishCallback = function() {
-			inspector4pda.cScript.clearData();
-			inspector4pda.cScript.printLogout(true);
-			inspector4pda.utils.callIfFunction(callback);
-		};
-
-		var xmr = new inspector4pda.XHR();
 		xmr.callback.timeout = function() {
 			console.warn('XHR Timeout');
 			unavailableFinishCallback();
@@ -132,67 +143,18 @@ inspector4pda.cScript = {
 		xmr.callback.success = function(resp) {
 			var responseText = resp.responseText;
 			if (responseText) {
-				let parsed = inspector4pda.utils.appParse(responseText);
-				//console.log(parsed);
+				let lastEvent = inspector4pda.utils.appParseLastEvent(responseText);
+				console.log('---');
+				console.log(lastEvent);
+				console.log(self.lastEvent)
 
-				if (parsed.lastEvent) {
-					inspector4pda.cScript.lastEvent = parsed.lastEvent;
-				}
-				let updates = parsed.events,
-					clearAllThemes = false;
-
-				for (let i = 0; i < updates.length; i++) {
-
-					let currentUpdate = updates[i],
-						id = parseInt(currentUpdate[0].substr(1)),
-						action = 'add';
-					switch (currentUpdate[1]) {
-						case 2:
-							action = 'delete';
-							break;
-						/*case 3:
-							action = 'mention';
-							break;*/
-					}
-
-					switch (currentUpdate[0].substr(0,1)) {
-						case 't':
-							if (clearAllThemes) {
-								continue;
-							}
-
-							if (currentUpdate[1] == 3) {
-								inspector4pda.cScript.updatesTurn['mention' + currentUpdate[2]] = {
-									type: 'mention',
-									action: 'add',
-									id: id,
-									commentId: currentUpdate[2]
-								};
-							} else {
-								inspector4pda.cScript.updatesTurn['theme' + id] = {
-									type: 'theme',
-									action: action,
-									id: id
-								};
-							}
-							break;
-						case 'q':
-							inspector4pda.cScript.updatesTurn['QMS' + id] = {
-								type: 'QMS',
-								action: action,
-								id: id
-							};
-							break;
-						case 'f':
-							if (id === 0 && currentUpdate[1] == 3) {
-								// отметка всего форума прочитанным
-								clearAllThemes = true;
-								inspector4pda.themes.clear();
-							}
-							break;
-					}
+				if (lastEvent && (inspector4pda.cScript.lastEvent != lastEvent)) {
+					console.log('has_updates')
+					self.lastEvent = lastEvent;
+					self.updateData(finishCallback)
 				}
 
+				return;
 				var checkLastUpdate = function(key) {
 					delete inspector4pda.cScript.updatesTurn[key];
 					if (!Object.keys(inspector4pda.cScript.updatesTurn).length) {
@@ -320,7 +282,8 @@ inspector4pda.cScript = {
 				finishCallback();
 			}
 		};
-		xmr.send('https://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
+		//xmr.send('https://app.4pda.ru/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
+		xmr.send('https://appbk.4pda.to/er/u' + inspector4pda.user.id + '/s' + inspector4pda.cScript.lastEvent);
 	},
 
 	printCount: function() {
@@ -343,9 +306,14 @@ inspector4pda.cScript = {
 	},
 
 	addNotification: function(id, type, title, message) {
+		if (!this.was_first_request) {
+			return;
+		}
 
 		var icon,
 			notificationId = "4pdainspector_" + type + '_' + id;
+
+		console.debug('new notification', notificationId)
 
 		switch (type) {
 			case this.systemNotificationErrorType:

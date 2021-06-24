@@ -62,6 +62,16 @@ inspector4pda.utils = {
 		};
 	},
 
+	appParseLastEvent: function (str) {
+		if (str) {
+			let pq = str.split(':');
+			if (pq.length >= 3) {
+				return pq[2]
+			}
+		}
+		return 0
+	},
+
 	htmlspecialcharsdecode: function (string)
 	{
 		if (typeof string != "string") {
