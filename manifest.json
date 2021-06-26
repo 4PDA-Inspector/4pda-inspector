@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "4PDA Инспектор",
+	"name": "4PDA Инспектор BETA2",
 	"version": "3.3.2.3",
 
 	"description": "Мониторинг изменений на форуме 4pda",
@@ -16,11 +16,9 @@
 		"cookies",
 		"https://4pda.ru/*",
 		"https://4pda.to/*",
-		"https://app.4pda.ru/*",
 		"notifications",
 		"storage"
 	],
-	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 
 	"browser_action": {
 		"default_title": "4PDA Инспектор",

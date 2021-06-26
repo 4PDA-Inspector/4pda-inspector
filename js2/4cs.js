@@ -2,15 +2,23 @@ class CS {
 
     bg
     vars
+    user
 
     constructor() {
+        let self = this
         console.log(new Date(), 'init CS')
         this.vars = new Vars()
         this.vars.read_storage().then(() => {
             console.log('this.vars.data', this.vars.data.interval)
 
             //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
+            self.user = new rUser()
+            self.user.init()
         })
+    }
+
+    request() {
+
     }
 }
 
@@ -44,6 +52,9 @@ class Vars {
 
         build: '0'
     }
+
+    BASE_URL = 'https://4pda.to'
+    APP_URL = 'https://appbk.4pda.to'
 
     async read_storage() {
         let self = this;
@@ -103,6 +114,98 @@ class Vars {
         // }
     }
 
+    doForumURL(params, loFi = false) {
+        return this.BASE_URL + (loFi ? '/forum/lofiversion/index.php' : '/forum/index.php') + (params ? '?' + params : '');
+    }
+
+}
+
+class rUser {
+
+    id = 0
+    COOKIE_NAME = 'member_id'
+
+    get rURL() {
+        return inspector.vars.doForumURL('act=inspector&CODE=id')
+    }
+
+    async init() {
+        let self = this
+        self.check_cookie_member_id().then(uid => {
+            console.log(uid)
+            self.request()
+        }).catch(() => {
+            console.log('no uid')
+        })
+    }
+
+    async check_cookie_member_id() {
+        let self = this
+        return new Promise((resolve, reject) => {
+            chrome.cookies.get({
+                url: inspector.vars.BASE_URL,
+                name: self.COOKIE_NAME
+            }, function(cookie) {
+                if (cookie) {
+                    return resolve(cookie.value);
+                } else {
+                    return reject()
+                }
+            });
+        })
+    }
+
+    async request() {
+        new XHR(this.rURL).send().then(resp => {
+            console.log(resp.responseText)
+        }).catch(resp => {
+            console.log('no resp')
+            console.log(resp)
+        })
+    }
+}
+
+class XHR {
+    url
+    timeoutTime = 10000
+
+    constructor(url) {
+        this.url = url
+    }
+
+    async send() {
+        let self = this
+        return new Promise((resolve, reject) => {
+            let req = new XMLHttpRequest()
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    if (req.status == 200) {
+                        //self.callback.success(req);
+                        return resolve(req);
+                    } else {
+                        //self.callback.not200Success(req);
+                        return reject(req)
+                    }
+                }
+            };
+
+            req.onerror = function () {
+                //self.callback.error();
+                return reject(req)
+            };
+
+            if (self.timeoutTime) {
+                req.timeout = self.timeoutTime;
+                req.ontimeout = function () {
+                    //self.callback.timeout();
+                    return reject(req)
+                }
+            }
+
+            req.open("GET", self.url, true);
+            req.send(null);
+        })
+    }
 }
 
 var inspector = new CS()
