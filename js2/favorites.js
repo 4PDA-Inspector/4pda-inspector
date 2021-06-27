@@ -9,20 +9,27 @@ class Favorites {
     async update_list() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
-                this.list = {}
+                let new_list = {}
                 if (resp.responseText) {
                     let lines = resp.responseText.split(/\r\n|\n/)
                     lines.forEach(line => {
                         if (line) {
                             try {
-                                let fav = new FavoriteTheme(line)
-                                this.list[fav.id] = fav
+                                let theme = new FavoriteTheme(line)
+                                new_list[theme.id] = theme
+                                if (!(theme.id in this.list)) {
+                                    console.debug('new theme', theme)
+                                } else if (this.list[theme.id]['last_post_ts'] < theme.last_post_ts) {
+                                    console.debug('new comment in theme', theme)
+                                }
                             } catch (e) {
 
                             }
                         }
                     })
                 }
+                this.list = new_list
+                //console.debug(this.list)
                 return resolve()
             }).catch(resp => {
                 console.log('no resp')
