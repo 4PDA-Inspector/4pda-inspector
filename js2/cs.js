@@ -12,8 +12,15 @@ class CS {
             console.log('this.vars.data', this.vars.data.interval)
 
             //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
-            self.user = new rUser()
-            self.user.init()
+            self.user = new User()
+            self.user.init().then(() => {
+                console.log('user init - OK')
+            }).catch(() => {
+                // inspector4pda.cScript.clearData();
+                // inspector4pda.cScript.printLogout(true);
+                // inspector4pda.utils.callIfFunction(callback);
+                console.log('user init - bad')
+            })
         })
     }
 
