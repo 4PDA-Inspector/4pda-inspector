@@ -11,4 +11,15 @@ class Utils {
         }
         return parsed;
     }
+
+    static app_parse_last_event(str) {
+        if (!str) {
+            return false;
+        }
+        let pq = str.split(':');
+        if (pq && pq.length === 4) {
+            return parseInt(pq[3])
+        }
+        return false
+    }
 }

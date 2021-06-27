@@ -7,6 +7,7 @@ class CS {
     qms
 
     timeout_updater = 0
+    last_event = 0
 
     constructor() {
         console.debug('init CS', new Date())
@@ -17,13 +18,17 @@ class CS {
             this.favorites = new Favorites()
             this.qms = new QMS()
 
-            this.request()
+            this.update_all_data()
         }).catch(() => {
             console.error('Can\'t init inspector')
         })
     }
 
-    request() {
+    get rURL() {
+        return this.vars.APP_URL + '/er/u' + this.user.id + '/s' + this.last_event;
+    }
+
+    update_all_data() {
         console.debug('request', new Date())
         this.user.check_user().then(() => {
             console.debug('user update - OK')
@@ -31,9 +36,7 @@ class CS {
                 console.debug('favorites update - OK')
                 this.qms.update_dialogs().then(() => {
                     console.debug('qms update - OK')
-                    this.timeout_updater = setTimeout(() => {
-                        this.request()
-                    }, this.vars.interval_ms)
+                    this.start_new_request_timeout()
                 }).catch(() => {
                     console.error('qms update - bad')
                 })
@@ -43,8 +46,56 @@ class CS {
         }).catch(() => {
             // inspector4pda.cScript.clearData();
             // inspector4pda.cScript.printLogout(true);
-            // inspector4pda.utils.callIfFunction(callback);
             console.error('user update - bad')
+        })
+    }
+
+    start_new_request_timeout() {
+        this.timeout_updater = setTimeout(() => {
+            this.check_need_update()
+        }, this.vars.interval_ms)
+    }
+
+    check_need_update() {
+        this.user.check_cookie_member_id().then(uid => {
+            if (uid) {
+                if (uid === this.user.id) {
+                    // check update
+                    this.request_last_event().then(() => {
+                        //this.start_new_request_timeout()
+                    }).catch(() => {
+                        console.debug('bad request - N/A?')
+                    })
+                } else {
+                    console.debug('new user')
+                }
+            } else {
+                console.debug('logout')
+            }
+        }).catch(() => {
+            console.debug('logout?')
+        })
+    }
+
+    async request_last_event() {
+        console.debug('request_last_event', new Date())
+        return new Promise((resolve, reject) => {
+            new XHR(this.rURL).send().then(resp => {
+                let last_event = Utils.app_parse_last_event(resp.responseText)
+                if (last_event) {
+                    console.debug('has new events')
+                    this.last_event = last_event
+                    this.update_all_data()
+                } else {
+                    console.debug('no new events')
+                    this.start_new_request_timeout()
+                }
+                return resolve()
+            }).catch(resp => {
+                console.log('app - no resp')
+                console.log(resp)
+                return reject()
+            })
         })
     }
 }

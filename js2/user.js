@@ -11,7 +11,7 @@ class User {
     async check_user() {
         return new Promise((resolve, reject) => {
             this.check_cookie_member_id().then(uid => {
-                console.log(uid)
+                console.debug('uid from cookie = ' + uid)
                 this.request().then(() => {
                     return resolve()
                 }).catch(() => {
@@ -32,7 +32,7 @@ class User {
                 name: this.COOKIE_NAME
             }, cookie => {
                 if (cookie) {
-                    return resolve(cookie.value);
+                    return resolve(parseInt(cookie.value));
                 } else {
                     return reject()
                 }
