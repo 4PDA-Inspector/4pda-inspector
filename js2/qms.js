@@ -8,20 +8,26 @@ class QMS {
     async update_dialogs() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
-                this.list = {}
+                let new_list = {}
                 if (resp.responseText) {
                     let lines = resp.responseText.split(/\r\n|\n/)
                     lines.forEach(line => {
                         if (line) {
                             try {
                                 let dialog = new Dialog(line)
-                                this.list[dialog.id] = dialog
+                                new_list[dialog.id] = dialog
+                                if (!(dialog.id in this.list)) {
+                                    console.debug('new dialog', dialog)
+                                } else if (this.list[dialog.id].last_msg_ts < dialog.last_msg_ts) {
+                                    console.debug('new message in dialog', dialog)
+                                }
                             } catch (e) {
 
                             }
                         }
                     })
                 }
+                this.list = new_list
                 return resolve()
             }).catch(resp => {
                 console.log('no resp')

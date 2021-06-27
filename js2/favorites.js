@@ -19,7 +19,7 @@ class Favorites {
                                 new_list[theme.id] = theme
                                 if (!(theme.id in this.list)) {
                                     console.debug('new theme', theme)
-                                } else if (this.list[theme.id]['last_post_ts'] < theme.last_post_ts) {
+                                } else if (this.list[theme.id].last_post_ts < theme.last_post_ts) {
                                     console.debug('new comment in theme', theme)
                                 }
                             } catch (e) {
