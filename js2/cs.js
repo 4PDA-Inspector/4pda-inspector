@@ -8,6 +8,7 @@ class CS {
 
     timeout_updater = 0
     last_event = 0
+    was_first_request = false
 
     constructor() {
         console.debug('init CS', new Date())
@@ -36,6 +37,8 @@ class CS {
                 console.debug('favorites update - OK')
                 this.qms.update_dialogs().then(() => {
                     console.debug('qms update - OK')
+                    console.debug('all updated')
+                    this.was_first_request = true
                     this.start_new_request_timeout()
                 }).catch(() => {
                     console.error('qms update - bad')
@@ -67,7 +70,9 @@ class CS {
                         console.debug('bad request - N/A?')
                     })
                 } else {
-                    console.debug('new user')
+                    console.debug('new user:' + uid)
+                    this.was_first_request = false
+                    this.update_all_data()
                 }
             } else {
                 console.debug('logout')
