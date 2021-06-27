@@ -10,7 +10,6 @@ class QMS {
             new XHR(this.rURL).send().then(resp => {
                 this.list = {}
                 if (resp.responseText) {
-                    console.log(resp.responseText)
                     let lines = resp.responseText.split(/\r\n|\n/)
                     lines.forEach(line => {
                         if (line) {

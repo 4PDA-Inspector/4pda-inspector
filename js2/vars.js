@@ -32,6 +32,10 @@ class Vars {
     BASE_URL = 'https://4pda.to'
     APP_URL = 'https://appbk.4pda.to'
 
+    get interval_ms() {
+        return this.data.interval * 1000
+    }
+
     async read_storage() {
         let self = this;
         return new Promise((resolve, reject) => {
