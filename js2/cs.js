@@ -5,6 +5,7 @@ class CS {
 
     user
     favorites
+    qms
 
     constructor() {
         let self = this
@@ -16,11 +17,19 @@ class CS {
             //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
             self.user = new User()
             self.favorites = new Favorites()
+            self.qms = new QMS()
 
             self.user.init().then(() => {
                 console.log('user init - OK')
                 self.favorites.update_list().then(() => {
                     console.log('favorites init - OK')
+                    console.log(self.favorites.list)
+                    self.qms.update_dialogs().then(() => {
+                        console.log('qms init - OK')
+                        console.log(self.qms.list)
+                    }).catch(() => {
+                        console.error('qms init - bad')
+                    })
                 }).catch(() => {
                     console.error('favorites init - bad')
                 })
