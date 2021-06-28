@@ -44,6 +44,7 @@ class CS {
                         console.debug('mentions update - OK')
                         console.debug('all updated')
                         this.was_first_request = true
+                        this.browser.action_button.print_count()
                         this.start_new_request_timeout()
                     }).catch(() => {
                         console.error('mentions update - bad')

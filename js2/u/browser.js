@@ -1,12 +1,9 @@
 class Browser {
 
+    action_button
+
     notification_sound
 
-    action_icons = {
-        default: '/icons/icon_19.png',
-        has_qms: '/icons/icon_19_qms.png',
-        logout: '/icons/icon_19_out.png'
-    }
     notification_icons = {
         default: "/icons/icon_80.png",
         qms: "/icons/icon_80_message.png",
@@ -14,13 +11,9 @@ class Browser {
         mention: "/icons/icon_80_mention.png",
         out: "/icons/icon_80_out.png",
     }
-    colors = {
-        default: [63, 81, 181, 255],
-        has_qms: [76, 175, 80, 255],
-        logout: [158, 158, 158, 255],
-    }
 
     constructor() {
+        this.action_button = new ActionButton()
         //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
         this.notification_sound = new Audio('/sound/sound3.ogg')
     }
@@ -51,5 +44,69 @@ class Browser {
                 {title: 'test2'},
             ]*/
         });
+    }
+}
+
+class ActionButton {
+
+    icons = {
+        default: '/icons/icon_19.png',
+        has_qms: '/icons/icon_19_qms.png',
+        logout: '/icons/icon_19_out.png'
+    }
+    colors = {
+        default: [63, 81, 181, 255],
+        has_qms: [76, 175, 80, 255],
+        logout: [158, 158, 158, 255],
+    }
+
+    set icon(path) {
+        chrome.browserAction.setIcon({path: path});
+    }
+    set badge_text(text) {
+        chrome.browserAction.setBadgeText({'text': String(text)}, () => {});
+    }
+    set title(text) {
+        chrome.browserAction.setTitle({'title': text.toString()}, () => {});
+    }
+    set badge_bg_color(color) {
+        chrome.browserAction.setBadgeBackgroundColor({'color': color }, () => {});
+    }
+
+    print_logout() {
+        this.badge_text = 'login'
+        this.badge_bg_color = this.colors.logout
+        this.icon = this.icons.logout
+        this.title = '4PDA - Не в сети'
+    }
+
+    print_unavailable() {
+        this.badge_text = 'N/A'
+        this.badge_bg_color = this.colors.logout
+        this.icon = this.icons.logout
+        this.title = '4PDA - Сайт недоступен'
+    }
+
+    print_count() {
+
+        if (inspector.user.id) {
+            let q_count = inspector.qms.count,
+                f_count = inspector.favorites.count
+
+            if (q_count) {
+                this.icon = this.icons.has_qms
+                this.badge_bg_color = this.colors.has_qms
+            } else {
+                this.icon = this.icons.default
+                this.badge_bg_color = this.colors.default
+            }
+
+            this.badge_text = f_count || ''
+            this.title = `4PDA - В сети\nНепрочитанных тем: ${f_count}\nНепрочитанных диалогов: ${q_count}`
+
+        } else {
+            this.print_logout()
+        }
+
     }
 }
