@@ -6,6 +6,7 @@ class CS {
     user
     favorites
     qms
+    mentions
 
     timeout_updater = 0
     last_event = 0
@@ -19,6 +20,7 @@ class CS {
             this.user = new User()
             this.favorites = new Favorites()
             this.qms = new QMS()
+            this.mentions = new Mentions()
 
             this.update_all_data()
         }).catch(() => {
@@ -38,9 +40,14 @@ class CS {
                 console.debug('favorites update - OK')
                 this.qms.update_dialogs().then(() => {
                     console.debug('qms update - OK')
-                    console.debug('all updated')
-                    this.was_first_request = true
-                    this.start_new_request_timeout()
+                    this.mentions.update_count().then(() => {
+                        console.debug('mentions update - OK')
+                        console.debug('all updated')
+                        this.was_first_request = true
+                        this.start_new_request_timeout()
+                    }).catch(() => {
+                        console.error('mentions update - bad')
+                    })
                 }).catch(() => {
                     console.error('qms update - bad')
                 })
