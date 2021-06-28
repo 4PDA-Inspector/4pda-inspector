@@ -5,6 +5,10 @@ class QMS {
         return inspector.vars.doForumURL('act=inspector&CODE=qms')
     }
 
+    get count() {
+        return Object.keys(this.list).length
+    }
+
     async update_dialogs() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {

@@ -6,6 +6,20 @@ class Favorites {
         return inspector.vars.doForumURL('act=inspector&CODE=fav')
     }
 
+    get count() {
+        return Object.keys(this.list).length
+    }
+
+    get pin_count() {
+        let count = 0
+        for (let theme_id in this.list) {
+            if (this.list[theme_id].pin) {
+                count++
+            }
+        }
+        return count
+    }
+
     async update_list() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
