@@ -1,4 +1,4 @@
-class options {
+new class {
 
     //todo regexp by base_url
     url_regexp = /^(https?:\/\/)4pda\.to([\/\w\.-\?\=\&\#]*)*\/?$/
@@ -176,4 +176,3 @@ class options {
     }
 
 }
-new options;

@@ -26,4 +26,10 @@ class Utils {
     static now() {
         return new Date().getTime();
     }
+
+    static decode_special_chars(string) {
+        let txt = document.createElement("textarea");
+        txt.innerHTML = string;
+        return txt.value
+    }
 }

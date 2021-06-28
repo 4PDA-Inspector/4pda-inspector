@@ -47,12 +47,8 @@ class Browser {
             //eventTime: Utils.now() - 3600,
             //contextMessage: 'context',
             /*buttons: [
-                {
-                    title: 'test1'
-                },
-                {
-                    title: 'test2'
-                },
+                {title: 'test1'},
+                {title: 'test2'},
             ]*/
         });
     }

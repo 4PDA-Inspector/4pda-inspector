@@ -46,7 +46,7 @@ class User {
                 let res = Utils.parse(resp.responseText)
                 if (res && res.length == 2) {
                     this.id = parseInt(res[0])
-                    this.name = res[1]
+                    this.name = Utils.decode_special_chars(res[1])
                     return resolve()
                 }
                 return reject()
