@@ -21,9 +21,10 @@ class QMS {
                                 let dialog = new Dialog(line)
                                 new_list[dialog.id] = dialog
                                 if (!(dialog.id in this.list)) {
-                                    console.debug('new dialog', dialog)
+                                    //console.debug('new dialog', dialog)
+                                    // todo notification
                                 } else if (this.list[dialog.id].last_msg_ts < dialog.last_msg_ts) {
-                                    console.debug('new message in dialog', dialog)
+                                    //console.debug('new message in dialog', dialog)
                                 }
                             } catch (e) {
 

@@ -5,9 +5,11 @@ new class {
         username_label: null,
         themesList: null,
     }
+    vars_data
 
     constructor() {
         this.bg = chrome.extension.getBackgroundPage().inspector
+        this.vars_data = this.bg.vars.data
 
         if (!this.bg.user.id) {
             console.error('not auth')
@@ -62,18 +64,17 @@ new class {
             }
         }
 
-        let vars_data = this.bg.vars.data
-        if (vars_data.toolbar_simple_list) {
+        if (this.vars_data.toolbar_simple_list) {
             this.elements.themesList.className = 'simpleList';
         }
 
-        if (!vars_data.toolbar_openAllFavs_button) {
+        if (!this.vars_data.toolbar_openAllFavs_button) {
             this.elements.openAllLabel.classList.add('hidden');
         }
-        if (!vars_data.toolbar_openAllFavs_button || vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
+        if (!this.vars_data.toolbar_openAllFavs_button || this.vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
             this.elements.openAllPinLabel.classList.add('hidden');
         }
-        if (!vars_data.toolbar_markAllAsRead_button) {
+        if (!this.vars_data.toolbar_markAllAsRead_button) {
             this.elements.readAllLabel.classList.add('hidden');
         }
         if (this.elements.massThemesActionsBox.querySelectorAll(':not(.hidden)').length === 0) {
@@ -109,7 +110,7 @@ new class {
 
     add_theme_row(theme) {
         //todo if toolbar_simple_list
-        let tpl = document.getElementById('tpl_one_theme').cloneNode(true),
+        let tpl = document.getElementById(this.vars_data.toolbar_simple_list ? 'tpl_one_theme_simple' : 'tpl_one_theme').cloneNode(true),
             tpl_caption = tpl.querySelector('.oneTheme_caption'),
             tpl_last_user = tpl.querySelector('.oneTheme_user'),
             tpl_last_dt = tpl.querySelector('.oneTheme_lastPost'),
@@ -117,6 +118,9 @@ new class {
         tpl.removeAttribute('id')
 
         tpl_caption.textContent = theme.title
+        if (theme.pin) {
+            tpl_caption.classList.add('oneTheme_pin')
+        }
 
         read_button.addEventListener("click", (el) => {
             let current = el.target;
@@ -129,12 +133,6 @@ new class {
             }).finally(() => {
                 current.classList.remove('loading');
             })
-            /*self.bg.themes.read(theme.id, function() {
-                current.classList.remove('loading');
-                current.closest('.oneTheme').classList.add('used');
-                self.bg.cScript.printCount();
-                self.printCount();
-            });*/
         })
 
         if (tpl_last_user) {

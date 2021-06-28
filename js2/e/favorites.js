@@ -45,6 +45,7 @@ class Favorites {
                                 new_list[theme.id] = theme
                                 if (!(theme.id in this.list)) {
                                     //console.debug('new theme', theme)
+                                    // todo notification
                                 } else if (this.list[theme.id].last_post_ts < theme.last_post_ts) {
                                     //console.debug('new comment in theme', theme)
                                 }
@@ -66,7 +67,7 @@ class Favorites {
 
     delete_element(id) {
         delete this.list[id]
-        // todo update count on button
+        inspector.browser.action_button.print_count()
     }
 
 }
