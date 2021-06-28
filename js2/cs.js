@@ -1,5 +1,6 @@
 class CS {
 
+    browser
     vars
 
     user
@@ -13,8 +14,8 @@ class CS {
     constructor() {
         console.debug('init CS', new Date())
         this.vars = new Vars()
+        this.browser = new Browser()
         this.vars.read_storage().then(() => {
-            //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
             this.user = new User()
             this.favorites = new Favorites()
             this.qms = new QMS()

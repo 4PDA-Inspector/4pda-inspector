@@ -22,4 +22,8 @@ class Utils {
         }
         return false
     }
+
+    static now() {
+        return new Date().getTime();
+    }
 }

@@ -34,33 +34,36 @@ class options {
             self.print_notification_sound_volume(this.value);
         });
 
-        /*document.getElementById('notification_popup_qms').addEventListener('change', function() {
+        document.getElementById('notification_popup_qms').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.showNotification({
+                self.bg.browser.show_notification({
+                    title: "Изменение настроек",
                     message: "Оповещения о QMS успешно включены",
-                    iconUrl: self.bg.browser.notificationQMSIcon
+                    iconUrl: self.bg.browser.notification_icons.qms
                 });
             }
         });
         document.getElementById('notification_popup_themes').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.showNotification({
+                self.bg.browser.show_notification({
+                    title: "Изменение настроек",
                     message: "Оповещения о темах успешно включены",
-                    iconUrl: self.bg.browser.notificationThemeIcon
+                    iconUrl: self.bg.browser.notification_icons.theme
                 });
             }
         });
         document.getElementById('notification_popup_mentions').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.showNotification({
+                self.bg.browser.show_notification({
+                    title: "Изменение настроек",
                     message: "Оповещения об упоминаниях успешно включены",
-                    iconUrl: self.bg.browser.notificationMentionIcon
+                    iconUrl: self.bg.browser.notification_icons.mention
                 });
             }
-        });*/
-        /*document.getElementById('testNotifications').addEventListener('click', function() {
-            self.bg.browser.playNotificationSound();
-        });*/
+        });
+        document.getElementById('testNotifications').addEventListener('click', function() {
+            self.bg.browser.play_notification_sound()
+        });
         document.getElementById('addUserLink').addEventListener('click', function() {
             self.add_user_link_row();
         });
