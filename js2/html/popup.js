@@ -25,12 +25,22 @@ new class {
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {
             this.bg.user.open_page()
-            //self.checkOpenThemeHiding();
         });
 
         this.elements.qmsBox = document.getElementById('panelQMS');
+        this.elements.qmsBox.addEventListener("click", () => {
+            this.bg.qms.open_page()
+        });
+
         this.elements.favoritesBox = document.getElementById('panelFavorites');
+        this.elements.favoritesBox.addEventListener("click", () => {
+            this.bg.favorites.open_page()
+        });
+
         this.elements.mentionsBox = document.getElementById('panelMentions');
+        this.elements.mentionsBox.addEventListener("click", () => {
+            this.bg.mentions.open_page()
+        });
 
         this.elements.themesList = document.getElementById('themesList');
         this.elements.templates_block = document.getElementById('templates');

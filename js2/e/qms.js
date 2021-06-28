@@ -41,6 +41,10 @@ class QMS {
             })
         })
     }
+
+    open_page() {
+        inspector.browser.open_url(inspector.vars.doForumURL('act=qms'), true);
+    }
 }
 
 class Dialog {

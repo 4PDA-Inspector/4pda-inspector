@@ -70,6 +70,10 @@ class Favorites {
         inspector.browser.action_button.print_count()
     }
 
+    open_page() {
+        inspector.browser.open_url(inspector.vars.doForumURL('act=fav'), true);
+    }
+
 }
 
 
