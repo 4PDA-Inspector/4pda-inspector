@@ -3,6 +3,7 @@ new class {
     bg
     elements = {
         username_label: null,
+        themesList: null,
     }
 
     constructor() {
@@ -25,6 +26,7 @@ new class {
         this.elements.mentionsBox = document.getElementById('panelMentions');
 
         this.elements.themesList = document.getElementById('themesList');
+        this.elements.templates_block = document.getElementById('templates');
 
         this.elements.massThemesActionsBox = document.getElementById('massThemesActions');
         this.elements.openAllLabel = document.getElementById('panelOpenAll');
@@ -78,5 +80,71 @@ new class {
             this.elements.massThemesActionsBox.classList.add('hidden');
         }
 
+        this.print_themes()
+
+        // todo self.printUserLinks();
+    }
+
+    update_themes_count() {
+        let count = this.elements.themesList.querySelectorAll('.oneTheme:not(.used)').length
+        this.elements.favoritesBox.textContent = String(count)
+    }
+
+    print_themes() {
+        this.elements.themesList.textContent = "";
+
+        if (this.bg.favorites.count) {
+            let themes = this.bg.favorites.get_sorted_list()
+            for (let theme of themes) {
+                this.add_theme_row(theme)
+            }
+        } else {
+            // todo tpl
+            let noThemesLabel = document.createElement('div');
+            noThemesLabel.textContent = 'Непрочитанных тем нет';
+            noThemesLabel.className = 'oneTheme';
+            this.elements.themesList.appendChild(noThemesLabel);
+        }
+    }
+
+    add_theme_row(theme) {
+        //todo if toolbar_simple_list
+        let tpl = document.getElementById('tpl_one_theme').cloneNode(true),
+            tpl_caption = tpl.querySelector('.oneTheme_caption'),
+            tpl_last_user = tpl.querySelector('.oneTheme_user'),
+            tpl_last_dt = tpl.querySelector('.oneTheme_lastPost'),
+            read_button = tpl.querySelector('.oneTheme_markAsRead')
+        tpl.removeAttribute('id')
+
+        tpl_caption.textContent = theme.title
+
+        read_button.addEventListener("click", (el) => {
+            let current = el.target;
+            current.classList.add('loading');
+            theme.read().then(() => {
+                current.closest('.oneTheme').classList.add('used');
+                this.update_themes_count()
+            }).catch(() => {
+                console.error('no response')
+            }).finally(() => {
+                current.classList.remove('loading');
+            })
+            /*self.bg.themes.read(theme.id, function() {
+                current.classList.remove('loading');
+                current.closest('.oneTheme').classList.add('used');
+                self.bg.cScript.printCount();
+                self.printCount();
+            });*/
+        })
+
+        if (tpl_last_user) {
+            tpl_last_user.textContent = theme.last_user_name
+        }
+
+        if (tpl_last_dt) {
+            tpl_last_dt.textContent = theme.last_post_dt
+        }
+
+        this.elements.themesList.appendChild(tpl)
     }
 }

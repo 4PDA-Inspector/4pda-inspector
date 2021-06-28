@@ -297,4 +297,7 @@ body {
 #themesList .oneThemeInfoHBox > .oneTheme_lastPost:hover {
   color: #2196f3;
 }
+#templates {
+  display: none !important;
+}
 /*# sourceMappingURL=popup.css.map */
