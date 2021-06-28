@@ -16,6 +16,77 @@ class Browser {
         this.notifications = new Notifications()
     }
 
+    async focus_window(window) {
+        return new Promise((resolve, reject) => {
+            let upd = {
+                focused: true
+            };
+            if (window.state === "minimized") {
+                upd.state = "normal";
+            }
+            chrome.windows.update(window.id, upd, () => {
+                return resolve()
+            })
+        })
+    }
+
+    async open_url(url, set_active) {
+        if (!/\w+:\/\/.+/.test(url)) {
+            url = chrome.extension.getURL(url)
+        }
+
+        return new Promise((resolve, reject) => {
+            chrome.tabs.query({
+                url: url
+            }, (tabs) => {
+                if (tabs && tabs.length) {
+                    let current_tab = tabs[0]
+                    chrome.tabs.highlight({
+                        tabs: current_tab.index,
+                        windowId: current_tab.windowId
+                    }, (window) => {
+                        if (!window.focused) {
+                            this.focus_window(window)
+                        }
+                        return resolve()
+                    });
+                } else {
+                    if (inspector.vars.data.open_in_current_tab) {
+                        chrome.windows.getCurrent((win) => {
+                            chrome.tabs.query({
+                                windowId: win.id,
+                                active: true
+                            }, function (tabArray) {
+                                chrome.tabs.update(
+                                    tabArray[0].id, {
+                                        url: url
+                                    }, (tab) => {
+                                        return resolve()
+                                    }
+                                )
+                            });
+                        });
+                    } else {
+                        chrome.tabs.create({
+                            url: url,
+                            active: set_active
+                        }, (tab) => {
+                            return resolve()
+                        });
+                    }
+                }
+            })
+        })
+
+        /*chrome.tabs.query({
+            url: url
+        }).then((tabs) => {
+            console.log(tabs)
+        }).catch(error => {
+            console.log(error)
+        })*/
+    }
+
 }
 
 class Notifications {

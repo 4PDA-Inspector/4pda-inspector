@@ -23,6 +23,11 @@ new class {
 
     init_elements() {
         this.elements.username_label = document.getElementById('panelUsername')
+        this.elements.username_label.addEventListener("click", () => {
+            this.bg.user.open_page()
+            //self.checkOpenThemeHiding();
+        });
+
         this.elements.qmsBox = document.getElementById('panelQMS');
         this.elements.favoritesBox = document.getElementById('panelFavorites');
         this.elements.mentionsBox = document.getElementById('panelMentions');
@@ -34,6 +39,10 @@ new class {
         this.elements.openAllLabel = document.getElementById('panelOpenAll');
         this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
         this.elements.readAllLabel = document.getElementById('panelReadAll');
+
+        document.getElementById('panelSettings').addEventListener("click", () => {
+            this.bg.browser.open_url('/html/options.html', true)
+        })
     }
 
     refresh() {

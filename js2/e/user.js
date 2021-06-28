@@ -57,4 +57,8 @@ class User {
             })
         })
     }
+
+    open_page(id) {
+        inspector.browser.open_url(inspector.vars.doForumURL('showuser=' + (id || this.id)), true);
+    }
 }
