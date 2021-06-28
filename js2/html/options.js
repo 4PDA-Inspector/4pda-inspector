@@ -36,7 +36,7 @@ new class {
 
         document.getElementById('notification_popup_qms').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.show_notification({
+                self.bg.browser.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о QMS успешно включены",
                     iconUrl: self.bg.browser.notification_icons.qms
@@ -45,7 +45,7 @@ new class {
         });
         document.getElementById('notification_popup_themes').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.show_notification({
+                self.bg.browser.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о темах успешно включены",
                     iconUrl: self.bg.browser.notification_icons.theme
@@ -54,7 +54,7 @@ new class {
         });
         document.getElementById('notification_popup_mentions').addEventListener('change', function() {
             if (this.checked) {
-                self.bg.browser.show_notification({
+                self.bg.browser.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения об упоминаниях успешно включены",
                     iconUrl: self.bg.browser.notification_icons.mention
@@ -62,7 +62,7 @@ new class {
             }
         });
         document.getElementById('testNotifications').addEventListener('click', function() {
-            self.bg.browser.play_notification_sound()
+            self.bg.browser.notifications.play_sound()
         });
         document.getElementById('addUserLink').addEventListener('click', function() {
             self.add_user_link_row();
