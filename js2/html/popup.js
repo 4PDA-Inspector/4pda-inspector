@@ -149,11 +149,8 @@ new class {
                 this.add_theme_row(theme)
             }
         } else {
-            // todo tpl
-            let noThemesLabel = document.createElement('div');
-            noThemesLabel.textContent = 'Непрочитанных тем нет';
-            noThemesLabel.className = 'oneTheme';
-            this.elements.themesList.appendChild(noThemesLabel);
+            let tpl = document.getElementById('tpl_no_themes').cloneNode(true)
+            this.elements.themesList.appendChild(tpl);
         }
     }
 
