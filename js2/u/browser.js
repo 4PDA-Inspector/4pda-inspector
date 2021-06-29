@@ -97,6 +97,7 @@ class Notifications {
     }
 
     play_sound() {
+        this.notification_sound.volume = inspector.vars.data.notification_sound_volume
         this.notification_sound.play()
     }
 
