@@ -29,6 +29,7 @@ class Vars {
         build: '0'
     }
 
+    // todo check urls
     BASE_URL = 'https://4pda.to'
     APP_URL = 'https://appbk.4pda.to'
 
@@ -42,52 +43,54 @@ class Vars {
             //todo use chrome.storage.sync
             chrome.storage.local.get(null, function (items) {
                 if (chrome.runtime.lastError) {
-                    return reject(chrome.runtime.lastError);
+                    return reject(chrome.runtime.lastError)
                 }
                 for (let i in items) {
-                    self.set_value(i, items[i]);
+                    self.set_value(i, items[i], false)
                 }
-                return resolve();
+                return resolve()
             });
         })
     }
 
-    set_value(field, value) {
+    set_value(field, value, save=true) {
 
         switch (typeof this.data[field]) {
             case 'boolean':
-                value = ((value === true) || (value === 'true') || (value === 1));
-                break;
+                value = ((value === true) || (value === 'true') || (value === 1))
+                break
             case 'number':
-                value = Number(value) || 0;
-                break;
+                value = Number(value) || 0
+                break
             case 'string':
-                value = String(value);
-                break;
+                value = String(value)
+                break
             case 'undefined':
-                console.error('Set value:', field, value);
-                return false;
+                console.error('Set value:', field, value)
+                return false
         }
 
         switch (field) {
             case 'interval': // 5 sec < interval < 5 min
-                value = Math.max( value, 5);
-                value = Math.min( value, 300);
-                break;
+                value = Math.max( value, 5)
+                value = Math.min( value, 300)
+                break
             case 'toolbar_width':
-                value = Math.max( value, 400);
-                value = Math.min( value, 800);
-                break;
+                value = Math.max( value, 400)
+                value = Math.min( value, 800)
+                break
             case 'open_themes_limit':
-                value = Math.max( value, 0);
-                break;
+                value = Math.max( value, 0)
+                break
         }
 
-        this.data[field] = value;
+        this.data[field] = value
 
-        chrome.storage.local.set({
-            [field]: value
-        });
+        if (save) {
+            chrome.storage.local.set({
+                [field]: value
+            });
+        }
 
         // if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
         //     inspector4pda.cScript.request();
