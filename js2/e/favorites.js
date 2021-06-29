@@ -132,8 +132,14 @@ class FavoriteTheme {
     }
 
     async open_new_post(set_active) {
+        return this._open_post(this.URL_new_post, set_active)
+    }
+    async open_last_post(set_active) {
+        return this._open_post(this.URL_last_post, set_active)
+    }
+    async _open_post(url, set_active) {
         return new Promise((resolve, reject) => {
-            inspector.browser.open_url(this.URL_new_post, set_active).then(() => {
+            inspector.browser.open_url(url, set_active).then(() => {
                 this.destroy()
                 return resolve()
             })

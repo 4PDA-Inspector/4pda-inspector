@@ -187,6 +187,12 @@ new class {
         if (theme.pin) {
             tpl_caption.classList.add('oneTheme_pin')
         }
+        tpl_caption.addEventListener("click", () => {
+            theme.open_new_post().then(() => {
+                tpl.classList.add(CLASS_THEME_USED)
+                this.update_themes_count()
+            })
+        })
 
         read_button.addEventListener("click", (el) => {
             let current = el.target;
@@ -205,6 +211,12 @@ new class {
 
         if (tpl_last_dt) {
             tpl_last_dt.textContent = theme.last_post_dt
+            tpl_last_dt.addEventListener("click", () => {
+                theme.open_last_post().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                })
+            })
         }
 
         this.elements.themesList.appendChild(tpl)
