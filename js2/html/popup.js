@@ -1,5 +1,6 @@
 const CLASS_THEME_USED = 'used'
 const CLASS_HAS_UNREAD = 'hasUnread'
+const CLASS_LOADING = 'loading'
 
 
 new class {
@@ -79,8 +80,15 @@ new class {
             this.bg.browser.open_url('/html/options.html', true).then()
         })
 
-        // todo
-        // this.elements.manualRefresh = document.getElementById('panelRefresh');
+        document.getElementById('panelRefresh').addEventListener('click', (event) => {
+            let element = event.target
+            element.classList.add(CLASS_LOADING)
+            this.bg.update_all_data().then(() => {
+                this.refresh()
+            }).finally(() => {
+                element.classList.remove(CLASS_LOADING)
+            })
+        })
     }
 
     refresh() {

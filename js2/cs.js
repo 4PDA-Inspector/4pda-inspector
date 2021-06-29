@@ -24,7 +24,9 @@ class CS {
             this.qms = new QMS()
             this.mentions = new Mentions()
 
-            this.update_all_data()
+            this.update_all_data().catch(() => {
+                console.error('Can\'t update data')
+            })
         }).catch(() => {
             console.error('Can\'t init inspector')
         })
@@ -34,37 +36,45 @@ class CS {
         return this.vars.APP_URL + '/er/u' + this.user.id + '/s' + this.last_event;
     }
 
-    update_all_data() {
+    async update_all_data() {
         console.debug('request', new Date())
-        this.user.check_user().then(() => {
-            console.debug('user update - OK')
-            this.favorites.update_list().then(() => {
-                console.debug('favorites update - OK')
-                this.qms.update_dialogs().then(() => {
-                    console.debug('qms update - OK')
-                    this.mentions.update_count().then(() => {
-                        console.debug('mentions update - OK')
-                        console.debug('all updated')
-                        this.was_first_request = true
-                        this.browser.action_button.print_count()
-                        this.start_new_request_timeout()
+        return new Promise((resolve, reject) => {
+            this.user.check_user().then(() => {
+                console.debug('user update - OK')
+                this.favorites.update_list().then(() => {
+                    console.debug('favorites update - OK')
+                    this.qms.update_dialogs().then(() => {
+                        console.debug('qms update - OK')
+                        this.mentions.update_count().then(() => {
+                            console.debug('mentions update - OK')
+                            console.debug('all updated')
+                            this.was_first_request = true
+                            this.browser.action_button.print_count()
+                            this.start_new_request_timeout()
+                            return resolve()
+                        }).catch(() => {
+                            console.error('mentions update - bad')
+                            return reject()
+                        })
                     }).catch(() => {
-                        console.error('mentions update - bad')
+                        console.error('qms update - bad')
+                        return reject()
                     })
                 }).catch(() => {
-                    console.error('qms update - bad')
+                    console.error('favorites update - bad')
+                    return reject()
                 })
             }).catch(() => {
-                console.error('favorites update - bad')
+                // inspector4pda.cScript.clearData();
+                // inspector4pda.cScript.printLogout(true);
+                console.error('user update - bad')
+                return reject()
             })
-        }).catch(() => {
-            // inspector4pda.cScript.clearData();
-            // inspector4pda.cScript.printLogout(true);
-            console.error('user update - bad')
         })
     }
 
     start_new_request_timeout() {
+        clearTimeout(this.timeout_updater)
         this.timeout_updater = setTimeout(() => {
             this.check_need_update()
         }, this.vars.interval_ms)
@@ -83,7 +93,9 @@ class CS {
                 } else {
                     console.debug('new user:' + uid)
                     this.was_first_request = false
-                    this.update_all_data()
+                    this.update_all_data().catch(() => {
+                        console.error('Can\'t update data')
+                    })
                 }
             } else {
                 console.debug('logout')
@@ -101,7 +113,9 @@ class CS {
                 if (last_event) {
                     console.debug('has new events')
                     this.last_event = last_event
-                    this.update_all_data()
+                    this.update_all_data().catch(() => {
+                        console.error('Can\'t update data')
+                    })
                 } else {
                     console.debug('no new events')
                     this.start_new_request_timeout()

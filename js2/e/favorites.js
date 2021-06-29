@@ -147,7 +147,7 @@ class FavoriteTheme {
     }
 
     destroy() {
-        delete inspector.favorites.delete_element(this.id)
+        inspector.favorites.delete_element(this.id)
     }
 
 }
