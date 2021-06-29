@@ -173,10 +173,13 @@ body {
 }
 
 #userLinks {
-	/*display: none;*/
 	width: 100%;
 	border-bottom: 1px dotted @color_base;
 	padding: 0;
+
+	&:empty {
+		display: none;
+	}
 
 	span {
 		color: @color_base;

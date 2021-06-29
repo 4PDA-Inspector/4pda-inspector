@@ -1,6 +1,7 @@
 const CLASS_THEME_USED = 'used'
 const CLASS_HAS_UNREAD = 'hasUnread'
 const CLASS_LOADING = 'loading'
+const CLASS_HIDDEN = 'hidden'
 
 
 new class {
@@ -123,16 +124,16 @@ new class {
         }
 
         if (!this.vars_data.toolbar_openAllFavs_button) {
-            this.elements.openAllLabel.classList.add('hidden');
+            this.elements.openAllLabel.classList.add(CLASS_HIDDEN);
         }
         if (!this.vars_data.toolbar_openAllFavs_button || this.vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
-            this.elements.openAllPinLabel.classList.add('hidden');
+            this.elements.openAllPinLabel.classList.add(CLASS_HIDDEN);
         }
         if (!this.vars_data.toolbar_markAllAsRead_button) {
-            this.elements.readAllLabel.classList.add('hidden');
+            this.elements.readAllLabel.classList.add(CLASS_HIDDEN);
         }
         if (this.elements.massThemesActionsBox.querySelectorAll(':not(.hidden)').length === 0) {
-            this.elements.massThemesActionsBox.classList.add('hidden');
+            this.elements.massThemesActionsBox.classList.add(CLASS_HIDDEN);
         }
 
         this.print_themes()
@@ -183,7 +184,6 @@ new class {
     }
 
     add_theme_row(theme) {
-        //todo if toolbar_simple_list
         let tpl = document.getElementById(this.vars_data.toolbar_simple_list ? 'tpl_one_theme_simple' : 'tpl_one_theme').cloneNode(true),
             tpl_caption = tpl.querySelector('.oneTheme_caption'),
             tpl_last_user = tpl.querySelector('.oneTheme_user'),
@@ -204,12 +204,12 @@ new class {
 
         read_button.addEventListener("click", (el) => {
             let current = el.target;
-            current.classList.add('loading');
+            current.classList.add(CLASS_LOADING);
             theme.read().then(() => {
                 current.closest('.oneTheme').classList.add('used');
                 this.update_themes_count()
             }).finally(() => {
-                current.classList.remove('loading');
+                current.classList.remove(CLASS_LOADING);
             })
         })
 

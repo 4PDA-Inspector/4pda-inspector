@@ -184,10 +184,12 @@ body {
   margin: -4px 5px 0 0;
 }
 #userLinks {
-  /*display: none;*/
   width: 100%;
   border-bottom: 1px dotted #3f51b5;
   padding: 0;
+}
+#userLinks:empty {
+  display: none;
 }
 #userLinks span {
   color: #3f51b5;
