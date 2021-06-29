@@ -23,6 +23,6 @@ class Mentions {
     }
 
     open_page() {
-        inspector.browser.open_url(inspector.vars.doForumURL('act=mentions'), true);
+        inspector.browser.open_url(inspector.vars.doForumURL('act=mentions'), true).then();
     }
 }

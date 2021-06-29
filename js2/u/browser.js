@@ -48,7 +48,7 @@ class Browser {
                         if (!window.focused) {
                             this.focus_window(window)
                         }
-                        return resolve()
+                        return resolve(current_tab)
                     });
                 } else {
                     if (inspector.vars.data.open_in_current_tab) {
@@ -61,7 +61,7 @@ class Browser {
                                     tabArray[0].id, {
                                         url: url
                                     }, (tab) => {
-                                        return resolve()
+                                        return resolve(tab)
                                     }
                                 )
                             });
@@ -71,7 +71,7 @@ class Browser {
                             url: url,
                             active: set_active
                         }, (tab) => {
-                            return resolve()
+                            return resolve(tab)
                         });
                     }
                 }

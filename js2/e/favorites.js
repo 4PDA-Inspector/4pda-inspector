@@ -71,7 +71,7 @@ class Favorites {
     }
 
     open_page() {
-        inspector.browser.open_url(inspector.vars.doForumURL('act=fav'), true);
+        inspector.browser.open_url(inspector.vars.doForumURL('act=fav'), true).then();
     }
 
 }
@@ -112,7 +112,7 @@ class FavoriteTheme {
 
     async read() {
         return new Promise((resolve, reject) => {
-            new XHR(this.URL_last_post).send().then(resp => {
+            new XHR(this.URL_last_post).send().then(() => {
                 this.destroy()
                 return resolve()
             }).catch(resp => {

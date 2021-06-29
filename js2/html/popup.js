@@ -51,7 +51,7 @@ new class {
         this.elements.readAllLabel = document.getElementById('panelReadAll');
 
         document.getElementById('panelSettings').addEventListener("click", () => {
-            this.bg.browser.open_url('/html/options.html', true)
+            this.bg.browser.open_url('/html/options.html', true).then()
         })
     }
 

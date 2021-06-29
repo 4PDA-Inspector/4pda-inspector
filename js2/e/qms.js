@@ -43,7 +43,7 @@ class QMS {
     }
 
     open_page() {
-        inspector.browser.open_url(inspector.vars.doForumURL('act=qms'), true);
+        inspector.browser.open_url(inspector.vars.doForumURL('act=qms'), true).then();
     }
 }
 
@@ -59,7 +59,7 @@ class Dialog {
     // read = false
 
     constructor(text_line) {
-        var obj = Utils.parse(text_line);
+        let obj = Utils.parse(text_line);
 
         this.id = obj[0];
         this.title = obj[1];
