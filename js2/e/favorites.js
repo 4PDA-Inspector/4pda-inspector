@@ -91,12 +91,6 @@ class Favorites {
         }
     }
 
-    read_all() {
-        for (let theme_id in this.list) {
-            this.list[theme_id].read()
-        }
-    }
-
 }
 
 

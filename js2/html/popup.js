@@ -1,3 +1,7 @@
+const CLASS_THEME_USED = 'used'
+const CLASS_HAS_UNREAD = 'hasUnread'
+
+
 new class {
 
     bg
@@ -62,7 +66,13 @@ new class {
         })
         this.elements.readAllLabel = document.getElementById('panelReadAll');
         this.elements.readAllLabel.addEventListener("click", () => {
-            this.bg.favorites.read_all()
+            for (let theme_id in this.bg.favorites.list) {
+                let row = document.getElementById('theme_' + theme_id)
+                this.bg.favorites.list[theme_id].read().then(() => {
+                    row.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                })
+            }
         })
 
         document.getElementById('panelSettings').addEventListener("click", () => {
@@ -76,7 +86,6 @@ new class {
     refresh() {
         this.elements.username_label.textContent = this.bg.user.name
 
-        const class_has_unread = 'hasUnread';
         let countBlocks = [
             [
                 this.elements.qmsBox,
@@ -95,9 +104,9 @@ new class {
                 count = c_block[1];
             block.textContent = count;
             if (count) {
-                block.classList.add(class_has_unread);
+                block.classList.add(CLASS_HAS_UNREAD);
             } else {
-                block.classList.remove(class_has_unread);
+                block.classList.remove(CLASS_HAS_UNREAD);
             }
         }
 
@@ -126,6 +135,9 @@ new class {
     update_themes_count() {
         let count = this.elements.themesList.querySelectorAll('.oneTheme:not(.used)').length
         this.elements.favoritesBox.textContent = String(count)
+        if (count === 0) {
+            this.elements.favoritesBox.classList.remove(CLASS_HAS_UNREAD);
+        }
     }
 
     print_themes() {
@@ -152,7 +164,7 @@ new class {
             tpl_last_user = tpl.querySelector('.oneTheme_user'),
             tpl_last_dt = tpl.querySelector('.oneTheme_lastPost'),
             read_button = tpl.querySelector('.oneTheme_markAsRead')
-        tpl.removeAttribute('id')
+        tpl.id = 'theme_' + theme.id
 
         tpl_caption.textContent = theme.title
         if (theme.pin) {
@@ -165,8 +177,6 @@ new class {
             theme.read().then(() => {
                 current.closest('.oneTheme').classList.add('used');
                 this.update_themes_count()
-            }).catch(() => {
-                console.error('no response')
             }).finally(() => {
                 current.classList.remove('loading');
             })
