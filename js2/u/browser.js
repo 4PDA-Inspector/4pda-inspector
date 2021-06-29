@@ -34,6 +34,7 @@ class Browser {
         if (!/\w+:\/\/.+/.test(url)) {
             url = chrome.extension.getURL(url)
         }
+        set_active = set_active || inspector.vars.data.toolbar_opentheme_hide
 
         return new Promise((resolve, reject) => {
             chrome.tabs.query({

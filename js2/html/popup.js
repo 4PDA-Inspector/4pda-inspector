@@ -58,11 +58,11 @@ new class {
         this.elements.massThemesActionsBox = document.getElementById('massThemesActions');
         this.elements.openAllLabel = document.getElementById('panelOpenAll');
         this.elements.openAllLabel.addEventListener("click", () => {
-            this.bg.favorites.open_all(false)
+            this.open_themes(false)
         })
         this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
         this.elements.openAllPinLabel.addEventListener("click", () => {
-            this.bg.favorites.open_all(true)
+            this.open_themes(true)
         })
         this.elements.readAllLabel = document.getElementById('panelReadAll');
         this.elements.readAllLabel.addEventListener("click", () => {
@@ -137,6 +137,26 @@ new class {
         this.elements.favoritesBox.textContent = String(count)
         if (count === 0) {
             this.elements.favoritesBox.classList.remove(CLASS_HAS_UNREAD);
+        }
+    }
+
+    open_themes(only_pin) {
+        let limit = this.vars_data.open_themes_limit,
+            themes = this.bg.favorites.get_sorted_list(true),
+            opened = 0
+
+        for (let theme of themes) {
+            if (only_pin && !theme.pin) {
+                continue
+            }
+            let row = document.getElementById('theme_' + theme.id)
+            theme.open_new_post().then(() => {
+                row.classList.add(CLASS_THEME_USED)
+                this.update_themes_count()
+            })
+            if (limit && ++opened >= limit) {
+                break
+            }
         }
     }
 

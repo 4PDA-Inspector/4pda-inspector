@@ -74,23 +74,6 @@ class Favorites {
         inspector.browser.open_url(inspector.vars.doForumURL('act=fav'), true).then();
     }
 
-    open_all(only_pin) {
-        let limit = inspector.vars.data.open_themes_limit,
-            themes = this.get_sorted_list(true),
-            opened = 0
-
-        for (let theme of themes) {
-            if (only_pin && !theme.pin) {
-                continue
-            }
-            console.log(theme.id)
-            theme.open_new_post()
-            if (limit && ++opened >= limit) {
-                break
-            }
-        }
-    }
-
 }
 
 
@@ -148,9 +131,12 @@ class FavoriteTheme {
         })
     }
 
-    open_new_post(set_active) {
-        inspector.browser.open_url(this.URL_new_post, set_active).then(() => {
-            this.destroy()
+    async open_new_post(set_active) {
+        return new Promise((resolve, reject) => {
+            inspector.browser.open_url(this.URL_new_post, set_active).then(() => {
+                this.destroy()
+                return resolve()
+            })
         })
     }
 
