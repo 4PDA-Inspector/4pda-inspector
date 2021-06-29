@@ -90,6 +90,14 @@ new class {
                 element.classList.remove(CLASS_LOADING)
             })
         })
+
+        window.onload = () => {
+            setTimeout(() => {
+                // странный но нужный фикс
+                this.print_user_links()
+            }, 1)
+        }
+
     }
 
     refresh() {
@@ -137,8 +145,6 @@ new class {
         }
 
         this.print_themes()
-
-        // todo self.printUserLinks();
     }
 
     update_themes_count() {
@@ -146,6 +152,21 @@ new class {
         this.elements.favoritesBox.textContent = String(count)
         if (count === 0) {
             this.elements.favoritesBox.classList.remove(CLASS_HAS_UNREAD);
+        }
+    }
+
+    print_user_links() {
+        let block = document.getElementById('userLinks')
+        block.textContent = ''
+        if (this.vars_data.user_links) {
+            for (let item of this.vars_data.user_links) {
+                let link = document.createElement('span')
+                link.innerText = item.title
+                link.addEventListener("click", () => {
+                    this.bg.browser.open_url(item.url, true).then()
+                })
+                block.appendChild(link)
+            }
         }
     }
 
