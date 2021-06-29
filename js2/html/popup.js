@@ -13,7 +13,7 @@ new class {
 
         if (!this.bg.user.id) {
             console.error('not auth')
-            //todo go to login
+            this.bg.user.open_page()
             return
         }
 
@@ -22,6 +22,12 @@ new class {
     }
 
     init_elements() {
+
+        if (this.vars_data.toolbar_width_fixed) {
+            document.body.style.width = this.vars_data.toolbar_width + 'px'
+            document.body.className = 'widthFixed'
+        }
+
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {
             this.bg.user.open_page()
@@ -47,12 +53,24 @@ new class {
 
         this.elements.massThemesActionsBox = document.getElementById('massThemesActions');
         this.elements.openAllLabel = document.getElementById('panelOpenAll');
+        this.elements.openAllLabel.addEventListener("click", () => {
+            this.bg.favorites.open_all(false)
+        })
         this.elements.openAllPinLabel = document.getElementById('panelOpenAllPin');
+        this.elements.openAllPinLabel.addEventListener("click", () => {
+            this.bg.favorites.open_all(true)
+        })
         this.elements.readAllLabel = document.getElementById('panelReadAll');
+        this.elements.readAllLabel.addEventListener("click", () => {
+            this.bg.favorites.read_all()
+        })
 
         document.getElementById('panelSettings').addEventListener("click", () => {
             this.bg.browser.open_url('/html/options.html', true).then()
         })
+
+        // todo
+        // this.elements.manualRefresh = document.getElementById('panelRefresh');
     }
 
     refresh() {

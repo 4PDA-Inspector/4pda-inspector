@@ -59,6 +59,8 @@ class User {
     }
 
     open_page(id) {
-        inspector.browser.open_url(inspector.vars.doForumURL('showuser=' + (id || this.id)), true).then();
+        id = id || this.id
+        let url_params = id ? 'showuser=' + id : 'act=login'
+        inspector.browser.open_url(inspector.vars.doForumURL(url_params), true).then();
     }
 }

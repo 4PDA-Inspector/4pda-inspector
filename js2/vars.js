@@ -85,13 +85,14 @@ class Vars {
 
         this.data[field] = value;
 
-        // let stored = {};
-        // stored[field] = value;
-        // chrome.storage.local.set(stored);
+        chrome.storage.local.set({
+            [field]: value
+        });
 
         // if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
         //     inspector4pda.cScript.request();
         // }
+        // todo
     }
 
     doForumURL(params, loFi = false) {

@@ -77,16 +77,7 @@ class Browser {
                 }
             })
         })
-
-        /*chrome.tabs.query({
-            url: url
-        }).then((tabs) => {
-            console.log(tabs)
-        }).catch(error => {
-            console.log(error)
-        })*/
     }
-
 }
 
 class Notifications {

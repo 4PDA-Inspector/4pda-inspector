@@ -74,6 +74,29 @@ class Favorites {
         inspector.browser.open_url(inspector.vars.doForumURL('act=fav'), true).then();
     }
 
+    open_all(only_pin) {
+        let limit = inspector.vars.data.open_themes_limit,
+            themes = this.get_sorted_list(true),
+            opened = 0
+
+        for (let theme of themes) {
+            if (only_pin && !theme.pin) {
+                continue
+            }
+            console.log(theme.id)
+            theme.open_new_post()
+            if (limit && ++opened >= limit) {
+                break
+            }
+        }
+    }
+
+    read_all() {
+        for (let theme_id in this.list) {
+            this.list[theme_id].read()
+        }
+    }
+
 }
 
 
@@ -88,9 +111,18 @@ class FavoriteTheme {
     pin = false
     // read = false
 
+
+    get URL_first_post() {
+        return inspector.vars.doForumURL('showtopic='+this.id)
+    }
     get URL_last_post() {
-        // return inspector.vars.doForumURL('showtopic='+this.id)
         return inspector.vars.doForumURL('showtopic='+this.id+'&view=getlastpost')
+    }
+    get URL_new_post() {
+        return inspector.vars.doForumURL('showtopic='+this.id+'&view=getnewpost')
+    }
+    URL_comment(comment_id) {
+        return inspector.vars.doForumURL('showtopic='+this.id+'&view=findpost&p='+comment_id)
     }
 
     get last_post_dt() {
@@ -107,7 +139,7 @@ class FavoriteTheme {
         this.last_user_name = Utils.decode_special_chars(obj[4])
         this.last_post_ts = parseInt(obj[5])
         this.last_read_ts = parseInt(obj[6])
-        this.pin = parseInt(obj[7])
+        this.pin = (obj[7] == "1")
     }
 
     async read() {
@@ -119,6 +151,12 @@ class FavoriteTheme {
                 console.error('no resp', resp)
                 return reject()
             })
+        })
+    }
+
+    open_new_post(set_active) {
+        inspector.browser.open_url(this.URL_new_post, set_active).then(() => {
+            this.destroy()
         })
     }
 
