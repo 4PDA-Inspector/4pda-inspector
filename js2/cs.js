@@ -9,6 +9,7 @@ class CS {
     favorites
     qms
     mentions
+    notifications
 
     timeout_updater = 0
     last_event = 0
@@ -23,6 +24,7 @@ class CS {
             this.favorites = new Favorites()
             this.qms = new QMS()
             this.mentions = new Mentions()
+            this.notifications = new Notifications()
 
             this.update_all_data().catch(() => {
                 console.error('Can\'t update data')
@@ -50,6 +52,7 @@ class CS {
                             console.debug('all updated')
                             this.was_first_request = true
                             this.browser.action_button.print_count()
+                            this.notifications.show_all()
                             this.start_new_request_timeout()
                             return resolve()
                         }).catch(() => {

@@ -1,7 +1,6 @@
 class Browser {
 
     action_button
-    notifications
 
     notification_icons = {
         default: "/icons/icon_80.png",
@@ -13,7 +12,6 @@ class Browser {
 
     constructor() {
         this.action_button = new ActionButton()
-        this.notifications = new Notifications()
     }
 
     async focus_window(window) {
@@ -78,51 +76,6 @@ class Browser {
                 }
             })
         })
-    }
-}
-
-class Notifications {
-    notification_sound
-    icons = {
-        default: "/icons/icon_80.png",
-        qms: "/icons/icon_80_message.png",
-        theme: "/icons/icon_80_favorite.png",
-        mention: "/icons/icon_80_mention.png",
-        out: "/icons/icon_80_out.png",
-    }
-
-    constructor() {
-        this.notification_sound = new Audio('/sound/sound3.ogg')
-        //chrome.notifications.onClicked.addListener(this.bgClass.cScript.notificationClick);
-    }
-
-    play_sound() {
-        this.notification_sound.volume = inspector.vars.data.notification_sound_volume
-        this.notification_sound.play()
-    }
-
-    show(params) {
-        let defaultParams = {
-            id: '4pda_inspector_test_' + (Utils.now()),
-            title: "4PDA Инспектор",
-            message: 'Оповещения успешно включены',
-            iconUrl: this.icons.default
-        };
-        params = {...defaultParams, ...params}
-
-        chrome.notifications.create(params.id, {
-            type: "basic",
-            title: params.title,
-            message: params.message,
-            iconUrl: params.iconUrl,
-
-            //eventTime: Utils.now() - 3600,
-            //contextMessage: 'context',
-            /*buttons: [
-                {title: 'test1'},
-                {title: 'test2'},
-            ]*/
-        });
     }
 }
 

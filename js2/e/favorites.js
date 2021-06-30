@@ -44,10 +44,11 @@ class Favorites {
                                 let theme = new FavoriteTheme(line)
                                 new_list[theme.id] = theme
                                 if (!(theme.id in this.list)) {
-                                    //console.debug('new theme', theme)
-                                    // todo notification
+                                    console.debug('new theme:', theme.title)
+                                    inspector.notifications.add('new_theme', theme)
                                 } else if (this.list[theme.id].last_post_ts < theme.last_post_ts) {
-                                    //console.debug('new comment in theme', theme)
+                                    console.debug('new comment in theme', theme.title)
+                                    inspector.notifications.add('new_comment_in_theme', theme)
                                 }
                             } catch (e) {
 
