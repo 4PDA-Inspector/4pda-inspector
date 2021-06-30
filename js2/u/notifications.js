@@ -73,29 +73,42 @@ class Notifications {
             case 'new_comment_in_theme':
                 new_notification = {
                     'id': `${Utils.now()}_theme_${object.id}_${object.last_post_ts}`,
-                    'url': object.URL_new_post,
                     'title': object.title,
                     'message': object.last_user_name,
                     'iconUrl': this.icons.favorite,
+                    'callback': () => {
+                        inspector.browser.open_url(object.URL_new_post, true).then(() => {
+                            inspector.favorites.delete_element(object.id)
+                        })
+                    }
                 }
                 break
             case 'new_dialog':
             case 'new_message_in_dialog':
                 new_notification = {
                     'id': `${Utils.now()}_dialog_${object.id}_${object.last_post_ts}`,
-                    'url': object.URL,
                     'title': object.title,
                     'message': object.opponent_name,
                     'iconUrl': this.icons.qms,
+                    'callback': () => {
+                        inspector.browser.open_url(object.URL, true).then(() => {
+                            delete inspector.qms.list[object.id]
+                            inspector.browser.action_button.print_count()
+                        })
+                    },
                 }
                 break
             case 'mentions_inc':
                 new_notification = {
                     'id': `${Utils.now()}_mentions_inc`,
-                    'url': inspector.mentions.vURL,
                     'title': 'Новые упоминания',
-                    //'message': object.opponent_name,
+                    //'message': '',
                     'iconUrl': this.icons.mention,
+                    'callback': () => {
+                        inspector.browser.open_url(inspector.mentions.vURL, true).then(() => {
+                            inspector.mentions.count = 0
+                        })
+                    }
                 }
                 break
             default:
@@ -124,11 +137,11 @@ class Notifications {
     click(notification_id) {
         console.debug('notification_click', notification_id)
         if (notification_id in this.list) {
-            if ('url' in this.list[notification_id]) {
-                inspector.browser.open_url(this.list[notification_id]['url'], true).then(() => {
-                    chrome.notifications.clear(notification_id)
-                })
+            let notification = this.list[notification_id]
+            if ('callback' in notification) {
+                notification.callback()
             }
+            chrome.notifications.clear(notification_id)
         }
     }
     close(notification_id, by_user) {
