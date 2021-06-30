@@ -61,12 +61,7 @@ class Notifications {
             return
         }
 
-        let new_notification = {
-            'id': '4pda_inspector',
-            'url': null,
-        }
-
-        // todo check options
+        let new_notification
 
         switch (event) {
             case 'new_theme':
@@ -115,17 +110,49 @@ class Notifications {
                 return false
         }
 
+        new_notification['event'] = event
         this.new_list[new_notification['id']] = new_notification
     }
 
     show_all() {
         if (this.silent) {
             this.silent = false
+            this.new_list = {}
             return
         }
         if (Object.keys(this.new_list).length) {
-            this.play_sound()
+            let sound_played = false
             for (let not_id in this.new_list) {
+                let notification = this.new_list[not_id],
+                    play = true,
+                    show = true
+                switch (notification['event']) {
+                    case 'new_theme':
+                    case 'new_comment_in_theme':
+                        play = inspector.vars.data.notification_sound_themes
+                        show = inspector.vars.data.notification_popup_themes
+                        break
+                    case 'new_dialog':
+                    case 'new_message_in_dialog':
+                        play = inspector.vars.data.notification_sound_qms
+                        show = inspector.vars.data.notification_popup_qms
+                        break
+                    case 'mentions_inc':
+                        play = inspector.vars.data.notification_sound_mentions
+                        show = inspector.vars.data.notification_popup_mentions
+                        break
+                    default:
+                        continue
+                }
+                if (play && !sound_played) {
+                    sound_played = true
+                    this.play_sound()
+                }
+                if (!show) {
+                    delete this.new_list[not_id]
+                    continue
+                }
+
                 this.show(this.new_list[not_id]).then(() => {
                     this.list[not_id] = this.new_list[not_id]
                     delete this.new_list[not_id]
