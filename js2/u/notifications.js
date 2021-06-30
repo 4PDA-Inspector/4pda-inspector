@@ -75,6 +75,16 @@ class Notifications {
                     'iconUrl': this.icons.favorite,
                 }
                 break
+            case 'new_dialog':
+            case 'new_message_in_dialog':
+                new_notification = {
+                    'id': `${Utils.now()}_dialog_${object.id}_${object.last_post_ts}`,
+                    'url': object.URL,
+                    'title': object.title,
+                    'message': object.opponent_name,
+                    'iconUrl': this.icons.qms,
+                }
+                break
             default:
                 return false
         }
@@ -85,7 +95,6 @@ class Notifications {
     show_all() {
         if (Object.keys(this.new_list).length) {
             this.play_sound()
-            console.log(this.new_list)
             for (let not_id in this.new_list) {
                 this.show(this.new_list[not_id]).then(() => {
                     this.list[not_id] = this.new_list[not_id]

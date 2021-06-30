@@ -21,10 +21,11 @@ class QMS {
                                 let dialog = new Dialog(line)
                                 new_list[dialog.id] = dialog
                                 if (!(dialog.id in this.list)) {
-                                    //console.debug('new dialog', dialog)
-                                    // todo notification
+                                    console.debug('new_dialog:', dialog.opponent_name, dialog.title)
+                                    inspector.notifications.add('new_dialog', dialog)
                                 } else if (this.list[dialog.id].last_msg_ts < dialog.last_msg_ts) {
-                                    //console.debug('new message in dialog', dialog)
+                                    console.debug('new_message_in_dialog:', dialog.opponent_name, dialog.title)
+                                    inspector.notifications.add('new_message_in_dialog', dialog)
                                 }
                             } catch (e) {
 
@@ -57,6 +58,10 @@ class Dialog {
     unread_msgs = 0
     last_msg_id = ''
     // read = false
+
+    get URL() {
+        return inspector.vars.doForumURL(`act=qms&mid=${this.opponent_id}&t=${this.id}`)
+    }
 
     constructor(text_line) {
         let obj = Utils.parse(text_line);
