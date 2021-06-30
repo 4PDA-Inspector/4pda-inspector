@@ -10,6 +10,7 @@ class Notifications {
     }
     list = {}
     new_list = {}
+    silent = true
 
     constructor() {
         this.notification_sound = new Audio('/sound/sound3.ogg')
@@ -31,7 +32,7 @@ class Notifications {
         let defaultParams = {
             id: '4pda_inspector_' + (Utils.now()),
             title: "4PDA Инспектор",
-            message: 'Оповещения успешно включены',
+            message: '',
             iconUrl: this.icons.default
         };
         params = {...defaultParams, ...params}
@@ -56,6 +57,9 @@ class Notifications {
     }
 
     add(event, object) {
+        if (this.silent) {
+            return
+        }
 
         let new_notification = {
             'id': '4pda_inspector',
@@ -85,6 +89,15 @@ class Notifications {
                     'iconUrl': this.icons.qms,
                 }
                 break
+            case 'mentions_inc':
+                new_notification = {
+                    'id': `${Utils.now()}_mentions_inc`,
+                    'url': inspector.mentions.vURL,
+                    'title': 'Новые упоминания',
+                    //'message': object.opponent_name,
+                    'iconUrl': this.icons.mention,
+                }
+                break
             default:
                 return false
         }
@@ -93,6 +106,10 @@ class Notifications {
     }
 
     show_all() {
+        if (this.silent) {
+            this.silent = false
+            return
+        }
         if (Object.keys(this.new_list).length) {
             this.play_sound()
             for (let not_id in this.new_list) {

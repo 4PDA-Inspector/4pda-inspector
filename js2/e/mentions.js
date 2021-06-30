@@ -4,12 +4,19 @@ class Mentions {
     get rURL() {
         return inspector.vars.doForumURL('act=inspector&CODE=mentions')
     }
+    get vURL() {
+        return inspector.vars.doForumURL('act=mentions')
+    }
 
     update_count() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
                 try {
-                    this.count = parseInt(resp.responseText)
+                    let new_count = parseInt(resp.responseText)
+                    if (new_count > this.count) {
+                        inspector.notifications.add('mentions_inc')
+                    }
+                    this.count = new_count
                 } catch (e) {
                     this.count = 0
                 }
@@ -23,6 +30,6 @@ class Mentions {
     }
 
     open_page() {
-        inspector.browser.open_url(inspector.vars.doForumURL('act=mentions'), true).then();
+        inspector.browser.open_url(this.vURL, true).then();
     }
 }
