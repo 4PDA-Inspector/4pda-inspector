@@ -28,6 +28,13 @@ class Notifications {
         this.notification_sound.play()
     }
 
+    show_site_unavailable() {
+        this.show({
+            title: "4PDA - Сайт недоступен",
+            iconUrl: this.icons.out
+        }).then()
+    }
+
     show(params) {
         let defaultParams = {
             id: '4pda_inspector_' + (Utils.now()),
@@ -65,7 +72,7 @@ class Notifications {
 
         switch (event) {
             case 'new_theme':
-            case 'new_comment_in_theme':
+            case 'new_comment_in_theme': // Оповещения при каждом новом комментарии
                 new_notification = {
                     'id': `${Utils.now()}_theme_${object.id}_${object.last_post_ts}`,
                     'title': object.title,

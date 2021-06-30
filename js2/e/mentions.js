@@ -21,9 +21,7 @@ class Mentions {
                     this.count = 0
                 }
                 return resolve()
-            }).catch(resp => {
-                console.log('no resp')
-                console.log(resp)
+            }).catch(() => {
                 return reject()
             })
         })

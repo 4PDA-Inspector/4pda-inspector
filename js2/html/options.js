@@ -39,7 +39,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о QMS успешно включены",
-                    iconUrl: self.bg.browser.notification_icons.qms
+                    iconUrl: self.bg.notifications.icons.qms
                 })
             }
         })
@@ -48,7 +48,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о темах успешно включены",
-                    iconUrl: self.bg.browser.notification_icons.theme
+                    iconUrl: self.bg.notifications.icons.favorite
                 })
             }
         })
@@ -57,7 +57,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения об упоминаниях успешно включены",
-                    iconUrl: self.bg.browser.notification_icons.mention
+                    iconUrl: self.bg.notifications.icons.mention
                 })
             }
         })

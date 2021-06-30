@@ -13,24 +13,23 @@ class XHR {
             req.onreadystatechange = function () {
                 if (req.readyState == 4) {
                     if (req.status == 200) {
-                        //self.callback.success(req);
                         return resolve(req);
                     } else {
-                        //self.callback.not200Success(req);
+                        console.debug('XHR - no 200', req.status)
                         return reject(req)
                     }
                 }
             };
 
             req.onerror = function () {
-                //self.callback.error();
+                console.debug('XHR - error')
                 return reject(req)
             };
 
             if (self.timeoutTime) {
                 req.timeout = self.timeoutTime;
                 req.ontimeout = function () {
-                    //self.callback.timeout();
+                    console.debug('XHR - timeout')
                     return reject(req)
                 }
             }

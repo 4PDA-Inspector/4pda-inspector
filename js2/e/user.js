@@ -14,12 +14,12 @@ class User {
                 console.debug('uid from cookie = ' + uid)
                 this.request().then(() => {
                     return resolve()
-                }).catch(() => {
-                    return reject()
+                }).catch((error) => {
+                    return reject(error)
                 })
             }).catch(() => {
-                console.log('no logged')
-                return reject()
+                console.debug('no logged')
+                return reject(1)
             })
         })
     }
@@ -27,16 +27,11 @@ class User {
     async check_cookie_member_id() {
         // fast way to check is logged
         return new Promise((resolve, reject) => {
-            chrome.cookies.get({
-                url: inspector.vars.BASE_URL,
-                name: this.COOKIE_NAME
-            }, cookie => {
-                if (cookie) {
-                    return resolve(parseInt(cookie.value));
-                } else {
-                    return reject()
-                }
-            });
+            inspector.browser.get_cookie(this.COOKIE_NAME).then(value => {
+                return resolve(parseInt(value));
+            }).catch(() => {
+                return reject()
+            })
         })
     }
 
@@ -49,11 +44,9 @@ class User {
                     this.name = Utils.decode_special_chars(res[1])
                     return resolve()
                 }
-                return reject()
-            }).catch(resp => {
-                console.log('no resp')
-                console.log(resp)
-                return reject()
+                return reject(1)
+            }).catch(() => {
+                return reject(0)
             })
         })
     }

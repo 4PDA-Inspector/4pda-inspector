@@ -2,14 +2,6 @@ class Browser {
 
     action_button
 
-    notification_icons = {
-        default: "/icons/icon_80.png",
-        qms: "/icons/icon_80_message.png",
-        theme: "/icons/icon_80_favorite.png",
-        mention: "/icons/icon_80_mention.png",
-        out: "/icons/icon_80_out.png",
-    }
-
     constructor() {
         this.action_button = new ActionButton()
     }
@@ -75,6 +67,21 @@ class Browser {
                     }
                 }
             })
+        })
+    }
+
+    async get_cookie(cookie_name) {
+        return new Promise((resolve, reject) => {
+            chrome.cookies.get({
+                url: inspector.vars.BASE_URL,
+                name: cookie_name
+            }, cookie => {
+                if (cookie) {
+                    return resolve(cookie.value);
+                } else {
+                    return reject()
+                }
+            });
         })
     }
 }

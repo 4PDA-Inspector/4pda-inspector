@@ -20,6 +20,7 @@ class CS {
         this.vars = new Vars()
         this.browser = new Browser()
         this.vars.read_storage().then(() => {
+            this.vars.check_new_build()
             this.user = new User()
             this.favorites = new Favorites()
             this.qms = new QMS()
@@ -57,19 +58,25 @@ class CS {
                             return resolve()
                         }).catch(() => {
                             console.error('mentions update - bad')
+                            this.site_unavailable()
                             return reject()
                         })
                     }).catch(() => {
                         console.error('qms update - bad')
+                        this.site_unavailable()
                         return reject()
                     })
                 }).catch(() => {
                     console.error('favorites update - bad')
+                    this.site_unavailable()
                     return reject()
                 })
-            }).catch(() => {
-                // inspector4pda.cScript.clearData();
-                // inspector4pda.cScript.printLogout(true);
+            }).catch((error) => {
+                if (error) {
+                    this.site_logout()
+                } else {
+                    this.site_unavailable()
+                }
                 console.error('user update - bad')
                 return reject()
             })
@@ -91,7 +98,7 @@ class CS {
                     this.request_last_event().then(() => {
                         //this.start_new_request_timeout()
                     }).catch(() => {
-                        console.debug('bad request - N/A?')
+                        console.debug('bad request')
                     })
                 } else {
                     console.debug('new user:' + uid)
@@ -101,10 +108,10 @@ class CS {
                     })
                 }
             } else {
-                console.debug('logout')
+                this.site_logout()
             }
         }).catch(() => {
-            console.debug('logout?')
+            this.site_logout()
         })
     }
 
@@ -124,12 +131,21 @@ class CS {
                     this.start_new_request_timeout()
                 }
                 return resolve()
-            }).catch(resp => {
-                console.log('app - no resp')
-                console.log(resp)
+            }).catch(() => {
+                this.site_unavailable()
                 return reject()
             })
         })
+    }
+
+    site_unavailable() {
+        this.notifications.show_site_unavailable()
+        this.browser.action_button.print_unavailable()
+    }
+
+    site_logout() {
+        this.browser.action_button.print_logout()
+        //todo notifications, callback login
     }
 }
 

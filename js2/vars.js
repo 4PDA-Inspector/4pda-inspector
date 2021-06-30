@@ -1,5 +1,7 @@
 class Vars {
 
+    current_build = 20210701
+
     data = {
         interval: 10,
         open_themes_limit: 0,
@@ -26,7 +28,7 @@ class Vars {
         open_in_current_tab: false,
         user_links: [],
 
-        build: '0'
+        build: 0
     }
 
     // todo check urls
@@ -51,6 +53,13 @@ class Vars {
                 return resolve()
             });
         })
+    }
+
+    check_new_build() {
+        if (!this.data.build || this.data.build < this.current_build) {
+            inspector.browser.open_url('html/whatsnew.html').then()
+            this.set_value('build', this.current_build)
+        }
     }
 
     set_value(field, value, save=true) {

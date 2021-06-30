@@ -35,9 +35,7 @@ class QMS {
                 }
                 this.list = new_list
                 return resolve()
-            }).catch(resp => {
-                console.log('no resp')
-                console.log(resp)
+            }).catch(() => {
                 return reject()
             })
         })
