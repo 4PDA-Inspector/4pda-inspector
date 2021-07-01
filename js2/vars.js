@@ -36,7 +36,6 @@ class Vars {
         build: 0
     }
 
-    // todo check urls
     _base_url = null
     _app_url = null
 

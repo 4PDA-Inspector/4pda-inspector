@@ -15,9 +15,6 @@
   mask-size: contain;
   -webkit-mask-size: contain;
 }
-* {
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
 body {
   font-family: Verdana, Tahoma, Arial, "Trebuchet MS", sans-serif;
   font-size: 13px;
@@ -57,6 +54,11 @@ body.theme_dark {
   to {
     -moz-transform: rotate(360deg);
   }
+}
+#mainPanel span,
+#mainPanel .icoAndCount::before,
+#themesList > .oneTheme span {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 /*********************************************/
 #header {
@@ -120,7 +122,6 @@ body.theme_dark {
   height: 16px;
   width: 16px;
   margin-right: 2px;
-  transition: background-color 0.3s;
 }
 #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread {
   color: #3f51b5;

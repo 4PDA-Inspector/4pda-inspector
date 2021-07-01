@@ -41,6 +41,15 @@ body.theme_dark {
 	to {  -moz-transform:rotate(360deg);}
 }
 
+#mainPanel span,
+#mainPanel .icoAndCount::before,
+#themesList > .oneTheme span
+{
+	transition: background-color @transition-duration,
+				color @transition-duration,
+				border-color @transition-duration;
+}
+
 /*********************************************/
 
 #header {
@@ -104,7 +113,6 @@ body.theme_dark {
 				display: inline-block;
 				.square(16px);
 				margin-right: 2px;
-				.background-transition();
 			}
 
 			&.hasUnread {
