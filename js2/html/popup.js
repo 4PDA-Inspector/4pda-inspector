@@ -214,7 +214,7 @@ new class {
         tpl.id = 'theme_' + theme.id
 
         tpl_caption.textContent = theme.title
-        if (theme.pin) {
+        if (theme.pin && this.vars_data.toolbar_pin_color) {
             tpl_caption.classList.add('oneTheme_pin')
         }
         tpl_caption.addEventListener("click", () => {
