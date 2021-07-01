@@ -38,13 +38,19 @@ class Vars {
 
     // todo check urls
     _base_url = null
-    APP_URL = 'https://appbk.4pda.to'
+    _app_url = null
 
     get BASE_URL() {
         if (this._base_url == undefined) {
             throw 'Empty BASE_URL'
         }
         return this._base_url
+    }
+    get APP_URL() {
+        if (this._app_url == undefined) {
+            throw 'Empty BASE_URL'
+        }
+        return this._app_url
     }
 
     get interval_ms() {
@@ -62,12 +68,24 @@ class Vars {
                 checkXHR.url = url
                 await checkXHR.send().then(() => {
                     this._base_url = url
-                    console.log(url, 'OK!')
+                    console.debug(url, 'OK!')
                 }).catch(() => {
-                    console.log(url, 'error!')
+                    console.debug(url, 'error!')
                 })
             }
-            if (this._base_url) {
+            for (let url of ['https://appbk.4pda.to', 'https://app.4pda.ru']) {
+                if (this._app_url) {
+                    break
+                }
+                checkXHR.url = url
+                await checkXHR.send().then(() => {
+                    this._app_url = url
+                    console.debug(url, 'OK!')
+                }).catch(() => {
+                    console.debug(url, 'error!')
+                })
+            }
+            if (this._base_url && this._app_url) {
                 return resolve()
             } else {
                 return reject()
