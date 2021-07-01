@@ -10,8 +10,12 @@ class Vars {
 
         notification_sound_themes: true,
         notification_popup_themes: true,
+        notification_themes_all_comments: false,
+
         notification_sound_qms: true,
         notification_popup_qms: true,
+        notification_qms_all_messages: false,
+
         notification_sound_mentions: true,
         notification_popup_mentions: true,
 

@@ -71,8 +71,11 @@ class Notifications {
         let new_notification
 
         switch (event) {
-            case 'new_theme':
             case 'new_comment_in_theme': // Оповещения при каждом новом комментарии
+                if (!inspector.vars.data.notification_themes_all_comments) {
+                    return
+                }
+            case 'new_theme':
                 new_notification = {
                     'id': `${Utils.now()}_theme_${object.id}_${object.last_post_ts}`,
                     'title': object.title,
@@ -85,8 +88,11 @@ class Notifications {
                     }
                 }
                 break
-            case 'new_dialog':
             case 'new_message_in_dialog':
+                if (!inspector.vars.data.notification_qms_all_messages) {
+                    return
+                }
+            case 'new_dialog':
                 new_notification = {
                     'id': `${Utils.now()}_dialog_${object.id}_${object.last_post_ts}`,
                     'title': object.title,
