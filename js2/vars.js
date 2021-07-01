@@ -104,12 +104,17 @@ class Vars {
             chrome.storage.local.set({
                 [field]: value
             });
-        }
 
-        // if (['interval', 'toolbar_only_pin'].indexOf(field) > -1) {
-        //     inspector4pda.cScript.request();
-        // }
-        // todo
+            switch (field) {
+                case 'interval':
+                    inspector.start_new_request_timeout()
+                    break
+                case 'toolbar_only_pin':
+                    inspector.update_all_data().then()
+                    break
+            }
+
+        }
     }
 
     doForumURL(params, loFi = false) {
