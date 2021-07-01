@@ -23,7 +23,10 @@ body {
   font-size: 13px;
   margin: 0 0 5px;
   color: #3f51b5;
-  background: #FFFFFF;
+  background-color: #ffffff;
+}
+body.theme_dark {
+  background-color: #000000;
 }
 /***************** GLOBAL *****************/
 .hidden {
@@ -60,7 +63,7 @@ body {
   padding: 0;
   position: sticky;
   top: 0;
-  background: #ffffff;
+  background: inherit;
   z-index: 1;
 }
 #mainPanel {
@@ -213,13 +216,13 @@ body {
 }
 #themesList > .oneTheme {
   display: block;
-  border-bottom: 1px solid #eeeeff;
+  border-bottom: 1px solid rgba(94, 111, 199, 0.2);
   padding: 2px 5px;
   position: relative;
   white-space: nowrap;
 }
 #themesList > .oneTheme:hover {
-  background: linear-gradient(to right, #eeeeff 0, #eeeeff 95%, #ffffff 100%);
+  background: linear-gradient(to right, rgba(94, 111, 199, 0.2) 0, rgba(94, 111, 199, 0.2) 95%, transparent 100%);
 }
 #themesList > .oneTheme .oneTheme_caption {
   color: #3f51b5;
@@ -301,5 +304,10 @@ body {
 }
 #templates {
   display: none !important;
+}
+@media (prefers-color-scheme: dark) {
+  body.theme_auto {
+    background-color: #000000;
+  }
 }
 /*# sourceMappingURL=popup.css.map */

@@ -31,8 +31,9 @@ new class {
 
         if (this.vars_data.toolbar_width_fixed) {
             document.body.style.width = this.vars_data.toolbar_width + 'px'
-            document.body.className = 'widthFixed'
+            document.body.classList.add('widthFixed')
         }
+        document.body.classList.add('theme_' + this.vars_data.toolbar_theme)
 
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {

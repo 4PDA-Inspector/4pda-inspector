@@ -23,6 +23,7 @@ new class {
                         case "text":
                         case "number":
                         case "range":
+                        case "radio":
                             self.set_value(this.name, this.value)
                             break
                     }
@@ -75,12 +76,15 @@ new class {
             if (i == 'user_links') {
                 this.print_user_links(vars[i])
             } else {
-                let input = document.getElementsByName(i)
-                if (input.length) {
-                    input = input[0]
+                let inputs = document.getElementsByName(i)
+                if (inputs.length) {
+                    let input = inputs[0]
                     switch (input.type) {
                         case "checkbox":
                             input.checked = vars[i]
+                            break
+                        case "radio":
+                            document.querySelector(`input[name="${i}"][value="${vars[i]}"]`).checked = true
                             break
                         default:
                             input.value = vars[i]

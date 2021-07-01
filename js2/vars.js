@@ -24,6 +24,7 @@ class Vars {
         toolbar_markAllAsRead_button: true,
         toolbar_width_fixed: false,
         toolbar_width: 400,
+        toolbar_theme: 'auto',
 
         open_in_current_tab: false,
         user_links: [],

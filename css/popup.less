@@ -1,10 +1,19 @@
 @import "global.less";
 
+@color_theme_hover_bg: fade(@color_base_medium, 20%);
+
 body {
 	.font-default();
 	margin: 0 0 5px;
 	color: @color_base;
-	background: #FFFFFF;
+	background-color: @color_white;
+}
+
+.body_dark() {
+	background-color: #000000;
+}
+body.theme_dark {
+	.body_dark()
 }
 
 /***************** GLOBAL *****************/
@@ -38,7 +47,7 @@ body {
 	padding: 0;
 	position: sticky;
 	top: 0;
-	background: @color_white;
+	background: inherit;
 	z-index: 1;
 }
 
@@ -207,12 +216,12 @@ body {
 
 	> .oneTheme {
 		display: block;
-		border-bottom: 1px solid @color_base_lightest;
+		border-bottom: 1px solid @color_theme_hover_bg;
 		padding: 2px 5px;
 		position: relative;
 		white-space: nowrap;
 		&:hover {
-			background: linear-gradient(to right, @color_base_lightest 0, @color_base_lightest 95%, @color_white 100%);
+			background: linear-gradient(to right, @color_theme_hover_bg 0, @color_theme_hover_bg 95%, transparent 100%);
 		}
 
 		.oneTheme_caption {
@@ -294,4 +303,10 @@ body {
 
 #templates {
 	.hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+	body.theme_auto {
+		.body_dark()
+	}
 }
