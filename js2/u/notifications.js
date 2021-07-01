@@ -34,6 +34,12 @@ class Notifications {
             iconUrl: this.icons.out
         }).then()
     }
+    show_site_available() {
+        this.show({
+            title: "4PDA - Сайт доступен",
+            iconUrl: this.icons.default
+        }).then()
+    }
 
     show(params) {
         let defaultParams = {
@@ -181,8 +187,8 @@ class Notifications {
             if ('callback' in notification) {
                 notification.callback()
             }
-            chrome.notifications.clear(notification_id)
         }
+        chrome.notifications.clear(notification_id)
     }
     close(notification_id, by_user) {
         console.debug('notification_close', notification_id, by_user)

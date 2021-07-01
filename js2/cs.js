@@ -13,30 +13,47 @@ class CS {
 
     timeout_updater = 0
     last_event = 0
-    was_first_request = false
+
+    forum_available = true
 
     constructor() {
         console.debug('init CS', new Date())
         this.vars = new Vars()
         this.browser = new Browser()
-        this.vars.read_storage().then(() => {
-            this.vars.check_new_build()
-            this.user = new User()
-            this.favorites = new Favorites()
-            this.qms = new QMS()
-            this.mentions = new Mentions()
-            this.notifications = new Notifications()
+        this.notifications = new Notifications()
+        this.user = new User()
+        this.favorites = new Favorites()
+        this.qms = new QMS()
+        this.mentions = new Mentions()
 
-            this.update_all_data().catch(() => {
-                console.error('Can\'t update data')
-            })
+        this.vars.read_storage().then(() => {
+            this.check_forum_available()
         }).catch(() => {
-            console.error('Can\'t init inspector')
+            throw 'Can\'t init inspector'
         })
     }
 
     get rURL() {
         return this.vars.APP_URL + '/er/u' + this.user.id + '/s' + this.last_event;
+    }
+
+    check_forum_available() {
+        this.vars.check_urls().then(() => {
+            this.site_available()
+            this.update_all_data().catch(() => {
+                console.error('Can\'t update data')
+            })
+        }).catch(() => {
+            console.error('4PDA is not available')
+            this.site_unavailable()
+        })
+    }
+
+    start_new_check_forum_timeout() {
+        clearTimeout(this.timeout_updater)
+        this.timeout_updater = setTimeout(() => {
+            this.check_forum_available()
+        }, this.vars.interval_ms)
     }
 
     async update_all_data(first_request) {
@@ -54,7 +71,6 @@ class CS {
                         this.mentions.update_count().then(() => {
                             console.debug('mentions update - OK')
                             console.debug('all updated')
-                            this.was_first_request = true
                             this.browser.action_button.print_count()
                             this.notifications.show_all()
                             this.start_new_request_timeout()
@@ -105,8 +121,8 @@ class CS {
                     })
                 } else {
                     console.debug('new user:' + uid)
-                    this.was_first_request = false
-                    this.update_all_data().catch(() => {
+                    // todo notification "NEW LOGIN: username"
+                    this.update_all_data(true).catch(() => {
                         console.error('Can\'t update data')
                     })
                 }
@@ -142,8 +158,19 @@ class CS {
     }
 
     site_unavailable() {
-        this.notifications.show_site_unavailable()
-        this.browser.action_button.print_unavailable()
+        if (this.forum_available) {
+            this.notifications.show_site_unavailable()
+            this.browser.action_button.print_unavailable()
+            this.forum_available = false
+        }
+        this.start_new_check_forum_timeout()
+    }
+    site_available() {
+        if (!this.forum_available) {
+            this.notifications.show_site_available()
+            this.browser.action_button.print_default()
+            this.forum_available = true
+        }
     }
 
     site_logout() {

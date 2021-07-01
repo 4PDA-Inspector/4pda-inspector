@@ -37,24 +37,55 @@ class Vars {
     }
 
     // todo check urls
-    BASE_URL = 'https://4pda.to'
+    _base_url = null
     APP_URL = 'https://appbk.4pda.to'
+
+    get BASE_URL() {
+        if (this._base_url == undefined) {
+            throw 'Empty BASE_URL'
+        }
+        return this._base_url
+    }
 
     get interval_ms() {
         return this.data.interval * 1000
     }
 
+    async check_urls() {
+        return new Promise(async(resolve, reject) => {
+            let checkXHR = new XHR()
+            checkXHR.timeoutTime = 1000
+            for (let url of ['https://4pda.to', 'https://4pda.ru']) {
+                if (this._base_url) {
+                    break
+                }
+                checkXHR.url = url
+                await checkXHR.send().then(() => {
+                    this._base_url = url
+                    console.log(url, 'OK!')
+                }).catch(() => {
+                    console.log(url, 'error!')
+                })
+            }
+            if (this._base_url) {
+                return resolve()
+            } else {
+                return reject()
+            }
+        })
+    }
+
     async read_storage() {
-        let self = this;
         return new Promise((resolve, reject) => {
             //todo use chrome.storage.sync
-            chrome.storage.local.get(null, function (items) {
+            chrome.storage.local.get(null,  (items) => {
                 if (chrome.runtime.lastError) {
                     return reject(chrome.runtime.lastError)
                 }
                 for (let i in items) {
-                    self.set_value(i, items[i], false)
+                    this.set_value(i, items[i], false)
                 }
+                this.check_new_build()
                 return resolve()
             });
         })

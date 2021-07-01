@@ -112,13 +112,18 @@ class ActionButton {
         chrome.browserAction.setBadgeBackgroundColor({'color': color }, () => {});
     }
 
+    print_default() {
+        this.badge_text = ''
+        this.badge_bg_color = this.colors.default
+        this.icon = this.icons.default
+        this.title = '4PDA - В сети'
+    }
     print_logout() {
         this.badge_text = 'login'
         this.badge_bg_color = this.colors.logout
         this.icon = this.icons.logout
         this.title = '4PDA - Не в сети'
     }
-
     print_unavailable() {
         this.badge_text = 'N/A'
         this.badge_bg_color = this.colors.logout
