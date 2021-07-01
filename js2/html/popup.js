@@ -133,13 +133,13 @@ new class {
             this.elements.themesList.className = 'simpleList';
         }
 
-        if (!this.vars_data.toolbar_openAllFavs_button) {
+        if (!this.vars_data.toolbar_button_open_all) {
             this.elements.openAllLabel.classList.add(CLASS_HIDDEN);
         }
-        if (!this.vars_data.toolbar_openAllFavs_button || this.vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
+        if (!this.vars_data.toolbar_button_open_all || this.vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
             this.elements.openAllPinLabel.classList.add(CLASS_HIDDEN);
         }
-        if (!this.vars_data.toolbar_markAllAsRead_button) {
+        if (!this.vars_data.toolbar_button_read_all) {
             this.elements.readAllLabel.classList.add(CLASS_HIDDEN);
         }
         if (this.elements.massThemesActionsBox.querySelectorAll(':not(.hidden)').length === 0) {

@@ -148,17 +148,17 @@ class Notifications {
                 switch (notification['event']) {
                     case 'new_theme':
                     case 'new_comment_in_theme':
-                        play = inspector.vars.data.notification_sound_themes
-                        show = inspector.vars.data.notification_popup_themes
+                        play = inspector.vars.data.notification_themes_sound
+                        show = inspector.vars.data.notification_themes_popup
                         break
                     case 'new_dialog':
                     case 'new_message_in_dialog':
-                        play = inspector.vars.data.notification_sound_qms
-                        show = inspector.vars.data.notification_popup_qms
+                        play = inspector.vars.data.notification_qms_sound
+                        show = inspector.vars.data.notification_qms_popup
                         break
                     case 'mentions_inc':
-                        play = inspector.vars.data.notification_sound_mentions
-                        show = inspector.vars.data.notification_popup_mentions
+                        play = inspector.vars.data.notification_mentions_sound
+                        show = inspector.vars.data.notification_mentions_popup
                         break
                     default:
                         continue

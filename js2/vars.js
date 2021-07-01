@@ -8,24 +8,26 @@ class Vars {
 
         notification_sound_volume: 1,
 
-        notification_sound_themes: true,
-        notification_popup_themes: true,
+        notification_themes_sound: true,
+        notification_themes_popup: true,
         notification_themes_all_comments: false,
 
-        notification_sound_qms: true,
-        notification_popup_qms: true,
+        notification_qms_sound: true,
+        notification_qms_popup: true,
         notification_qms_all_messages: false,
 
-        notification_sound_mentions: true,
-        notification_popup_mentions: true,
+        notification_mentions_sound: true,
+        notification_mentions_popup: true,
 
         toolbar_pin_color: true,
         toolbar_pin_up: false,
         toolbar_only_pin: false,
-        toolbar_opentheme_hide: true,
+        toolbar_open_theme_hide: true,
         toolbar_simple_list: false,
-        toolbar_openAllFavs_button: true,
-        toolbar_markAllAsRead_button: true,
+
+        toolbar_button_open_all: true,
+        toolbar_button_read_all: true,
+
         toolbar_width_fixed: false,
         toolbar_width: 400,
         toolbar_theme: 'auto',
@@ -94,8 +96,7 @@ class Vars {
 
     async read_storage() {
         return new Promise((resolve, reject) => {
-            //todo use chrome.storage.sync
-            chrome.storage.local.get(null,  (items) => {
+            chrome.storage.sync.get(null,  (items) => {
                 if (chrome.runtime.lastError) {
                     return reject(chrome.runtime.lastError)
                 }
@@ -149,7 +150,7 @@ class Vars {
         this.data[field] = value
 
         if (save) {
-            chrome.storage.local.set({
+            chrome.storage.sync.set({
                 [field]: value
             });
 

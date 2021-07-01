@@ -35,7 +35,7 @@ new class {
             self.print_notification_sound_volume(this.value)
         })
 
-        document.getElementById('notification_popup_qms').addEventListener('change', function() {
+        document.getElementById('notification_qms_popup').addEventListener('change', function() {
             if (this.checked) {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
@@ -44,7 +44,7 @@ new class {
                 })
             }
         })
-        document.getElementById('notification_popup_themes').addEventListener('change', function() {
+        document.getElementById('notification_themes_popup').addEventListener('change', function() {
             if (this.checked) {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
@@ -53,7 +53,7 @@ new class {
                 })
             }
         })
-        document.getElementById('notification_popup_mentions').addEventListener('change', function() {
+        document.getElementById('notification_mentions_popup').addEventListener('change', function() {
             if (this.checked) {
                 self.bg.notifications.show({
                     title: "Изменение настроек",

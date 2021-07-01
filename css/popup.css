@@ -50,6 +50,12 @@ body.theme_dark #themesList > .oneTheme .oneTheme_caption {
 body.theme_dark #themesList > .oneTheme .oneTheme_caption:hover {
   color: #2196f3;
 }
+body.theme_dark #themesList > .oneTheme .oneTheme_caption.oneTheme_pin {
+  color: #1d967f;
+}
+body.theme_dark #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
+  color: #43baa3;
+}
 /***************** GLOBAL *****************/
 .hidden {
   display: none !important;
@@ -358,6 +364,12 @@ body.theme_dark #themesList > .oneTheme .oneTheme_caption:hover {
   }
   body.theme_auto #themesList > .oneTheme .oneTheme_caption:hover {
     color: #2196f3;
+  }
+  body.theme_auto #themesList > .oneTheme .oneTheme_caption.oneTheme_pin {
+    color: #1d967f;
+  }
+  body.theme_auto #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
+    color: #43baa3;
   }
 }
 /*# sourceMappingURL=popup.css.map */
