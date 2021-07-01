@@ -42,6 +42,9 @@ class Favorites {
                         if (line) {
                             try {
                                 let theme = new FavoriteTheme(line)
+                                if (inspector.vars.data.toolbar_only_pin && !theme.pin) {
+                                    return
+                                }
                                 new_list[theme.id] = theme
                                 if (!(theme.id in this.list)) {
                                     console.debug('new_theme:', theme.title)
