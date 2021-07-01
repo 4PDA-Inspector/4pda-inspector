@@ -15,6 +15,7 @@ class CS {
     last_event = 0
 
     forum_available = true
+    logged_in = true
 
     constructor() {
         console.debug('init CS', new Date())
@@ -48,8 +49,8 @@ class CS {
             this.site_unavailable()
         })
     }
-
     start_new_check_forum_timeout() {
+        console.debug('check_forum_timeout', new Date())
         clearTimeout(this.timeout_updater)
         this.timeout_updater = setTimeout(() => {
             this.check_forum_available()
@@ -64,6 +65,7 @@ class CS {
         return new Promise((resolve, reject) => {
             this.user.check_user().then(() => {
                 console.debug('user update - OK')
+                this.logged_in = true
                 this.favorites.update_list().then(() => {
                     console.debug('favorites update - OK')
                     this.qms.update_dialogs().then(() => {
@@ -121,10 +123,7 @@ class CS {
                     })
                 } else {
                     console.debug('new user:' + uid)
-                    // todo notification "NEW LOGIN: username"
-                    this.update_all_data(true).catch(() => {
-                        console.error('Can\'t update data')
-                    })
+                    this.update_all_data(true).then()
                 }
             } else {
                 this.site_logout()
@@ -174,8 +173,13 @@ class CS {
     }
 
     site_logout() {
-        this.browser.action_button.print_logout()
-        //todo notifications, callback login
+        if (this.logged_in) {
+            console.debug('logout')
+            this.browser.action_button.print_logout()
+            this.user.clear_data()
+            this.logged_in = false
+        }
+        this.start_new_request_timeout()
     }
 }
 
