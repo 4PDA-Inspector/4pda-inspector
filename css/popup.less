@@ -11,6 +11,39 @@ body {
 
 .body_dark() {
 	background-color: #000000;
+	color: @color_base_light;
+	.icon_mask {
+		background: @color_base_light;
+		&:hover {
+			background: @color_base_hover;
+		}
+	}
+	#mainPanel {
+		#mainPanelButtonsBox {
+			.icoAndCount.hasUnread {
+				color: @color_base_light;
+				&::before {
+					background: @color_base_medium;
+				}
+				&:hover {
+					color: @color_base_hover;
+					&::before {
+						background: @color_base_hover;
+					}
+				}
+			}
+		}
+	}
+	#themesList {
+		> .oneTheme {
+			.oneTheme_caption {
+				color: @color_base_light;
+				&:hover {
+					color: @color_base_hover;
+				}
+			}
+		}
+	}
 }
 body.theme_dark {
 	.body_dark()
@@ -199,7 +232,6 @@ body.theme_dark {
 	}
 
 	span {
-		color: @color_base;
 		cursor: pointer;
 		font-size: 13px;
 		margin: 5px;
