@@ -88,7 +88,6 @@ class FavoriteTheme {
     last_post_ts = ''
     last_read_ts = ''
     pin = false
-    // read = false
 
 
     get URL_first_post() {
@@ -103,6 +102,9 @@ class FavoriteTheme {
     URL_comment(comment_id) {
         return inspector.vars.doForumURL('showtopic='+this.id+'&view=findpost&p='+comment_id)
     }
+    /*get API_URL() {
+        return inspector.vars.doForumURL(`act=inspector&CODE=fav&t=${this.id}`)
+    }*/
 
     get last_post_dt() {
         return new Date(this.last_post_ts*1000).toLocaleString()

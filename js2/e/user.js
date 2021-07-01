@@ -14,8 +14,8 @@ class User {
                 console.debug('uid from cookie = ' + uid)
                 this.request().then(() => {
                     return resolve()
-                }).catch((error) => {
-                    return reject(error)
+                }).catch((reason) => {
+                    return reject(reason)
                 })
             }).catch(() => {
                 console.debug('no logged')

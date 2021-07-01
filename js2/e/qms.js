@@ -55,11 +55,13 @@ class Dialog {
     last_msg_ts = ''
     unread_msgs = 0
     last_msg_id = ''
-    // read = false
 
     get URL() {
         return inspector.vars.doForumURL(`act=qms&mid=${this.opponent_id}&t=${this.id}`)
     }
+    /*get API_URL() {
+        return inspector.vars.doForumURL(`act=inspector&CODE=qms&t=${this.id}`)
+    }*/
 
     constructor(text_line) {
         let obj = Utils.parse(text_line);

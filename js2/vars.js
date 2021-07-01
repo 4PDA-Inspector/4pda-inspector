@@ -107,10 +107,10 @@ class Vars {
 
             switch (field) {
                 case 'interval':
-                    inspector.start_new_request_timeout()
+                    inspector.check_need_update()
                     break
                 case 'toolbar_only_pin':
-                    inspector.update_all_data().then()
+                    inspector.update_all_data(true).then()
                     break
             }
 

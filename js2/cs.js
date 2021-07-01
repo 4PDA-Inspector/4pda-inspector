@@ -39,7 +39,10 @@ class CS {
         return this.vars.APP_URL + '/er/u' + this.user.id + '/s' + this.last_event;
     }
 
-    async update_all_data() {
+    async update_all_data(first_request) {
+        if (first_request) {
+            this.notifications.silent = true
+        }
         console.debug('request', new Date())
         return new Promise((resolve, reject) => {
             this.user.check_user().then(() => {
@@ -71,8 +74,8 @@ class CS {
                     this.site_unavailable()
                     return reject()
                 })
-            }).catch((error) => {
-                if (error) {
+            }).catch((reason) => {
+                if (reason) {
                     this.site_logout()
                 } else {
                     this.site_unavailable()
