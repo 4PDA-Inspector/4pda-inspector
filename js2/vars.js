@@ -96,7 +96,7 @@ class Vars {
 
     async read_storage() {
         return new Promise((resolve, reject) => {
-            chrome.storage.sync.get(null,  (items) => {
+            chrome.storage.local.get(null,  (items) => {
                 if (chrome.runtime.lastError) {
                     return reject(chrome.runtime.lastError)
                 }
@@ -150,7 +150,7 @@ class Vars {
         this.data[field] = value
 
         if (save) {
-            chrome.storage.sync.set({
+            chrome.storage.local.set({
                 [field]: value
             });
 

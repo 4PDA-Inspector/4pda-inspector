@@ -167,7 +167,7 @@ class CS {
     site_available() {
         if (!this.forum_available) {
             this.notifications.show_site_available()
-            this.browser.action_button.print_default()
+            //this.browser.action_button.print_default()
             this.forum_available = true
         }
     }
