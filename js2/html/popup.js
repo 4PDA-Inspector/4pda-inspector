@@ -19,7 +19,6 @@ new class {
 
         if (!this.bg.user.id) {
             console.error('not auth')
-            // todo check auth
             this.bg.user.open_page()
             return
         }
