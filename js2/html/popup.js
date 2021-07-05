@@ -70,9 +70,9 @@ new class {
         })
         this.elements.readAllLabel = document.getElementById('panelReadAll');
         this.elements.readAllLabel.addEventListener("click", () => {
-            for (let theme_id in this.bg.favorites.list) {
-                let row = document.getElementById('theme_' + theme_id)
-                this.bg.favorites.list[theme_id].read().then(() => {
+            for (let theme of this.bg.favorites.list_filtered) {
+                let row = document.getElementById('theme_' + theme.id)
+                theme.read().then(() => {
                     row.classList.add(CLASS_THEME_USED)
                     this.update_themes_count()
                 })
@@ -196,8 +196,7 @@ new class {
         this.elements.themesList.textContent = "";
 
         if (this.bg.favorites.count) {
-            let themes = this.bg.favorites.get_sorted_list()
-            for (let theme of themes) {
+            for (let theme of this.bg.favorites.get_sorted_list(false)) {
                 this.add_theme_row(theme)
             }
         } else {

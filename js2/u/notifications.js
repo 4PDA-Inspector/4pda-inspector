@@ -89,7 +89,7 @@ class Notifications {
                     'iconUrl': this.icons.favorite,
                     'callback': () => {
                         inspector.browser.open_url(object.URL_new_post, true).then(() => {
-                            inspector.favorites.delete_element(object.id)
+                            inspector.favorites.list[object.id].view()
                         })
                     }
                 }

@@ -7,21 +7,21 @@ class Favorites {
     }
 
     get count() {
-        return Object.keys(this.list).length
+        return this.list_filtered.length
     }
 
     get pin_count() {
-        let count = 0
-        for (let theme_id in this.list) {
-            if (this.list[theme_id].pin) {
-                count++
-            }
-        }
-        return count
+        return this.list_filtered.reduce((count, current) => {
+            return count + current.pin
+        }, 0)
+    }
+
+    get list_filtered() {
+        return Object.values(this.list).filter(theme => !theme.viewed)
     }
 
     get_sorted_list(sort_by_acs) {
-        return Object.values(this.list).sort(function (a, b) {
+        return this.list_filtered.sort(function (a, b) {
             if (inspector.vars.data.toolbar_pin_up) {
                 let pinDef = b.pin - a.pin;
                 if (pinDef !== 0) {
@@ -50,6 +50,7 @@ class Favorites {
                                     console.debug('new_theme:', theme.title)
                                     inspector.notifications.add('new_theme', theme)
                                 } else if (this.list[theme.id].last_post_ts < theme.last_post_ts) {
+                                    // todo if viewed - new_theme
                                     console.debug('new_comment_in_theme:', theme.title)
                                     inspector.notifications.add('new_comment_in_theme', theme)
                                 }
@@ -65,11 +66,6 @@ class Favorites {
                 return reject()
             })
         })
-    }
-
-    delete_element(id) {
-        delete this.list[id]
-        inspector.browser.action_button.print_count()
     }
 
     open_page() {
@@ -88,6 +84,7 @@ class FavoriteTheme {
     last_post_ts = ''
     last_read_ts = ''
     pin = false
+    viewed = false
 
 
     get URL_first_post() {
@@ -126,7 +123,7 @@ class FavoriteTheme {
     async read() {
         return new Promise((resolve, reject) => {
             new XHR(this.URL_last_post).send().then(() => {
-                this.destroy()
+                this.view()
                 return resolve()
             }).catch(resp => {
                 console.error('no resp', resp)
@@ -144,14 +141,15 @@ class FavoriteTheme {
     async _open_post(url, set_active) {
         return new Promise((resolve, reject) => {
             inspector.browser.open_url(url, set_active).then(() => {
-                this.destroy()
+                this.view()
                 return resolve()
             })
         })
     }
 
-    destroy() {
-        inspector.favorites.delete_element(this.id)
+    view() {
+        this.viewed = true
+        inspector.browser.action_button.print_count()
     }
 
 }
