@@ -20,6 +20,7 @@ new class {
         if (!this.bg.user.id) {
             console.error('not auth')
             this.bg.user.open_page()
+            this.check_auto_hide()
             return
         }
 
@@ -38,21 +39,25 @@ new class {
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {
             this.bg.user.open_page()
+            this.check_auto_hide()
         });
 
         this.elements.qmsBox = document.getElementById('panelQMS');
         this.elements.qmsBox.addEventListener("click", () => {
             this.bg.qms.open_page()
+            this.check_auto_hide()
         });
 
         this.elements.favoritesBox = document.getElementById('panelFavorites');
         this.elements.favoritesBox.addEventListener("click", () => {
             this.bg.favorites.open_page()
+            this.check_auto_hide()
         });
 
         this.elements.mentionsBox = document.getElementById('panelMentions');
         this.elements.mentionsBox.addEventListener("click", () => {
             this.bg.mentions.open_page()
+            this.check_auto_hide()
         });
 
         this.elements.themesList = document.getElementById('themesList');
@@ -79,7 +84,9 @@ new class {
         })
 
         document.getElementById('panelSettings').addEventListener("click", () => {
-            this.bg.browser.open_url('/html/options.html', true).then()
+            this.bg.browser.open_url('/html/options.html', true).then(() => {
+                this.check_auto_hide()
+            })
         })
 
         document.getElementById('panelRefresh').addEventListener('click', (event) => {
@@ -164,7 +171,9 @@ new class {
                 let link = document.createElement('span')
                 link.innerText = item.title
                 link.addEventListener("click", () => {
-                    this.bg.browser.open_url(item.url, true).then()
+                    this.bg.browser.open_url(item.url, true).then(() => {
+                        this.check_auto_hide()
+                    })
                 })
                 block.appendChild(link)
             }
@@ -189,6 +198,7 @@ new class {
                 break
             }
         }
+        this.check_auto_hide()
     }
 
     print_themes() {
@@ -220,6 +230,7 @@ new class {
             theme.open_new_post().then(() => {
                 tpl.classList.add(CLASS_THEME_USED)
                 this.update_themes_count()
+                this.check_auto_hide()
             })
         })
 
@@ -244,10 +255,17 @@ new class {
                 theme.open_last_post().then(() => {
                     tpl.classList.add(CLASS_THEME_USED)
                     this.update_themes_count()
+                    this.check_auto_hide()
                 })
             })
         }
 
         this.elements.themesList.appendChild(tpl)
+    }
+
+    check_auto_hide() {
+        if (this.vars_data.toolbar_open_theme_hide) {
+            window.close();
+        }
     }
 }

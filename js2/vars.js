@@ -96,6 +96,7 @@ class Vars {
 
     async read_storage() {
         return new Promise((resolve, reject) => {
+            // todo use storage.sync
             chrome.storage.local.get(null,  (items) => {
                 if (chrome.runtime.lastError) {
                     return reject(chrome.runtime.lastError)

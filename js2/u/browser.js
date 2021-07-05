@@ -40,30 +40,28 @@ class Browser {
                             this.focus_window(window)
                         }
                         return resolve(current_tab)
-                    });
+                    })
                 } else {
                     if (inspector.vars.data.open_in_current_tab) {
-                        chrome.windows.getCurrent((win) => {
-                            chrome.tabs.query({
-                                windowId: win.id,
-                                active: true
-                            }, function (tabArray) {
-                                chrome.tabs.update(
-                                    tabArray[0].id, {
-                                        url: url
-                                    }, (tab) => {
-                                        return resolve(tab)
-                                    }
-                                )
-                            });
-                        });
+                        chrome.tabs.query({
+                            active: true,
+                            currentWindow: true
+                        }, (tabs) => {
+                            chrome.tabs.update(
+                                tabs[0].id, {
+                                    url: url
+                                }, (tab) => {
+                                    return resolve(tab)
+                                }
+                            )
+                        })
                     } else {
                         chrome.tabs.create({
                             url: url,
                             active: set_active
                         }, (tab) => {
                             return resolve(tab)
-                        });
+                        })
                     }
                 }
             })
@@ -77,11 +75,11 @@ class Browser {
                 name: cookie_name
             }, cookie => {
                 if (cookie) {
-                    return resolve(cookie.value);
+                    return resolve(cookie.value)
                 } else {
                     return reject()
                 }
-            });
+            })
         })
     }
 }
