@@ -111,7 +111,7 @@ class FavoriteTheme {
         let obj = Utils.parse(text_line)
 
         this.id = obj[0]
-        this.title = obj[1]
+        this.title = Utils.decode_special_chars(obj[1])
         this.posts_num = obj[2]
         this.last_user_id = parseInt(obj[3])
         this.last_user_name = Utils.decode_special_chars(obj[4])

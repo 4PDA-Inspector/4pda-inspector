@@ -64,14 +64,14 @@ class Dialog {
     }*/
 
     constructor(text_line) {
-        let obj = Utils.parse(text_line);
+        let obj = Utils.parse(text_line)
 
-        this.id = obj[0];
-        this.title = obj[1];
-        this.opponent_id = obj[2];
-        this.opponent_name = obj[3];
-        this.last_msg_ts = obj[4];
-        this.unread_msgs = parseInt(obj[5]);
-        this.last_msg_id = obj[6];
+        this.id = obj[0]
+        this.title = Utils.decode_special_chars(obj[1])
+        this.opponent_id = obj[2]
+        this.opponent_name = Utils.decode_special_chars(obj[3])
+        this.last_msg_ts = obj[4]
+        this.unread_msgs = parseInt(obj[5])
+        this.last_msg_id = obj[6]
     }
 }
