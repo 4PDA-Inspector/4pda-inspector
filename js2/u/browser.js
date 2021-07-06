@@ -10,9 +10,9 @@ class Browser {
         return new Promise((resolve, reject) => {
             let upd = {
                 focused: true
-            };
+            }
             if (window.state === "minimized") {
-                upd.state = "normal";
+                upd.state = "normal"
             }
             chrome.windows.update(window.id, upd, () => {
                 return resolve()
@@ -45,12 +45,15 @@ class Browser {
                     if (inspector.vars.data.open_in_current_tab) {
                         chrome.tabs.query({
                             active: true,
-                            currentWindow: true
+                            //currentWindow: true
                         }, (tabs) => {
                             chrome.tabs.update(
                                 tabs[0].id, {
                                     url: url
                                 }, (tab) => {
+                                    chrome.windows.get(tab.windowId, (window => {
+                                        this.focus_window(window)
+                                    }))
                                     return resolve(tab)
                                 }
                             )
@@ -60,6 +63,9 @@ class Browser {
                             url: url,
                             active: set_active
                         }, (tab) => {
+                            chrome.windows.get(tab.windowId, (window => {
+                                this.focus_window(window)
+                            }))
                             return resolve(tab)
                         })
                     }
