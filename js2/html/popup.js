@@ -218,32 +218,38 @@ new class {
         let tpl = document.getElementById(this.vars_data.toolbar_simple_list ? 'tpl_one_theme_simple' : 'tpl_one_theme').cloneNode(true),
             tpl_caption = tpl.querySelector('.oneTheme_caption'),
             tpl_last_user = tpl.querySelector('.oneTheme_user'),
-            tpl_last_dt = tpl.querySelector('.oneTheme_lastPost'),
-            read_button = tpl.querySelector('.oneTheme_markAsRead')
+            tpl_last_dt = tpl.querySelector('.oneTheme_lastPost')
         tpl.id = 'theme_' + theme.id
+
+        tpl.addEventListener("click", (el) => {
+            let current = el.target;
+            if (current.classList.contains('oneTheme_markAsRead')) {
+                current.classList.add(CLASS_LOADING);
+                theme.read().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED);
+                    this.update_themes_count()
+                }).finally(() => {
+                    current.classList.remove(CLASS_LOADING);
+                })
+            } else if (current.classList.contains('oneTheme_lastPost')) {
+                theme.open_last_post().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                    this.check_auto_hide()
+                })
+            } else {
+                theme.open_new_post().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                    this.check_auto_hide()
+                })
+            }
+        })
 
         tpl_caption.textContent = theme.title
         if (theme.pin && this.vars_data.toolbar_pin_color) {
             tpl_caption.classList.add('oneTheme_pin')
         }
-        tpl_caption.addEventListener("click", () => {
-            theme.open_new_post().then(() => {
-                tpl.classList.add(CLASS_THEME_USED)
-                this.update_themes_count()
-                this.check_auto_hide()
-            })
-        })
-
-        read_button.addEventListener("click", (el) => {
-            let current = el.target;
-            current.classList.add(CLASS_LOADING);
-            theme.read().then(() => {
-                current.closest('.oneTheme').classList.add('used');
-                this.update_themes_count()
-            }).finally(() => {
-                current.classList.remove(CLASS_LOADING);
-            })
-        })
 
         if (tpl_last_user) {
             tpl_last_user.textContent = theme.last_user_name
@@ -251,13 +257,6 @@ new class {
 
         if (tpl_last_dt) {
             tpl_last_dt.textContent = theme.last_post_dt
-            tpl_last_dt.addEventListener("click", () => {
-                theme.open_last_post().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                    this.check_auto_hide()
-                })
-            })
         }
 
         this.elements.themesList.appendChild(tpl)
