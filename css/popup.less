@@ -7,6 +7,17 @@ body {
 	margin: 0 0 5px;
 	color: @color_base;
 	background-color: @color_white;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: @color_disabled;
+	}
+	&::-webkit-scrollbar-track {
+		background: fade(@color_base_lightest, 50%);
+	}
 }
 
 .body_dark() {
