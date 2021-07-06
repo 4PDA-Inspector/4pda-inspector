@@ -12,27 +12,25 @@ class QMS {
     async update_dialogs() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
-                let new_list = {}
-                if (resp.responseText) {
-                    let lines = resp.responseText.split(/\r\n|\n/)
-                    lines.forEach(line => {
-                        if (line) {
-                            try {
-                                let dialog = new Dialog(line)
-                                new_list[dialog.id] = dialog
-                                if (!(dialog.id in this.list)) {
-                                    console.debug('new_dialog:', dialog.opponent_name, dialog.title)
-                                    inspector.notifications.add('new_dialog', dialog)
-                                } else if (this.list[dialog.id].last_msg_ts < dialog.last_msg_ts) {
-                                    console.debug('new_message_in_dialog:', dialog.opponent_name, dialog.title)
-                                    inspector.notifications.add('new_message_in_dialog', dialog)
-                                }
-                            } catch (e) {
-
+                let lines = resp.responseText.split(/\r\n|\n/),
+                    new_list = {}
+                lines.forEach(line => {
+                    if (line) {
+                        try {
+                            let dialog = new Dialog(line)
+                            new_list[dialog.id] = dialog
+                            if (!(dialog.id in this.list)) {
+                                console.debug('new_dialog:', dialog.opponent_name, dialog.title)
+                                inspector.notifications.add('new_dialog', dialog)
+                            } else if (this.list[dialog.id].last_msg_ts < dialog.last_msg_ts) {
+                                console.debug('new_message_in_dialog:', dialog.opponent_name, dialog.title)
+                                inspector.notifications.add('new_message_in_dialog', dialog)
                             }
+                        } catch (e) {
+
                         }
-                    })
-                }
+                    }
+                })
                 this.list = new_list
                 return resolve()
             }).catch(() => {

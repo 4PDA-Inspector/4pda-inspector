@@ -35,46 +35,44 @@ class Favorites {
     async update_list() {
         return new Promise((resolve, reject) => {
             new XHR(this.rURL).send().then(resp => {
-                if (resp.responseText) {
-                    let lines = resp.responseText.split(/\r\n|\n/),
-                        new_ids = []
-                    lines.forEach(line => {
-                        if (line) {
-                            try {
-                                let theme = new FavoriteTheme(line)
-                                if (inspector.vars.data.toolbar_only_pin && !theme.pin) {
-                                    return
-                                }
+                let lines = resp.responseText.split(/\r\n|\n/),
+                    new_ids = []
 
-                                let current_theme = (theme.id in this.list) ? this.list[theme.id] : null
-                                new_ids.push(theme.id)
+                lines.forEach(line => {
+                    if (line) {
+                        try {
+                            let theme = new FavoriteTheme(line)
+                            if (inspector.vars.data.toolbar_only_pin && !theme.pin) {
+                                return
+                            }
 
-                                if (!current_theme) {
+                            let current_theme = (theme.id in this.list) ? this.list[theme.id] : null
+                            new_ids.push(theme.id)
+
+                            if (!current_theme) {
+                                console.debug('new_theme:', theme.title)
+                                inspector.notifications.add('new_theme', theme)
+                            } else if (current_theme.last_post_ts < theme.last_post_ts) {
+                                if (current_theme.viewed) {
                                     console.debug('new_theme:', theme.title)
                                     inspector.notifications.add('new_theme', theme)
-                                } else if (current_theme.last_post_ts < theme.last_post_ts) {
-                                    if (current_theme.viewed) {
-                                        console.debug('new_theme:', theme.title)
-                                        inspector.notifications.add('new_theme', theme)
-                                    } else {
-                                        console.debug('new_comment_in_theme:', theme.title)
-                                        inspector.notifications.add('new_comment_in_theme', theme)
-                                    }
                                 } else {
-                                    return
+                                    console.debug('new_comment_in_theme:', theme.title)
+                                    inspector.notifications.add('new_comment_in_theme', theme)
                                 }
-
-                                this.list[theme.id] = theme
-                            } catch (e) {
-
+                            } else {
+                                return
                             }
-                        }
-                    })
 
-                    for (let list_key in this.list) {
-                        if (!new_ids.includes(list_key)) {
-                            delete this.list[list_key]
+                            this.list[theme.id] = theme
+                        } catch (e) {
+
                         }
+                    }
+                })
+                for (let list_key in this.list) {
+                    if (!new_ids.includes(list_key)) {
+                        delete this.list[list_key]
                     }
                 }
                 return resolve()

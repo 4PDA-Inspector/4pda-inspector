@@ -70,7 +70,7 @@ class CS {
                     console.debug('favorites update - OK')
                     this.qms.update_dialogs().then(() => {
                         console.debug('qms update - OK')
-                        this.mentions.update_count().then(() => {
+                        this.mentions.update_list().then(() => {
                             console.debug('mentions update - OK')
                             console.debug('all updated')
                             this.browser.action_button.print_count()

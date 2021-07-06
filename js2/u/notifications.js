@@ -43,27 +43,23 @@ class Notifications {
 
     show(params) {
         let defaultParams = {
+            type: "basic",
             id: '4pda_inspector_' + (Utils.now()),
             title: "4PDA Инспектор",
             message: '',
             iconUrl: this.icons.default
         };
         params = {...defaultParams, ...params}
+        let notification_params = {}
+
+        for (let key in params) {
+            if (['type','title','message','iconUrl','eventTime','contextMessage'].includes(key)) {
+                notification_params[key] = params[key]
+            }
+        }
 
         return new Promise((resolve, reject) => {
-            chrome.notifications.create(params.id, {
-                type: "basic",
-                title: params.title,
-                message: params.message,
-                iconUrl: params.iconUrl,
-
-                //eventTime: Utils.now() - 3600,
-                //contextMessage: 'context',
-                /*buttons: [
-                    {title: 'test1'},
-                    {title: 'test2'},
-                ]*/
-            }, notification_id => {
+            chrome.notifications.create(params.id, notification_params, notification_id => {
                 return resolve(notification_id)
             })
         })
@@ -84,8 +80,12 @@ class Notifications {
             case 'new_theme':
                 new_notification = {
                     'id': `${Utils.now()}_theme_${object.id}_${object.last_post_ts}`,
+                    'contextMessage': (event == 'new_theme')
+                        ? 'Новая тема'
+                        : 'Новый комментарий',
                     'title': object.title,
                     'message': object.last_user_name,
+                    'eventTime': object.last_post_ts*1000,
                     'iconUrl': this.icons.favorite,
                     'callback': () => {
                         inspector.browser.open_url(object.URL_new_post, true).then(() => {
@@ -101,8 +101,12 @@ class Notifications {
             case 'new_dialog':
                 new_notification = {
                     'id': `${Utils.now()}_dialog_${object.id}_${object.last_post_ts}`,
+                    'contextMessage': (event == 'new_dialog')
+                        ? 'Новый диалог'
+                        : 'Новое сообщение',
                     'title': object.title,
                     'message': object.opponent_name,
+                    'eventTime': object.last_msg_ts*1000,
                     'iconUrl': this.icons.qms,
                     'callback': () => {
                         inspector.browser.open_url(object.URL, true).then(() => {
@@ -112,15 +116,17 @@ class Notifications {
                     },
                 }
                 break
-            case 'mentions_inc':
+            case 'new_mention':
                 new_notification = {
-                    'id': `${Utils.now()}_mentions_inc`,
-                    'title': 'Новые упоминания',
-                    //'message': '',
+                    'id': `${Utils.now()}_new_mention`,
+                    'contextMessage': 'Новое упоминание',
+                    'title': object.title,
+                    'message': object.poster_name,
+                    'eventTime': object.timestamp*1000,
                     'iconUrl': this.icons.mention,
                     'callback': () => {
-                        inspector.browser.open_url(inspector.mentions.vURL, true).then(() => {
-                            inspector.mentions.count = 0
+                        inspector.browser.open_url(object.URL, true).then(() => {
+                            delete inspector.mentions.list[object.key]
                         })
                     }
                 }
@@ -156,7 +162,7 @@ class Notifications {
                         play = inspector.vars.data.notification_qms_sound
                         show = inspector.vars.data.notification_qms_popup
                         break
-                    case 'mentions_inc':
+                    case 'new_mention':
                         play = inspector.vars.data.notification_mentions_sound
                         show = inspector.vars.data.notification_mentions_popup
                         break
