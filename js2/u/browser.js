@@ -52,7 +52,9 @@ class Browser {
                                     url: url
                                 }, (tab) => {
                                     chrome.windows.get(tab.windowId, (window => {
-                                        this.focus_window(window)
+                                        if (!window.focused) {
+                                            this.focus_window(window)
+                                        }
                                     }))
                                     return resolve(tab)
                                 }
@@ -64,7 +66,9 @@ class Browser {
                             active: set_active
                         }, (tab) => {
                             chrome.windows.get(tab.windowId, (window => {
-                                this.focus_window(window)
+                                if (!window.focused) {
+                                    this.focus_window(window)
+                                }
                             }))
                             return resolve(tab)
                         })

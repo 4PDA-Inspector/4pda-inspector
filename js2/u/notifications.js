@@ -100,7 +100,7 @@ class Notifications {
                 }
             case 'new_dialog':
                 new_notification = {
-                    'id': `${Utils.now()}_dialog_${object.id}_${object.last_post_ts}`,
+                    'id': `${Utils.now()}_dialog_${object.id}_${object.last_msg_ts}`,
                     'contextMessage': (event == 'new_dialog')
                         ? 'Новый диалог'
                         : 'Новое сообщение',
