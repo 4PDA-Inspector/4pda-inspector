@@ -231,7 +231,7 @@ new class {
                 }).finally(() => {
                     current.classList.remove(CLASS_LOADING);
                 })
-            } else if (current.classList.contains('oneTheme_lastPost')) {
+            } else if (current.classList.contains('lastPost')) {
                 theme.open_last_post().then(() => {
                     tpl.classList.add(CLASS_THEME_USED)
                     this.update_themes_count()
