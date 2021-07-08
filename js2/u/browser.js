@@ -20,7 +20,7 @@ class Browser {
         })
     }
 
-    async open_url(url, set_active) {
+    async open_url(url, set_active, set_window_focus) {
         if (!/\w+:\/\/.+/.test(url)) {
             url = chrome.extension.getURL(url)
         }
@@ -51,11 +51,13 @@ class Browser {
                                 tabs[0].id, {
                                     url: url
                                 }, (tab) => {
-                                    chrome.windows.get(tab.windowId, (window => {
-                                        if (!window.focused) {
-                                            this.focus_window(window)
-                                        }
-                                    }))
+                                    if (set_window_focus) {
+                                        chrome.windows.get(tab.windowId, (window => {
+                                            if (!window.focused) {
+                                                this.focus_window(window)
+                                            }
+                                        }))
+                                    }
                                     return resolve(tab)
                                 }
                             )
@@ -65,11 +67,13 @@ class Browser {
                             url: url,
                             active: set_active
                         }, (tab) => {
-                            chrome.windows.get(tab.windowId, (window => {
-                                if (!window.focused) {
-                                    this.focus_window(window)
-                                }
-                            }))
+                            if (set_window_focus) {
+                                chrome.windows.get(tab.windowId, (window => {
+                                    if (!window.focused) {
+                                        this.focus_window(window)
+                                    }
+                                }))
+                            }
                             return resolve(tab)
                         })
                     }

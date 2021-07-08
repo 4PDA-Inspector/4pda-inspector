@@ -88,7 +88,7 @@ class Notifications {
                     'eventTime': object.last_post_ts*1000,
                     'iconUrl': this.icons.favorite,
                     'callback': () => {
-                        inspector.browser.open_url(object.URL_new_post, true).then(() => {
+                        inspector.browser.open_url(object.URL_new_post, true, true).then(() => {
                             inspector.favorites.list[object.id].view()
                         })
                     }
@@ -109,7 +109,7 @@ class Notifications {
                     'eventTime': object.last_msg_ts*1000,
                     'iconUrl': this.icons.qms,
                     'callback': () => {
-                        inspector.browser.open_url(object.URL, true).then(() => {
+                        inspector.browser.open_url(object.URL, true, true).then(() => {
                             delete inspector.qms.list[object.id]
                             inspector.browser.action_button.print_count()
                         })
@@ -125,7 +125,7 @@ class Notifications {
                     'eventTime': object.timestamp*1000,
                     'iconUrl': this.icons.mention,
                     'callback': () => {
-                        inspector.browser.open_url(object.URL, true).then(() => {
+                        inspector.browser.open_url(object.URL, true, true).then(() => {
                             delete inspector.mentions.list[object.key]
                         })
                     }
