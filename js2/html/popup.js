@@ -15,7 +15,6 @@ new class {
 
     constructor() {
         this.bg = chrome.extension.getBackgroundPage().inspector
-        this.vars_data = this.bg.vars.data
 
         if (!this.bg.user.id) {
             console.error('not auth')
@@ -23,6 +22,7 @@ new class {
             this.check_auto_hide()
             return
         }
+        this.vars_data = this.bg.vars.data
 
         this.init_elements()
         this.refresh()

@@ -1,0 +1,4 @@
+https://developer.chrome.com/docs/extensions/mv3/getstarted/
+https://developer.chrome.com/docs/extensions/reference/i18n/
+https://developer.chrome.com/docs/extensions/reference/runtime/
+https://developer.chrome.com/docs/extensions/mv2/manifest/storage/
