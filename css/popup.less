@@ -108,7 +108,7 @@ body.theme_dark {
 	position: sticky;
 	top: 0;
 	background: inherit;
-	z-index: 2;
+	z-index: 10;
 }
 
 #mainPanel {
@@ -273,6 +273,7 @@ body.theme_dark {
 		border-bottom: 1px solid @color_theme_hover_bg;
 		padding: 2px 5px;
 		white-space: nowrap;
+		position: relative;
 
 		> * {
 			cursor: pointer;
@@ -282,18 +283,31 @@ body.theme_dark {
 			background: linear-gradient(to right, @color_theme_hover_bg 0, @color_theme_hover_bg 95%, transparent 100%);
 		}
 
+		.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1;
+
+			&:hover {
+				+ .oneTheme_caption {
+					color: @color_base_hover;
+					&.oneTheme_pin {
+						color: @color_highlight_hover;
+					}
+				}
+			}
+		}
+
 		.oneTheme_caption {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			flex-grow: 1;
-			&:hover {
-				color: @color_base_hover;
-			}
+			pointer-events: none;
 			&.oneTheme_pin {
 				color: @color_highlight;
-				&:hover {
-					color: @color_highlight_hover;
-				}
 			}
 		}
 
@@ -305,6 +319,7 @@ body.theme_dark {
 		.lastPost {
 			color: @color_disabled;
 			font-size: 11px;
+			z-index: 2;
 			> span {
 				margin: 0 5px 0 0;
 				pointer-events: none;
@@ -321,6 +336,7 @@ body.theme_dark {
 			.mask(14px 14px);
 			background: @color_disabled;
 			padding-left: 5px;
+			z-index: 2;
 
 			&:hover {
 				background: @color_base_hover;
@@ -345,6 +361,10 @@ body.theme_dark {
 			}
 			.oneTheme_markAsRead {
 				background: fade(@color_disabled, 40%);
+			}
+
+			.overlay:hover + .oneTheme_caption {
+				color: inherit;
 			}
 		}
 	}
