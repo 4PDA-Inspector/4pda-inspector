@@ -31,6 +31,10 @@ class Utils {
     static decode_special_chars(string) {
         let txt = document.createElement("textarea");
         txt.innerHTML = string;
+        /* todo
+        Unsafe assignment to innerHTML
+        Предупреждение: Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.
+         */
         return txt.value
     }
 }

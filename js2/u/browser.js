@@ -20,7 +20,7 @@ class Browser {
 
     async open_url(url, set_active, set_window_focus) {
         if (!/\w+:\/\/.+/.test(url)) {
-            url = chrome.extension.getURL(url)
+            url = chrome.runtime.getURL(url)
         }
         set_active = set_active || inspector.vars.data.toolbar_open_theme_hide
 
