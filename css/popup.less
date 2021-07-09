@@ -2,11 +2,14 @@
 
 @color_theme_hover_bg: fade(@color_base_medium, 20%);
 
+html {
+	background: @color_white;
+	color: @color_base;
+}
 body {
 	.font-default();
 	margin: 0 0 5px;
-	color: @color_base;
-	background-color: @color_white;
+	background-color: inherit;
 	user-select: none;
 
 	&::-webkit-scrollbar {
@@ -21,8 +24,8 @@ body {
 	}
 }
 
-.body_dark() {
-	background-color: #000000;
+.dark_theme() {
+	background-color: @color_black;
 	color: @color_base_light;
 	.icon_mask {
 		background: @color_base_light;
@@ -63,8 +66,9 @@ body {
 		}
 	}
 }
-body.theme_dark {
-	.body_dark()
+
+html.theme_dark {
+	.dark_theme()
 }
 
 /***************** GLOBAL *****************/
@@ -381,7 +385,7 @@ body.theme_dark {
 }
 
 @media (prefers-color-scheme: dark) {
-	body.theme_auto {
-		.body_dark()
+	html.theme_auto {
+		.dark_theme()
 	}
 }
