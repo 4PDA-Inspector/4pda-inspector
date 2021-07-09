@@ -146,7 +146,7 @@ class CS {
 
     site_unavailable() {
         if (this.forum_available) {
-            this.notifications.show_site_unavailable()
+            //this.notifications.show_site_unavailable()
             this.browser.action_button.print_unavailable()
             this.forum_available = false
         }
@@ -154,7 +154,7 @@ class CS {
     }
     site_available() {
         if (!this.forum_available) {
-            this.notifications.show_site_available()
+            //this.notifications.show_site_available()
             //this.browser.action_button.print_default()
             this.forum_available = true
         }
