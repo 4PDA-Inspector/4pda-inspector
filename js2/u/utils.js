@@ -1,8 +1,9 @@
+const PARSE_STRING_REGEXP = /([^\s"']+|"([^"]*)"|'([^']*)')/g
+
 class Utils {
-    static parseStringRegexp = /([^\s"']+|"([^"]*)"|'([^']*)')/g
 
     static parse(str) {
-        let parsed = str.match(this.parseStringRegexp);
+        let parsed = str.match(PARSE_STRING_REGEXP);
         for (let i = 0; i < parsed.length; i++) {
             let pq = parsed[i].match(/"(.*)"/);
             if (pq) {

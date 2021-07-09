@@ -1,5 +1,8 @@
 class QMS {
-    list = {}
+
+    constructor() {
+        this.list = {}
+    }
 
     get rURL() {
         return inspector.vars.doForumURL('act=inspector&CODE=qms')
@@ -45,14 +48,6 @@ class QMS {
 }
 
 class Dialog {
-
-    id = 0
-    title = ''
-    opponent_id = ''
-    opponent_name = ''
-    last_msg_ts = ''
-    unread_msgs = 0
-    last_msg_id = ''
 
     get URL() {
         return inspector.vars.doForumURL(`act=qms&mid=${this.opponent_id}&t=${this.id}`)

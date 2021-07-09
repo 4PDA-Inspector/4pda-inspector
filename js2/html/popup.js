@@ -6,16 +6,10 @@ const CLASS_HIDDEN = 'hidden'
 
 new class {
 
-    bg
-    elements = {
-        username_label: null,
-        themesList: null,
-    }
-    vars_data
-
     constructor() {
         this.bg = chrome.extension.getBackgroundPage().inspector
         this.vars_data = this.bg.vars.data
+        this.elements = {}
 
         if (!this.bg.user.id) {
             console.error('not auth')

@@ -1,6 +1,8 @@
 class Mentions {
 
-    list = {}
+    constructor() {
+        this.list = {}
+    }
 
     get count() {
         return Object.keys(this.list).length
@@ -55,13 +57,6 @@ class Mentions {
 }
 
 class Mention {
-    from = 0 // 0 = forum, 1 = site
-    topic_id //or post_id
-    post_id //or comment_id
-    title
-    timestamp
-    poster_id
-    poster_name
 
     get key() {
         return `${this.timestamp}_${this.topic_id}_${this.post_id}`
@@ -80,15 +75,15 @@ class Mention {
     constructor(text_line) {
         let obj = Utils.parse(text_line)
 
-        this.from = parseInt(obj[0])
+        this.from = parseInt(obj[0]) // 0 = forum, 1 = site
         if (this.from !== 0) {
             throw 'Mention: Bad from'
         }
         /*if (![0,1].includes(this.from)) {
             throw 'Mention: Bad from'
         }*/
-        this.topic_id = parseInt(obj[1])
-        this.post_id = parseInt(obj[2])
+        this.topic_id = parseInt(obj[1]) //or post_id
+        this.post_id = parseInt(obj[2]) //or comment_id
         this.title = Utils.decode_special_chars(obj[3])
         this.timestamp = parseInt(obj[4])
         this.poster_id = parseInt(obj[5])

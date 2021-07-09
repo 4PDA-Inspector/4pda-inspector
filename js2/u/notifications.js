@@ -1,19 +1,11 @@
 class Notifications {
 
-    notification_sound
-    icons = {
-        default: "/icons/icon_80.png",
-        qms: "/icons/icon_80_message.png",
-        favorite: "/icons/icon_80_favorite.png",
-        mention: "/icons/icon_80_mention.png",
-        out: "/icons/icon_80_out.png",
-    }
-    list = {}
-    new_list = {}
-    silent = true
-
     constructor() {
-        this.notification_sound = new Audio('/sound/sound3.ogg')
+        this.notification_sound = new Audio(NOTIFICATION_SOUND)
+        this.list = {}
+        this.new_list = {}
+        this.silent = true
+
         chrome.notifications.onClicked.addListener(notificationId => {
             this.click(notificationId)
         })
@@ -31,13 +23,13 @@ class Notifications {
     show_site_unavailable() {
         this.show({
             title: "4PDA - Сайт недоступен",
-            iconUrl: this.icons.out
+            iconUrl: NOTIFICATION_ICONS.out
         }).then()
     }
     show_site_available() {
         this.show({
             title: "4PDA - Сайт доступен",
-            iconUrl: this.icons.default
+            iconUrl: NOTIFICATION_ICONS.default
         }).then()
     }
 
@@ -47,7 +39,7 @@ class Notifications {
             id: '4pda_inspector_' + (Utils.now()),
             title: "4PDA Инспектор",
             message: '',
-            iconUrl: this.icons.default
+            iconUrl: NOTIFICATION_ICONS.default
         };
         params = {...defaultParams, ...params}
         let notification_params = {}
@@ -86,7 +78,7 @@ class Notifications {
                     'title': object.title,
                     'message': object.last_user_name,
                     'eventTime': object.last_post_ts*1000,
-                    'iconUrl': this.icons.favorite,
+                    'iconUrl': NOTIFICATION_ICONS.favorite,
                     'callback': () => {
                         inspector.browser.open_url(object.URL_new_post, true, true).then(() => {
                             inspector.favorites.list[object.id].view()
@@ -107,7 +99,7 @@ class Notifications {
                     'title': object.title,
                     'message': object.opponent_name,
                     'eventTime': object.last_msg_ts*1000,
-                    'iconUrl': this.icons.qms,
+                    'iconUrl': NOTIFICATION_ICONS.qms,
                     'callback': () => {
                         inspector.browser.open_url(object.URL, true, true).then(() => {
                             delete inspector.qms.list[object.id]
@@ -123,7 +115,7 @@ class Notifications {
                     'title': object.title,
                     'message': object.poster_name,
                     'eventTime': object.timestamp*1000,
-                    'iconUrl': this.icons.mention,
+                    'iconUrl': NOTIFICATION_ICONS.mention,
                     'callback': () => {
                         inspector.browser.open_url(object.URL, true, true).then(() => {
                             delete inspector.mentions.list[object.key]

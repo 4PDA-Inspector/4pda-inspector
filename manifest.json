@@ -33,6 +33,7 @@
 	},
 	"background": {
 		"scripts" : [
+			"/js2/u/defaults.js",
 			"/js2/u/utils.js",
 			"/js2/u/browser.js",
 			"/js2/u/notifications.js",

@@ -1,8 +1,9 @@
 class User {
 
-    id = 0
-    name
-    COOKIE_NAME = 'member_id'
+    constructor() {
+        this.id = 0
+        this.name = ''
+    }
 
     get rURL() {
         return inspector.vars.doForumURL('act=inspector&CODE=id')
@@ -27,7 +28,7 @@ class User {
     async check_cookie_member_id() {
         // fast way to check is logged
         return new Promise((resolve, reject) => {
-            inspector.browser.get_cookie(this.COOKIE_NAME).then(value => {
+            inspector.browser.get_cookie(MEMBER_COOKIE_NAME).then(value => {
                 return resolve(parseInt(value));
             }).catch(() => {
                 return reject()
