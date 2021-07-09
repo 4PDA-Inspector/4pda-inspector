@@ -1,7 +1,5 @@
 class Browser {
 
-    action_button
-
     constructor() {
         this.action_button = new ActionButton()
     }
@@ -22,7 +20,7 @@ class Browser {
 
     async open_url(url, set_active, set_window_focus) {
         if (!/\w+:\/\/.+/.test(url)) {
-            url = chrome.extension.getURL(url)
+            url = chrome.runtime.getURL(url)
         }
         set_active = set_active || inspector.vars.data.toolbar_open_theme_hide
 
@@ -100,17 +98,6 @@ class Browser {
 
 class ActionButton {
 
-    icons = {
-        default: '/icons/icon_19.png',
-        has_qms: '/icons/icon_19_qms.png',
-        logout: '/icons/icon_19_out.png'
-    }
-    colors = {
-        default: [63, 81, 181, 255],
-        has_qms: [76, 175, 80, 255],
-        logout: [158, 158, 158, 255],
-    }
-
     set icon(path) {
         chrome.browserAction.setIcon({path: path});
     }
@@ -126,20 +113,20 @@ class ActionButton {
 
     print_default() {
         this.badge_text = ''
-        this.badge_bg_color = this.colors.default
-        this.icon = this.icons.default
+        this.badge_bg_color = ACTION_BUTTON_COLORS.default
+        this.icon = ACTION_BUTTON_ICONS.default
         this.title = '4PDA - В сети'
     }
     print_logout() {
         this.badge_text = 'login'
-        this.badge_bg_color = this.colors.logout
-        this.icon = this.icons.logout
+        this.badge_bg_color = ACTION_BUTTON_COLORS.logout
+        this.icon = ACTION_BUTTON_ICONS.logout
         this.title = '4PDA - Не в сети'
     }
     print_unavailable() {
         this.badge_text = 'N/A'
-        this.badge_bg_color = this.colors.logout
-        this.icon = this.icons.logout
+        this.badge_bg_color = ACTION_BUTTON_COLORS.logout
+        this.icon = ACTION_BUTTON_ICONS.logout
         this.title = '4PDA - Сайт недоступен'
     }
 
@@ -150,11 +137,11 @@ class ActionButton {
                 f_count = inspector.favorites.count
 
             if (q_count) {
-                this.icon = this.icons.has_qms
-                this.badge_bg_color = this.colors.has_qms
+                this.icon = ACTION_BUTTON_ICONS.has_qms
+                this.badge_bg_color = ACTION_BUTTON_COLORS.has_qms
             } else {
-                this.icon = this.icons.default
-                this.badge_bg_color = this.colors.default
+                this.icon = ACTION_BUTTON_ICONS.default
+                this.badge_bg_color = ACTION_BUTTON_COLORS.default
             }
 
             this.badge_text = f_count || ''

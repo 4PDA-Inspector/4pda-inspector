@@ -1,9 +1,5 @@
 new class {
 
-    //todo regexp by base_url
-    url_regexp = /^(https?:\/\/)4pda\.to([\/\w.-?=&#]*)*\/?$/
-    bg
-
     constructor() {
         this.bg = chrome.extension.getBackgroundPage().inspector
         this.add_event_listeners()
@@ -40,7 +36,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о QMS успешно включены",
-                    iconUrl: self.bg.notifications.icons.qms
+                    iconUrl: NOTIFICATION_ICONS.qms
                 })
             }
         })
@@ -49,7 +45,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения о темах успешно включены",
-                    iconUrl: self.bg.notifications.icons.favorite
+                    iconUrl: NOTIFICATION_ICONS.favorite
                 })
             }
         })
@@ -58,7 +54,7 @@ new class {
                 self.bg.notifications.show({
                     title: "Изменение настроек",
                     message: "Оповещения об упоминаниях успешно включены",
-                    iconUrl: self.bg.notifications.icons.mention
+                    iconUrl: NOTIFICATION_ICONS.mention
                 })
             }
         })
@@ -158,7 +154,7 @@ new class {
                         title: $titleInput.value
                     },
                     has_errors = false
-                if (new_user_link.url && this.url_regexp.test(new_user_link.url)) {
+                if (new_user_link.url && USER_LINKS_URL_REGEXP.test(new_user_link.url)) {
                     $urlInput.classList.remove('error')
                 } else {
                     $urlInput.classList.add('error')

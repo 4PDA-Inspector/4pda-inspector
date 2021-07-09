@@ -1,8 +1,9 @@
+const PARSE_STRING_REGEXP = /([^\s"']+|"([^"]*)"|'([^']*)')/g
+
 class Utils {
-    static parseStringRegexp = /([^\s"']+|"([^"]*)"|'([^']*)')/g
 
     static parse(str) {
-        let parsed = str.match(this.parseStringRegexp);
+        let parsed = str.match(PARSE_STRING_REGEXP);
         for (let i = 0; i < parsed.length; i++) {
             let pq = parsed[i].match(/"(.*)"/);
             if (pq) {
@@ -30,6 +31,10 @@ class Utils {
     static decode_special_chars(string) {
         let txt = document.createElement("textarea");
         txt.innerHTML = string;
+        /* todo
+        Unsafe assignment to innerHTML
+        Предупреждение: Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.
+         */
         return txt.value
     }
 }

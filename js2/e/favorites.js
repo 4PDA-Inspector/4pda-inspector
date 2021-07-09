@@ -1,6 +1,8 @@
 class Favorites {
 
-    list = {}
+    constructor() {
+        this.list = {}
+    }
 
     get rURL() {
         return inspector.vars.doForumURL('act=inspector&CODE=fav')
@@ -90,16 +92,6 @@ class Favorites {
 
 
 class FavoriteTheme {
-    id = 0
-    title = ''
-    posts_num = ''
-    last_user_id = ''
-    last_user_name = ''
-    last_post_ts = ''
-    last_read_ts = ''
-    pin = false
-    viewed = false
-
 
     get URL_first_post() {
         return inspector.vars.doForumURL('showtopic='+this.id)
@@ -132,6 +124,7 @@ class FavoriteTheme {
         this.last_post_ts = parseInt(obj[5])
         this.last_read_ts = parseInt(obj[6])
         this.pin = (obj[7] == "1")
+        this.viewed = false
     }
 
     async read() {

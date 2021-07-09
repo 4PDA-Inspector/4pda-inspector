@@ -1,9 +1,8 @@
 class XHR {
-    url
-    timeoutTime = 10000
 
     constructor(url) {
         this.url = url
+        this.timeoutTime = 10000
     }
 
     async send() {

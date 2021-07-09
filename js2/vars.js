@@ -1,45 +1,11 @@
 class Vars {
 
-    current_build = 20210701
+    constructor() {
+        this.data = DEFAULT_SETTINGS
 
-    data = {
-        interval: 10,
-        open_themes_limit: 0,
-
-        notification_sound_volume: 1,
-
-        notification_themes_sound: true,
-        notification_themes_popup: true,
-        notification_themes_all_comments: false,
-
-        notification_qms_sound: true,
-        notification_qms_popup: true,
-        notification_qms_all_messages: false,
-
-        notification_mentions_sound: true,
-        notification_mentions_popup: true,
-
-        toolbar_pin_color: true,
-        toolbar_pin_up: false,
-        toolbar_only_pin: false,
-        toolbar_open_theme_hide: true,
-        toolbar_simple_list: false,
-
-        toolbar_button_open_all: true,
-        toolbar_button_read_all: true,
-
-        toolbar_width_fixed: false,
-        toolbar_width: 400,
-        toolbar_theme: 'auto',
-
-        open_in_current_tab: false,
-        user_links: [],
-
-        build: 0
+        this._base_url = null
+        this._app_url = null
     }
-
-    _base_url = null
-    _app_url = null
 
     get BASE_URL() {
         if (this._base_url == undefined) {
@@ -111,9 +77,9 @@ class Vars {
     }
 
     check_new_build() {
-        if (!this.data.build || this.data.build < this.current_build) {
+        if (!this.data.build || this.data.build < CURRENT_BUILD) {
             inspector.browser.open_url('html/whatsnew.html').then()
-            this.set_value('build', this.current_build)
+            this.set_value('build', CURRENT_BUILD)
         }
     }
 

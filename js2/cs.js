@@ -1,20 +1,5 @@
 class CS {
 
-    browser
-    vars
-
-    user
-    favorites
-    qms
-    mentions
-    notifications
-
-    timeout_updater = 0
-    last_event = 0
-
-    forum_available = true
-    logged_in = true
-
     constructor() {
         console.debug('init CS', new Date())
         this.vars = new Vars()
@@ -24,6 +9,11 @@ class CS {
         this.favorites = new Favorites()
         this.qms = new QMS()
         this.mentions = new Mentions()
+
+        this.timeout_updater = 0
+        this.last_event = 0
+        this.forum_available = true
+        this.logged_in = true
 
         this.vars.read_storage().then(() => {
             this.check_forum_available()
