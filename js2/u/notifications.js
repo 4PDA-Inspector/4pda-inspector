@@ -72,9 +72,7 @@ class Notifications {
             case 'new_theme':
                 new_notification = {
                     'id': `${Utils.now()}_theme_${object.id}_${object.last_post_ts}`,
-                    'contextMessage': (event == 'new_theme')
-                        ? 'Новая тема'
-                        : 'Новый комментарий',
+                    'contextMessage': 'Новый комментарий',
                     'title': object.title,
                     'message': object.last_user_name,
                     'eventTime': object.last_post_ts*1000,
@@ -93,9 +91,7 @@ class Notifications {
             case 'new_dialog':
                 new_notification = {
                     'id': `${Utils.now()}_dialog_${object.id}_${object.last_msg_ts}`,
-                    'contextMessage': (event == 'new_dialog')
-                        ? 'Новый диалог'
-                        : 'Новое сообщение',
+                    'contextMessage': 'Новое сообщение',
                     'title': object.title,
                     'message': object.opponent_name,
                     'eventTime': object.last_msg_ts*1000,
