@@ -96,7 +96,7 @@ class Vars {
                 value = String(value)
                 break
             case 'undefined':
-                console.error('Set value:', field, value)
+                chrome.storage.local.remove(field)
                 return false
         }
 
