@@ -29,7 +29,7 @@ const DEFAULT_SETTINGS = {
     interval: 10,
     open_themes_limit: 0,
 
-    notification_sound_volume: 1,
+    notification_sound_volume: 0.5,
 
     notification_themes_sound: true,
     notification_themes_popup: true,
