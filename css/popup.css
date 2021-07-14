@@ -50,7 +50,7 @@ html.theme_dark #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread {
   color: #7A99D0;
 }
 html.theme_dark #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread::before {
-  background: #5E6FC7;
+  background: #7A99D0;
 }
 html.theme_dark #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread:hover {
   color: #2196F3;
@@ -376,7 +376,7 @@ html.theme_dark #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
     color: #7A99D0;
   }
   html.theme_auto #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread::before {
-    background: #5E6FC7;
+    background: #7A99D0;
   }
   html.theme_auto #mainPanel #mainPanelButtonsBox .icoAndCount.hasUnread:hover {
     color: #2196F3;

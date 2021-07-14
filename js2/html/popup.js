@@ -23,7 +23,7 @@ new class {
                 // странный но нужный фикс
                 this.init_elements()
                 this.refresh()
-            }, 1)
+            }, 5)
         }
     }
 
