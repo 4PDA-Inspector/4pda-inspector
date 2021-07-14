@@ -326,6 +326,7 @@ html.theme_dark #themesList > .oneTheme .oneTheme_caption.oneTheme_pin:hover {
   background: #9E9E9E;
   padding-left: 5px;
   z-index: 2;
+  flex-shrink: 0;
 }
 #themesList > .oneTheme .oneTheme_markAsRead:hover {
   background: #2196F3;
