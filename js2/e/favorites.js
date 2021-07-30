@@ -47,6 +47,9 @@ class Favorites {
                             if (inspector.vars.data.toolbar_only_pin && !theme.pin) {
                                 return
                             }
+                            if (theme.last_user_id == inspector.user.id) {
+                                return
+                            }
 
                             let current_theme = (theme.id in this.list) ? this.list[theme.id] : null
                             new_ids.push(theme.id)

@@ -337,7 +337,7 @@ html.theme_dark #themesList > .oneTheme .oneTheme_markAsRead.loading {
   color: #9e9e9e;
 }
 #themesList > .oneTheme.used .oneTheme_caption {
-  color: inherit;
+  color: inherit !important;
   text-decoration: line-through;
 }
 #themesList > .oneTheme.used .oneTheme_caption:hover {
