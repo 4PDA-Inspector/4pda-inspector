@@ -20,19 +20,6 @@ class Notifications {
         this.notification_sound.play()
     }
 
-    show_site_unavailable() {
-        this.show({
-            title: "4PDA - Сайт недоступен",
-            iconUrl: NOTIFICATION_ICONS.out
-        }).then()
-    }
-    show_site_available() {
-        this.show({
-            title: "4PDA - Сайт доступен",
-            iconUrl: NOTIFICATION_ICONS.default
-        }).then()
-    }
-
     show(params) {
         let defaultParams = {
             type: "basic",
