@@ -28,7 +28,7 @@ class Vars {
         return new Promise(async(resolve, reject) => {
             let checkXHR = new XHR()
             checkXHR.timeoutTime = 1000
-            for (let url of ['https://4pda.to', 'https://4pda.ru']) {
+            for (let url of ['https://4pda.to']) {
                 if (this._base_url) {
                     break
                 }
@@ -40,7 +40,7 @@ class Vars {
                     console.debug(url, 'error!')
                 })
             }
-            for (let url of ['https://appbk.4pda.to', 'https://app.4pda.ru']) {
+            for (let url of ['https://appbk.4pda.to']) {
                 if (this._app_url) {
                     break
                 }

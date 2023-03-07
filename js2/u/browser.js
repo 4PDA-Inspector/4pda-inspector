@@ -4,6 +4,10 @@ class Browser {
         this.action_button = new ActionButton()
     }
 
+    /**
+     * @param {chrome.windows.Window} window
+     * @returns {Promise}
+     */
     async focus_window(window) {
         return new Promise((resolve, reject) => {
             let upd = {
@@ -80,6 +84,10 @@ class Browser {
         })
     }
 
+    /**
+     * @param {string} cookie_name
+     * @returns {Promise<string>}
+     */
     async get_cookie(cookie_name) {
         return new Promise((resolve, reject) => {
             chrome.cookies.get({
