@@ -1,3 +1,3 @@
-# 4pda-inspector-chrome
+# 4pda-inspector
 
-http://4pdainspector.coddism.com/
+https://4pda-inspector.github.io/4pda-inspector/

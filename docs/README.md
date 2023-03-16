@@ -12,3 +12,14 @@
 ## Связаться с разработчиками
 
 [Обсудить на форуме 4PDA](https://4pda.to/forum/index.php?showtopic=343126)
+
+
+## Отблагодарить
+
+[![Boosty](img/boosty_color.svg?)](https://boosty.to/isergium)
+
+### Bitcoin
+
+![Bitcoin](https://wmx.wmtransfer.com/Qr/Address/1LnXqRXCocCEWZ6iND27nxZy2xxUoa8sJn?purse=X182304367515)
+
+**1LnXqRXCocCEWZ6iND27nxZy2xxUoa8sJn**
