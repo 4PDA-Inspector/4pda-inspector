@@ -106,15 +106,27 @@ class Browser {
 
 class ActionButton {
 
+    /**
+     * @param {string} path
+     */
     set icon(path) {
         chrome.browserAction.setIcon({path: path});
     }
+    /**
+     * @param {string} text
+     */
     set badge_text(text) {
         chrome.browserAction.setBadgeText({'text': String(text)}, () => {});
     }
+    /**
+     * @param {string} text
+     */
     set title(text) {
         chrome.browserAction.setTitle({'title': text.toString()}, () => {});
     }
+    /**
+     * @param {number[]} color
+     */
     set badge_bg_color(color) {
         chrome.browserAction.setBadgeBackgroundColor({'color': color }, () => {});
     }
