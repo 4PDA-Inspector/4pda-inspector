@@ -26,7 +26,7 @@ const USER_LINKS_URL_REGEXP = /^(https?:\/\/)4pda\.to([\/\w.-?=&#]*)*\/?$/
 const MEMBER_COOKIE_NAME = 'member_id'
 
 const DEFAULT_SETTINGS = {
-    interval: 10,
+    interval: 30,
     open_themes_limit: 0,
 
     notification_sound_volume: 0.5,
