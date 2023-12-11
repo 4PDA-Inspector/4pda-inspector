@@ -1,3 +1,5 @@
+console.log('Defaults init..')
+
 const CURRENT_BUILD = 20210701
 
 const NOTIFICATION_ICONS = {
