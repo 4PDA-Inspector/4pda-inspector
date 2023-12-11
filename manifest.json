@@ -3,6 +3,11 @@
     "name": "4PDA Инспектор beta",
     "description": "Мониторинг изменений на форуме 4pda",
     "version": "3.5",
+    "icons": {
+        "16": "icons/icon_16.png",
+        "48": "icons/icon_48.png",
+        "128": "icons/icon_128.png"
+    },
     "action": {
       "default_popup": "popup/popup.html",
       "default_icon": "icons/icon_16.png"
@@ -10,5 +15,11 @@
     "background": {
         "service_worker": "js/sw.js",
         "type": "module"
-    }
+    },
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "https://4pda.to/*"
+    ]
 }
