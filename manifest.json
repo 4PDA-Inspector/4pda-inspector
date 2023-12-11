@@ -1,10 +1,10 @@
 {
     "manifest_version": 3,
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
-    "version": "1.0",
+    "name": "4PDA Инспектор beta",
+    "description": "Мониторинг изменений на форуме 4pda",
+    "version": "3.5",
     "action": {
-      "default_popup": "hello.html",
-      "default_icon": "hello_extensions.png"
+      "default_popup": "popup/popup.html",
+      "default_icon": "icons/icon_16.png"
     }
 }
