@@ -120,6 +120,7 @@ class User {
     name
 
     request() {
+        console.debug('update user..')
         return new Promise((resolve, reject) => {
             request_and_parse('id').then(res => {
                 // console.debug(res)
@@ -144,6 +145,7 @@ class Favorites {
     list = {}
 
     request() {
+        console.debug('update favorites..')
         this.list = {}
         return new Promise((resolve, reject) => {
             request_and_parse('fav').then(res => {
@@ -153,7 +155,7 @@ class Favorites {
                     // console.log(theme)
                     this.list[theme.id] = theme
                 }
-
+                resolve()
             }).catch(r => {
                 reject(r)
             })
@@ -176,11 +178,30 @@ class FavoriteTheme {
     }
 }
 
+class QMS {
+    list = {}
+
+    request() {
+        console.debug('update qms..')
+        this.list = {}
+        return new Promise((resolve, reject) => {
+            request_and_parse('qms').then(res => {
+                console.log(res)
+                // todo
+                resolve()
+            }).catch(r => {
+                reject(r)
+            })
+        })
+    }
+}
+
 class SW {
      constructor() {
          this.data = new Data()
          this.user = new User()
          this.favorites = new Favorites()
+         this.qms = new QMS()
      }
 
      run() {
@@ -200,7 +221,11 @@ class SW {
          return new Promise((resolve, reject) => {
              this.user.request().then(() => {
                  this.favorites.request().then(() => {
+                     this.qms.request().then(() => {
 
+                     }).catch(reason => {
+                         reject(reason)
+                     })
                  }).catch(reason => {
                      reject(reason)
                  })
