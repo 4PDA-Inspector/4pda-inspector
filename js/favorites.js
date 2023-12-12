@@ -5,6 +5,32 @@ const FAVORITES_REGEX = /^(\d+) "([^"]+)" (\d+) (\d+) "([^"]+)" (\d+) (\d+) (\d+
 export class Favorites {
     list = {}
 
+    get count() {
+        return this.list_filtered.length
+    }
+
+    get pin_count() {
+        return this.list_filtered.reduce((count, current) => {
+            return count + current.pin
+        }, 0)
+    }
+
+    get list_filtered() {
+        return Object.values(this.list).filter(theme => !theme.viewed)
+    }
+
+    // get_sorted_list(sort_by_acs) {
+    //     return this.list_filtered.sort(function (a, b) {
+    //         if (inspector.vars.data.toolbar_pin_up) {
+    //             let pinDef = b.pin - a.pin;
+    //             if (pinDef !== 0) {
+    //                 return pinDef;
+    //             }
+    //         }
+    //         return (b.last_post_ts - a.last_post_ts) * (sort_by_acs ? -1 : 1);
+    //     })
+    // }
+
     request() {
         console.debug('update favorites..')
         this.list = {}
@@ -13,7 +39,6 @@ export class Favorites {
                 let m
                 while ((m = FAVORITES_REGEX.exec(res)) !== null) {
                     let theme = new FavoriteTheme(m)
-                    // console.log(theme)
                     this.list[theme.id] = theme
                 }
                 resolve()
@@ -25,6 +50,7 @@ export class Favorites {
 }
 
 class FavoriteTheme {
+
     constructor(obj) {
         // console.log(obj)
         this.id = obj[1]

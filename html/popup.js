@@ -3,32 +3,67 @@ const CLASS_HAS_UNREAD = 'hasUnread'
 const CLASS_LOADING = 'loading'
 const CLASS_HIDDEN = 'hidden'
 
+chrome.runtime.sendMessage({action: 'popup'}, (response) => {
+    console.log(response)
+    if (response) {
+        new Popup(response)
+    } else {
+        window.close()
+    }
+})
 
-new class {
 
-    constructor() {
-        this.bg = chrome.extension.getBackgroundPage().inspector
-        this.vars_data = this.bg.vars.data
+function open_url(url) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({
+            action: 'open_url',
+            url: url,
+        }, (response) => {
+            console.log(response)
+            // if (response) {
+            //     new Popup(response)
+            // } else {
+            //     window.close()
+            // }
+        })
+    })
+}
+
+function open_page(query) {
+    return open_url('https://4pda.to/forum/index.php?' + query, true)
+}
+
+
+class Popup {
+
+    constructor(init_data) {
+        // this.bg = init_data.sw
+        this.user = init_data.user
+        this.vars_data = init_data.vars
+        this.stats = init_data.stats
+
         this.elements = {}
 
-        if (!this.bg.user.id) {
+        if (!init_data.user.id) {
             console.error('not auth')
-            this.bg.user.open_page()
-            this.check_auto_hide()
+            open_page('act=login').finally(() => {
+                window.close()
+            })
             return
         }
 
-        window.onload = () => {
-            setTimeout(() => {
-                // странный но нужный фикс
-                this.init_elements()
-                this.refresh()
-            }, 5)
-        }
+        // window.onload = () => {
+        //     setTimeout(() => {
+        //         // странный но нужный фикс
+        //         this.init_elements()
+        //         this.refresh()
+        //     }, 5)
+        // }
+        this.init_elements()
+        this.refresh()
     }
 
     init_elements() {
-
         if (this.vars_data.toolbar_width_fixed) {
             document.body.style.width = this.vars_data.toolbar_width + 'px'
             document.body.classList.add('widthFixed')
@@ -37,26 +72,30 @@ new class {
 
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {
-            this.bg.user.open_page()
-            this.check_auto_hide()
+            open_page('showuser=' + this.user.id).then(() => {
+                this.check_auto_hide()
+            })
         });
 
         this.elements.qmsBox = document.getElementById('panelQMS');
         this.elements.qmsBox.addEventListener("click", () => {
-            this.bg.qms.open_page()
-            this.check_auto_hide()
+            open_page('act=qms').then(() => {
+                this.check_auto_hide()
+            })
         });
 
         this.elements.favoritesBox = document.getElementById('panelFavorites');
         this.elements.favoritesBox.addEventListener("click", () => {
-            this.bg.favorites.open_page()
-            this.check_auto_hide()
+            open_page('act=fav').then(() => {
+                this.check_auto_hide()
+            })
         });
 
         this.elements.mentionsBox = document.getElementById('panelMentions');
         this.elements.mentionsBox.addEventListener("click", () => {
-            this.bg.mentions.open_page()
-            this.check_auto_hide()
+            open_page('act=mentions').then(() => {
+                this.check_auto_hide()
+            })
         });
 
         this.elements.themesList = document.getElementById('themesList');
@@ -73,7 +112,7 @@ new class {
         })
         this.elements.readAllLabel = document.getElementById('panelReadAll');
         this.elements.readAllLabel.addEventListener("click", () => {
-            for (let theme of this.bg.favorites.list_filtered) {
+            for (let theme of this.stats.favorites.list) {
                 let row = document.getElementById('theme_' + theme.id)
                 theme.read().then(() => {
                     row.classList.add(CLASS_THEME_USED)
@@ -83,7 +122,7 @@ new class {
         })
 
         document.getElementById('panelSettings').addEventListener("click", () => {
-            this.bg.browser.open_url('/html/options.html', true).then(() => {
+            open_url('/html/options.html', true).then(() => {
                 this.check_auto_hide()
             })
         })
@@ -91,29 +130,29 @@ new class {
         document.getElementById('panelRefresh').addEventListener('click', (event) => {
             let element = event.target
             element.classList.add(CLASS_LOADING)
-            this.bg.update_all_data().then(() => {
-                this.refresh()
-            }).finally(() => {
-                element.classList.remove(CLASS_LOADING)
-            })
+            // this.bg.update_all_data().then(() => {
+            //     this.refresh()
+            // }).finally(() => {
+            //     element.classList.remove(CLASS_LOADING)
+            // })
         })
 
         this.print_user_links()
     }
 
     refresh() {
-        this.elements.username_label.textContent = this.bg.user.name
+        this.elements.username_label.textContent = this.user.name
 
         let countBlocks = [
             [
                 this.elements.qmsBox,
-                this.bg.qms.count
+                this.stats.qms.count
             ], [
                 this.elements.favoritesBox,
-                this.bg.favorites.count
+                this.stats.favorites.count
             ], [
                 this.elements.mentionsBox,
-                this.bg.mentions.count
+                this.stats.mentions.count
             ]
         ]
 
@@ -135,7 +174,7 @@ new class {
         if (!this.vars_data.toolbar_button_open_all) {
             this.elements.openAllLabel.classList.add(CLASS_HIDDEN);
         }
-        if (!this.vars_data.toolbar_button_open_all || this.vars_data.toolbar_only_pin || !this.bg.favorites.pin_count) {
+        if (!this.vars_data.toolbar_button_open_all || this.vars_data.toolbar_only_pin || !this.stats.favorites.pin_count) {
             this.elements.openAllPinLabel.classList.add(CLASS_HIDDEN);
         }
         if (!this.vars_data.toolbar_button_read_all) {
@@ -164,7 +203,7 @@ new class {
                 let link = document.createElement('span')
                 link.innerText = item.title
                 link.addEventListener("click", () => {
-                    this.bg.browser.open_url(item.url, true).then(() => {
+                    open_url(item.url, true).then(() => {
                         this.check_auto_hide()
                     })
                 })
@@ -175,7 +214,7 @@ new class {
 
     open_themes(only_pin) {
         let limit = this.vars_data.open_themes_limit,
-            themes = this.bg.favorites.get_sorted_list(true),
+            themes = this.stats.favorites.list, // get_sorted_list(true),
             opened = 0
 
         for (let theme of themes) {
@@ -197,8 +236,9 @@ new class {
     print_themes() {
         this.elements.themesList.textContent = "";
 
-        if (this.bg.favorites.count) {
-            for (let theme of this.bg.favorites.get_sorted_list(false)) {
+        if (this.stats.favorites.count) {
+            // for (let theme of this.stats.favorites.get_sorted_list(false)) {
+            for (let theme of this.stats.favorites.list) {
                 this.add_theme_row(theme)
             }
         } else {
@@ -214,30 +254,30 @@ new class {
             tpl_last_dt = tpl.querySelector('.oneTheme_lastPost')
         tpl.id = 'theme_' + theme.id
 
-        tpl.addEventListener("click", (el) => {
-            let current = el.target;
-            if (current.classList.contains('oneTheme_markAsRead')) {
-                current.classList.add(CLASS_LOADING);
-                theme.read().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED);
-                    this.update_themes_count()
-                }).finally(() => {
-                    current.classList.remove(CLASS_LOADING);
-                })
-            } else if (current.classList.contains('lastPost')) {
-                theme.open_last_post().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                    this.check_auto_hide()
-                })
-            } else {
-                theme.open_new_post().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                    this.check_auto_hide()
-                })
-            }
-        })
+        // tpl.addEventListener("click", (el) => {
+        //     let current = el.target;
+        //     if (current.classList.contains('oneTheme_markAsRead')) {
+        //         current.classList.add(CLASS_LOADING);
+        //         theme.read().then(() => {
+        //             tpl.classList.add(CLASS_THEME_USED);
+        //             this.update_themes_count()
+        //         }).finally(() => {
+        //             current.classList.remove(CLASS_LOADING);
+        //         })
+        //     } else if (current.classList.contains('lastPost')) {
+        //         theme.open_last_post().then(() => {
+        //             tpl.classList.add(CLASS_THEME_USED)
+        //             this.update_themes_count()
+        //             this.check_auto_hide()
+        //         })
+        //     } else {
+        //         theme.open_new_post().then(() => {
+        //             tpl.classList.add(CLASS_THEME_USED)
+        //             this.update_themes_count()
+        //             this.check_auto_hide()
+        //         })
+        //     }
+        // })
 
         tpl_caption.textContent = theme.title
         if (theme.pin && this.vars_data.toolbar_pin_color) {
@@ -249,7 +289,8 @@ new class {
         }
 
         if (tpl_last_dt) {
-            tpl_last_dt.textContent = theme.last_post_dt
+            // tpl_last_dt.textContent = theme.last_post_dt
+            tpl_last_dt.textContent = new Date(theme.last_post_ts*1000).toLocaleString()
         }
 
         this.elements.themesList.appendChild(tpl)

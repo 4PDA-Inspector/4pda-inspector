@@ -3,9 +3,72 @@ import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
 import {Mentions} from './mentions.js'
+import {open_url} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
+    console.log('MESSAGE!!!!', message)
+    // return new Promise((resolve, reject) => {
+    // })
+    switch (message.action) {
+        case 'popup': {
+            sendResponse({
+                user: {
+                    id: sw.user.id,
+                    name: sw.user.name
+                },
+                vars: sw.data.data,
+                stats: {
+                    qms: {
+                        count: sw.qms.count
+                    },
+                    favorites: {
+                        count: sw.favorites.count,
+                        pin_count: sw.favorites.pin_count,
+                        // list0: sw.favorites.list_filtered,
+                        list: sw.favorites.list_filtered.sort(function (a, b) {
+                            if (sw.data.data.toolbar_pin_up) {
+                                let pinDef = b.pin - a.pin;
+                                if (pinDef !== 0) {
+                                    return pinDef;
+                                }
+                            }
+                            return (b.last_post_ts - a.last_post_ts);
+                        })
+                    },
+                    mentions: {
+                        count: sw.mentions.count
+                    }
+                },
+                // sw: sw
+            })
+            break
+        }
+        case 'open_url':
+            sendResponse(
+                open_url(
+                    message.url,
+                    true,
+                    false,
+                    sw.data.data.open_in_current_tab
+                )
+            )
+            break
+        default:
+            throw 'Unknown action'
+    }
+})
+
+/*chrome.action.onClicked.addListener((tab) => {
+    // chrome.scripting.executeScript({
+    //     target: {tabId: tab.id},
+    //     files: ['content.js']
+    // });
+    console.debug('ACTION!')
+    console.debug(tab)
+});*/
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
     console.debug('chrome.storage.onChanged', changes, namespace)
@@ -45,6 +108,7 @@ class SW {
              console.error(reason)
              notification('FATAL: Cant read storage')
          })
+         return this
      }
 
      update_all() {
@@ -71,4 +135,4 @@ class SW {
      }
 }
 
-new SW().run()
+const sw = new SW().run()

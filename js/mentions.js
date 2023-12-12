@@ -3,6 +3,10 @@ import {request_and_parse} from "./utils.js";
 export class Mentions {
     list = {}
 
+    get count() {
+        return Object.keys(this.list).length
+    }
+
     request() {
         console.debug('update mentions..')
         this.list = {}
