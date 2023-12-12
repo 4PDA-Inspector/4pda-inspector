@@ -6,7 +6,7 @@
 console.debug('Init SW', new Date())
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    console.debug('chrome.storage.onChanged')
+    console.debug('chrome.storage.onChanged', changes, namespace)
     // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
     //     console.log(
     //         `Storage key "${key}" in namespace "${namespace}" changed.`,
@@ -18,6 +18,38 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 // chrome.cookies.onChanged.addListener(changeInfo => {
 //     console.debug('chrome.cookies.onChanged', changeInfo)
 // })
+
+const USER_ID_REGEX = /^(\d+) "([^"]+)"$/
+const FAVORITES_REGEX = /^(\d+) "([^"]+)" (\d+) (\d+) "([^"]+)" (\d+) (\d+) (\d+)$/gm
+
+function logout() {
+    console.warn('Logout!')
+}
+
+function notification(text) {
+    console.warn(text)
+}
+
+function request_and_parse(code) {
+    return new Promise((resolve, reject) => {
+        fetch('https://4pda.to/forum/index.php?act=inspector&CODE=' + code).then(response => {
+            if (response.ok) {
+                response.text().then(text => {
+                    resolve(text)
+                }).catch(r => {
+                    console.error(r)
+                    reject('Cant read')
+                })
+            } else {
+                reject('Cant request to 4pda')
+            }
+        }).catch(reason => {
+            console.error(reason)
+            reject('Cant request to 4pda')
+        })
+    });
+}
+
 
 class Data {
     data = {
@@ -89,50 +121,66 @@ class User {
 
     request() {
         return new Promise((resolve, reject) => {
-            fetch('https://4pda.to/forum/index.php?act=inspector&CODE=id').then(response => {
-                if (response.ok) {
-                    response.text().then(text => {
-                        let res = text.match(USER_ID_REGEX)
-                        if (res) {
-                            this.id = parseInt(res[1])
-                            this.name = res[2]
-                            console.debug('User: ', this.id, this.name)
-                            resolve()
-                        } else {
-                            reject('Bad response')
-                        }
-                    })
+            request_and_parse('id').then(res => {
+                // console.debug(res)
+                res = res.match(USER_ID_REGEX)
+                if (res) {
+                    this.id = parseInt(res[1])
+                    this.name = res[2]
+                    console.debug('User: ', this.id, this.name)
+                    resolve()
                 } else {
-                    reject('Cant request to 4pda')
+                    reject('Unauthorized')
                 }
-            }).catch(reason => {
-                console.error(reason)
-                reject('Cant request to 4pda')
+            }).catch(r => {
+                reject(r)
             })
-        });
+        })
     }
 
 }
 
-// fetch('https://4pda.to').then(response => {
-//     console.log(response)
-// })
+class Favorites {
+    list = {}
 
-function logout() {
-    console.warn('Logout!')
+    request() {
+        this.list = {}
+        return new Promise((resolve, reject) => {
+            request_and_parse('fav').then(res => {
+                let m
+                while ((m = FAVORITES_REGEX.exec(res)) !== null) {
+                    let theme = new FavoriteTheme(m)
+                    // console.log(theme)
+                    this.list[theme.id] = theme
+                }
+
+            }).catch(r => {
+                reject(r)
+            })
+        })
+    }
 }
 
-function notification(text) {
-    console.warn(text)
+class FavoriteTheme {
+    constructor(obj) {
+        // console.log(obj)
+        this.id = obj[1]
+        this.title = obj[2]// Utils.decode_special_chars(obj[2])
+        this.posts_num = obj[3]
+        this.last_user_id = parseInt(obj[4])
+        this.last_user_name = obj[5] //Utils.decode_special_chars(obj[5])
+        this.last_post_ts = parseInt(obj[6])
+        this.last_read_ts = parseInt(obj[7])
+        this.pin = (obj[8] == "1")
+        this.viewed = false
+    }
 }
-
-const USER_ID_REGEX = /^(\d+) "([^"]+)"$/
-
 
 class SW {
      constructor() {
          this.data = new Data()
          this.user = new User()
+         this.favorites = new Favorites()
      }
 
      run() {
@@ -151,7 +199,11 @@ class SW {
          console.debug('New update:', new Date())
          return new Promise((resolve, reject) => {
              this.user.request().then(() => {
+                 this.favorites.request().then(() => {
 
+                 }).catch(reason => {
+                     reject(reason)
+                 })
              }).catch(reason => {
                  reject(reason)
              })
