@@ -196,12 +196,31 @@ class QMS {
     }
 }
 
+class Mentions {
+    list = {}
+
+    request() {
+        console.debug('update mentions..')
+        this.list = {}
+        return new Promise((resolve, reject) => {
+            request_and_parse('mentions-list').then(res => {
+                console.log(res)
+                // todo
+                resolve()
+            }).catch(r => {
+                reject(r)
+            })
+        })
+    }
+}
+
 class SW {
      constructor() {
          this.data = new Data()
          this.user = new User()
          this.favorites = new Favorites()
          this.qms = new QMS()
+         this.mentions = new Mentions()
      }
 
      run() {
@@ -222,7 +241,11 @@ class SW {
              this.user.request().then(() => {
                  this.favorites.request().then(() => {
                      this.qms.request().then(() => {
-
+                         this.mentions.request().then(() => {
+                             // todo
+                         }).catch(reason => {
+                             reject(reason)
+                         })
                      }).catch(reason => {
                          reject(reason)
                      })
