@@ -1,9 +1,13 @@
+const win1251decoder = new TextDecoder("windows-1251")
+
+
 export function request_and_parse(code) {
     return new Promise((resolve, reject) => {
         fetch('https://4pda.to/forum/index.php?act=inspector&CODE=' + code).then(response => {
+            // console.log(response.headers.get("content-type"))  // text/plain;charset=windows-1251
             if (response.ok) {
-                response.text().then(text => {
-                    resolve(text)
+                response.arrayBuffer().then(blb => {
+                    resolve(win1251decoder.decode(blb))
                 }).catch(r => {
                     console.error(r)
                     reject('Cant read')
