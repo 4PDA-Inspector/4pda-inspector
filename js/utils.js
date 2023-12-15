@@ -1,4 +1,5 @@
 import {ACTION_BUTTON_COLORS, ACTION_BUTTON_ICONS} from "./data.js";
+import {UnavailableError} from './errors.js'
 
 
 const win1251decoder = new TextDecoder("windows-1251")
@@ -11,16 +12,16 @@ export function request_and_parse(code) {
             if (response.ok) {
                 response.arrayBuffer().then(blb => {
                     resolve(win1251decoder.decode(blb))
-                }).catch(r => {
-                    console.error(r)
-                    reject('Cant read')
+                }).catch(reason => {
+                    console.error(reason)
+                    reject(new UnavailableError(reason))
                 })
             } else {
-                reject('Cant request to 4pda')
+                reject(new UnavailableError('Can\'t request to 4pda'))
             }
         }).catch(reason => {
             console.error(reason)
-            reject('Cant request to 4pda')
+            reject(new UnavailableError(reason))
         })
     });
 }
@@ -138,11 +139,11 @@ export function action_print_count(q_count, f_count) {
     set_title(`В сети\nНепрочитанных тем: ${f_count}\nНепрочитанных диалогов: ${q_count}`)
 }
 
-export function action_print_logout() {
+export function action_print_logout(error = 'Не в сети') {
     set_badge_text('login')
     set_badge_bg_color(ACTION_BUTTON_COLORS.logout)
     set_icon(ACTION_BUTTON_ICONS.logout)
-    set_title('Не в сети')
+    set_title(error)
 }
 
 export function action_print_unavailable(error = 'Сайт недоступен') {

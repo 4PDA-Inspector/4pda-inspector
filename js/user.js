@@ -1,4 +1,5 @@
 import {request_and_parse} from "./utils.js";
+import {UnauthorizedError} from './errors.js'
 
 const USER_ID_REGEX = /^(\d+) "([^"]+)"$/
 
@@ -18,7 +19,7 @@ export class User {
                     console.debug('User: ', this.id, this.name)
                     resolve()
                 } else {
-                    reject('Unauthorized')
+                    reject(new UnauthorizedError())
                 }
             }).catch(r => {
                 reject(r)

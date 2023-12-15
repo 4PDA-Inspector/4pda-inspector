@@ -1,4 +1,6 @@
-import {Data, NOTIFICATION_ICONS} from "./data.js";
+import {Notifications} from "./notifications.js";
+import {Data} from "./data.js";
+import {MyError} from './errors.js'
 import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
@@ -61,6 +63,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
     }
 })
 
+chrome.notifications.onClicked.addListener(nid => {
+    console.log(nid)
+})
+
 /*chrome.action.onClicked.addListener((tab) => {
     // chrome.scripting.executeScript({
     //     target: {tabId: tab.id},
@@ -85,41 +91,43 @@ function logout() {
     action_print_logout()
 }
 
-function notification(text) {
-    console.warn(text)
-    chrome.notifications.create({
-        type: 'basic',
-        title: '4PDA Инспектор',
-        message: text,
-        iconUrl: NOTIFICATION_ICONS.out
+const notifications = new Notifications()
+const data = new Data()
+
+data.read_storage().then(() => {
+    var sw = new SW()
+    sw.update_all().then(() => {
+
+    }).catch(reason => {
+        if (reason instanceof MyError) {
+            console.error(reason.message)
+            reason.action()
+        } else {
+            console.error(reason)
+        }
     })
-}
+    // sw.run()
+}).catch(reason => {
+    console.error(reason)
+    action_print_unavailable('Can\'t read storage')
+    notifications.show_error('FATAL: Can\'t read storage')
+})
 
 
 class SW {
      constructor() {
-         this.data = new Data()
          this.user = new User()
          this.favorites = new Favorites()
          this.qms = new QMS()
          this.mentions = new Mentions()
      }
 
-     run() {
-         this.data.read_storage().then(() => {
-             this.update_all().then(() => {
-                 // todo start interval
-             }).catch(reason => {
-                 notification(reason)
-                 logout()
-             })
-         }).catch(reason => {
-             console.error(reason)
-             action_print_unavailable('Can\'t read storage')
-             notification('FATAL: Can\'t read storage')
+     /*run() {
+         this.update_all().then(() => {
+             // todo start interval
          })
          return this
-     }
+     }*/
 
      update_all() {
          console.debug('New update:', new Date())
@@ -145,4 +153,4 @@ class SW {
      }
 }
 
-const sw = new SW().run()
+// const sw = new SW().run()
