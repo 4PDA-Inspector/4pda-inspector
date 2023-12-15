@@ -1,9 +1,9 @@
-import {Data} from "./data.js";
+import {Data, NOTIFICATION_ICONS} from "./data.js";
 import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
 import {Mentions} from './mentions.js'
-import {open_url, action_print_count} from "./utils.js";
+import {open_url, action_print_count, action_print_logout, action_print_unavailable} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
@@ -70,7 +70,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
     console.debug(tab)
 });*/
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
+/*chrome.storage.onChanged.addListener((changes, namespace) => {
     console.debug('chrome.storage.onChanged', changes, namespace)
     // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
     //     console.log(
@@ -78,14 +78,21 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     //         `Old value was "${oldValue}", new value is "${newValue}".`
     //     );
     // }
-});
+});*/
 
 function logout() {
     console.warn('Logout!')
+    action_print_logout()
 }
 
 function notification(text) {
     console.warn(text)
+    chrome.notifications.create({
+        type: 'basic',
+        title: '4PDA Инспектор',
+        message: text,
+        iconUrl: NOTIFICATION_ICONS.out
+    })
 }
 
 
@@ -108,7 +115,8 @@ class SW {
              })
          }).catch(reason => {
              console.error(reason)
-             notification('FATAL: Cant read storage')
+             action_print_unavailable('Can\'t read storage')
+             notification('FATAL: Can\'t read storage')
          })
          return this
      }
@@ -126,7 +134,6 @@ class SW {
                          this.qms.count,
                          this.favorites.count
                      )
-                     // todo show notifications
                      resolve()
                  }).catch(err => {
                      reject(err)

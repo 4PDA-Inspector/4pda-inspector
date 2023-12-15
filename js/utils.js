@@ -118,7 +118,7 @@ function set_badge_text(text) {
     chrome.action.setBadgeText({'text': String(text)}).then()
 }
 function set_title(text) {
-    chrome.action.setTitle({'title': text.toString()}).then()
+    chrome.action.setTitle({'title': '4PDA - ' + text.toString()}).then()
 }
 function set_badge_bg_color(color) {
     chrome.action.setBadgeBackgroundColor({'color': color }).then()
@@ -135,5 +135,19 @@ export function action_print_count(q_count, f_count) {
     }
 
     set_badge_text(f_count || '')
-    set_title(`4PDA - В сети\nНепрочитанных тем: ${f_count}\nНепрочитанных диалогов: ${q_count}`)
+    set_title(`В сети\nНепрочитанных тем: ${f_count}\nНепрочитанных диалогов: ${q_count}`)
+}
+
+export function action_print_logout() {
+    set_badge_text('login')
+    set_badge_bg_color(ACTION_BUTTON_COLORS.logout)
+    set_icon(ACTION_BUTTON_ICONS.logout)
+    set_title('Не в сети')
+}
+
+export function action_print_unavailable(error = 'Сайт недоступен') {
+    set_badge_text('N/A')
+    set_badge_bg_color(ACTION_BUTTON_COLORS.logout)
+    set_icon(ACTION_BUTTON_ICONS.logout)
+    set_title(error)
 }

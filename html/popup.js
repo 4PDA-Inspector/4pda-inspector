@@ -4,7 +4,7 @@ const CLASS_LOADING = 'loading'
 const CLASS_HIDDEN = 'hidden'
 
 chrome.runtime.sendMessage({action: 'popup'}, (response) => {
-    console.log(response)
+    console.debug(response)
     if (response) {
         new Popup(response)
     } else {
@@ -21,11 +21,6 @@ function open_url(url, set_active = true) {
             set_active: set_active,
         }, (response) => {
             console.log(response)
-            // if (response) {
-            //     new Popup(response)
-            // } else {
-            //     window.close()
-            // }
         })
     })
 }
@@ -115,10 +110,11 @@ class Popup {
         this.elements.readAllLabel.addEventListener("click", () => {
             for (let theme of this.stats.favorites.list) {
                 let row = document.getElementById('theme_' + theme.id)
-                theme.read().then(() => {
-                    row.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                })
+                // todo
+                // theme.read().then(() => {
+                //     row.classList.add(CLASS_THEME_USED)
+                //     this.update_themes_count()
+                // })
             }
         })
 
@@ -218,19 +214,20 @@ class Popup {
             themes = this.stats.favorites.list, // get_sorted_list(true),
             opened = 0
 
-        for (let theme of themes) {
-            if (only_pin && !theme.pin) {
-                continue
-            }
-            let row = document.getElementById('theme_' + theme.id)
-            theme.open_new_post().then(() => {
-                row.classList.add(CLASS_THEME_USED)
-                this.update_themes_count()
-            })
-            if (limit && ++opened >= limit) {
-                break
-            }
-        }
+        // todo
+        // for (let theme of themes) {
+        //     if (only_pin && !theme.pin) {
+        //         continue
+        //     }
+        //     let row = document.getElementById('theme_' + theme.id)
+        //     theme.open_new_post().then(() => {
+        //         row.classList.add(CLASS_THEME_USED)
+        //         this.update_themes_count()
+        //     })
+        //     if (limit && ++opened >= limit) {
+        //         break
+        //     }
+        // }
         this.check_auto_hide()
     }
 
@@ -255,6 +252,7 @@ class Popup {
             tpl_last_dt = tpl.querySelector('.oneTheme_lastPost')
         tpl.id = 'theme_' + theme.id
 
+        // todo
         // tpl.addEventListener("click", (el) => {
         //     let current = el.target;
         //     if (current.classList.contains('oneTheme_markAsRead')) {
