@@ -3,7 +3,7 @@ import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
 import {Mentions} from './mentions.js'
-import {open_url} from "./utils.js";
+import {open_url, action_print_count} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
             sendResponse(
                 open_url(
                     message.url,
-                    true,
+                    message.set_active,
                     false,
                     sw.data.data.open_in_current_tab
                 )
@@ -121,9 +121,13 @@ class SW {
                      this.favorites.request(),
                      this.qms.request(),
                      this.mentions.request(),
-                 ]).then(res => {
-                     // todo
-                     console.log(res)
+                 ]).then(() => {
+                     action_print_count(
+                         this.qms.count,
+                         this.favorites.count
+                     )
+                     // todo show notifications
+                     resolve()
                  }).catch(err => {
                      reject(err)
                  })

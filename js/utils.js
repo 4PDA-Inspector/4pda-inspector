@@ -1,3 +1,6 @@
+import {ACTION_BUTTON_COLORS, ACTION_BUTTON_ICONS} from "./data.js";
+
+
 const win1251decoder = new TextDecoder("windows-1251")
 
 
@@ -103,4 +106,34 @@ export function open_url(url, set_active, set_window_focus, open_in_current_tab)
             }
         })
     })
+}
+
+
+/* ******************** */
+
+function set_icon(path) {
+    chrome.action.setIcon({path: path}).then()
+}
+function set_badge_text(text) {
+    chrome.action.setBadgeText({'text': String(text)}).then()
+}
+function set_title(text) {
+    chrome.action.setTitle({'title': text.toString()}).then()
+}
+function set_badge_bg_color(color) {
+    chrome.action.setBadgeBackgroundColor({'color': color }).then()
+}
+
+
+export function action_print_count(q_count, f_count) {
+    if (q_count) {
+        set_icon(ACTION_BUTTON_ICONS.has_qms)
+        set_badge_bg_color(ACTION_BUTTON_COLORS.has_qms)
+    } else {
+        set_icon(ACTION_BUTTON_ICONS.default)
+        set_badge_bg_color(ACTION_BUTTON_COLORS.default)
+    }
+
+    set_badge_text(f_count || '')
+    set_title(`4PDA - В сети\nНепрочитанных тем: ${f_count}\nНепрочитанных диалогов: ${q_count}`)
 }

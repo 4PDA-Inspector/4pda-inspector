@@ -13,11 +13,12 @@ chrome.runtime.sendMessage({action: 'popup'}, (response) => {
 })
 
 
-function open_url(url) {
+function open_url(url, set_active = true) {
     return new Promise((resolve, reject) => {
         chrome.runtime.sendMessage({
             action: 'open_url',
             url: url,
+            set_active: set_active,
         }, (response) => {
             console.log(response)
             // if (response) {
