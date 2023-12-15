@@ -100,7 +100,9 @@ class SW {
 
      run() {
          this.data.read_storage().then(() => {
-             this.update_all().then().catch(reason => {
+             this.update_all().then(() => {
+                 // todo start interval
+             }).catch(reason => {
                  notification(reason)
                  logout()
              })
@@ -115,18 +117,15 @@ class SW {
          console.debug('New update:', new Date())
          return new Promise((resolve, reject) => {
              this.user.request().then(() => {
-                 this.favorites.request().then(() => {
-                     this.qms.request().then(() => {
-                         this.mentions.request().then(() => {
-                             // todo
-                         }).catch(reason => {
-                             reject(reason)
-                         })
-                     }).catch(reason => {
-                         reject(reason)
-                     })
-                 }).catch(reason => {
-                     reject(reason)
+                 Promise.all([
+                     this.favorites.request(),
+                     this.qms.request(),
+                     this.mentions.request(),
+                 ]).then(res => {
+                     // todo
+                     console.log(res)
+                 }).catch(err => {
+                     reject(err)
                  })
              }).catch(reason => {
                  reject(reason)
