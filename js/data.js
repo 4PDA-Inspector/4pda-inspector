@@ -35,6 +35,10 @@ export class Data {
         build: 20231212
     }
 
+    get interval_ms() {
+        return this.data.interval * 1000
+    }
+
     read_storage() {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get().then((items) => {

@@ -98,9 +98,8 @@ const data = new Data()
 
 data.read_storage().then(() => {
     sw = new SW()
-    sw.update_all().then(() => {
-        set_popup()
-        sw.interval_update()
+    sw.start().then(() => {
+        sw.new_timer()
     }).catch(reason => {
         if (reason instanceof MyError) {
             console.error(reason.message)
@@ -129,13 +128,45 @@ class SW {
         this.last_event = 0
     }
 
-    interval_update() {
+    new_timer() {
+        this.timeout = setTimeout(() => {
+            this.#interval_update()
+        }, data.interval_ms)
+    }
+
+    start() {
+        if (this.timeout) {
+            throw 'already started'
+        }
+        return new Promise((resolve, reject) => {
+            this.user.request().then(() => {
+                set_popup()
+                this.#interval_action().then(upd => {
+                    if (upd) {
+                        // ok, just timer
+                        resolve()
+                    } else {
+                        // full update & timer
+                        this.#update_all().then(() => {
+                            resolve()
+                        }).catch(reason => {
+                            reject(reason)
+                        })
+                    }
+                }).catch(reason => {
+                    reject(reason)
+                })
+            }).catch(reason => {
+                reject(reason)
+            })
+        })
+    }
+
+    #interval_update() {
+        console.debug('Interval update:', new Date(), this.timeout)
         clearTimeout(this.timeout)
-        console.debug('Interval update:', new Date())
         this.#interval_action().then(() => {
-            this.timeout = setTimeout(() => {
-                this.interval_update()
-            },data.data.interval * 1000)
+            this.new_timer()
         }).catch(reason => {
             console.error(reason)
             // todo
@@ -148,14 +179,14 @@ class SW {
                 if (last_event) {
                     console.debug('has new events')
                     this.last_event = last_event
-                    this.update_all().then(() => {
-                        resolve()
+                    this.#update_all().then(() => {
+                        resolve(true)
                     }).catch(reason => {
                         reject(reason)
                     })
                 } else {
                     console.debug('No new events')
-                    resolve()
+                    resolve(false)
                 }
             }).catch(reason => {
                 console.error(reason)
@@ -164,8 +195,8 @@ class SW {
         })
     }
 
-    update_all() {
-        console.debug('New update:', new Date())
+    #update_all() {
+        console.debug('Full update:', new Date())
         return new Promise((resolve, reject) => {
             this.user.request().then(() => {
                 Promise.all([
