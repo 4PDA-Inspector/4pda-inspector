@@ -26,7 +26,7 @@ export class Data {
         toolbar_button_read_all: true,
 
         toolbar_width_fixed: false,
-        toolbar_width: 400,
+        toolbar_width: 400, // max 800
         toolbar_theme: 'auto',
 
         open_in_current_tab: false,

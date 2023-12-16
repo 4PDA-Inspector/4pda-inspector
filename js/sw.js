@@ -5,7 +5,7 @@ import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
 import {Mentions} from './mentions.js'
-import {open_url, action_print_count, action_print_logout, action_print_unavailable} from "./utils.js";
+import {open_url, action_print_count, action_print_unavailable} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                     id: sw.user.id,
                     name: sw.user.name
                 },
-                vars: sw.data.data,
+                vars: data.data,
                 stats: {
                     qms: {
                         count: sw.qms.count
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                         pin_count: sw.favorites.pin_count,
                         // list0: sw.favorites.list_filtered,
                         list: sw.favorites.list_filtered.sort(function (a, b) {
-                            if (sw.data.data.toolbar_pin_up) {
+                            if (data.data.toolbar_pin_up) {
                                 let pinDef = b.pin - a.pin;
                                 if (pinDef !== 0) {
                                     return pinDef;
@@ -43,8 +43,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                     mentions: {
                         count: sw.mentions.count
                     }
-                },
-                // sw: sw
+                }
             })
             break
         }
@@ -54,7 +53,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                     message.url,
                     message.set_active,
                     false,
-                    sw.data.data.open_in_current_tab
+                    data.data.open_in_current_tab
                 )
             )
             break
@@ -63,18 +62,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
     }
 })
 
-chrome.notifications.onClicked.addListener(nid => {
+/*chrome.notifications.onClicked.addListener(nid => {
     console.log(nid)
-})
+})*/
 
-/*chrome.action.onClicked.addListener((tab) => {
-    // chrome.scripting.executeScript({
-    //     target: {tabId: tab.id},
-    //     files: ['content.js']
-    // });
-    console.debug('ACTION!')
-    console.debug(tab)
-});*/
+chrome.action.onClicked.addListener((tab) => {
+    open_url('https://4pda.to/forum/index.php?act=login', true, true).then()
+})
 
 /*chrome.storage.onChanged.addListener((changes, namespace) => {
     console.debug('chrome.storage.onChanged', changes, namespace)
@@ -86,18 +80,27 @@ chrome.notifications.onClicked.addListener(nid => {
     // }
 });*/
 
-function logout() {
-    console.warn('Logout!')
-    action_print_logout()
+function clear_popup() {
+    chrome.action.setPopup({
+        popup: ''
+    }).then()
 }
 
+function set_popup() {
+    chrome.action.setPopup({
+        popup: 'html/popup.html'
+    }).then()
+}
+
+let sw
 const notifications = new Notifications()
 const data = new Data()
 
 data.read_storage().then(() => {
-    var sw = new SW()
+    sw = new SW()
     sw.update_all().then(() => {
-
+        set_popup()
+        // todo start interval
     }).catch(reason => {
         if (reason instanceof MyError) {
             console.error(reason.message)
@@ -106,11 +109,11 @@ data.read_storage().then(() => {
             console.error(reason)
         }
     })
-    // sw.run()
 }).catch(reason => {
     console.error(reason)
     action_print_unavailable('Can\'t read storage')
     notifications.show_error('FATAL: Can\'t read storage')
+    chrome.action.disable().then()
 })
 
 
@@ -121,13 +124,6 @@ class SW {
          this.qms = new QMS()
          this.mentions = new Mentions()
      }
-
-     /*run() {
-         this.update_all().then(() => {
-             // todo start interval
-         })
-         return this
-     }*/
 
      update_all() {
          console.debug('New update:', new Date())
@@ -152,5 +148,3 @@ class SW {
          })
      }
 }
-
-// const sw = new SW().run()

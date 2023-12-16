@@ -46,7 +46,7 @@ function focus_window(window) {
     //     }
 }
 
-export function open_url(url, set_active, set_window_focus, open_in_current_tab) {
+export function open_url(url, set_active, set_window_focus = false, open_in_current_tab = false) {
     if (!/\w+:\/\/.+/.test(url)) {
         url = chrome.runtime.getURL(url)
     }
