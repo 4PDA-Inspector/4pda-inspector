@@ -3,6 +3,7 @@ import {UnavailableError} from './errors.js'
 
 
 const win1251decoder = new TextDecoder("windows-1251")
+const ERR_REGEX = /u\d+:\d+:(\d+):\d+/
 
 
 export function request_and_parse(code) {
@@ -26,14 +27,34 @@ export function request_and_parse(code) {
     });
 }
 
+export function request_new_event(user_id, last_event) {
+    return new Promise((resolve, reject) => {
+        fetch(`https://appbk.4pda.to/er/u${user_id}/s${last_event}`).then(response => {
+            if (response.ok) {
+                response.text().then(txt => {
+                    if (txt) {
+                        let res = txt.match(ERR_REGEX)
+                        if (res) {
+                            resolve(res[1])
+                        }
+                    }
+                    resolve()
+                })
+            } else {
+                reject(new UnavailableError())
+            }
+        }).catch(reason => {
+            console.error(reason)
+            reject(new UnavailableError(reason))
+        })
+    })
+}
+
 // export function now() {
 //     return new Date().getTime();
 // }
 
 function focus_window(window) {
-    // return new Promise((resolve, reject) => {
-    //
-    // })
     let upd = {
         focused: true
     }
@@ -41,9 +62,6 @@ function focus_window(window) {
         upd.state = "normal"
     }
     chrome.windows.update(window.id, upd).then()
-    // , () => {
-    //         return resolve()
-    //     }
 }
 
 export function open_url(url, set_active, set_window_focus = false, open_in_current_tab = false) {

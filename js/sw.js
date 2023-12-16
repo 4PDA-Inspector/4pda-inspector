@@ -5,7 +5,7 @@ import {User} from './user.js'
 import {Favorites} from './favorites.js'
 import {QMS} from './qms.js'
 import {Mentions} from './mentions.js'
-import {open_url, action_print_count, action_print_unavailable} from "./utils.js";
+import {open_url, action_print_count, action_print_unavailable, request_new_event} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
@@ -100,7 +100,7 @@ data.read_storage().then(() => {
     sw = new SW()
     sw.update_all().then(() => {
         set_popup()
-        // todo start interval
+        sw.interval_update()
     }).catch(reason => {
         if (reason instanceof MyError) {
             console.error(reason.message)
@@ -118,33 +118,72 @@ data.read_storage().then(() => {
 
 
 class SW {
-     constructor() {
-         this.user = new User()
-         this.favorites = new Favorites()
-         this.qms = new QMS()
-         this.mentions = new Mentions()
-     }
 
-     update_all() {
-         console.debug('New update:', new Date())
-         return new Promise((resolve, reject) => {
-             this.user.request().then(() => {
-                 Promise.all([
-                     this.favorites.request(),
-                     this.qms.request(),
-                     this.mentions.request(),
-                 ]).then(() => {
-                     action_print_count(
-                         this.qms.count,
-                         this.favorites.count
-                     )
-                     resolve()
-                 }).catch(err => {
-                     reject(err)
-                 })
-             }).catch(reason => {
-                 reject(reason)
-             })
-         })
-     }
+    constructor() {
+        this.user = new User()
+        this.favorites = new Favorites()
+        this.qms = new QMS()
+        this.mentions = new Mentions()
+
+        this.timeout = 0
+        this.last_event = 0
+    }
+
+    interval_update() {
+        clearTimeout(this.timeout)
+        console.debug('Interval update:', new Date())
+        this.#interval_action().then(() => {
+            this.timeout = setTimeout(() => {
+                this.interval_update()
+            },data.data.interval * 1000)
+        }).catch(reason => {
+            console.error(reason)
+            // todo
+        })
+    }
+
+    #interval_action() {
+        return new Promise((resolve, reject) => {
+            request_new_event(this.user.id, this.last_event).then(last_event => {
+                if (last_event) {
+                    console.debug('has new events')
+                    this.last_event = last_event
+                    this.update_all().then(() => {
+                        resolve()
+                    }).catch(reason => {
+                        reject(reason)
+                    })
+                } else {
+                    console.debug('No new events')
+                    resolve()
+                }
+            }).catch(reason => {
+                console.error(reason)
+                reject(reason)
+            })
+        })
+    }
+
+    update_all() {
+        console.debug('New update:', new Date())
+        return new Promise((resolve, reject) => {
+            this.user.request().then(() => {
+                Promise.all([
+                    this.favorites.request(),
+                    this.qms.request(),
+                    this.mentions.request(),
+                ]).then(() => {
+                    action_print_count(
+                        this.qms.count,
+                        this.favorites.count
+                    )
+                    resolve()
+                }).catch(err => {
+                    reject(err)
+                })
+            }).catch(reason => {
+                reject(reason)
+            })
+        })
+    }
 }
