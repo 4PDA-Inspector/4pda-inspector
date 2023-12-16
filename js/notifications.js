@@ -20,4 +20,8 @@ export class Notifications {
     show_error(text) {
         return this.create(text, NOTIFICATION_ICONS.out)
     }
+
+    add_event(event, object) {
+        console.log('new event', event, object)
+    }
 }

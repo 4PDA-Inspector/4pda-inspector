@@ -2,9 +2,9 @@ import {Notifications} from "./notifications.js";
 import {Data} from "./data.js";
 import {MyError} from './errors.js'
 import {User} from './user.js'
-import {Favorites} from './favorites.js'
-import {QMS} from './qms.js'
-import {Mentions} from './mentions.js'
+import {Favorites} from './ev/favorites.js'
+import {QMS} from './ev/qms.js'
+import {Mentions} from './ev/mentions.js'
 import {open_url, action_print_count, action_print_unavailable, request_new_event} from "./utils.js";
 
 
@@ -120,9 +120,9 @@ class SW {
 
     constructor() {
         this.user = new User()
-        this.favorites = new Favorites()
-        this.qms = new QMS()
-        this.mentions = new Mentions()
+        this.favorites = new Favorites(notifications, data)
+        this.qms = new QMS(notifications, data)
+        this.mentions = new Mentions(notifications, data)
 
         this.timeout = 0
         this.last_event = 0

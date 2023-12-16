@@ -1,9 +1,9 @@
-import {request_and_parse} from "./utils.js";
+import {AbstractEvents} from "./abstract.js";
+import {request_and_parse} from "../utils.js";
 
 const FAVORITES_REGEX = /^(\d+) "([^"]+)" (\d+) (\d+) "([^"]+)" (\d+) (\d+) (\d+)$/gm
 
-export class Favorites {
-    list = {}
+export class Favorites extends AbstractEvents {
 
     get count() {
         return this.list_filtered.length
@@ -33,14 +33,18 @@ export class Favorites {
 
     request() {
         console.debug('update favorites..')
-        this.list = {}
+        let new_list = {}
         return new Promise((resolve, reject) => {
             request_and_parse('fav').then(res => {
                 let m
                 while ((m = FAVORITES_REGEX.exec(res)) !== null) {
                     let theme = new FavoriteTheme(m)
-                    this.list[theme.id] = theme
+                    new_list[theme.id] = theme
+                    if (!(theme.id in this.list)) {
+                        this.notifications.add_event('new_theme', theme)
+                    }
                 }
+                this.list = new_list
                 resolve()
             }).catch(r => {
                 reject(r)

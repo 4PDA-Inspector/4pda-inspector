@@ -1,11 +1,7 @@
-import {request_and_parse} from "./utils.js";
+import {AbstractEvents} from "./abstract.js";
+import {request_and_parse} from "../utils.js";
 
-export class Mentions {
-    list = {}
-
-    get count() {
-        return Object.keys(this.list).length
-    }
+export class Mentions extends AbstractEvents {
 
     request() {
         console.debug('update mentions..')
