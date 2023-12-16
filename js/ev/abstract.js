@@ -1,9 +1,8 @@
 export class AbstractEvents {
 
-    constructor(notifications, data) {
+    constructor(notifications) {
         this.list = {}
         this.notifications = notifications
-        this.data = data
     }
 
     get count() {

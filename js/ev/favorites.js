@@ -40,7 +40,9 @@ export class Favorites extends AbstractEvents {
                 while ((m = FAVORITES_REGEX.exec(res)) !== null) {
                     let theme = new FavoriteTheme(m)
                     new_list[theme.id] = theme
-                    if (!(theme.id in this.list)) {
+                    if (theme.id in this.list) {
+                        this.notifications.add_event('new_comment_in_theme', theme)
+                    } else {
                         this.notifications.add_event('new_theme', theme)
                     }
                 }

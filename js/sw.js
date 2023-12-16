@@ -120,9 +120,9 @@ class SW {
 
     constructor() {
         this.user = new User()
-        this.favorites = new Favorites(notifications, data)
-        this.qms = new QMS(notifications, data)
-        this.mentions = new Mentions(notifications, data)
+        this.favorites = new Favorites(notifications)
+        this.qms = new QMS(notifications)
+        this.mentions = new Mentions(notifications)
 
         this.timeout = 0
         this.last_event = 0
