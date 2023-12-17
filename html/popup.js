@@ -3,10 +3,17 @@ const CLASS_HAS_UNREAD = 'hasUnread'
 const CLASS_LOADING = 'loading'
 const CLASS_HIDDEN = 'hidden'
 
-chrome.runtime.sendMessage({action: 'popup'}, (response) => {
+chrome.runtime.sendMessage({action: 'popup'}, response => {
     console.debug(response)
     if (response) {
-        new Popup(response)
+        if (response.user.id) {
+            new Popup(response)
+        } else {
+            console.error('not auth')
+            open_page('act=login').finally(() => {
+                window.close()
+            })
+        }
     } else {
         window.close()
     }
@@ -33,20 +40,11 @@ function open_page(query) {
 class Popup {
 
     constructor(init_data) {
-        // this.bg = init_data.sw
         this.user = init_data.user
         this.vars_data = init_data.vars
         this.stats = init_data.stats
 
         this.elements = {}
-
-        if (!init_data.user.id) {
-            console.error('not auth')
-            open_page('act=login').finally(() => {
-                window.close()
-            })
-            return
-        }
 
         // window.onload = () => {
         //     setTimeout(() => {
@@ -58,6 +56,12 @@ class Popup {
         this.init_elements()
         this.refresh()
     }
+    
+    #open_page(query) {
+        open_page(query).then(() => {
+            this.check_auto_hide()
+        })
+    }
 
     init_elements() {
         if (this.vars_data.toolbar_width_fixed) {
@@ -68,30 +72,22 @@ class Popup {
 
         this.elements.username_label = document.getElementById('panelUsername')
         this.elements.username_label.addEventListener("click", () => {
-            open_page('showuser=' + this.user.id).then(() => {
-                this.check_auto_hide()
-            })
+            this.#open_page('showuser=' + this.user.id)
         });
 
         this.elements.qmsBox = document.getElementById('panelQMS');
         this.elements.qmsBox.addEventListener("click", () => {
-            open_page('act=qms').then(() => {
-                this.check_auto_hide()
-            })
+            this.#open_page('act=qms')
         });
 
         this.elements.favoritesBox = document.getElementById('panelFavorites');
         this.elements.favoritesBox.addEventListener("click", () => {
-            open_page('act=fav').then(() => {
-                this.check_auto_hide()
-            })
+            this.#open_page('act=fav')
         });
 
         this.elements.mentionsBox = document.getElementById('panelMentions');
         this.elements.mentionsBox.addEventListener("click", () => {
-            open_page('act=mentions').then(() => {
-                this.check_auto_hide()
-            })
+            this.#open_page('act=mentions')
         });
 
         this.elements.themesList = document.getElementById('themesList');
