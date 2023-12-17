@@ -22,6 +22,6 @@ export class Notifications {
     }
 
     add_event(event, object) {
-        console.log('new event', event, object)
+        console.debug('new event', event, object)
     }
 }

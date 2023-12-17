@@ -1,5 +1,5 @@
 import {AbstractEvents} from "./abstract.js";
-import {request_and_parse} from "../utils.js";
+import {request_and_parse, escape_html} from "../utils.js";
 
 const FAVORITES_REGEX = /^(\d+) "([^"]+)" (\d+) (\d+) "([^"]+)" (\d+) (\d+) (\d+)$/gm
 
@@ -58,10 +58,10 @@ class FavoriteTheme {
     constructor(obj) {
         // console.log(obj)
         this.id = obj[1]
-        this.title = obj[2]
+        this.title = escape_html(obj[2])
         // this.posts_num = obj[3]
         // this.last_user_id = parseInt(obj[4])
-        this.last_user_name = obj[5]
+        this.last_user_name = escape_html(obj[5])
         this.last_post_ts = parseInt(obj[6])
         // this.last_read_ts = parseInt(obj[7])
         this.pin = (obj[8] == "1")
