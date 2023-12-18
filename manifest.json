@@ -2,6 +2,7 @@
     "manifest_version": 3,
     "name": "4PDA Инспектор beta",
     "description": "Мониторинг изменений на форуме 4pda",
+    "homepage_url": "https://4pda-inspector.github.io/4pda-inspector/",
     "version": "3.5",
     "icons": {
         "16": "icons/icon_16.png",

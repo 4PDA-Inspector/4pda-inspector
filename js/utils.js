@@ -6,6 +6,12 @@ const win1251decoder = new TextDecoder("windows-1251")
 const ERR_REGEX = /u\d+:\d+:(\d+):\d+/
 
 
+export function escape_html(str) {
+    return str.replace(/&#(\d+);/g, function(match, dec) {
+        return String.fromCharCode(dec)
+    });
+}
+
 export function request_and_parse(code) {
     return new Promise((resolve, reject) => {
         fetch('https://4pda.to/forum/index.php?act=inspector&CODE=' + code).then(response => {
