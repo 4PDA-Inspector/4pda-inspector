@@ -136,7 +136,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });*/
 
 chrome.action.onClicked.addListener((tab) => {
-    open_url('https://4pda.to/forum/index.php?act=auth', true, true).then()
+    if (user.id) {
+        sw.full_update().then(() => {
+            set_popup()
+        })
+    } else {
+        user.request().then(() => {
+            sw.full_update().then(() => {
+                set_popup()
+            })
+        }).catch(reason => {
+            console.error(reason)
+            open_url('https://4pda.to/forum/index.php?act=auth', true, true).then()
+        })
+    }
 })
 
 chrome.offscreen.createDocument({

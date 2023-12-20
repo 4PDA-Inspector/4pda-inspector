@@ -10,7 +10,7 @@ chrome.runtime.sendMessage({action: 'popup'}, response => {
             new Popup(response)
         } else {
             console.error('not auth')
-            open_page('act=login').finally(() => {
+            open_page('act=auth').finally(() => {
                 window.close()
             })
         }
