@@ -40,9 +40,7 @@ function open_page(query) {
 class Popup {
 
     constructor(init_data) {
-        this.user = init_data.user
-        this.vars_data = init_data.vars
-        this.stats = init_data.stats
+        this.#set_data(init_data)
 
         this.elements = {}
 
@@ -55,6 +53,12 @@ class Popup {
         // }
         this.init_elements()
         this.refresh()
+    }
+
+    #set_data(data) {
+        this.user = data.user
+        this.vars_data = data.vars
+        this.stats = data.stats
     }
     
     #open_page(query) {
@@ -123,11 +127,20 @@ class Popup {
         document.getElementById('panelRefresh').addEventListener('click', (event) => {
             let element = event.target
             element.classList.add(CLASS_LOADING)
-            // this.bg.update_all_data().then(() => {
-            //     this.refresh()
-            // }).finally(() => {
-            //     element.classList.remove(CLASS_LOADING)
-            // })
+
+            chrome.runtime.sendMessage({action: 'update_all'}).then(resp => {
+                if (resp) {
+                    this.#set_data(resp)
+                    this.refresh()
+                } else {
+                    window.close()
+                }
+            }).catch(reason => {
+                console.error(reason)
+                window.close()
+            }).finally(() => {
+                element.classList.remove(CLASS_LOADING)
+            })
         })
 
         this.print_user_links()
@@ -278,14 +291,11 @@ class Popup {
         if (theme.pin && this.vars_data.toolbar_pin_color) {
             tpl_caption.classList.add('oneTheme_pin')
         }
-
         if (tpl_last_user) {
             tpl_last_user.textContent = theme.last_user_name
         }
-
         if (tpl_last_dt) {
-            // tpl_last_dt.textContent = theme.last_post_dt
-            tpl_last_dt.textContent = new Date(theme.last_post_ts*1000).toLocaleString()
+            tpl_last_dt.textContent = new Date(theme.last_post_ts * 1000).toLocaleString()
         }
 
         this.elements.themesList.appendChild(tpl)

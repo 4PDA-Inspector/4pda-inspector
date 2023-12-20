@@ -49,6 +49,41 @@ const check_exception = reason => {
     }
 }
 
+const get_popup_data = () => {
+    if (!user.id) {
+        return null
+    }
+    return {
+        user: {
+            id: user.id,
+            name: user.name
+        },
+        vars: data.data,
+        stats: {
+            qms: {
+                count: sw.qms.count
+            },
+            favorites: {
+                count: sw.favorites.count,
+                pin_count: sw.favorites.pin_count,
+                // list0: sw.favorites.list_filtered,
+                list: sw.favorites.list_filtered.sort(function (a, b) {
+                    if (data.data.toolbar_pin_up) {
+                        let pinDef = b.pin - a.pin;
+                        if (pinDef !== 0) {
+                            return pinDef;
+                        }
+                    }
+                    return (b.last_post_ts - a.last_post_ts);
+                })
+            },
+            mentions: {
+                count: sw.mentions.count
+            }
+        }
+    }
+}
+
 /*chrome.runtime.onStartup.addListener( () => {
     console.log('onStartup()');
 })
@@ -61,41 +96,19 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.debug('new message', message)
     switch (message.action) {
         case 'popup': {
-            if (!user.id) {
-                sendResponse(null)
-                return
-            }
-            sendResponse({
-                user: {
-                    id: user.id,
-                    name: user.name
-                },
-                vars: data.data,
-                stats: {
-                    qms: {
-                        count: sw.qms.count
-                    },
-                    favorites: {
-                        count: sw.favorites.count,
-                        pin_count: sw.favorites.pin_count,
-                        // list0: sw.favorites.list_filtered,
-                        list: sw.favorites.list_filtered.sort(function (a, b) {
-                            if (data.data.toolbar_pin_up) {
-                                let pinDef = b.pin - a.pin;
-                                if (pinDef !== 0) {
-                                    return pinDef;
-                                }
-                            }
-                            return (b.last_post_ts - a.last_post_ts);
-                        })
-                    },
-                    mentions: {
-                        count: sw.mentions.count
-                    }
-                }
-            })
-            break
+            sendResponse(get_popup_data())
+            return true
         }
+        case 'update_all':
+            sw.stop()
+            user.request().then(() => {
+                sw.full_update().then(() => {
+                    sendResponse(get_popup_data())
+                })
+            }).catch(reason => {
+                check_exception(reason)
+            })
+            return true
         case 'open_url':
             sendResponse(
                 open_url(
@@ -147,6 +160,7 @@ chrome.action.onClicked.addListener((tab) => {
             })
         }).catch(reason => {
             console.error(reason)
+            clear_popup()
             open_url('https://4pda.to/forum/index.php?act=auth', true, true).then()
         })
     }
@@ -160,7 +174,7 @@ chrome.offscreen.createDocument({
     data.read_storage().then(() => {
         user.request().then((is_new_user, old_id) => {
             if (old_id) {
-                throw 'Not a new user?!'
+                console.warn('Not a new user?!')
             }
             set_popup()
             sw.start().then(() => {
@@ -169,12 +183,14 @@ chrome.offscreen.createDocument({
         }).catch(check_exception)
     }).catch(reason => {
         console.error(reason)
+        clear_popup()
         action_print_unavailable('Can\'t read storage')
         notifications.show_error('FATAL: Can\'t read storage')
         chrome.action.disable().then()
     })
 }).catch(reason => {
     console.error(reason)
+    clear_popup()
     action_print_unavailable('Can\'t set offscreen')
     notifications.show_error('FATAL: Can\'t set offscreen')
     chrome.action.disable().then()
@@ -214,7 +230,8 @@ class SW {
 
     start() {
         if (this.timeout) {
-            throw 'already started'
+            clearTimeout(this.timeout)
+            // throw 'already started'
         }
         return new Promise((resolve, reject) => {
             this.#interval_action().then(upd => {
