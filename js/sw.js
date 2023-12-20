@@ -129,7 +129,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 } // else nothing
             }).catch(check_exception)
             break
-        case 'read_theme':
+        case 'theme_read':
             sw.favorites.read(message.id).then(() => {
                 sw.action_print_count()
                 sendResponse(true)
@@ -137,6 +137,23 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 sendResponse(false)
             })
             return true
+        case 'theme_open_last':
+            if (message.id in sw.favorites.list) {
+                let theme = sw.favorites.list[message.id]
+                open_url(
+                    theme.URL_last_post,
+                    true, //data.data.toolbar_open_theme_hide,
+                    false,
+                    data.data.open_in_current_tab
+                ).then(() => {
+                    theme.view()
+                    sw.action_print_count()
+                    sendResponse(true)
+                })
+            }
+            return true
+        case 'theme_open_new':
+            break
         default:
             throw 'Unknown action'
     }

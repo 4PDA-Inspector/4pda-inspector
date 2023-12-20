@@ -77,9 +77,16 @@ class FavoriteTheme {
         this.viewed = false
     }
 
+    get URL_last_post() {
+        return `https://4pda.to/forum/index.php?showtopic=${this.id}&view=getlastpost`
+    }
+    get URL_new_post() {
+        return `https://4pda.to/forum/index.php?showtopic=${this.id}&view=getnewpost`
+    }
+
     read() {
         return new Promise((resolve, reject) => {
-            fetch(`https://4pda.to/forum/index.php?showtopic=${this.id}&view=getlastpost`).then(response => {
+            fetch(this.URL_last_post).then(response => {
                 if (response.ok) {
                     this.viewed = true
                     resolve()
@@ -90,5 +97,9 @@ class FavoriteTheme {
                 reject(reason)
             })
         })
+    }
+
+    view() {
+        this.viewed = true
     }
 }

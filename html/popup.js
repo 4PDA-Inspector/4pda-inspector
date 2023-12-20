@@ -266,7 +266,7 @@ class Popup {
             if (current.classList.contains('oneTheme_markAsRead')) {
                 current.classList.add(CLASS_LOADING)
                 chrome.runtime.sendMessage({
-                    action: 'read_theme',
+                    action: 'theme_read',
                     id: theme.id,
                 }).then(resp => {
                     if (resp) {
@@ -277,12 +277,15 @@ class Popup {
                     current.classList.remove(CLASS_LOADING)
                 })
             } else if (current.classList.contains('lastPost')) {
-                // todo
-                /*theme.open_last_post().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                    this.check_auto_hide()
-                })*/
+                chrome.runtime.sendMessage({
+                    action: 'theme_open_last',
+                    id: theme.id,
+                }).then(resp => {
+                    if (resp) {
+                        tpl.classList.add(CLASS_THEME_USED)
+                        this.update_themes_count()
+                    }
+                })
             } else {
                 // todo
                 /*theme.open_new_post().then(() => {
