@@ -129,6 +129,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 } // else nothing
             }).catch(check_exception)
             break
+        case 'read_theme':
+            sw.favorites.read(message.id).then(() => {
+                sw.action_print_count()
+                sendResponse(true)
+            }).catch(() => {
+                sendResponse(false)
+            })
+            return true
         default:
             throw 'Unknown action'
     }
@@ -252,6 +260,13 @@ class SW {
         })
     }
 
+    action_print_count() {
+        action_print_count(
+            this.qms.count,
+            this.favorites.count
+        )
+    }
+
     #interval_update() {
         console.debug('Interval update:', new Date(), this.timeout)
         clearTimeout(this.timeout)
@@ -293,10 +308,7 @@ class SW {
                 this.qms.request(),
                 this.mentions.request(),
             ]).then(() => {
-                action_print_count(
-                    this.qms.count,
-                    this.favorites.count
-                )
+                this.action_print_count()
                 resolve()
             }).catch(err => {
                 reject(err)

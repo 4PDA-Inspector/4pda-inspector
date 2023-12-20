@@ -261,31 +261,37 @@ class Popup {
             tpl_last_dt = tpl.querySelector('.oneTheme_lastPost')
         tpl.id = 'theme_' + theme.id
 
-        // todo
-        // tpl.addEventListener("click", (el) => {
-        //     let current = el.target;
-        //     if (current.classList.contains('oneTheme_markAsRead')) {
-        //         current.classList.add(CLASS_LOADING);
-        //         theme.read().then(() => {
-        //             tpl.classList.add(CLASS_THEME_USED);
-        //             this.update_themes_count()
-        //         }).finally(() => {
-        //             current.classList.remove(CLASS_LOADING);
-        //         })
-        //     } else if (current.classList.contains('lastPost')) {
-        //         theme.open_last_post().then(() => {
-        //             tpl.classList.add(CLASS_THEME_USED)
-        //             this.update_themes_count()
-        //             this.check_auto_hide()
-        //         })
-        //     } else {
-        //         theme.open_new_post().then(() => {
-        //             tpl.classList.add(CLASS_THEME_USED)
-        //             this.update_themes_count()
-        //             this.check_auto_hide()
-        //         })
-        //     }
-        // })
+        tpl.addEventListener("click", (el) => {
+            let current = el.target
+            if (current.classList.contains('oneTheme_markAsRead')) {
+                current.classList.add(CLASS_LOADING)
+                chrome.runtime.sendMessage({
+                    action: 'read_theme',
+                    id: theme.id,
+                }).then(resp => {
+                    if (resp) {
+                        tpl.classList.add(CLASS_THEME_USED)
+                        this.update_themes_count()
+                    }
+                }).finally(() => {
+                    current.classList.remove(CLASS_LOADING)
+                })
+            } else if (current.classList.contains('lastPost')) {
+                // todo
+                /*theme.open_last_post().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                    this.check_auto_hide()
+                })*/
+            } else {
+                // todo
+                /*theme.open_new_post().then(() => {
+                    tpl.classList.add(CLASS_THEME_USED)
+                    this.update_themes_count()
+                    this.check_auto_hide()
+                })*/
+            }
+        })
 
         tpl_caption.textContent = theme.title
         if (theme.pin && this.vars_data.toolbar_pin_color) {

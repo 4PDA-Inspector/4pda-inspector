@@ -53,6 +53,13 @@ export class Favorites extends AbstractEvents {
             })
         })
     }
+
+    read(id) {
+        if (id in this.list) {
+            return this.list[id].read()
+        }
+        return Promise.reject(`theme ${id} not found`)
+    }
 }
 
 class FavoriteTheme {
@@ -68,5 +75,20 @@ class FavoriteTheme {
         // this.last_read_ts = parseInt(obj[7])
         this.pin = (obj[8] == "1")
         this.viewed = false
+    }
+
+    read() {
+        return new Promise((resolve, reject) => {
+            fetch(`https://4pda.to/forum/index.php?showtopic=${this.id}&view=getlastpost`).then(response => {
+                if (response.ok) {
+                    this.viewed = true
+                    resolve()
+                }
+                reject()
+            }).catch(reason => {
+                console.error(reason)
+                reject(reason)
+            })
+        })
     }
 }
