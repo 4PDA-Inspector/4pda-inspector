@@ -287,12 +287,15 @@ class Popup {
                     }
                 })
             } else {
-                // todo
-                /*theme.open_new_post().then(() => {
-                    tpl.classList.add(CLASS_THEME_USED)
-                    this.update_themes_count()
-                    this.check_auto_hide()
-                })*/
+                chrome.runtime.sendMessage({
+                    action: 'theme_open_new',
+                    id: theme.id,
+                }).then(resp => {
+                    if (resp) {
+                        tpl.classList.add(CLASS_THEME_USED)
+                        this.update_themes_count()
+                    }
+                })
             }
         })
 

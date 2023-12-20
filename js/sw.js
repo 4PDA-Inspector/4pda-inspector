@@ -153,7 +153,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             }
             return true
         case 'theme_open_new':
-            break
+            if (message.id in sw.favorites.list) {
+                let theme = sw.favorites.list[message.id]
+                open_url(
+                    theme.URL_new_post,
+                    true, //data.data.toolbar_open_theme_hide,
+                    false,
+                    data.data.open_in_current_tab
+                ).then(() => {
+                    theme.view()
+                    sw.action_print_count()
+                    sendResponse(true)
+                })
+            }
+            return true
         default:
             throw 'Unknown action'
     }
