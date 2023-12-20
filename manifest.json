@@ -19,6 +19,7 @@
     },
     "permissions": [
         "storage",
+        "offscreen",
         "notifications"
     ],
     "host_permissions": [

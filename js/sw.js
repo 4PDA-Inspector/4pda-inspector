@@ -57,6 +57,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
                 )
             )
             break
+        case 'check_user':
+            console.log('check_user')
+            break
         default:
             throw 'Unknown action'
     }
@@ -67,8 +70,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
 })*/
 
 chrome.action.onClicked.addListener((tab) => {
-    open_url('https://4pda.to/forum/index.php?act=login', true, true).then()
+    open_url('https://4pda.to/forum/index.php?act=auth', true, true).then()
 })
+
+chrome.offscreen.createDocument({
+    url: './html/offscreen.html',
+    reasons: ['WORKERS'],
+    justification: 'keep service worker running',
+}).then()
 
 /*chrome.storage.onChanged.addListener((changes, namespace) => {
     console.debug('chrome.storage.onChanged', changes, namespace)
