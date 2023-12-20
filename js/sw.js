@@ -1,11 +1,17 @@
 import {Notifications} from "./notifications.js";
 import {Data} from "./data.js";
-import {MyError} from './errors.js'
+import {UnavailableError, UnauthorizedError} from './errors.js'
 import {User} from './user.js'
 import {Favorites} from './ev/favorites.js'
 import {QMS} from './ev/qms.js'
 import {Mentions} from './ev/mentions.js'
-import {open_url, action_print_count, action_print_unavailable, request_new_event} from "./utils.js";
+import {
+    open_url,
+    action_print_count,
+    action_print_unavailable,
+    request_new_event,
+    action_print_logout
+} from "./utils.js";
 
 
 console.debug('Init SW', new Date())
@@ -13,9 +19,6 @@ console.debug('Init SW', new Date())
 const notifications = new Notifications(),
       data = new Data(),
       user = new User()
-
-let upd_interval
-
 
 function clear_popup() {
     chrome.action.setPopup({
@@ -30,31 +33,21 @@ function set_popup() {
 }
 
 const check_exception = reason => {
-    if (reason instanceof MyError) {
+    if (reason instanceof UnauthorizedError) {
         console.error(reason.message)
-        reason.action()
-        // todo intervals
+        sw.stop()
+        action_print_logout(reason.message)
+        clear_popup()
+    } else if (reason instanceof UnavailableError) {
+        console.error(reason.message)
+        sw.stop()
+        action_print_unavailable(reason.message)
+        // start_interval_available()
+        // wait user update
     } else {
         console.error(reason)
     }
 }
-
-const interval_available = () => {
-    clearInterval(upd_interval)
-    upd_interval = setInterval(() => {
-        // todo check site is available again
-    }, 5e3)
-}
-
-/*setInterval(() => {
-    // chrome.runtime.getPlatformInfo().then((info) => {
-    //     console.log(info)
-    // })
-    fetch('https://4pda.to/forum/index.php?act=inspector&CODE=id').then(response => {
-        console.log(response)
-    })
-    console.log('interval alive')
-}, 5e3)*/
 
 /*chrome.runtime.onStartup.addListener( () => {
     console.log('onStartup()');
@@ -114,8 +107,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             )
             break
         case 'check_user':
-            user.request().then(is_new_user => {
+            user.request().then((is_new_user, old_id) => {
                 if (is_new_user) {
+                    if (!old_id) {
+                        set_popup()
+                    }
                     sw.full_update().then()
                 } // else nothing
             }).catch(check_exception)
@@ -129,6 +125,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(nid)
 })*/
 
+/*chrome.storage.onChanged.addListener((changes, namespace) => {
+    console.debug('chrome.storage.onChanged', changes, namespace)
+    // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+    //     console.log(
+    //         `Storage key "${key}" in namespace "${namespace}" changed.`,
+    //         `Old value was "${oldValue}", new value is "${newValue}".`
+    //     );
+    // }
+});*/
+
 chrome.action.onClicked.addListener((tab) => {
     open_url('https://4pda.to/forum/index.php?act=auth', true, true).then()
 })
@@ -139,8 +145,8 @@ chrome.offscreen.createDocument({
     justification: 'keep service worker running',
 }).then(() => {
     data.read_storage().then(() => {
-        user.request().then(new_user => {
-            if (!new_user) {
+        user.request().then((is_new_user, old_id) => {
+            if (old_id) {
                 throw 'Not a new user?!'
             }
             set_popup()
@@ -160,16 +166,6 @@ chrome.offscreen.createDocument({
     notifications.show_error('FATAL: Can\'t set offscreen')
     chrome.action.disable().then()
 })
-
-/*chrome.storage.onChanged.addListener((changes, namespace) => {
-    console.debug('chrome.storage.onChanged', changes, namespace)
-    // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-    //     console.log(
-    //         `Storage key "${key}" in namespace "${namespace}" changed.`,
-    //         `Old value was "${oldValue}", new value is "${newValue}".`
-    //     );
-    // }
-});*/
 
 
 class SW {
@@ -197,6 +193,10 @@ class SW {
                 resolve()
             })
         })
+    }
+
+    stop() {
+        clearTimeout(this.timeout)
     }
 
     start() {

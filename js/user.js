@@ -21,8 +21,10 @@ export class User {
                     if (is_new_user) {
                         console.debug('New user: ', this.id, this.name, old_id)
                     }
-                    resolve(is_new_user)
+                    resolve(is_new_user, old_id)
                 } else {
+                    this.id = null
+                    this.name = null
                     reject(new UnauthorizedError())
                 }
             }).catch(r => {
