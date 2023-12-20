@@ -10,16 +10,72 @@ import {open_url, action_print_count, action_print_unavailable, request_new_even
 
 console.debug('Init SW', new Date())
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
-    console.log('MESSAGE!!!!', message)
-    // return new Promise((resolve, reject) => {
+const notifications = new Notifications(),
+      data = new Data(),
+      user = new User()
+
+let upd_interval
+
+
+function clear_popup() {
+    chrome.action.setPopup({
+        popup: ''
+    }).then()
+}
+
+function set_popup() {
+    chrome.action.setPopup({
+        popup: 'html/popup.html'
+    }).then()
+}
+
+const check_exception = reason => {
+    if (reason instanceof MyError) {
+        console.error(reason.message)
+        reason.action()
+        // todo intervals
+    } else {
+        console.error(reason)
+    }
+}
+
+const interval_available = () => {
+    clearInterval(upd_interval)
+    upd_interval = setInterval(() => {
+        // todo check site is available again
+    }, 5e3)
+}
+
+/*setInterval(() => {
+    // chrome.runtime.getPlatformInfo().then((info) => {
+    //     console.log(info)
     // })
+    fetch('https://4pda.to/forum/index.php?act=inspector&CODE=id').then(response => {
+        console.log(response)
+    })
+    console.log('interval alive')
+}, 5e3)*/
+
+/*chrome.runtime.onStartup.addListener( () => {
+    console.log('onStartup()');
+})
+chrome.runtime.onInstalled.addListener((details) => {
+    console.warn('onInstalled', details)
+    // if (details.reason == 'update')
+})*/
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    console.debug('new message', message)
     switch (message.action) {
         case 'popup': {
+            if (!user.id) {
+                sendResponse(null)
+                return
+            }
             sendResponse({
                 user: {
-                    id: sw.user.id,
-                    name: sw.user.name
+                    id: user.id,
+                    name: user.name
                 },
                 vars: data.data,
                 stats: {
@@ -58,7 +114,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
             )
             break
         case 'check_user':
-            console.log('check_user')
+            user.request().then(is_new_user => {
+                if (is_new_user) {
+                    sw.full_update().then()
+                } // else nothing
+            }).catch(check_exception)
             break
         default:
             throw 'Unknown action'
@@ -77,7 +137,29 @@ chrome.offscreen.createDocument({
     url: './html/offscreen.html',
     reasons: ['WORKERS'],
     justification: 'keep service worker running',
-}).then()
+}).then(() => {
+    data.read_storage().then(() => {
+        user.request().then(new_user => {
+            if (!new_user) {
+                throw 'Not a new user?!'
+            }
+            set_popup()
+            sw.start().then(() => {
+                sw.new_timer()
+            })
+        }).catch(check_exception)
+    }).catch(reason => {
+        console.error(reason)
+        action_print_unavailable('Can\'t read storage')
+        notifications.show_error('FATAL: Can\'t read storage')
+        chrome.action.disable().then()
+    })
+}).catch(reason => {
+    console.error(reason)
+    action_print_unavailable('Can\'t set offscreen')
+    notifications.show_error('FATAL: Can\'t set offscreen')
+    chrome.action.disable().then()
+})
 
 /*chrome.storage.onChanged.addListener((changes, namespace) => {
     console.debug('chrome.storage.onChanged', changes, namespace)
@@ -89,46 +171,10 @@ chrome.offscreen.createDocument({
     // }
 });*/
 
-function clear_popup() {
-    chrome.action.setPopup({
-        popup: ''
-    }).then()
-}
-
-function set_popup() {
-    chrome.action.setPopup({
-        popup: 'html/popup.html'
-    }).then()
-}
-
-let sw
-const notifications = new Notifications()
-const data = new Data()
-
-data.read_storage().then(() => {
-    sw = new SW()
-    sw.start().then(() => {
-        sw.new_timer()
-    }).catch(reason => {
-        if (reason instanceof MyError) {
-            console.error(reason.message)
-            reason.action()
-        } else {
-            console.error(reason)
-        }
-    })
-}).catch(reason => {
-    console.error(reason)
-    action_print_unavailable('Can\'t read storage')
-    notifications.show_error('FATAL: Can\'t read storage')
-    chrome.action.disable().then()
-})
-
 
 class SW {
 
     constructor() {
-        this.user = new User()
         this.favorites = new Favorites(notifications)
         this.qms = new QMS(notifications)
         this.mentions = new Mentions(notifications)
@@ -143,28 +189,33 @@ class SW {
         }, data.interval_ms)
     }
 
+    full_update() {
+        clearTimeout(this.timeout)
+        return new Promise((resolve, reject) => {
+            this.#update_all().then(() => {
+                this.new_timer()
+                resolve()
+            })
+        })
+    }
+
     start() {
         if (this.timeout) {
             throw 'already started'
         }
         return new Promise((resolve, reject) => {
-            this.user.request().then(() => {
-                set_popup()
-                this.#interval_action().then(upd => {
-                    if (upd) {
-                        // ok, just timer
+            this.#interval_action().then(upd => {
+                if (upd) {
+                    // ok, just timer
+                    resolve()
+                } else {
+                    // full update & timer
+                    this.#update_all().then(() => {
                         resolve()
-                    } else {
-                        // full update & timer
-                        this.#update_all().then(() => {
-                            resolve()
-                        }).catch(reason => {
-                            reject(reason)
-                        })
-                    }
-                }).catch(reason => {
-                    reject(reason)
-                })
+                    }).catch(reason => {
+                        reject(reason)
+                    })
+                }
             }).catch(reason => {
                 reject(reason)
             })
@@ -184,7 +235,7 @@ class SW {
 
     #interval_action() {
         return new Promise((resolve, reject) => {
-            request_new_event(this.user.id, this.last_event).then(last_event => {
+            request_new_event(user.id, this.last_event).then(last_event => {
                 if (last_event) {
                     console.debug('has new events')
                     this.last_event = last_event
@@ -207,23 +258,20 @@ class SW {
     #update_all() {
         console.debug('Full update:', new Date())
         return new Promise((resolve, reject) => {
-            this.user.request().then(() => {
-                Promise.all([
-                    this.favorites.request(),
-                    this.qms.request(),
-                    this.mentions.request(),
-                ]).then(() => {
-                    action_print_count(
-                        this.qms.count,
-                        this.favorites.count
-                    )
-                    resolve()
-                }).catch(err => {
-                    reject(err)
-                })
-            }).catch(reason => {
-                reject(reason)
+            Promise.all([
+                this.favorites.request(),
+                this.qms.request(),
+                this.mentions.request(),
+            ]).then(() => {
+                action_print_count(
+                    this.qms.count,
+                    this.favorites.count
+                )
+                resolve()
+            }).catch(err => {
+                reject(err)
             })
         })
     }
 }
+let sw = new SW()

@@ -14,10 +14,14 @@ export class User {
                 // console.debug(res)
                 res = res.match(USER_ID_REGEX)
                 if (res) {
+                    let old_id = this.id
                     this.id = parseInt(res[1])
                     this.name = escape_html(res[2])
-                    console.debug('User: ', this.id, this.name)
-                    resolve()
+                    let is_new_user = (this.id != old_id)
+                    if (is_new_user) {
+                        console.debug('New user: ', this.id, this.name, old_id)
+                    }
+                    resolve(is_new_user)
                 } else {
                     reject(new UnauthorizedError())
                 }
