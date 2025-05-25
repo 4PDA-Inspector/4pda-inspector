@@ -3,61 +3,19 @@ class Vars {
     constructor() {
         this.data = DEFAULT_SETTINGS
 
-        this._base_url = null
-        this._app_url = null
+        this._base_url = 'https://4pda.to'
+        this._app_url = 'https://appbk.4pda.to'
     }
 
     get BASE_URL() {
-        if (this._base_url == undefined) {
-            throw 'Empty BASE_URL'
-        }
         return this._base_url
     }
     get APP_URL() {
-        if (this._app_url == undefined) {
-            throw 'Empty BASE_URL'
-        }
         return this._app_url
     }
 
     get interval_ms() {
         return this.data.interval * 1000
-    }
-
-    async check_urls() {
-        return new Promise(async(resolve, reject) => {
-            let checkXHR = new XHR()
-            checkXHR.timeoutTime = 1000
-            for (let url of ['https://4pda.to']) {
-                if (this._base_url) {
-                    break
-                }
-                checkXHR.url = url
-                await checkXHR.send().then(() => {
-                    this._base_url = url
-                    console.debug(url, 'OK!')
-                }).catch(() => {
-                    console.debug(url, 'error!')
-                })
-            }
-            for (let url of ['https://appbk.4pda.to']) {
-                if (this._app_url) {
-                    break
-                }
-                checkXHR.url = url
-                await checkXHR.send().then(() => {
-                    this._app_url = url
-                    console.debug(url, 'OK!')
-                }).catch(() => {
-                    console.debug(url, 'error!')
-                })
-            }
-            if (this._base_url && this._app_url) {
-                return resolve()
-            } else {
-                return reject()
-            }
-        })
     }
 
     async read_storage() {

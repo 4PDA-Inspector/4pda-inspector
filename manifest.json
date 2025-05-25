@@ -1,6 +1,6 @@
 {
 	"name": "4PDA Инспектор",
-	"version": "3.4.0.5",
+	"version": "3.4.0.6",
 	"description": "Мониторинг изменений на форуме 4pda",
 	"homepage_url": "https://4pda-inspector.github.io/4pda-inspector/",
 
@@ -16,6 +16,7 @@
 		"tabs",
 		"cookies",
 		"https://4pda.to/*",
+		"https://appbk.4pda.to/",
 		"notifications",
 		"storage"
 	],

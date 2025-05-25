@@ -16,7 +16,7 @@ class CS {
         this.logged_in = true
 
         this.vars.read_storage().then(() => {
-            this.check_forum_available()
+            this.update_all_data()
         }).catch(() => {
             throw 'Can\'t init inspector'
         })
@@ -26,22 +26,11 @@ class CS {
         return this.vars.APP_URL + '/er/u' + this.user.id + '/s' + this.last_event;
     }
 
-    check_forum_available() {
-        this.vars.check_urls().then(() => {
-            this.site_available()
-            this.update_all_data().catch(() => {
-                console.error('Can\'t update data')
-            })
-        }).catch(() => {
-            console.error('4PDA is not available')
-            this.site_unavailable()
-        })
-    }
     start_new_check_forum_timeout() {
         console.debug('check_forum_timeout', new Date())
         clearTimeout(this.timeout_updater)
         this.timeout_updater = setTimeout(() => {
-            this.check_forum_available()
+            this.update_all_data()
         }, this.vars.interval_ms)
     }
 
@@ -59,6 +48,7 @@ class CS {
                     this.qms.update_dialogs().then(() => {
                         console.debug('qms update - OK')
                         this.mentions.update_list().then(() => {
+                            this.site_available()
                             console.debug('mentions update - OK')
                             console.debug('all updated')
                             this.browser.action_button.print_count()
