@@ -28,18 +28,18 @@ class Vars {
                 for (let i in items) {
                     this.set_value(i, items[i], false)
                 }
-                this.check_new_build()
+                //this.check_new_build()
                 return resolve()
             });
         })
     }
 
-    check_new_build() {
+    /*check_new_build() {
         if (!this.data.build || this.data.build < CURRENT_BUILD) {
             inspector.browser.open_url('html/whatsnew.html').then()
             this.set_value('build', CURRENT_BUILD)
         }
-    }
+    }*/
 
     set_value(field, value, save=true) {
 
