@@ -16,12 +16,6 @@ chrome.runtime.onStartup.addListener((...args) => {
     bg.init();
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === ALARM_NAME) {
-        bg.update();
-    }
-});
-
 // Listen for messages from popup or other extension parts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     switch (message.action) {

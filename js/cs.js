@@ -79,38 +79,37 @@ export class CS {
         console.debug('Init CS', this.#initialized, getLogDatetime());
         if (this.#initialized) return;
 
-        // https://developer.chrome.com/docs/extensions/reference/api/alarms
-        chrome.alarms.clear(ALARM_NAME)
-            .then(res => {
-                console.debug('clear_alarm', res);
-                //console.log(Object.keys(SETTINGS));
+        chrome.alarms.clear(ALARM_NAME);
 
-                chrome.storage.local.get(Object.keys(SETTINGS))
-                    .then((items) => {
-                        console.debug('Settings loaded', items);
-                        let to_save = {};
-                        for (const [key, value] of Object.entries(SETTINGS)) {
-                            if (key in items) {
-                                SETTINGS[key] = items[key];
-                            } else {
-                                to_save[key] = value;
-                            }
-                            // console.debug(`${key}: ${value}`, key in items);
-                        }
-                        if (Object.keys(to_save).length) {
-                            chrome.storage.local.set(to_save, () => {
-                                console.debug('Settings are saved');
-                            });
-                        }
-
-                        chrome.alarms.create(ALARM_NAME, {
-                            periodInMinutes: PERIOD_MINUTES
-                        }).then(() => {
-                            this.update();
-                            this.#initialized = true;
-                        });
+        chrome.storage.local.get(Object.keys(SETTINGS))
+            .then((items) => {
+                console.debug('Settings loaded', items);
+                let to_save = {};
+                for (const [key, value] of Object.entries(SETTINGS)) {
+                    if (key in items) {
+                        SETTINGS[key] = items[key];
+                    } else {
+                        to_save[key] = value;
+                    }
+                    // console.debug(`${key}: ${value}`, key in items);
+                }
+                if (Object.keys(to_save).length) {
+                    chrome.storage.local.set(to_save, () => {
+                        console.debug('Settings are saved');
                     });
-            })
+                }
+
+                this.update()
+                    .finally(() => {
+                        this.#initialized = true;
+                        this.interval_id = setInterval(
+                            () => this.update(),
+                            5000  // todo PERIOD_MINUTES
+                        );
+                    });
+
+            });
+
     }
 
     get initialized() {
