@@ -78,6 +78,8 @@ export class CS {
         this.favorites = new Favorites(this);
         this.qms = new QMS(this);
         this.mentions = new Mentions(this);
+
+        this.init();
     }
 
     init() {

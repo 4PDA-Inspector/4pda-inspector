@@ -7,13 +7,13 @@ const bg = new CS();
 // Set up the alarm when the service worker starts
 chrome.runtime.onInstalled.addListener(reason => {
     console.debug('onInstalled', reason);
-    bg.init();
+    // bg.init();
 });
 
 // Also set up the alarm if the service worker starts (in case of reload)
 chrome.runtime.onStartup.addListener(() => {
     console.debug('onStartup');
-    bg.init();
+    // bg.init();
 });
 
 // Listen for messages from popup or other extension parts
