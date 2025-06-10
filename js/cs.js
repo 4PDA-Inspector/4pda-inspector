@@ -6,7 +6,7 @@ import { print_count, print_logout, print_unavailable } from "./browser.js";
 
 
 export const ALARM_NAME = 'periodicApiCheck';
-const PERIOD_MINUTES = 0.5;
+// const PERIOD_MINUTES = 0.5;
 const PARSE_APPBK_REGEXP = /u\d+:\d+:\d+:(\d+)/;
 
 export let SETTINGS = {
@@ -17,6 +17,8 @@ export let SETTINGS = {
     toolbar_pin_themes_level: 0,
     // toolbar_only_pin: false,
     toolbar_open_theme_hide: true,
+    
+    interval: 5,
 
     /*notification_qms_popup: true,
     notification_qms_all_messages: false,
@@ -65,6 +67,8 @@ export class CS {
         console.log('Start CS', getLogDatetime());
 
         this.#initialized = false;
+        this.timeout_id = null;
+
         this.available = false;
         this.user_id = 0;
         this.user_name;
@@ -102,14 +106,8 @@ export class CS {
                 this.update()
                     .finally(() => {
                         this.#initialized = true;
-                        this.interval_id = setInterval(
-                            () => this.update(),
-                            5000  // todo PERIOD_MINUTES
-                        );
                     });
-
             });
-
     }
 
     get initialized() {
@@ -141,7 +139,7 @@ export class CS {
     }
 
     async update() {
-        console.debug('* Start new update:', getLogDatetime());
+        console.debug('* Start new update:', getLogDatetime(), this.timeout_id);
         if (this.#update_in_process) {
             console.debug('Update conflict. Skip.')
             return;
@@ -199,6 +197,10 @@ export class CS {
             })
             .finally(() => {
                 this.#update_in_process = false;
+                this.timeout_id = setTimeout(
+                    () => this.update(),
+                    SETTINGS.interval * 1000
+                );
             });
     }
 
