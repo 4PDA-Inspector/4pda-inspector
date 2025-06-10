@@ -1,5 +1,5 @@
 // background.js - Chrome Extension MV3 Service Worker
-import {CS, ALARM_NAME, SETTINGS} from './js/cs.js';
+import {CS, SETTINGS} from './js/cs.js';
 import {open_url} from './js/browser.js';
 
 

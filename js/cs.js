@@ -5,7 +5,7 @@ import { QMS } from "./e/qms.js";
 import { print_count, print_logout, print_unavailable } from "./browser.js";
 
 
-export const ALARM_NAME = 'periodicApiCheck';
+const ALARM_NAME = 'periodicApiCheck';
 // const PERIOD_MINUTES = 0.5;
 const PARSE_APPBK_REGEXP = /u\d+:\d+:\d+:(\d+)/;
 
@@ -18,7 +18,7 @@ export let SETTINGS = {
     // toolbar_only_pin: false,
     toolbar_open_theme_hide: true,
     
-    interval: 5,
+    interval: 30,
 
     /*notification_qms_popup: true,
     notification_qms_all_messages: false,
@@ -57,6 +57,7 @@ export let SETTINGS = {
 
 
 class UnauthorizedError extends Error {};
+class UnauthorizedCookieError extends UnauthorizedError {};
 
 
 export class CS {
@@ -153,6 +154,7 @@ export class CS {
             console.debug('Update conflict. Skip.')
             return;
         }
+        let next_interval = SETTINGS.interval * 1000;
         this.#update_in_process = true;
         this.available = true;
 
@@ -165,7 +167,8 @@ export class CS {
                 if (cookie) {
                     console.debug('USER ID from cookie:', cookie.value); // parseInt
                 } else {
-                    throw new UnauthorizedError('Cookie not found');
+                    next_interval = 1000;
+                    throw new UnauthorizedCookieError('Cookie not found');
                 }
             })
             .then(() => {
@@ -194,7 +197,7 @@ export class CS {
             })
             .catch(error => {
                 if (error instanceof UnauthorizedError) {
-                    console.debug('Unauthorized');
+                    console.debug('Unauthorized:', error.message);
                     this.user_id = 0;
                     this.user_name = '';
                     print_logout();
@@ -207,7 +210,7 @@ export class CS {
             .finally(() => {
                 this.timeout_id = setTimeout(
                     () => this.update(),
-                    SETTINGS.interval * 1000
+                    next_interval
                 );
                 this.#update_in_process = false;
             });
