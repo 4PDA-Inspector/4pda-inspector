@@ -5,7 +5,7 @@ import {open_url} from './js/browser.js';
 
 const bg = new CS();
 // Set up the alarm when the service worker starts
-chrome.runtime.onInstalled.addListener(reason => {
+/*chrome.runtime.onInstalled.addListener(reason => {
     console.debug('onInstalled', reason);
     // bg.init();
 });
@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(reason => {
 chrome.runtime.onStartup.addListener(() => {
     console.debug('onStartup');
     // bg.init();
-});
+});*/
 
 // Listen for messages from popup or other extension parts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

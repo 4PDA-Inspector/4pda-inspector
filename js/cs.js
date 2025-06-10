@@ -6,7 +6,6 @@ import { print_count, print_logout, print_unavailable } from "./browser.js";
 
 
 const ALARM_NAME = 'periodicApiCheck';
-// const PERIOD_MINUTES = 0.5;
 const PARSE_APPBK_REGEXP = /u\d+:\d+:\d+:(\d+)/;
 
 export let SETTINGS = {
