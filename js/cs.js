@@ -110,6 +110,15 @@ export class CS {
             });
     }
 
+    reset_timeout() {
+        if (this.#update_in_process) {
+            console.debug('SET INTERVAL: Update conflict. Skip.')
+            return;
+        }
+        clearTimeout(this.timeout_id);
+        this.update();
+    }
+
     get initialized() {
         return this.#initialized;
     }
@@ -196,11 +205,11 @@ export class CS {
                 }
             })
             .finally(() => {
-                this.#update_in_process = false;
                 this.timeout_id = setTimeout(
                     () => this.update(),
                     SETTINGS.interval * 1000
                 );
+                this.#update_in_process = false;
             });
     }
 

@@ -92,6 +92,9 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
                     bg.favorites.filter_pin(true);
                 }
                 break;
+            case 'interval':
+                bg.reset_timeout();
+                break;
         }
     }
 });
