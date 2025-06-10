@@ -11,8 +11,8 @@ chrome.runtime.onInstalled.addListener(reason => {
 });
 
 // Also set up the alarm if the service worker starts (in case of reload)
-chrome.runtime.onStartup.addListener((...args) => {
-    console.debug('onStartup', ...args);
+chrome.runtime.onStartup.addListener(() => {
+    console.debug('onStartup');
     bg.init();
 });
 

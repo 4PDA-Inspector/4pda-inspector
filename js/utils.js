@@ -2,7 +2,7 @@ const PARSE_STRING_REGEXP = /([^\s"']+|"([^"]*)"|'([^']*)')/g;
 const PARSE_STRING_QUOTES = /"(.*)"/;
 
 const decoder = new TextDecoder('windows-1251');
-
+export const FETCH_TIMEOUT = 5000;
 
 export function parse_response(str) {
     if (!str) return null;
@@ -30,12 +30,14 @@ function decode_special_chars(string) {
         });
 }
 
-
-let myHeaders = new Headers();
-myHeaders.append('Content-Type','text/plain; charset=windows-1251');
-
 export async function fetch4(url) {
-    return fetch(url, myHeaders)
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/plain; charset=windows-1251',
+        },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    })
         .then(async response => {
             if (response.ok) {
                 return response.arrayBuffer()

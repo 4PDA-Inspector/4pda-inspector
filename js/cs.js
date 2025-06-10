@@ -1,4 +1,4 @@
-import { parse_response, fetch4, getLogDatetime } from "./utils.js";
+import { parse_response, fetch4, getLogDatetime, FETCH_TIMEOUT } from "./utils.js";
 import { Favorites } from "./e/favorites.js";
 import { Mentions } from "./e/mentions.js";
 import { QMS } from "./e/qms.js";
@@ -214,7 +214,13 @@ export class CS {
     }
 
     async #update(notify = true) {
-        return fetch(`https://appbk.4pda.to/er/u${this.user_id}/s${this.last_event}`)
+        return fetch(
+            `https://appbk.4pda.to/er/u${this.user_id}/s${this.last_event}`,
+            {
+                method: 'GET',
+                signal: AbortSignal.timeout(FETCH_TIMEOUT),
+            }
+        )
             .then(response => response.text())
             .then(data => {
                 if (data) {
