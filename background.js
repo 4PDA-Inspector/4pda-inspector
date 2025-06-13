@@ -67,7 +67,7 @@ chrome.notifications.onClicked.addListener(notificationId => {
 });
 
 chrome.action.onClicked.addListener(tab => {
-    if (bg.available) {
+    if (bg.initialized && bg.available) {
         if (bg.user_id) {
             console.warn('action click & authorized')
         } else {

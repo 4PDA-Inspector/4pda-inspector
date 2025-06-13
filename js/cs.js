@@ -56,20 +56,21 @@ export let SETTINGS = {
 
 
 class UnauthorizedError extends Error {};
-class UnauthorizedCookieError extends UnauthorizedError {};
 
 
 export class CS {
     #initialized;
+    #cookie_authorized;
     #update_in_process = false;
 
     constructor() {
         console.log('Start CS', getLogDatetime());
 
         this.#initialized = false;
+        this.#cookie_authorized = false;
         this.timeout_id = null;
 
-        this.available = false;
+        this.available = true;
         this.user_id = 0;
         this.user_name;
         this.last_event = 0;
@@ -78,37 +79,12 @@ export class CS {
         this.qms = new QMS(this);
         this.mentions = new Mentions(this);
 
-        this.init()
-            .then(() => {
-                console.debug('CS initialized');
-                this.heartbeat = setInterval(() => {
-                    this.get_cookie_member_id()
-                        .then(member_id => {
-                            console.debug('Member ID:', member_id);
-                        });
-                }, 2000);
-            });
-    }
-
-    get_cookie_member_id() {
-        return chrome.cookies.get({
-            url: 'https://4pda.to',
-            name: 'member_id',
-        })
-            .then(cookie => {
-                return cookie ? cookie.value : null;
-            });
-    }
-
-    async init() {
-        console.debug('Init CS', this.#initialized, getLogDatetime());
-        if (this.#initialized) return;
-
+        // clear from old alarms; todo delete from prod
         chrome.alarms.clear(ALARM_NAME);
 
-        return chrome.storage.local.get(Object.keys(SETTINGS))
-            .then(async (items) => {
-                console.debug('Settings loaded', items);
+        chrome.storage.local.get(Object.keys(SETTINGS))
+            .then((items) => {
+                console.debug('Settings are loaded', items);
                 let to_save = {};
                 for (const [key, value] of Object.entries(SETTINGS)) {
                     if (key in items) {
@@ -124,11 +100,62 @@ export class CS {
                     });
                 }
 
-                await this.update()
-                    .finally(() => {
-                        this.#initialized = true;
+            })
+            .then(() => {
+                return this.#get_cookie_member_id()
+                    .then(start_member_id => {
+                        this.heartbeat = setInterval(() => {
+                            if (this.#update_in_process) return;
+
+                            this.#get_cookie_member_id()
+                                .then(member_id => {
+                                    console.debug('Check auth cookie:', member_id, getLogDatetime());
+                                    if (this.#cookie_authorized == (member_id != null)) return;
+
+                                    if (member_id) {
+                                        console.debug('! Auth found');
+                                        this.#cookie_authorized = true;
+                                        this.update();
+                                    } else {
+                                        console.debug('! Auth lost');
+                                        clearTimeout(this.timeout_id);
+                                        this.#do_logout();
+                                        this.#cookie_authorized = false;
+                                    }
+                                });
+                        }, 2000);
+
+                        this.#cookie_authorized  = start_member_id != null;
+                        return this.#cookie_authorized
                     });
+            })
+            .then(auth => {
+                console.debug('CS initialized; auth: ', this.#cookie_authorized);
+                if (auth) {
+                    this.update();
+                } else {
+                    this.#do_logout();
+                }
+            })
+            .finally(() => {
+                this.#initialized = true; // ? todo after save settings?
             });
+    }
+
+    #get_cookie_member_id() {
+        return chrome.cookies.get({
+            url: 'https://4pda.to',
+            name: 'member_id',
+        })
+            .then(cookie => {
+                return cookie ? cookie.value : null;
+            });
+    }
+
+    #do_logout() {
+        this.user_id = 0;
+        this.user_name = '';
+        print_logout();
     }
 
     reset_timeout() {
@@ -170,6 +197,10 @@ export class CS {
 
     async update() {
         console.debug('* Start new update:', getLogDatetime(), this.timeout_id);
+        if (!this.#cookie_authorized) {
+            console.debug('Hasn\'t cookie. Skip.')
+            return;
+        }
         if (this.#update_in_process) {
             console.debug('Update conflict. Skip.')
             return;
@@ -178,18 +209,7 @@ export class CS {
         this.#update_in_process = true;
         this.available = true;
 
-        return this.get_cookie_member_id()
-            .then(member_id => {
-                if (member_id) {
-                    console.debug('USER ID from cookie:', member_id);
-                } else {
-                    next_interval = 1000;
-                    throw new UnauthorizedCookieError('Cookie not found');
-                }
-            })
-            .then(() => {
-                return fetch4('https://4pda.to/forum/index.php?act=inspector&CODE=id');
-            })
+        return fetch4('https://4pda.to/forum/index.php?act=inspector&CODE=id')
             .then(data => {
                 let user_data = parse_response(data);
                 if (user_data && user_data.length == 2) {
@@ -207,20 +227,15 @@ export class CS {
                     throw new UnauthorizedError('User ID not found');
                 }
             })
-            .then(() => {
-                console.debug('Update done', getLogDatetime());
-                this.update_action();
-            })
             .catch(error => {
                 if (error instanceof UnauthorizedError) {
                     console.debug('Unauthorized:', error.message);
-                    this.user_id = 0;
-                    this.user_name = '';
-                    print_logout();
+                    this.#do_logout();
                 } else {
                     this.available = false;
                     print_unavailable();
                     console.error('API request failed:', error);
+                    next_interval = 5000;
                 }
             })
             .finally(() => {
@@ -245,15 +260,21 @@ export class CS {
                 if (data) {
                     let parsed = data.match(PARSE_APPBK_REGEXP);
                     if (parsed) {
-                        console.debug('Has new events');
+                        console.debug('! Has new events');
                         this.last_event = parsed[1];
                         return Promise.all([
                             this.favorites.update(notify),
                             this.qms.update(notify),
                             this.mentions.update(notify)
-                        ]);
+                        ])
+                            .then(() => {
+                                this.update_action();
+                            });
                     }
                 } // else: no new events
+            })
+            .then(() => {
+                console.debug('Update done', getLogDatetime());
             });
     }
 }
