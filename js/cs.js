@@ -78,17 +78,36 @@ export class CS {
         this.qms = new QMS(this);
         this.mentions = new Mentions(this);
 
-        this.init();
+        this.init()
+            .then(() => {
+                console.debug('CS initialized');
+                this.heartbeat = setInterval(() => {
+                    this.get_cookie_member_id()
+                        .then(member_id => {
+                            console.debug('Member ID:', member_id);
+                        });
+                }, 2000);
+            });
     }
 
-    init() {
+    get_cookie_member_id() {
+        return chrome.cookies.get({
+            url: 'https://4pda.to',
+            name: 'member_id',
+        })
+            .then(cookie => {
+                return cookie ? cookie.value : null;
+            });
+    }
+
+    async init() {
         console.debug('Init CS', this.#initialized, getLogDatetime());
         if (this.#initialized) return;
 
         chrome.alarms.clear(ALARM_NAME);
 
-        chrome.storage.local.get(Object.keys(SETTINGS))
-            .then((items) => {
+        return chrome.storage.local.get(Object.keys(SETTINGS))
+            .then(async (items) => {
                 console.debug('Settings loaded', items);
                 let to_save = {};
                 for (const [key, value] of Object.entries(SETTINGS)) {
@@ -105,7 +124,7 @@ export class CS {
                     });
                 }
 
-                this.update()
+                await this.update()
                     .finally(() => {
                         this.#initialized = true;
                     });
@@ -159,14 +178,10 @@ export class CS {
         this.#update_in_process = true;
         this.available = true;
 
-        return chrome.cookies.get({
-            url: 'https://4pda.to',
-            name: 'member_id',
-        }).
-            then(cookie => {
-                // just check auth
-                if (cookie) {
-                    console.debug('USER ID from cookie:', cookie.value); // parseInt
+        return this.get_cookie_member_id()
+            .then(member_id => {
+                if (member_id) {
+                    console.debug('USER ID from cookie:', member_id);
                 } else {
                     next_interval = 1000;
                     throw new UnauthorizedCookieError('Cookie not found');
