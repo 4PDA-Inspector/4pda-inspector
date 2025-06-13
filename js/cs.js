@@ -55,9 +55,6 @@ export let SETTINGS = {
 }
 
 
-class UnauthorizedError extends Error {};
-
-
 export class CS {
     #initialized = false;
     #update_in_process = false;
@@ -106,7 +103,7 @@ export class CS {
 
                             this.#get_cookie_member_id()
                                 .then(member_id => {
-                                    console.debug('Check auth cookie:', member_id, getLogDatetime());
+                                    //console.debug('Check auth cookie:', member_id, getLogDatetime());
                                     if (this.#cookie_authorized == (member_id != null)) return;
 
                                     if (member_id) {
@@ -127,7 +124,7 @@ export class CS {
                     });
             })
             .then(auth => {
-                console.debug('CS initialized; auth: ', this.#cookie_authorized);
+                console.debug('CS initialized; auth: ', auth);
                 if (auth) {
                     this.update();
                 } else {
@@ -222,19 +219,15 @@ export class CS {
                         return this.#update_all_data(false);
                     }                    
                 } else {
-                    throw new UnauthorizedError('User ID not found');
+                    console.debug('Unauthorized');
+                    this.#do_logout();
                 }
             })
             .catch(error => {
-                if (error instanceof UnauthorizedError) {
-                    console.debug('Unauthorized:', error.message);
-                    this.#do_logout();
-                } else {
-                    this.#available = false;
-                    print_unavailable();
-                    console.error('API request failed:', error);
-                    next_interval = 5000;
-                }
+                this.#available = false;
+                print_unavailable();
+                console.error('API request failed:', error);
+                next_interval = 5000;
             })
             .finally(() => {
                 this.#timeout_id = setTimeout(
