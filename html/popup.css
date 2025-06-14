@@ -137,6 +137,6 @@ main ul#topic-list li.one-theme:not(:last-child) {
     background-color: #383a3f;
   }
   main ul#topic-list li.one-theme .topic-title {
-    filter: brightness(140%);
+    filter: brightness(120%);
   }
 }
