@@ -40,13 +40,15 @@ export class Favorites extends AbstractEntity {
             this._list = Object.fromEntries(Object.entries(this._list).filter(([key, value]) => value.pin));
             this.cs.update_action();
         } else {
-            super.update(false).then(() => {
-                this.cs.update_action();
-            });
+            this.notify = false;
+            super.update()
+                .then(() => {
+                    this.cs.update_action();
+                });
         }
     }
 
-    process_line(line, notify) {
+    process_line(line) {
         let theme = new FavoriteTheme(line, this.cs),
             current_theme = this.get(theme.id),
             n_level = 100;
@@ -66,7 +68,7 @@ export class Favorites extends AbstractEntity {
             n_level = theme.pin ? 5 : 10;
         }
 
-        if (notify && n_level <= SETTINGS.notification_themes_level) {
+        if (this.notify && n_level <= SETTINGS.notification_themes_level) {
             theme.notification();
         }
         return theme;

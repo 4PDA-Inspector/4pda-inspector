@@ -202,7 +202,6 @@ export class CS {
         }
         let next_interval = SETTINGS.interval * 1000;
         this.#update_in_process = true;
-        this.#available = true;
 
         return fetch4('https://4pda.to/forum/index.php?act=inspector&CODE=id')
             .then(data => {
@@ -210,14 +209,17 @@ export class CS {
                 if (user_data && user_data.length == 2) {
                     if (user_data[0] == this.#user_id) {
                         this.#user_name = user_data[1];
-                        return this.#update_all_data();
                     } else {
                         this.#user_id = user_data[0];
                         this.#user_name = user_data[1];
                         console.debug('New user:', this.#user_id, this.#user_name);
+
                         this.#last_event = 0;
-                        return this.#update_all_data(false);
-                    }                    
+                        this.favorites.reset();
+                        this.qms.reset();
+                        this.mentions.reset();
+                    }   
+                    return this.#update_all_data();                 
                 } else {
                     console.debug('Unauthorized');
                     this.#do_logout();
@@ -238,7 +240,7 @@ export class CS {
             });
     }
 
-    async #update_all_data(notify = true) {
+    async #update_all_data() {
         return fetch(
             `https://appbk.4pda.to/er/u${this.#user_id}/s${this.#last_event}`,
             {
@@ -248,24 +250,32 @@ export class CS {
         )
             .then(response => response.text())
             .then(data => {
+                /*if (!this.qms.notify || Math.random() < 0.5) {
+                    this.qms.notify = true;
+                    throw new Error('Simulated error');
+                }*/
                 if (data) {
                     let parsed = data.match(PARSE_APPBK_REGEXP);
                     if (parsed) {
                         console.debug('! Has new events');
-                        this.#last_event = parsed[1];
                         return Promise.all([
-                            this.favorites.update(notify),
-                            this.qms.update(notify),
-                            this.mentions.update(notify)
+                            this.favorites.update(),
+                            this.qms.update(),
+                            this.mentions.update()
                         ])
                             .then(() => {
-                                this.update_action();
+                                this.#last_event = parsed[1];
+                                return true;
                             });
                     }
                 } // else: no new events
+                return false;
             })
-            .then(() => {
-                console.debug('Update done', getLogDatetime());
+            .then(has_updates => {
+                console.debug('Update done', has_updates, this.#available, getLogDatetime());
+                // if (has_updates || !this.#available || !notify) {}
+                this.update_action();
+                this.#available = true;
             });
     }
 }

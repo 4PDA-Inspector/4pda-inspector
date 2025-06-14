@@ -7,7 +7,7 @@ export class QMS extends AbstractEntity {
     ACT_CODE_API = 'qms';
     ACT_CODE_FORUM = 'qms';
 
-    process_line(line, notify) {
+    process_line(line) {
         let dialog = new Dialog(line),
             current_dialog = this.get[dialog.id],
             n_level = 100;
@@ -20,7 +20,7 @@ export class QMS extends AbstractEntity {
         } else {
             n_level = 10;
         }
-        if (notify && n_level <= SETTINGS.notification_qms_level) {
+        if (this.notify && n_level <= SETTINGS.notification_qms_level) {
             dialog.notification();
         }
         return dialog;

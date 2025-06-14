@@ -7,7 +7,7 @@ export class Mentions extends AbstractEntity {
     ACT_CODE_API = 'mentions-list';
     ACT_CODE_FORUM = 'mentions';
 
-    process_line(line, notify) {
+    process_line(line) {
         let mention = new Mention(line),
             n_level = 100;
         if (mention.from !== 0) return;
@@ -16,7 +16,7 @@ export class Mentions extends AbstractEntity {
             // console.debug('new_mention:', mention.title, mention.poster_name);
             n_level = 20;
         }
-        if (notify && n_level <= SETTINGS.notification_mentions_level) {
+        if (this.notify && n_level <= SETTINGS.notification_mentions_level) {
             mention.notification();
         }
         return mention;

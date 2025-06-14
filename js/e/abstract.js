@@ -9,6 +9,7 @@ export class AbstractEntity {
     constructor(cs) {
         this.cs = cs;
         this._list = {};
+        this.notify = false;
     }
 
     get list() {
@@ -27,6 +28,11 @@ export class AbstractEntity {
         return id in this._list;
     }
 
+    reset() {
+        this._list = {};
+        this.notify = false;
+    }
+
     async open(id, ...args) {
         if (id) {
             let entity = this._list[id];
@@ -40,7 +46,7 @@ export class AbstractEntity {
         }
     }
 
-    async update(notify = true) {
+    async update() {
         return fetch4(`https://4pda.to/forum/index.php?act=inspector&CODE=${this.ACT_CODE_API}`)
             .then(data => {
                 //console.debug(this.ACT_CODE_API, data);
@@ -49,14 +55,17 @@ export class AbstractEntity {
                 lines.forEach(line => {
                     if (line == "") return;
                     // console.debug('AbstractEntity:', line);
-                    const entity = this.process_line(parse_response(line), notify);
+                    const entity = this.process_line(parse_response(line));
                     if (entity) new_list[entity.id] = entity;
                 });
                 this._list = new_list;
             })
+            .then(() => {
+                this.notify = true;
+            });
     }
 
-    process_line(line, notify) {
+    process_line(line) {
         console.debug(line);
         throw new Error('Not implemented');
     }
