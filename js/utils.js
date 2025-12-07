@@ -30,6 +30,9 @@ function decode_special_chars(string) {
         });
 }
 
+class BadRequestError extends Error {}
+export class TooManyRequestsError extends BadRequestError {}
+
 export async function fetch4(url) {
     return fetch(url, {
         method: 'GET',
@@ -39,11 +42,15 @@ export async function fetch4(url) {
         signal: AbortSignal.timeout(FETCH_TIMEOUT),
     })
         .then(async response => {
-            if (response.ok) {
-                return response.arrayBuffer()
-                    .then(buffer => decoder.decode(buffer));
-            } else {
-                throw `Bad request: ${response.status} ${response.statusText}; ${url}`;
+            console.debug('RESPONSE', response.status, response.ok);
+            switch (response.status) {
+                case 200:
+                    return response.arrayBuffer()
+                        .then(buffer => decoder.decode(buffer));
+                case 429:
+                    throw new TooManyRequestsError('Too many requests');
+                default:
+                    throw new BadRequestError(`Bad request: ${response.status} ${response.statusText}; ${url}`);
             }
         })
 }

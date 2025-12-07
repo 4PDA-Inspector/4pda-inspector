@@ -1,4 +1,4 @@
-import { parse_response, fetch4, getLogDatetime, FETCH_TIMEOUT } from "./utils.js";
+import { parse_response, fetch4, getLogDatetime, FETCH_TIMEOUT, TooManyRequestsError } from "./utils.js";
 import { Favorites } from "./e/favorites.js";
 import { Mentions } from "./e/mentions.js";
 import { QMS } from "./e/qms.js";
@@ -235,7 +235,11 @@ export class CS {
                 this.#available = false;
                 print_unavailable();
                 console.error('API request failed:', error);
-                next_interval = 5000;
+                if (error instanceof TooManyRequestsError) {
+                    next_interval = 60000;
+                } else {
+                    next_interval = 5000;
+                }
             })
             .finally(() => {
                 this.#timeout_id = setTimeout(
