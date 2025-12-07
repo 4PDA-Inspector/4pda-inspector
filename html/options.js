@@ -1,5 +1,5 @@
 const interval_values = [
-    1, 2, 5, 10, 15, 20, 30,
+    2, 5, 10, 15, 20, 30,
     60, 120, 300, 600, 1200, 1800, 3600
 ];
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     let idx = interval_values.indexOf(value);
                     const output_interval = document.getElementById('interval_output');
                     if (idx == -1) {
-                        value = 30;
+                        value = 300;
                         idx = interval_values.indexOf(value);
                     }
                     el.max = interval_values.length - 1;

@@ -22,7 +22,7 @@ export let SETTINGS = {
     toolbar_simple_list: false,
     open_themes_limit: 5,
     
-    interval: 30,
+    interval: 60,
 
     /*notification_qms_popup: true,
     notification_qms_all_messages: false,
